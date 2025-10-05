@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/question.dart';
 import '../theme/app_colors.dart';
+import '../core/controller.dart';
 
 class LearningSessionScreen extends StatefulWidget {
   final List<Question> questions;
@@ -14,30 +15,34 @@ class LearningSessionScreen extends StatefulWidget {
 }
 
 class _LearningSessionScreenState extends State<LearningSessionScreen> {
-  int _currentIndex = 0;
-  int? _selectedIndex;
+  late final Controller _controller;
 
   void _goToNext() {
-    if (_currentIndex < widget.questions.length - 1) {
-      setState(() {
-        _currentIndex += 1;
-        _selectedIndex = null;
-      });
-    }
+    _controller.next();
   }
 
   void _goToPrevious() {
-    if (_currentIndex > 0) {
-      setState(() {
-        _currentIndex -= 1;
-        _selectedIndex = null;
-      });
-    }
+    _controller.previous();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = Controller();
+    _controller.addListener(() => setState(() {}));
+    // use provided list (learning session should not shuffle)
+    _controller.setQuestions(widget.questions, shuffle: false);
+  }
+
+  @override
+  void dispose() {
+    _controller.removeListener(() {});
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.questions.isEmpty) {
+    if (_controller.questions.isEmpty) {
       return Scaffold(
         appBar: AppBar(title: Text(widget.title)),
         body: const Center(child: Text('Keine Fragen verfugbar.')),
@@ -45,10 +50,10 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
     }
 
     final theme = Theme.of(context);
-    final question = widget.questions[_currentIndex];
-    final total = widget.questions.length;
-    final positionLabel = 'Frage ${_currentIndex + 1} von $total';
-    final bool isLastQuestion = _currentIndex >= total - 1;
+    final question = _controller.questions[_controller.currentIndex];
+    final total = _controller.questions.length;
+    final positionLabel = 'Frage ${_controller.currentIndex + 1} von $total';
+    final bool isLastQuestion = _controller.isLast;
 
   // colors are provided by AppColors when needed
 
@@ -76,7 +81,7 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
                 child: ListView(
                   children: [
                     ...List.generate(question.answers.length, (index) {
-                      final isSelected = _selectedIndex == index;
+                      final isSelected = _controller.selectedIndex == index;
                       final isCorrect = index == question.correctIndex;
 
                       Color boxColor = theme.cardColor;
@@ -84,7 +89,7 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
 
                       final bool isDark = theme.brightness == Brightness.dark;
 
-                      if (_selectedIndex != null) {
+                      if (_controller.selectedIndex != null) {
                         if (isSelected && isCorrect) {
                           boxColor = isDark ? AppColors.correctDark : AppColors.correct;
                           icon = Icons.check_circle;
@@ -105,13 +110,7 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
                           color: Colors.transparent,
                           child: InkWell(
                             borderRadius: BorderRadius.circular(16),
-                            onTap: () {
-                              if (_selectedIndex == null) {
-                                setState(() {
-                                  _selectedIndex = index;
-                                });
-                              }
-                            },
+                            onTap: () => _controller.select(index),
                             child: AnimatedContainer(
                               duration: const Duration(milliseconds: 200),
                               decoration: BoxDecoration(
@@ -140,7 +139,7 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
 
                     const SizedBox(height: 16),
 
-                    if (_selectedIndex != null)
+                    if (_controller.selectedIndex != null)
                       Card(
                         child: Padding(
                           padding: const EdgeInsets.all(16),
@@ -158,14 +157,14 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
                 children: [
                   Expanded(
                     child: OutlinedButton(
-                      onPressed: _currentIndex > 0 ? _goToPrevious : null,
+                      onPressed: _controller.currentIndex > 0 ? _goToPrevious : null,
                       child: const Text('Zuruck'),
                     ),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: _selectedIndex != null
+                      onPressed: _controller.selectedIndex != null
                           ? (isLastQuestion ? () => Navigator.of(context).pop() : _goToNext)
                           : null,
                       style: ElevatedButton.styleFrom(minimumSize: const Size.fromHeight(48)),
