@@ -15,6 +15,7 @@ class _QuizScreenState extends State<QuizScreen> {
   int _currentIndex = 0;
   int? _selectedIndex;
   String? _loadError;
+  List<Question> _questions = [];
 
   @override
   void initState() {
@@ -28,6 +29,11 @@ class _QuizScreenState extends State<QuizScreen> {
       if (!mounted) return;
       setState(() {
         _loadError = null;
+        // create a shuffled local copy for the quiz only
+        _questions = List<Question>.from(_repo.generalQuestions);
+        _questions.shuffle();
+        _currentIndex = 0;
+        _selectedIndex = null;
       });
     } catch (e) {
       if (!mounted) return;
@@ -82,7 +88,7 @@ class _QuizScreenState extends State<QuizScreen> {
       );
     }
 
-    final Question question = _repo.generalQuestions[_currentIndex];
+    final Question question = _questions.isNotEmpty ? _questions[_currentIndex] : _repo.generalQuestions[_currentIndex];
     final bool isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(

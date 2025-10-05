@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/question.dart';
+import '../theme/app_colors.dart';
 
 class LearningSessionScreen extends StatefulWidget {
   final List<Question> questions;
@@ -14,11 +15,13 @@ class LearningSessionScreen extends StatefulWidget {
 
 class _LearningSessionScreenState extends State<LearningSessionScreen> {
   int _currentIndex = 0;
+  int? _selectedIndex;
 
   void _goToNext() {
     if (_currentIndex < widget.questions.length - 1) {
       setState(() {
         _currentIndex += 1;
+        _selectedIndex = null;
       });
     }
   }
@@ -27,6 +30,7 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
     if (_currentIndex > 0) {
       setState(() {
         _currentIndex -= 1;
+        _selectedIndex = null;
       });
     }
   }
@@ -46,8 +50,7 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
     final positionLabel = 'Frage ${_currentIndex + 1} von $total';
     final bool isLastQuestion = _currentIndex >= total - 1;
 
-    final Color highlightColor = theme.colorScheme.secondaryContainer;
-    final Color onHighlightColor = theme.colorScheme.onSecondaryContainer;
+  // colors are provided by AppColors when needed
 
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
@@ -73,37 +76,80 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
                 child: ListView(
                   children: [
                     ...List.generate(question.answers.length, (index) {
+                      final isSelected = _selectedIndex == index;
                       final isCorrect = index == question.correctIndex;
+
+                      Color boxColor = theme.cardColor;
+                      IconData? icon;
+
+                      final bool isDark = theme.brightness == Brightness.dark;
+
+                      if (_selectedIndex != null) {
+                        if (isSelected && isCorrect) {
+                          boxColor = isDark ? AppColors.correctDark : AppColors.correct;
+                          icon = Icons.check_circle;
+                        } else if (isSelected && !isCorrect) {
+                          boxColor = isDark ? AppColors.wrongDark : AppColors.wrong;
+                          icon = Icons.cancel;
+                        } else if (isCorrect) {
+                          boxColor = isDark
+                              ? AppColors.correctDark.withAlpha(128)
+                              : AppColors.correctLight;
+                          icon = Icons.check;
+                        }
+                      }
+
                       return Padding(
-                        padding: const EdgeInsets.only(bottom: 12),
-                        child: Card(
-                          color: isCorrect ? highlightColor : null,
-                          child: ListTile(
-                            leading: Icon(
-                              isCorrect ? Icons.check_circle : Icons.radio_button_unchecked,
-                              color: isCorrect ? onHighlightColor : theme.iconTheme.color,
-                            ),
-                            title: Text(
-                              question.answers[index],
-                              style: theme.textTheme.bodyLarge?.copyWith(
-                                color: isCorrect ? onHighlightColor : null,
-                                fontWeight: isCorrect ? FontWeight.w600 : null,
+                        padding: const EdgeInsets.symmetric(vertical: 6),
+                        child: Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(16),
+                            onTap: () {
+                              if (_selectedIndex == null) {
+                                setState(() {
+                                  _selectedIndex = index;
+                                });
+                              }
+                            },
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 200),
+                              decoration: BoxDecoration(
+                                color: boxColor,
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                      question.answers[index],
+                                      style: theme.textTheme.bodyLarge,
+                                    ),
+                                  ),
+                                  if (icon != null)
+                                    Icon(icon, color: theme.colorScheme.onPrimary, size: 24),
+                                ],
                               ),
                             ),
                           ),
                         ),
                       );
                     }),
-                    const SizedBox(height: 12),
-                    Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Text(
-                          question.explanation,
-                          style: theme.textTheme.bodyMedium,
+
+                    const SizedBox(height: 16),
+
+                    if (_selectedIndex != null)
+                      Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Text(
+                            question.explanation,
+                            style: theme.textTheme.bodyMedium,
+                          ),
                         ),
                       ),
-                    ),
                   ],
                 ),
               ),
@@ -119,9 +165,10 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
                   const SizedBox(width: 12),
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: isLastQuestion
-                          ? () => Navigator.of(context).pop()
-                          : _goToNext,
+                      onPressed: _selectedIndex != null
+                          ? (isLastQuestion ? () => Navigator.of(context).pop() : _goToNext)
+                          : null,
+                      style: ElevatedButton.styleFrom(minimumSize: const Size.fromHeight(48)),
                       child: Text(isLastQuestion ? 'Fertig' : 'Weiter'),
                     ),
                   ),
