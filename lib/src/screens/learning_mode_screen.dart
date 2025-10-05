@@ -143,12 +143,16 @@ class _LearningModeScreenState extends State<LearningModeScreen> {
             _buildModeTile(
               icon: Icons.list_alt,
               title: 'Alle Fragen',
-              subtitle: '${generalQuestions.length} Fragen',
+              subtitle: stateCode != null
+                  ? '${generalQuestions.length + stateQuestions.length} Fragen'
+                  : '${generalQuestions.length} Fragen',
               onTap: generalQuestions.isNotEmpty
-                  ? () => _openSession(
-                        questions: generalQuestions,
-                        title: 'Alle Fragen',
-                      )
+                  ? () {
+                      final combined = <Question>[];
+                      combined.addAll(generalQuestions);
+                      if (stateCode != null) combined.addAll(stateQuestions);
+                      _openSession(questions: combined, title: 'Alle Fragen');
+                    }
                   : null,
             ),
             const SizedBox(height: 24),
