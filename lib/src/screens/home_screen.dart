@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'quiz_screen.dart';
 import 'learning_mode_screen.dart';
 import '../data/states.dart';
+import '../core/prefs.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,6 +13,20 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String? _selectedStateCode;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSavedState();
+  }
+
+  Future<void> _loadSavedState() async {
+    final code = await AppPrefs.getSelectedState();
+    if (!mounted) return;
+    setState(() {
+      _selectedStateCode = code;
+    });
+  }
 
   String? get _selectedStateLabel {
     if (_selectedStateCode == null) return null;
@@ -38,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text("Citizenship Test Quiz"),
         actions: [
-          // State selection menu
+          // keep existing popup menu for quick selection
           PopupMenuButton<String>(
             tooltip: 'Choose state',
             icon: const Icon(Icons.menu),

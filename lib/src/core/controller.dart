@@ -53,6 +53,31 @@ class Controller extends ChangeNotifier {
     }
   }
 
+  /// Load general questions plus state questions (if stateCode set) into questions.
+  Future<void> loadCombined({bool shuffle = false}) async {
+    isLoading = true;
+    error = null;
+    notifyListeners();
+
+    try {
+      await _repo.init();
+      final List<Question> base = List<Question>.from(_repo.generalQuestions);
+      if (stateCode != null && _repo.hasStateQuestions(stateCode!)) {
+        base.addAll(_repo.getStateQuestions(stateCode!));
+      }
+      questions = base;
+      if (shuffle) questions.shuffle();
+      currentIndex = 0;
+      selectedIndex = null;
+    } catch (e) {
+      error = e.toString();
+      questions = [];
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
   /// Initialize controller with an existing list of questions (no repo load).
   /// Useful for when a caller already prepared a list (e.g. learning sessions).
   void setQuestions(List<Question> items, {bool shuffle = false}) {
