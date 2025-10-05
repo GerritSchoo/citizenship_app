@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../data/question_repository.dart';
 import '../models/question.dart';
 import '../core/controller.dart';
+import '../core/prefs.dart';
 import '../theme/app_colors.dart';
 
 class QuizScreen extends StatefulWidget {
@@ -18,9 +19,14 @@ class _QuizScreenState extends State<QuizScreen> {
   @override
   void initState() {
     super.initState();
-    _controller = Controller(repository: _repo);
+    _init();
+  }
+
+  Future<void> _init() async {
+    final code = await AppPrefs.getSelectedState();
+    _controller = Controller(repository: _repo, stateCode: code);
     _controller.addListener(() => setState(() {}));
-    _loadData();
+    await _controller.loadCombined(shuffle: true);
   }
 
   Future<void> _loadData() async {
