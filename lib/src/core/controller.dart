@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'dart:math';
 
 import '../data/question_repository.dart';
 import '../models/question.dart';
@@ -42,6 +43,57 @@ class Controller extends ChangeNotifier {
         questions.shuffle();
       }
 
+      currentIndex = 0;
+      selectedIndex = null;
+    } catch (e) {
+      error = e.toString();
+      questions = [];
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  /// Build and load a mock exam: [generalCount] general questions + [stateCount] state questions.
+  Future<void> loadMockExam({int generalCount = 30, int stateCount = 3, bool shuffle = true}) async {
+    isLoading = true;
+    error = null;
+    notifyListeners();
+
+    try {
+      await _repo.init();
+
+      final general = List<Question>.from(_repo.generalQuestions);
+      final stateQs = (stateCode != null && _repo.hasStateQuestions(stateCode!)) ? List<Question>.from(_repo.getStateQuestions(stateCode!)) : <Question>[];
+
+      // Avoid duplicates by id
+      final stateIds = stateQs.map((q) => q.id).toSet();
+      general.removeWhere((q) => stateIds.contains(q.id));
+
+      final rnd = Random();
+      general.shuffle(rnd);
+      stateQs.shuffle(rnd);
+
+      final takeGeneral = min(generalCount, general.length);
+      final takeState = min(stateCount, stateQs.length);
+
+      final selected = <Question>[];
+      selected.addAll(general.take(takeGeneral));
+      selected.addAll(stateQs.take(takeState));
+
+      // Fill if not enough questions
+      final available = <Question>[];
+      available.addAll(general.skip(takeGeneral));
+      available.addAll(stateQs.skip(takeState));
+      available.shuffle(rnd);
+      while (selected.length < (generalCount + stateCount) && available.isNotEmpty) {
+        final q = available.removeLast();
+        if (!selected.any((s) => s.id == q.id)) selected.add(q);
+      }
+
+      if (shuffle) selected.shuffle(rnd);
+
+      questions = selected;
       currentIndex = 0;
       selectedIndex = null;
     } catch (e) {
@@ -120,3 +172,4 @@ class Controller extends ChangeNotifier {
   /// Simple user-facing position label.
   String positionLabel() => 'Frage ${currentIndex + 1} von ${questions.length}';
 }
+
