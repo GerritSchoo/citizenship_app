@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'quiz_screen.dart';
+import 'learning_mode_screen.dart';
 import '../data/states.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -79,8 +80,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Learning mode coming soon!")),
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => LearningModeScreen(
+                          stateCode: _selectedStateCode,
+                          stateLabel: _selectedStateLabel,
+                        ),
+                      ),
                     );
                   },
                   style: ElevatedButton.styleFrom(
