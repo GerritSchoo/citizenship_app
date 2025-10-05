@@ -1,0 +1,92 @@
+{
+  "topics": [
+    { "id": "politics", "title": "Politik & Demokratie" },
+    { "id": "history", "title": "Geschichte" },
+    { "id": "society", "title": "Gesellschaft" },
+    { "id": "geography", "title": "Geografie" }
+  ],
+
+  "generalQuestions": [
+    {
+      "id": "Q001",
+      "text": "Wie viele Bundesländer hat Deutschland?",
+      "answers": ["14", "15", "16", "17"],
+      "correctIndex": 2,
+      "topicId": "politics",
+      "explanation": "Deutschland besteht aus 16 Bundesländern, die zusammen die Bundesrepublik bilden."
+    },
+    {
+      "id": "Q002",
+      "text": "Welche Farben hat die deutsche Flagge?",
+      "answers": ["Schwarz-Rot-Gold", "Schwarz-Weiß-Rot", "Rot-Weiß-Blau", "Grün-Weiß-Rot"],
+      "correctIndex": 0,
+      "topicId": "history",
+      "explanation": "Die Farben Schwarz-Rot-Gold sind seit dem 19. Jahrhundert ein Symbol für Freiheit und Einheit in Deutschland."
+    },
+    {
+      "id": "Q003",
+      "text": "Welcher Fluss ist der längste in Deutschland?",
+      "answers": ["Elbe", "Rhein", "Donau", "Weser"],
+      "correctIndex": 2,
+      "topicId": "geography",
+      "explanation": "Die Donau ist mit über 2.800 km der zweitlängste Fluss Europas und fließt auch durch Deutschland."
+    },
+    {
+      "id": "Q004",
+      "text": "Welches Gebirge liegt in Bayern?",
+      "answers": ["Alpen", "Harz", "Eifel", "Erzgebirge"],
+      "correctIndex": 0,
+      "topicId": "geography",
+      "explanation": "Die Alpen liegen im Süden Bayerns und sind das höchste Gebirge Deutschlands."
+    }
+  ],
+
+  "stateQuestions": {
+    "BW": [
+      {
+        "id": "BW001",
+        "text": "Welche Universitätsstadt liegt in Baden-Württemberg?",
+        "answers": ["Heidelberg", "Leipzig", "Köln", "Bremen"],
+        "correctIndex": 0,
+        "topicId": "society",
+        "explanation": "Heidelberg ist eine der ältesten Universitätsstädte Deutschlands und liegt in Baden-Württemberg."
+      },
+      {
+        "id": "BW002",
+        "text": "Welcher große See liegt in Baden-Württemberg?",
+        "answers": ["Chiemsee", "Bodensee", "Starnberger See", "Steinhuder Meer"],
+        "correctIndex": 1,
+        "topicId": "geography",
+        "explanation": "Der Bodensee ist einer der größten Seen Mitteleuropas und liegt teilweise in Baden-Württemberg."
+      }
+    ],
+    "BY": [
+      {
+        "id": "BY001",
+        "text": "Wie heißt die Hauptstadt von Bayern?",
+        "answers": ["Nürnberg", "München", "Augsburg", "Regensburg"],
+        "correctIndex": 1,
+        "topicId": "history",
+        "explanation": "München ist die Landeshauptstadt von Bayern und bekannt für das Oktoberfest."
+      },
+      {
+        "id": "BY002",
+        "text": "Welches bekannte Volksfest findet in Bayern statt?",
+        "answers": ["Oktoberfest", "Karneval", "Weinfest", "Kieler Woche"],
+        "correctIndex": 0,
+        "topicId": "society",
+        "explanation": "Das Oktoberfest in München ist das größte Volksfest der Welt und findet jedes Jahr im Herbst statt."
+      }
+    ],
+    "BE": [
+      {
+        "id": "BE001",
+        "text": "Wie heißt die Hauptstadt von Deutschland?",
+        "answers": ["Berlin", "Bonn", "Hamburg", "München"],
+        "correctIndex": 0,
+        "topicId": "history",
+        "explanation": "Berlin ist seit 1990 wieder die Hauptstadt von Deutschland und Regierungssitz."
+      }
+    ]
+  }
+}
