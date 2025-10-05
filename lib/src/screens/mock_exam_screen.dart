@@ -190,8 +190,11 @@ class _MockExamScreenState extends State<MockExamScreen> {
                                 children: [
                                   Card(
                                     child: Padding(
-                                      padding: const EdgeInsets.all(12.0),
-                                      child: Text(_controller!.questions[_controller!.currentIndex].text),
+                                      padding: const EdgeInsets.all(16.0),
+                                      child: Text(
+                                        _controller!.questions[_controller!.currentIndex].text,
+                                        style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+                                      ),
                                     ),
                                   ),
                                   const SizedBox(height: 12),
@@ -202,7 +205,7 @@ class _MockExamScreenState extends State<MockExamScreen> {
                                     return Card(
                                       color: selected ? Colors.blue.shade100 : null,
                                       child: ListTile(
-                                        title: Text(a),
+                                        title: Text(a, style: Theme.of(context).textTheme.bodyLarge),
                                         onTap: () => _select(i),
                                       ),
                                     );
@@ -215,7 +218,11 @@ class _MockExamScreenState extends State<MockExamScreen> {
                           Row(
                             children: [
                               Expanded(
-                                child: OutlinedButton(
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    minimumSize: const Size.fromHeight(48),
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                  ),
                                   onPressed: _controller!.currentIndex > 0 ? () { setState(() { _controller!.previous(); }); } : null,
                                   child: const Text('Zurück'),
                                 ),
@@ -223,6 +230,10 @@ class _MockExamScreenState extends State<MockExamScreen> {
                               const SizedBox(width: 8),
                               Expanded(
                                 child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    minimumSize: const Size.fromHeight(48),
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                  ),
                                   onPressed: _controller!.currentIndex < _controller!.questions.length - 1 ? () { setState(() { _controller!.next(); }); } : null,
                                   child: const Text('Weiter'),
                                 ),

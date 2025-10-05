@@ -11,6 +11,14 @@ class AppColors {
   static const Color wrong = Color(0xFFE53935);   // red
   static const Color wrongLight = Color(0xFFEF9A9A);
 
+  // Grade category colors (exact values provided)
+  static const Color sehrGut = Color(0xFF006D2C); // #006D2C
+  static const Color gut = Color(0xFF66BD63);    // #66BD63
+  static const Color befriedigend = Color(0xFFFEE08B); // #FEE08B
+  static const Color ausreichend = Color(0xFFFD8D3C); // #FD8D3C
+  static const Color mangelhaft = Color(0xFFD73027); // #D73027
+  static const Color ungenuegend = Color(0xFFB10026); // #B10026
+
   // Dark mode
   static const Color primaryDark = Color(0xFF90CAF9);
   static const Color backgroundDark = Color(0xFF121212);

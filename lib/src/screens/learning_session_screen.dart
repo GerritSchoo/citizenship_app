@@ -156,7 +156,11 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
               Row(
                 children: [
                   Expanded(
-                    child: OutlinedButton(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size.fromHeight(48),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
                       onPressed: _controller.currentIndex > 0 ? _goToPrevious : null,
                       child: const Text('Zuruck'),
                     ),
@@ -164,10 +168,13 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
                   const SizedBox(width: 12),
                   Expanded(
                     child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size.fromHeight(48),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
                       onPressed: _controller.selectedIndex != null
                           ? (isLastQuestion ? () => Navigator.of(context).pop() : _goToNext)
                           : null,
-                      style: ElevatedButton.styleFrom(minimumSize: const Size.fromHeight(48)),
                       child: Text(isLastQuestion ? 'Fertig' : 'Weiter'),
                     ),
                   ),
