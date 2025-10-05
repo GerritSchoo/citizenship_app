@@ -1,11 +1,8 @@
 {
   "topics": [
-    { "id": "politics", "title": "Politik & Demokratie" },
-    { "id": "history", "title": "Geschichte" },
-    { "id": "society", "title": "Gesellschaft" },
-    { "id": "geography", "title": "Geografie" },
-    { "id": "law", "title": "Recht & Justiz" },
-    { "id": "economy", "title": "Wirtschaft & Arbeit" }
+    { "id": "democracy", "title": "Leben in der Demokratie" },
+    { "id": "history_responsibility", "title": "Geschichte und Verantwortung" },
+    { "id": "people_society", "title": "Mensch und Gesellschaft" }
   ],
 
   "generalQuestions": [
@@ -19,7 +16,7 @@
         "hier Meinungsfreiheit gilt."
       ],
       "correctIndex": 3,
-      "topicId": "politics",
+      "topicId": "democracy",
       "explanation": "Die Meinungsfreiheit ist als Grundrecht im Grundgesetz verankert.",
       "hasImage": false
     },
@@ -33,7 +30,7 @@
         "Sprachunterricht teilnimmt."
       ],
       "correctIndex": 1,
-      "topicId": "society",
+      "topicId": "people_society",
       "explanation": "Die Teilnahme am Religionsunterricht ist bis 14 vor allem Entscheidung der Eltern.",
       "hasImage": false
     },
@@ -47,7 +44,7 @@
         "Die Gerichte machen die Gesetze."
       ],
       "correctIndex": 0,
-      "topicId": "law",
+      "topicId": "democracy",
       "explanation": "Im Rechtsstaat sind Staat und Bürger an Recht und Gesetz gebunden.",
       "hasImage": false
     },
@@ -61,7 +58,7 @@
         "Selbstjustiz"
       ],
       "correctIndex": 2,
-      "topicId": "politics",
+      "topicId": "democracy",
       "explanation": "Meinungsfreiheit ist ein im Grundgesetz garantiertes Grundrecht.",
       "hasImage": false
     },
@@ -75,7 +72,7 @@
         "Alle wahlberechtigten Personen müssen wählen."
       ],
       "correctIndex": 2,
-      "topicId": "politics",
+      "topicId": "democracy",
       "explanation": "Freiheit der Wahl bedeutet Entscheidung ohne Zwang oder unzulässige Einflussnahme.",
       "hasImage": false
     },
@@ -84,7 +81,7 @@
       "text": "Wie heißt die deutsche Verfassung?",
       "answers": ["Volksgesetz", "Bundesgesetz", "Deutsches Gesetz", "Grundgesetz"],
       "correctIndex": 3,
-      "topicId": "politics",
+      "topicId": "democracy",
       "explanation": "Die Verfassung Deutschlands heißt Grundgesetz (GG).",
       "hasImage": false
     },
@@ -98,7 +95,7 @@
         "Wohnung"
       ],
       "correctIndex": 0,
-      "topicId": "law",
+      "topicId": "democracy",
       "explanation": "Die Glaubens- und Gewissensfreiheit ist im Grundgesetz geschützt.",
       "hasImage": false
     },
@@ -112,7 +109,7 @@
         "Alle sind vor dem Gesetz gleich."
       ],
       "correctIndex": 1,
-      "topicId": "politics",
+      "topicId": "democracy",
       "explanation": "Gleiches Einkommen ist kein verfassungsrechtlicher Grundsatz.",
       "hasImage": false
     },
@@ -121,7 +118,7 @@
       "text": "Welches Grundrecht gilt in Deutschland nur für Ausländerinnen/Ausländer? Das Grundrecht auf …",
       "answers": ["Schutz der Familie", "Menschenwürde", "Asyl", "Meinungsfreiheit"],
       "correctIndex": 2,
-      "topicId": "law",
+      "topicId": "democracy",
       "explanation": "Das Grundrecht auf Asyl richtet sich ausdrücklich an politisch Verfolgte aus dem Ausland.",
       "hasImage": false
     },
@@ -130,7 +127,7 @@
       "text": "Was ist mit dem deutschen Grundgesetz vereinbar?",
       "answers": ["die Prügelstrafe", "die Folter", "die Todesstrafe", "die Geldstrafe"],
       "correctIndex": 3,
-      "topicId": "law",
+      "topicId": "democracy",
       "explanation": "Körperliche Züchtigung, Folter und Todesstrafe sind verboten; Geldstrafe ist zulässig.",
       "hasImage": false
     },
@@ -139,7 +136,7 @@
       "text": "Wie wird die Verfassung der Bundesrepublik Deutschland genannt?",
       "answers": ["Grundgesetz", "Bundesverfassung", "Gesetzbuch", "Verfassungsvertrag"],
       "correctIndex": 0,
-      "topicId": "politics",
+      "topicId": "democracy",
       "explanation": "Offizieller Name der Verfassung ist Grundgesetz.",
       "hasImage": false
     },
@@ -153,7 +150,7 @@
         "Nein, denn nur der Bundesrat kann die Pressefreiheit abschaffen."
       ],
       "correctIndex": 2,
-      "topicId": "law",
+      "topicId": "democracy",
       "explanation": "Als Grundrecht ist die Pressefreiheit verfassungsrechtlich geschützt.",
       "hasImage": false
     },
@@ -167,7 +164,7 @@
         "meine Meinung nur dann äußern darf, solange ich der Regierung nicht widerspreche."
       ],
       "correctIndex": 1,
-      "topicId": "law",
+      "topicId": "democracy",
       "explanation": "Meinungsäußerung ist geschützt, aber Beleidigungen und verfassungsfeindliche Symbole sind verboten.",
       "hasImage": false
     },
@@ -176,7 +173,7 @@
       "text": "Was verbietet das deutsche Grundgesetz?",
       "answers": ["Militärdienst", "Zwangsarbeit", "freie Berufswahl", "Arbeit im Ausland"],
       "correctIndex": 1,
-      "topicId": "law",
+      "topicId": "democracy",
       "explanation": "Zwangsarbeit ist verfassungsrechtlich verboten.",
       "hasImage": false
     },
@@ -190,7 +187,7 @@
         "bei Kritik am Staat"
       ],
       "correctIndex": 0,
-      "topicId": "law",
+      "topicId": "democracy",
       "explanation": "Unwahre, ehrverletzende Tatsachenbehauptungen sind nicht geschützt.",
       "hasImage": false
     },
@@ -204,7 +201,7 @@
         "Ungleichbehandlung der Bürgerinnen und Bürger durch den Staat."
       ],
       "correctIndex": 3,
-      "topicId": "law",
+      "topicId": "democracy",
       "explanation": "Der Staat darf niemanden ohne sachlichen Grund ungleich behandeln.",
       "hasImage": false
     },
@@ -218,7 +215,7 @@
         "Meinungsfreiheit"
       ],
       "correctIndex": 0,
-      "topicId": "law",
+      "topicId": "democracy",
       "explanation": "Art. 1 GG stellt die Menschenwürde unter besonderen Schutz.",
       "hasImage": false
     },
@@ -232,7 +229,7 @@
         "Man darf sich in der Öffentlichkeit nur leicht bekleidet bewegen."
       ],
       "correctIndex": 0,
-      "topicId": "law",
+      "topicId": "democracy",
       "explanation": "Freizügigkeit bedeutet freie Wahl des Aufenthalts- und Wohnortes.",
       "hasImage": false
     },
@@ -241,7 +238,7 @@
       "text": "Eine Partei in Deutschland verfolgt das Ziel, eine Diktatur zu errichten. Sie ist dann …",
       "answers": ["tolerant.", "rechtsstaatlich orientiert.", "gesetzestreu.", "verfassungswidrig."],
       "correctIndex": 3,
-      "topicId": "politics",
+      "topicId": "democracy",
       "explanation": "Ziele gegen die freiheitlich-demokratische Grundordnung sind verfassungswidrig.",
       "hasImage": false
     },
@@ -250,7 +247,7 @@
       "text": "Was für eine Staatsform hat Deutschland?",
       "answers": ["Monarchie", "Diktatur", "Republik", "Fürstentum"],
       "correctIndex": 2,
-      "topicId": "politics",
+      "topicId": "democracy",
       "explanation": "Deutschland ist eine parlamentarische Republik.",
       "hasImage": false
     },
@@ -264,7 +261,7 @@
         "bei einer Firma oder Behörde beschäftigt."
       ],
       "correctIndex": 3,
-      "topicId": "economy",
+      "topicId": "people_society",
       "explanation": "Die Mehrheit arbeitet als Beschäftigte in Unternehmen oder Behörden.",
       "hasImage": false
     },
@@ -273,7 +270,7 @@
       "text": "Wie viele Bundesländer hat die Bundesrepublik Deutschland?",
       "answers": ["14", "15", "16", "17"],
       "correctIndex": 2,
-      "topicId": "politics",
+      "topicId": "democracy",
       "explanation": "Deutschland besteht aus 16 Bundesländern.",
       "hasImage": false
     },
@@ -282,7 +279,7 @@
       "text": "Was ist kein Bundesland der Bundesrepublik Deutschland?",
       "answers": ["Elsass-Lothringen", "Nordrhein-Westfalen", "Mecklenburg-Vorpommern", "Sachsen-Anhalt"],
       "correctIndex": 0,
-      "topicId": "geography",
+      "topicId": "democracy",
       "explanation": "Elsass-Lothringen ist eine Region in Frankreich, kein deutsches Bundesland.",
       "hasImage": false
     },
@@ -296,7 +293,7 @@
         "ein sozialer und sozialistischer Bundesstaat."
       ],
       "correctIndex": 1,
-      "topicId": "politics",
+      "topicId": "democracy",
       "explanation": "Das Grundgesetz definiert Deutschland als demokratischen und sozialen Bundesstaat.",
       "hasImage": false
     },
@@ -305,7 +302,7 @@
       "text": "Deutschland ist …",
       "answers": ["ein sozialistischer Staat.", "ein Bundesstaat.", "eine Diktatur.", "eine Monarchie."],
       "correctIndex": 1,
-      "topicId": "politics",
+      "topicId": "democracy",
       "explanation": "Die Kompetenzen sind zwischen Bund und Ländern verteilt.",
       "hasImage": false
     },
@@ -314,7 +311,7 @@
       "text": "Wer wählt in Deutschland die Abgeordneten zum Bundestag?",
       "answers": ["das Militär", "die Wirtschaft", "das wahlberechtigte Volk", "die Verwaltung"],
       "correctIndex": 2,
-      "topicId": "politics",
+      "topicId": "democracy",
       "explanation": "Die Bürgerinnen und Bürger wählen die Bundestagsabgeordneten.",
       "hasImage": false
     },
@@ -323,7 +320,7 @@
       "text": "Was ist kein Merkmal unserer Demokratie?",
       "answers": ["regelmäßige Wahlen", "Pressezensur", "Meinungsfreiheit", "verschiedene Parteien"],
       "correctIndex": 1,
-      "topicId": "politics",
+      "topicId": "democracy",
       "explanation": "Zensur widerspricht demokratischen Grundprinzipien.",
       "hasImage": false
     },
@@ -332,7 +329,7 @@
       "text": "Die Zusammenarbeit von Parteien zur Bildung einer Regierung nennt man in Deutschland …",
       "answers": ["Einheit.", "Koalition.", "Ministerium.", "Fraktion."],
       "correctIndex": 1,
-      "topicId": "politics",
+      "topicId": "democracy",
       "explanation": "Koalitionen entstehen, wenn keine Partei allein regieren kann.",
       "hasImage": false
     },
@@ -341,7 +338,7 @@
       "text": "Was ist keine staatliche Gewalt in Deutschland?",
       "answers": ["Gesetzgebung", "Regierung", "Presse", "Rechtsprechung"],
       "correctIndex": 2,
-      "topicId": "law",
+      "topicId": "democracy",
       "explanation": "Die drei Gewalten sind Legislative, Exekutive und Judikative.",
       "hasImage": false
     },
@@ -355,7 +352,7 @@
         "bilden Staat und Religionsgemeinschaften eine Einheit."
       ],
       "correctIndex": 0,
-      "topicId": "law",
+      "topicId": "democracy",
       "explanation": "Deutschland ist ein religiös neutraler Staat mit Trennung von Staat und Religion.",
       "hasImage": false
     },
@@ -364,7 +361,7 @@
       "text": "Was ist Deutschland nicht?",
       "answers": ["eine Demokratie", "ein Rechtsstaat", "eine Monarchie", "ein Sozialstaat"],
       "correctIndex": 2,
-      "topicId": "politics",
+      "topicId": "democracy",
       "explanation": "Deutschland hat kein monarchisches Staatsoberhaupt.",
       "hasImage": false
     },
@@ -373,7 +370,7 @@
       "text": "Womit finanziert der deutsche Staat die Sozialversicherung?",
       "answers": ["Kirchensteuer", "Sozialabgaben", "Spendengeldern", "Vereinsbeiträgen"],
       "correctIndex": 1,
-      "topicId": "economy",
+      "topicId": "people_society",
       "explanation": "Sozialversicherungen werden durch Beiträge von Beschäftigten und Arbeitgebern finanziert.",
       "hasImage": false
     },
@@ -382,7 +379,7 @@
       "text": "Welche Maßnahme schafft in Deutschland soziale Sicherheit?",
       "answers": ["die Krankenversicherung", "die Autoversicherung", "die Gebäudeversicherung", "die Haftpflichtversicherung"],
       "correctIndex": 0,
-      "topicId": "economy",
+      "topicId": "people_society",
       "explanation": "Die gesetzliche Krankenversicherung ist Teil der sozialen Sicherung.",
       "hasImage": false
     },
@@ -396,7 +393,7 @@
         "Ministerpräsidentin/Ministerpräsident"
       ],
       "correctIndex": 3,
-      "topicId": "politics",
+      "topicId": "democracy",
       "explanation": "In fast allen Ländern lautet die Amtsbezeichnung Ministerpräsident/in.",
       "hasImage": false
     },
@@ -405,7 +402,7 @@
       "text": "Die Bundesrepublik Deutschland ist ein demokratischer und sozialer …",
       "answers": ["Staatenverbund.", "Bundesstaat.", "Staatenbund.", "Zentralstaat."],
       "correctIndex": 1,
-      "topicId": "politics",
+      "topicId": "democracy",
       "explanation": "Deutschland ist ein Bundesstaat mit Ländern und Bund.",
       "hasImage": false
     },
@@ -419,7 +416,7 @@
         "eine eigene Regierung"
       ],
       "correctIndex": 3,
-      "topicId": "politics",
+      "topicId": "democracy",
       "explanation": "Jedes Land besitzt eine eigene Landesregierung.",
       "hasImage": false
     },
@@ -433,7 +430,7 @@
         "Deutschland einig Vaterland …"
       ],
       "correctIndex": 1,
-      "topicId": "history",
+      "topicId": "history_responsibility",
       "explanation": "Die Hymne beginnt mit „Einigkeit und Recht und Freiheit …“.",
       "hasImage": false
     },
@@ -447,7 +444,7 @@
         "um wirtschaftlichen Wettbewerb anzuregen"
       ],
       "correctIndex": 0,
-      "topicId": "politics",
+      "topicId": "democracy",
       "explanation": "Mehrparteiensysteme spiegeln Vielfalt von Interessen und Meinungen wider.",
       "hasImage": false
     },
@@ -456,7 +453,7 @@
       "text": "Wer beschließt in Deutschland ein neues Gesetz?",
       "answers": ["die Regierung", "das Parlament", "die Gerichte", "die Polizei"],
       "correctIndex": 1,
-      "topicId": "politics",
+      "topicId": "democracy",
       "explanation": "Gesetze werden von den Parlamenten beschlossen.",
       "hasImage": false
     },
@@ -470,7 +467,7 @@
         "wenn ihr Programm eine neue Richtung vorschlägt"
       ],
       "correctIndex": 1,
-      "topicId": "law",
+      "topicId": "democracy",
       "explanation": "Verfassungsfeindliche Parteien können vom Bundesverfassungsgericht verboten werden.",
       "hasImage": false
     }
@@ -483,7 +480,7 @@
         "text": "Welches ist ein Landkreis in Baden-Württemberg?",
         "answers": ["Mecklenburgische Seenplatte", "Neckar-Odenwald-Kreis", "Nordfriesland", "Altötting"],
         "correctIndex": 1,
-        "topicId": "geography",
+        "topicId": "democracy",
         "explanation": "Der Neckar-Odenwald-Kreis liegt im Norden Baden-Württembergs.",
         "hasImage": false
       },
@@ -492,7 +489,7 @@
         "text": "Die Landeshauptstadt von Baden-Württemberg heißt …",
         "answers": ["Heidelberg.", "Stuttgart.", "Karlsruhe.", "Mannheim."],
         "correctIndex": 1,
-        "topicId": "geography",
+        "topicId": "democracy",
         "explanation": "Stuttgart ist die Landeshauptstadt Baden-Württembergs.",
         "hasImage": false
       }
@@ -503,7 +500,7 @@
         "text": "Welches ist ein Landkreis in Bayern?",
         "answers": ["Prignitz", "Rhein-Sieg-Kreis", "Nordfriesland", "Altötting"],
         "correctIndex": 3,
-        "topicId": "geography",
+        "topicId": "democracy",
         "explanation": "Altötting ist ein Landkreis im Südosten Bayerns.",
         "hasImage": false
       },
@@ -512,7 +509,7 @@
         "text": "Die Landeshauptstadt von Bayern heißt …",
         "answers": ["Ingolstadt.", "Regensburg.", "Nürnberg.", "München."],
         "correctIndex": 3,
-        "topicId": "geography",
+        "topicId": "democracy",
         "explanation": "München ist die Landeshauptstadt des Freistaats Bayern.",
         "hasImage": false
       }
@@ -523,7 +520,7 @@
         "text": "Welches ist ein Bezirk von Berlin?",
         "answers": ["Altona", "Prignitz", "Pankow", "Mecklenburgische Seenplatte"],
         "correctIndex": 2,
-        "topicId": "geography",
+        "topicId": "democracy",
         "explanation": "Pankow ist einer der 12 Bezirke Berlins.",
         "hasImage": false
       },
@@ -537,7 +534,7 @@
           "Regierende Bürgermeisterin/Regierender Bürgermeister"
         ],
         "correctIndex": 3,
-        "topicId": "politics",
+        "topicId": "democracy",
         "explanation": "In Berlin heißt das Amt „Regierende/r Bürgermeister/in“.",
         "hasImage": false
       }
@@ -548,7 +545,7 @@
         "text": "Welches ist ein Landkreis in Brandenburg?",
         "answers": ["Prignitz", "Rhein-Sieg-Kreis", "Vogtlandkreis", "Amberg-Sulzbach"],
         "correctIndex": 0,
-        "topicId": "geography",
+        "topicId": "democracy",
         "explanation": "Prignitz liegt im Nordwesten Brandenburgs.",
         "hasImage": false
       },
@@ -557,7 +554,7 @@
         "text": "Die Landeshauptstadt von Brandenburg heißt …",
         "answers": ["Potsdam.", "Cottbus.", "Brandenburg.", "Frankfurt/Oder."],
         "correctIndex": 0,
-        "topicId": "geography",
+        "topicId": "democracy",
         "explanation": "Potsdam ist Regierungssitz und Landeshauptstadt.",
         "hasImage": false
       }
@@ -568,7 +565,7 @@
         "text": "Was ist ein deutscher Stadtstaat?",
         "answers": ["Bremen", "München", "Frankfurt", "Erfurt"],
         "correctIndex": 0,
-        "topicId": "geography",
+        "topicId": "democracy",
         "explanation": "Bremen ist – neben Berlin und Hamburg – einer der drei Stadtstaaten.",
         "hasImage": false
       },
@@ -582,7 +579,7 @@
           "Regierende Bürgermeisterin/Regierender Bürgermeister"
         ],
         "correctIndex": 2,
-        "topicId": "politics",
+        "topicId": "democracy",
         "explanation": "In Bremen führt die/der Regierungschef/in den Titel „Präsident/in des Senats“.",
         "hasImage": false
       }
@@ -593,7 +590,7 @@
         "text": "Welches ist ein Bezirk von Hamburg?",
         "answers": ["Altona", "Hemelingen", "Pankow", "Mecklenburgische Seenplatte"],
         "correctIndex": 0,
-        "topicId": "geography",
+        "topicId": "democracy",
         "explanation": "Altona ist einer der sieben Hamburger Bezirke.",
         "hasImage": false
       },
@@ -607,7 +604,7 @@
           "Oberbürgermeisterin/Oberbürgermeister"
         ],
         "correctIndex": 1,
-        "topicId": "politics",
+        "topicId": "democracy",
         "explanation": "In Hamburg heißt das Regierungsoberhaupt „Erste/r Bürgermeister/in“.",
         "hasImage": false
       }
@@ -623,7 +620,7 @@
           "bei der Verbraucherzentrale"
         ],
         "correctIndex": 0,
-        "topicId": "politics",
+        "topicId": "democracy",
         "explanation": "Die Landeszentrale bietet neutrale Informationen zur Politik.",
         "hasImage": false
       },
@@ -632,7 +629,7 @@
         "text": "Die Landeshauptstadt von Mecklenburg-Vorpommern heißt …",
         "answers": ["Greifswald.", "Schwerin.", "Rostock.", "Wismar."],
         "correctIndex": 1,
-        "topicId": "geography",
+        "topicId": "democracy",
         "explanation": "Schwerin ist die Landeshauptstadt; Rostock ist die größte Stadt.",
         "hasImage": false
       }
@@ -643,7 +640,7 @@
         "text": "Welches ist ein Landkreis in Niedersachsen?",
         "answers": ["Ammerland", "Rhein-Sieg-Kreis", "Nordfriesland", "Vogtlandkreis"],
         "correctIndex": 0,
-        "topicId": "geography",
+        "topicId": "democracy",
         "explanation": "Ammerland liegt im Nordwesten Niedersachsens.",
         "hasImage": false
       },
@@ -652,7 +649,7 @@
         "text": "Die Landeshauptstadt von Niedersachsen heißt …",
         "answers": ["Hannover.", "Braunschweig.", "Wolfsburg.", "Osnabrück."],
         "correctIndex": 0,
-        "topicId": "geography",
+        "topicId": "democracy",
         "explanation": "Hannover ist Sitz der Landesregierung.",
         "hasImage": false
       }
@@ -663,7 +660,7 @@
         "text": "Welches ist ein Landkreis in Nordrhein-Westfalen?",
         "answers": ["Ammerland", "Rhein-Sieg-Kreis", "Nordfriesland", "Vogtlandkreis"],
         "correctIndex": 1,
-        "topicId": "geography",
+        "topicId": "democracy",
         "explanation": "Der Rhein-Sieg-Kreis liegt südlich von Köln/Bonn.",
         "hasImage": false
       },
@@ -672,7 +669,7 @@
         "text": "Die Landeshauptstadt von Nordrhein-Westfalen heißt …",
         "answers": ["Köln.", "Bonn.", "Düsseldorf.", "Dortmund."],
         "correctIndex": 2,
-        "topicId": "geography",
+        "topicId": "democracy",
         "explanation": "Düsseldorf ist seit 1946 Landeshauptstadt von NRW.",
         "hasImage": false
       }
@@ -688,7 +685,7 @@
           "bei der Landeszentrale für politische Bildung"
         ],
         "correctIndex": 3,
-        "topicId": "politics",
+        "topicId": "democracy",
         "explanation": "Landeszentralen informieren über Politik und Wahlen.",
         "hasImage": false
       },
@@ -697,7 +694,7 @@
         "text": "Die Landeshauptstadt von Rheinland-Pfalz heißt …",
         "answers": ["Mainz.", "Kaiserslautern.", "Ludwigshafen.", "Koblenz."],
         "correctIndex": 0,
-        "topicId": "geography",
+        "topicId": "democracy",
         "explanation": "Mainz ist die Landeshauptstadt von Rheinland-Pfalz.",
         "hasImage": false
       }
