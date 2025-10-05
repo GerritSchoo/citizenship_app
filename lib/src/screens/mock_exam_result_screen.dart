@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/question.dart';
+import '../theme/app_theme.dart';
 
 class MockExamResultScreen extends StatelessWidget {
   final int total;
@@ -11,17 +12,15 @@ class MockExamResultScreen extends StatelessWidget {
   const MockExamResultScreen({Key? key, required this.total, required this.correct, required this.questions, required this.answers}) : super(key: key);
 
   String _gradeText(int correct) {
-    if (correct >= 30) return '1.0';
-    if (correct >= 29) return '1.3';
-    if (correct >= 28) return '1.7';
-    if (correct >= 27) return '2.0';
-    if (correct >= 25) return '2.3';
-    if (correct >= 23) return '2.7';
-    if (correct >= 21) return '3.0';
-    if (correct >= 19) return '3.3';
-    if (correct >= 17) return '3.7';
+    // Not used anymore; kept for compatibility but return category
+    if (correct >= 31) return 'sehr gut';
+    if (correct >= 27) return 'gut';
+    if (correct >= 23) return 'befriedigend';
+    if (correct >= 17) return 'ausreichend';
+    if (correct >= 10) return 'mangelhaft';
     return 'ungenügend';
   }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -44,8 +43,62 @@ class MockExamResultScreen extends StatelessWidget {
                     Text(pass ? 'Bestanden' : 'Nicht bestanden', style: Theme.of(context).textTheme.titleLarge),
                     const SizedBox(height: 8),
                     Text('Richtige Antworten: $correct von $total'),
-                    const SizedBox(height: 8),
-                    Text('Note: ${_gradeText(correct)}'),
+                    const SizedBox(height: 12),
+                    // Grade category, range and description
+                    Builder(builder: (ctx) {
+                      final category = _gradeText(correct);
+                      final gradeColors = Theme.of(ctx).extension<GradeColors>()!;
+                      Color bg;
+                      IconData cueIcon;
+                      Color iconColor;
+                      switch (category) {
+                        case 'sehr gut':
+                          bg = gradeColors.sehrGut.withOpacity(0.12);
+                          cueIcon = Icons.check_circle;
+                          iconColor = gradeColors.sehrGut;
+                          break;
+                        case 'gut':
+                          bg = gradeColors.gut.withOpacity(0.12);
+                          cueIcon = Icons.check_circle;
+                          iconColor = gradeColors.gut;
+                          break;
+                        case 'befriedigend':
+                          bg = gradeColors.befriedigend.withOpacity(0.12);
+                          cueIcon = Icons.warning;
+                          iconColor = gradeColors.befriedigend;
+                          break;
+                        case 'ausreichend':
+                          bg = gradeColors.ausreichend.withOpacity(0.12);
+                          cueIcon = Icons.warning;
+                          iconColor = gradeColors.ausreichend;
+                          break;
+                        case 'mangelhaft':
+                          bg = gradeColors.mangelhaft.withOpacity(0.12);
+                          cueIcon = Icons.cancel;
+                          iconColor = gradeColors.mangelhaft;
+                          break;
+                        case 'ungenügend':
+                        default:
+                          bg = gradeColors.ungenuegend.withOpacity(0.12);
+                          cueIcon = Icons.cancel;
+                          iconColor = gradeColors.ungenuegend;
+                          break;
+                      }
+
+                      return Card(
+                        color: bg,
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Row(
+                            children: [
+                              Icon(cueIcon, color: iconColor, size: 28),
+                              const SizedBox(width: 12),
+                              Expanded(child: Text(category.toUpperCase(), style: Theme.of(ctx).textTheme.titleSmall)),
+                            ],
+                          ),
+                        ),
+                      );
+                    }),
                   ],
                 ),
               ),
