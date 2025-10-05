@@ -128,9 +128,9 @@ class _QuizScreenState extends State<QuizScreen> {
                           boxColor = isDark ? AppColors.wrongDark : AppColors.wrong;
                           icon = Icons.cancel;
                         } else if (isCorrect) {
-                          boxColor = isDark
-                              ? AppColors.correctDark.withOpacity(0.5)
-                              : AppColors.correctLight;
+              boxColor = isDark
+                ? AppColors.correctDark.withAlpha(128)
+                : AppColors.correctLight;
                           icon = Icons.check;
                         }
                       }
