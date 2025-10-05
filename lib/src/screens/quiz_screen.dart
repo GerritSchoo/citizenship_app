@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../data/question_repository.dart';
 import '../models/question.dart';
+import '../core/controller.dart';
 import '../theme/app_colors.dart';
 
 class QuizScreen extends StatefulWidget {
@@ -12,51 +13,27 @@ class QuizScreen extends StatefulWidget {
 
 class _QuizScreenState extends State<QuizScreen> {
   final QuestionRepository _repo = QuestionRepository();
-  int _currentIndex = 0;
-  int? _selectedIndex;
-  String? _loadError;
-  List<Question> _questions = [];
+  late final Controller _controller;
 
   @override
   void initState() {
     super.initState();
+    _controller = Controller(repository: _repo);
+    _controller.addListener(() => setState(() {}));
     _loadData();
   }
 
   Future<void> _loadData() async {
-    try {
-      await _repo.init();
-      if (!mounted) return;
-      setState(() {
-        _loadError = null;
-        // create a shuffled local copy for the quiz only
-        _questions = List<Question>.from(_repo.generalQuestions);
-        _questions.shuffle();
-        _currentIndex = 0;
-        _selectedIndex = null;
-      });
-    } catch (e) {
-      if (!mounted) return;
-      setState(() {
-        _loadError = e.toString();
-      });
-    }
+    await _controller.load(shuffle: true);
   }
 
   void _nextQuestion() {
-    setState(() {
-      _selectedIndex = null;
-      if (_currentIndex < _repo.generalQuestions.length - 1) {
-        _currentIndex++;
-      } else {
-        _currentIndex = 0;
-      }
-    });
+    _controller.next();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_loadError != null) {
+    if (_controller.error != null) {
       return Scaffold(
         appBar: AppBar(title: const Text('Quiz')),
         body: SafeArea(
@@ -68,7 +45,7 @@ class _QuizScreenState extends State<QuizScreen> {
                 children: [
                   Text('Failed to load questions', style: Theme.of(context).textTheme.bodyLarge),
                   const SizedBox(height: 8),
-                  Text(_loadError!, style: Theme.of(context).textTheme.bodyMedium),
+                  Text(_controller.error!, style: Theme.of(context).textTheme.bodyMedium),
                   const SizedBox(height: 12),
                   ElevatedButton(
                     onPressed: _loadData,
@@ -82,13 +59,13 @@ class _QuizScreenState extends State<QuizScreen> {
       );
     }
 
-    if (_repo.generalQuestions.isEmpty) {
+    if (_controller.questions.isEmpty && _controller.isLoading) {
       return const Scaffold(
         body: Center(child: CircularProgressIndicator()),
       );
     }
 
-    final Question question = _questions.isNotEmpty ? _questions[_currentIndex] : _repo.generalQuestions[_currentIndex];
+    final Question question = _controller.questions[_controller.currentIndex];
     final bool isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
@@ -120,13 +97,13 @@ class _QuizScreenState extends State<QuizScreen> {
                 child: ListView(
                   children: [
                     ...List.generate(question.answers.length, (index) {
-                      final isSelected = _selectedIndex == index;
+                      final isSelected = _controller.selectedIndex == index;
                       final isCorrect = index == question.correctIndex;
 
                       Color boxColor = Theme.of(context).cardColor;
                       IconData? icon;
 
-                      if (_selectedIndex != null) {
+                      if (_controller.selectedIndex != null) {
                         if (isSelected && isCorrect) {
                           boxColor = isDark ? AppColors.correctDark : AppColors.correct;
                           icon = Icons.check_circle;
@@ -147,13 +124,7 @@ class _QuizScreenState extends State<QuizScreen> {
                           color: Colors.transparent,
                           child: InkWell(
                             borderRadius: BorderRadius.circular(16),
-                            onTap: () {
-                              if (_selectedIndex == null) {
-                                setState(() {
-                                  _selectedIndex = index;
-                                });
-                              }
-                            },
+                            onTap: () => _controller.select(index),
                             child: AnimatedContainer(
                               duration: const Duration(milliseconds: 200),
                               decoration: BoxDecoration(
@@ -183,7 +154,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
                     const SizedBox(height: 16),
 
-                    if (_selectedIndex != null)
+                    if (_controller.selectedIndex != null)
                       Card(
                         child: Padding(
                           padding: const EdgeInsets.all(16),
@@ -200,7 +171,7 @@ class _QuizScreenState extends State<QuizScreen> {
               const SizedBox(height: 12),
 
               ElevatedButton(
-                onPressed: _selectedIndex != null ? _nextQuestion : null,
+                onPressed: _controller.selectedIndex != null ? _nextQuestion : null,
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(double.infinity, 48),
                 ),
