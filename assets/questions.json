@@ -476,6 +476,15 @@
   "stateQuestions": {
     "BW": [
       {
+        "id": "BW001",
+        "text": "Die Landeshauptstadt von Baden-Württemberg heißt …",
+        "answers": ["Heidelberg.", "Stuttgart.", "Karlsruhe.", "Mannheim."],
+        "correctIndex": 1,
+        "topicId": "democracy",
+        "explanation": "Stuttgart ist Regierungssitz und Landeshauptstadt Baden-Württembergs.",
+        "hasImage": false
+      },
+      {
         "id": "BW002",
         "text": "Welches ist ein Landkreis in Baden-Württemberg?",
         "answers": ["Mecklenburgische Seenplatte", "Neckar-Odenwald-Kreis", "Nordfriesland", "Altötting"],
@@ -485,47 +494,66 @@
         "hasImage": false
       },
       {
-        "id": "BW007",
-        "text": "Die Landeshauptstadt von Baden-Württemberg heißt …",
-        "answers": ["Heidelberg.", "Stuttgart.", "Karlsruhe.", "Mannheim."],
-        "correctIndex": 1,
+        "id": "BW003",
+        "text": "Wo können Sie sich in Baden-Württemberg über politische Themen informieren?",
+        "answers": [
+          "bei der Landeszentrale für politische Bildung",
+          "bei der Ausländerbehörde",
+          "bei der Industrie- und Handelskammer",
+          "beim Standesamt"
+        ],
+        "correctIndex": 0,
         "topicId": "democracy",
-        "explanation": "Stuttgart ist die Landeshauptstadt Baden-Württembergs.",
+        "explanation": "Die Landeszentrale für politische Bildung Baden-Württemberg informiert neutral über Politik und Wahlen.",
         "hasImage": false
       }
     ],
     "BY": [
       {
-        "id": "BY002",
-        "text": "Welches ist ein Landkreis in Bayern?",
-        "answers": ["Prignitz", "Rhein-Sieg-Kreis", "Nordfriesland", "Altötting"],
-        "correctIndex": 3,
-        "topicId": "democracy",
-        "explanation": "Altötting ist ein Landkreis im Südosten Bayerns.",
-        "hasImage": false
-      },
-      {
-        "id": "BY007",
+        "id": "BY001",
         "text": "Die Landeshauptstadt von Bayern heißt …",
         "answers": ["Ingolstadt.", "Regensburg.", "Nürnberg.", "München."],
         "correctIndex": 3,
         "topicId": "democracy",
         "explanation": "München ist die Landeshauptstadt des Freistaats Bayern.",
         "hasImage": false
+      },
+      {
+        "id": "BY002",
+        "text": "Welches ist ein Landkreis in Bayern?",
+        "answers": ["Altötting", "Prignitz", "Nordfriesland", "Ammerland"],
+        "correctIndex": 0,
+        "topicId": "democracy",
+        "explanation": "Altötting ist ein Landkreis im Südosten Bayerns.",
+        "hasImage": false
+      },
+      {
+        "id": "BY003",
+        "text": "Wo können Sie sich in Bayern über politische Themen informieren?",
+        "answers": [
+          "bei der Bayerischen Landeszentrale für politische Bildungsarbeit",
+          "in der Universitätsbibliothek",
+          "beim Finanzamt",
+          "in der Musikschule"
+        ],
+        "correctIndex": 0,
+        "topicId": "democracy",
+        "explanation": "Die Bayerische Landeszentrale für politische Bildungsarbeit bietet Informationen und Materialien zu Politik und Wahlen.",
+        "hasImage": false
       }
     ],
     "BE": [
       {
-        "id": "BE002",
+        "id": "BE001",
         "text": "Welches ist ein Bezirk von Berlin?",
-        "answers": ["Altona", "Prignitz", "Pankow", "Mecklenburgische Seenplatte"],
-        "correctIndex": 2,
+        "answers": ["Altona", "Pankow", "Eimsbüttel", "Charlottenburg"],
+        "correctIndex": 1,
         "topicId": "democracy",
-        "explanation": "Pankow ist einer der 12 Bezirke Berlins.",
+        "explanation": "Pankow ist einer der 12 Bezirke des Landes Berlin.",
         "hasImage": false
       },
       {
-        "id": "BE009",
+        "id": "BE002",
         "text": "Wie nennt man die Regierungschefin/den Regierungschef des Stadtstaates Berlin?",
         "answers": [
           "Ministerpräsidentin/Ministerpräsident",
@@ -535,42 +563,79 @@
         ],
         "correctIndex": 3,
         "topicId": "democracy",
-        "explanation": "In Berlin heißt das Amt „Regierende/r Bürgermeister/in“.",
+        "explanation": "In Berlin heißt das Regierungsoberhaupt „Regierende Bürgermeisterin/Regierender Bürgermeister“.",
+        "hasImage": false
+      },
+      {
+        "id": "BE003",
+        "text": "Welches ist ein weiterer Bezirk von Berlin?",
+        "answers": ["Spandau", "Harburg", "Neukölln-Altona", "Saarlouis"],
+        "correctIndex": 0,
+        "topicId": "democracy",
+        "explanation": "Spandau ist ein Berliner Bezirk; Harburg liegt in Hamburg, Saarlouis im Saarland.",
         "hasImage": false
       }
     ],
     "BB": [
+      {
+        "id": "BB001",
+        "text": "Die Landeshauptstadt von Brandenburg heißt …",
+        "answers": ["Potsdam.", "Cottbus.", "Brandenburg.", "Frankfurt (Oder)."],
+        "correctIndex": 0,
+        "topicId": "democracy",
+        "explanation": "Potsdam ist die Landeshauptstadt Brandenburgs.",
+        "hasImage": false
+      },
       {
         "id": "BB002",
         "text": "Welches ist ein Landkreis in Brandenburg?",
         "answers": ["Prignitz", "Rhein-Sieg-Kreis", "Vogtlandkreis", "Amberg-Sulzbach"],
         "correctIndex": 0,
         "topicId": "democracy",
-        "explanation": "Prignitz liegt im Nordwesten Brandenburgs.",
+        "explanation": "Die Prignitz liegt im Nordwesten Brandenburgs.",
         "hasImage": false
       },
       {
-        "id": "BB007",
-        "text": "Die Landeshauptstadt von Brandenburg heißt …",
-        "answers": ["Potsdam.", "Cottbus.", "Brandenburg.", "Frankfurt/Oder."],
+        "id": "BB003",
+        "text": "Wo können Sie sich in Brandenburg über politische Themen informieren?",
+        "answers": [
+          "bei der Landeszentrale für politische Bildung Brandenburg",
+          "bei der Kfz-Zulassungsstelle",
+          "bei der IHK",
+          "bei der Deutschen Bahn"
+        ],
         "correctIndex": 0,
         "topicId": "democracy",
-        "explanation": "Potsdam ist Regierungssitz und Landeshauptstadt.",
+        "explanation": "Die Landeszentrale bietet neutrale Informationen zu Politik und Wahlen.",
         "hasImage": false
       }
     ],
     "HB": [
       {
-        "id": "HB007",
-        "text": "Was ist ein deutscher Stadtstaat?",
-        "answers": ["Bremen", "München", "Frankfurt", "Erfurt"],
-        "correctIndex": 0,
+        "id": "HB001",
+        "text": "Bremen ist ein …",
+        "answers": ["Freistaat.", "Stadtstaat.", "Kanton.", "Regierungsbezirk."],
+        "correctIndex": 1,
         "topicId": "democracy",
-        "explanation": "Bremen ist – neben Berlin und Hamburg – einer der drei Stadtstaaten.",
+        "explanation": "Bremen ist – neben Berlin und Hamburg – ein deutscher Stadtstaat.",
         "hasImage": false
       },
       {
-        "id": "HB009",
+        "id": "HB002",
+        "text": "Zum Bundesland Bremen gehören die Städte …",
+        "answers": [
+          "Bremen und Bremerhaven.",
+          "Bremen und Oldenburg.",
+          "Hamburg und Bremerhaven.",
+          "Bremen und Hannover."
+        ],
+        "correctIndex": 0,
+        "topicId": "democracy",
+        "explanation": "Das Land Bremen besteht aus den Städten Bremen und Bremerhaven.",
+        "hasImage": false
+      },
+      {
+        "id": "HB003",
         "text": "Wie nennt man die Regierungschefin/den Regierungschef des Stadtstaates Bremen?",
         "answers": [
           "Ministerpräsidentin/Ministerpräsident",
@@ -586,16 +651,25 @@
     ],
     "HH": [
       {
+        "id": "HH001",
+        "text": "Hamburg ist ein …",
+        "answers": ["Freistaat.", "Stadtstaat.", "Regierungsbezirk.", "Landkreis."],
+        "correctIndex": 1,
+        "topicId": "democracy",
+        "explanation": "Hamburg ist – wie Berlin und Bremen – ein Stadtstaat.",
+        "hasImage": false
+      },
+      {
         "id": "HH002",
         "text": "Welches ist ein Bezirk von Hamburg?",
         "answers": ["Altona", "Hemelingen", "Pankow", "Mecklenburgische Seenplatte"],
         "correctIndex": 0,
         "topicId": "democracy",
-        "explanation": "Altona ist einer der sieben Hamburger Bezirke.",
+        "explanation": "Altona ist einer der sieben Bezirke Hamburgs.",
         "hasImage": false
       },
       {
-        "id": "HH009",
+        "id": "HH003",
         "text": "Wie nennt man die Regierungschefin/den Regierungschef des Stadtstaates Hamburg?",
         "answers": [
           "Ministerpräsidentin/Ministerpräsident",
@@ -609,32 +683,84 @@
         "hasImage": false
       }
     ],
-    "MV": [
+    "HE": [
       {
-        "id": "MV006",
-        "text": "Wo können Sie sich in Mecklenburg-Vorpommern über politische Themen informieren?",
-        "answers": [
-          "bei der Landeszentrale für politische Bildung",
-          "bei den Kirchen",
-          "beim Ordnungsamt der Gemeinde",
-          "bei der Verbraucherzentrale"
-        ],
-        "correctIndex": 0,
+        "id": "HE001",
+        "text": "Die Landeshauptstadt von Hessen heißt …",
+        "answers": ["Frankfurt am Main.", "Wiesbaden.", "Kassel.", "Darmstadt."],
+        "correctIndex": 1,
         "topicId": "democracy",
-        "explanation": "Die Landeszentrale bietet neutrale Informationen zur Politik.",
+        "explanation": "Wiesbaden ist die Landeshauptstadt Hessens; Frankfurt ist die größte Stadt.",
         "hasImage": false
       },
       {
-        "id": "MV007",
+        "id": "HE002",
+        "text": "Welches ist ein Landkreis in Hessen?",
+        "answers": ["Vogelsbergkreis", "Nordfriesland", "Vogtlandkreis", "Altötting"],
+        "correctIndex": 0,
+        "topicId": "democracy",
+        "explanation": "Der Vogelsbergkreis liegt im Zentrum Hessens.",
+        "hasImage": false
+      },
+      {
+        "id": "HE003",
+        "text": "Wo können Sie sich in Hessen über politische Themen informieren?",
+        "answers": [
+          "bei der Hessischen Landeszentrale für politische Bildung",
+          "beim Regierungspräsidium Darmstadt",
+          "bei der Handwerkskammer",
+          "bei der Kfz-Zulassungsstelle"
+        ],
+        "correctIndex": 0,
+        "topicId": "democracy",
+        "explanation": "Die Landeszentrale stellt Informationen und Bildungsmaterialien zu Politik bereit.",
+        "hasImage": false
+      }
+    ],
+    "MV": [
+      {
+        "id": "MV001",
         "text": "Die Landeshauptstadt von Mecklenburg-Vorpommern heißt …",
         "answers": ["Greifswald.", "Schwerin.", "Rostock.", "Wismar."],
         "correctIndex": 1,
         "topicId": "democracy",
         "explanation": "Schwerin ist die Landeshauptstadt; Rostock ist die größte Stadt.",
         "hasImage": false
+      },
+      {
+        "id": "MV002",
+        "text": "Welches ist ein Landkreis in Mecklenburg-Vorpommern?",
+        "answers": ["Mecklenburgische Seenplatte", "Nordfriesland", "Ammerland", "Prignitz"],
+        "correctIndex": 0,
+        "topicId": "democracy",
+        "explanation": "Die Mecklenburgische Seenplatte ist der flächengrößte Landkreis Deutschlands.",
+        "hasImage": false
+      },
+      {
+        "id": "MV003",
+        "text": "Wo können Sie sich in Mecklenburg-Vorpommern über politische Themen informieren?",
+        "answers": [
+          "bei der Landeszentrale für politische Bildung Mecklenburg-Vorpommern",
+          "bei der Verbraucherzentrale",
+          "bei der Agentur für Arbeit",
+          "in der Stadtbibliothek"
+        ],
+        "correctIndex": 0,
+        "topicId": "democracy",
+        "explanation": "Die Landeszentrale bietet politische Bildung und Informationen zu Wahlen.",
+        "hasImage": false
       }
     ],
     "NI": [
+      {
+        "id": "NI001",
+        "text": "Die Landeshauptstadt von Niedersachsen heißt …",
+        "answers": ["Hannover.", "Braunschweig.", "Wolfsburg.", "Osnabrück."],
+        "correctIndex": 0,
+        "topicId": "democracy",
+        "explanation": "Hannover ist Sitz der Landesregierung.",
+        "hasImage": false
+      },
       {
         "id": "NI002",
         "text": "Welches ist ein Landkreis in Niedersachsen?",
@@ -645,16 +771,30 @@
         "hasImage": false
       },
       {
-        "id": "NI007",
-        "text": "Die Landeshauptstadt von Niedersachsen heißt …",
-        "answers": ["Hannover.", "Braunschweig.", "Wolfsburg.", "Osnabrück."],
+        "id": "NI003",
+        "text": "Wo können Sie sich in Niedersachsen über politische Themen informieren?",
+        "answers": [
+          "bei der Landeszentrale für politische Bildung Niedersachsen",
+          "bei der Landesärztekammer",
+          "beim Katasteramt",
+          "bei der Bundesbank"
+        ],
         "correctIndex": 0,
         "topicId": "democracy",
-        "explanation": "Hannover ist Sitz der Landesregierung.",
+        "explanation": "Die Landeszentrale vermittelt politische Bildung im Land Niedersachsen.",
         "hasImage": false
       }
     ],
     "NW": [
+      {
+        "id": "NW001",
+        "text": "Die Landeshauptstadt von Nordrhein-Westfalen heißt …",
+        "answers": ["Köln.", "Bonn.", "Düsseldorf.", "Dortmund."],
+        "correctIndex": 2,
+        "topicId": "democracy",
+        "explanation": "Düsseldorf ist seit 1946 Landeshauptstadt von NRW.",
+        "hasImage": false
+      },
       {
         "id": "NW002",
         "text": "Welches ist ein Landkreis in Nordrhein-Westfalen?",
@@ -665,37 +805,221 @@
         "hasImage": false
       },
       {
-        "id": "NW007",
-        "text": "Die Landeshauptstadt von Nordrhein-Westfalen heißt …",
-        "answers": ["Köln.", "Bonn.", "Düsseldorf.", "Dortmund."],
-        "correctIndex": 2,
+        "id": "NW003",
+        "text": "Wo können Sie sich in Nordrhein-Westfalen über politische Themen informieren?",
+        "answers": [
+          "bei der Landeszentrale für politische Bildung NRW",
+          "beim Landschaftsverband Rheinland",
+          "bei der Bezirksregierung Düsseldorf",
+          "in der Volkshochschule"
+        ],
+        "correctIndex": 0,
         "topicId": "democracy",
-        "explanation": "Düsseldorf ist seit 1946 Landeshauptstadt von NRW.",
+        "explanation": "Die LZpB NRW bietet umfangreiche Angebote zur politischen Bildung.",
         "hasImage": false
       }
     ],
     "RP": [
       {
-        "id": "RP006",
-        "text": "Wo können Sie sich in Rheinland-Pfalz über politische Themen informieren?",
-        "answers": [
-          "bei den Kirchen",
-          "bei der Verbraucherzentrale",
-          "beim Ordnungsamt der Gemeinde",
-          "bei der Landeszentrale für politische Bildung"
-        ],
-        "correctIndex": 3,
-        "topicId": "democracy",
-        "explanation": "Landeszentralen informieren über Politik und Wahlen.",
-        "hasImage": false
-      },
-      {
-        "id": "RP007",
+        "id": "RP001",
         "text": "Die Landeshauptstadt von Rheinland-Pfalz heißt …",
         "answers": ["Mainz.", "Kaiserslautern.", "Ludwigshafen.", "Koblenz."],
         "correctIndex": 0,
         "topicId": "democracy",
         "explanation": "Mainz ist die Landeshauptstadt von Rheinland-Pfalz.",
+        "hasImage": false
+      },
+      {
+        "id": "RP002",
+        "text": "Welches ist ein Landkreis in Rheinland-Pfalz?",
+        "answers": ["Ahrweiler", "Nordfriesland", "Prignitz", "Vogtlandkreis"],
+        "correctIndex": 0,
+        "topicId": "democracy",
+        "explanation": "Der Landkreis Ahrweiler liegt im Norden von Rheinland-Pfalz.",
+        "hasImage": false
+      },
+      {
+        "id": "RP003",
+        "text": "Wo können Sie sich in Rheinland-Pfalz über politische Themen informieren?",
+        "answers": [
+          "bei der Landeszentrale für politische Bildung Rheinland-Pfalz",
+          "bei der Verbraucherzentrale",
+          "beim Ordnungsamt",
+          "beim Statistischen Bundesamt"
+        ],
+        "correctIndex": 0,
+        "topicId": "democracy",
+        "explanation": "Die Landeszentrale informiert neutral über Politik und Wahlen.",
+        "hasImage": false
+      }
+    ],
+    "SL": [
+      {
+        "id": "SL001",
+        "text": "Die Landeshauptstadt des Saarlandes heißt …",
+        "answers": ["Saarbrücken.", "Saarlouis.", "Homburg.", "Neunkirchen."],
+        "correctIndex": 0,
+        "topicId": "democracy",
+        "explanation": "Saarbrücken ist die Landeshauptstadt des Saarlandes.",
+        "hasImage": false
+      },
+      {
+        "id": "SL002",
+        "text": "Welches ist ein Landkreis im Saarland?",
+        "answers": ["Saarlouis", "Nordfriesland", "Ammerland", "Prignitz"],
+        "correctIndex": 0,
+        "topicId": "democracy",
+        "explanation": "Der Landkreis Saarlouis liegt im Westen des Saarlandes.",
+        "hasImage": false
+      },
+      {
+        "id": "SL003",
+        "text": "Wo können Sie sich im Saarland über politische Themen informieren?",
+        "answers": [
+          "bei der Landeszentrale für politische Bildung des Saarlandes",
+          "bei der Landesregierung im Bauamt",
+          "bei der Arbeitsagentur",
+          "bei der Deutschen Rentenversicherung"
+        ],
+        "correctIndex": 0,
+        "topicId": "democracy",
+        "explanation": "Die Landeszentrale ist die zentrale Anlaufstelle für politische Bildung im Saarland.",
+        "hasImage": false
+      }
+    ],
+    "SN": [
+      {
+        "id": "SN001",
+        "text": "Die Landeshauptstadt des Freistaates Sachsen heißt …",
+        "answers": ["Leipzig.", "Chemnitz.", "Dresden.", "Zwickau."],
+        "correctIndex": 2,
+        "topicId": "democracy",
+        "explanation": "Dresden ist die Landeshauptstadt, Leipzig die größte Stadt.",
+        "hasImage": false
+      },
+      {
+        "id": "SN002",
+        "text": "Welches ist ein Landkreis in Sachsen?",
+        "answers": ["Vogtlandkreis", "Nordfriesland", "Altötting", "Rhein-Sieg-Kreis"],
+        "correctIndex": 0,
+        "topicId": "democracy",
+        "explanation": "Der Vogtlandkreis liegt im Südwesten Sachsens.",
+        "hasImage": false
+      },
+      {
+        "id": "SN003",
+        "text": "Wo können Sie sich in Sachsen über politische Themen informieren?",
+        "answers": [
+          "bei der Sächsischen Landeszentrale für politische Bildung",
+          "bei der Landesdirektion Sachsen",
+          "beim Amtsgericht",
+          "bei der Handwerkskammer"
+        ],
+        "correctIndex": 0,
+        "topicId": "democracy",
+        "explanation": "Die Sächsische Landeszentrale bietet vielfältige Angebote zur politischen Bildung.",
+        "hasImage": false
+      }
+    ],
+    "ST": [
+      {
+        "id": "ST001",
+        "text": "Die Landeshauptstadt von Sachsen-Anhalt heißt …",
+        "answers": ["Halle (Saale).", "Magdeburg.", "Dessau-Roßlau.", "Stendal."],
+        "correctIndex": 1,
+        "topicId": "democracy",
+        "explanation": "Magdeburg ist die Landeshauptstadt, Halle (Saale) die größte Stadt.",
+        "hasImage": false
+      },
+      {
+        "id": "ST002",
+        "text": "Welches ist ein Landkreis in Sachsen-Anhalt?",
+        "answers": ["Altmarkkreis Salzwedel", "Nordfriesland", "Ammerland", "Prignitz"],
+        "correctIndex": 0,
+        "topicId": "democracy",
+        "explanation": "Der Altmarkkreis Salzwedel liegt im Norden Sachsen-Anhalts.",
+        "hasImage": false
+      },
+      {
+        "id": "ST003",
+        "text": "Wo können Sie sich in Sachsen-Anhalt über politische Themen informieren?",
+        "answers": [
+          "bei der Landeszentrale für politische Bildung Sachsen-Anhalt",
+          "bei der Investitionsbank Sachsen-Anhalt",
+          "bei der Deutschen Bahn",
+          "bei der Landwirtschaftskammer"
+        ],
+        "correctIndex": 0,
+        "topicId": "democracy",
+        "explanation": "Die Landeszentrale informiert über Politik, Geschichte und Wahlen im Land.",
+        "hasImage": false
+      }
+    ],
+    "SH": [
+      {
+        "id": "SH001",
+        "text": "Die Landeshauptstadt von Schleswig-Holstein heißt …",
+        "answers": ["Lübeck.", "Flensburg.", "Kiel.", "Neumünster."],
+        "correctIndex": 2,
+        "topicId": "democracy",
+        "explanation": "Kiel ist die Landeshauptstadt Schleswig-Holsteins.",
+        "hasImage": false
+      },
+      {
+        "id": "SH002",
+        "text": "Welches ist ein Landkreis in Schleswig-Holstein?",
+        "answers": ["Nordfriesland", "Rhein-Sieg-Kreis", "Vogtlandkreis", "Ammerland"],
+        "correctIndex": 0,
+        "topicId": "democracy",
+        "explanation": "Nordfriesland liegt an der Nordseeküste Schleswig-Holsteins.",
+        "hasImage": false
+      },
+      {
+        "id": "SH003",
+        "text": "Wo können Sie sich in Schleswig-Holstein über politische Themen informieren?",
+        "answers": [
+          "bei der Landeszentrale für politische Bildung Schleswig-Holstein",
+          "bei der Wasser- und Schifffahrtsverwaltung",
+          "bei der Universität Kiel",
+          "beim Amtsgericht"
+        ],
+        "correctIndex": 0,
+        "topicId": "democracy",
+        "explanation": "Die Landeszentrale ist Ansprechpartnerin für politische Bildung im Land.",
+        "hasImage": false
+      }
+    ],
+    "TH": [
+      {
+        "id": "TH001",
+        "text": "Die Landeshauptstadt von Thüringen heißt …",
+        "answers": ["Weimar.", "Erfurt.", "Gera.", "Jena."],
+        "correctIndex": 1,
+        "topicId": "democracy",
+        "explanation": "Erfurt ist die Landeshauptstadt Thüringens.",
+        "hasImage": false
+      },
+      {
+        "id": "TH002",
+        "text": "Welches ist ein Landkreis in Thüringen?",
+        "answers": ["Wartburgkreis", "Nordfriesland", "Ammerland", "Prignitz"],
+        "correctIndex": 0,
+        "topicId": "democracy",
+        "explanation": "Der Wartburgkreis liegt im westlichen Thüringen.",
+        "hasImage": false
+      },
+      {
+        "id": "TH003",
+        "text": "Wo können Sie sich in Thüringen über politische Themen informieren?",
+        "answers": [
+          "bei der Landeszentrale für politische Bildung Thüringen",
+          "bei der Landesentwicklungsgesellschaft",
+          "bei der Deutschen Rentenversicherung",
+          "bei der Verbraucherzentrale"
+        ],
+        "correctIndex": 0,
+        "topicId": "democracy",
+        "explanation": "Die Landeszentrale vermittelt politische Bildung und Materialien im Freistaat.",
         "hasImage": false
       }
     ]
