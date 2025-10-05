@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'quiz_screen.dart';
 import 'learning_mode_screen.dart';
+import 'mock_exam_rules_screen.dart';
 import '../data/states.dart';
 import '../core/prefs.dart';
 
@@ -168,9 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Mock exams coming soon!')),
-                    );
+                    Navigator.push(context, MaterialPageRoute(builder: (_) => const MockExamRulesScreen()));
                   },
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size.fromHeight(56),
