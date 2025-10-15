@@ -27,3 +27,4 @@ class AppColors {
   static const Color correctDark = Color(0xFF66BB6A);
   static const Color wrongDark = Color(0xFFEF5350);
 }
+ 

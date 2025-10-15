@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'mock_exam_screen.dart';
 
 class MockExamRulesScreen extends StatelessWidget {
-  const MockExamRulesScreen({Key? key}) : super(key: key);
+  const MockExamRulesScreen({super.key});
 
   // Example rules - adjust text as needed
   static const List<String> _rules = [

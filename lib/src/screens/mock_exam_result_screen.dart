@@ -9,7 +9,7 @@ class MockExamResultScreen extends StatelessWidget {
   final List<Question> questions;
   final List<int?> answers;
 
-  const MockExamResultScreen({Key? key, required this.total, required this.correct, required this.questions, required this.answers}) : super(key: key);
+  const MockExamResultScreen({super.key, required this.total, required this.correct, required this.questions, required this.answers});
 
   String _gradeText(int correct) {
     // Not used anymore; kept for compatibility but return category
