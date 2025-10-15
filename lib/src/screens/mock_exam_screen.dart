@@ -12,7 +12,7 @@ import 'mock_exam_result_screen.dart';
 /// - 60 minute countdown
 /// - no immediate feedback; answers are stored in local `answers` list
 class MockExamScreen extends StatefulWidget {
-  const MockExamScreen({Key? key}) : super(key: key);
+  const MockExamScreen({super.key});
 
   @override
   State<MockExamScreen> createState() => _MockExamScreenState();
