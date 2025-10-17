@@ -1,9 +1,9 @@
+import 'package:citizenship_app/screens/setup_screen.dart';
 import 'package:flutter/material.dart';
 
 class StateScreen extends StatelessWidget {
   final String selectedLanguage;
-  final void Function(String) onStateSelected;
-  const StateScreen({Key? key, required this.selectedLanguage, required this.onStateSelected}) : super(key: key);
+  const StateScreen({Key? key, required this.selectedLanguage}) : super(key: key);
 
   // List of German states and their translations
   static const states = [
@@ -69,7 +69,17 @@ class StateScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final state = states[index];
                     return ElevatedButton(
-                      onPressed: () => onStateSelected(state['de']!),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SetupScreen(
+                              selectedLanguage: selectedLanguage,
+                              selectedState: state['de']!,
+                            ),
+                          ),
+                        );
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF232B3E),
                         foregroundColor: Colors.white,

@@ -52,9 +52,6 @@ class LanguageScreen extends StatelessWidget {
                           MaterialPageRoute(
                             builder: (context) => StateScreen(
                               selectedLanguage: lang['code']!,
-                              onStateSelected: (state) {
-                                // TODO: Handle state selection (navigate to next screen)
-                              },
                             ),
                           ),
                         );
