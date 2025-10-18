@@ -46,7 +46,7 @@ class AnswerTextTile extends StatelessWidget {
       }
     } else if (isSelected) {
       // Subtle selection before reveal
-      boxColor = theme.colorScheme.primary.withOpacity(0.12);
+      boxColor = theme.colorScheme.primary.withValues(alpha: 0.12);
       icon = Icons.check_circle_outline;
       iconColor = theme.colorScheme.primary;
     }
@@ -59,7 +59,7 @@ class AnswerTextTile extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           splashColor: disableInkSplash ? Colors.transparent : null,
           highlightColor: disableInkSplash ? Colors.transparent : null,
-          overlayColor: disableInkSplash ? const MaterialStatePropertyAll(Colors.transparent) : null,
+          overlayColor: disableInkSplash ? const WidgetStatePropertyAll(Colors.transparent) : null,
           splashFactory: disableInkSplash ? NoSplash.splashFactory : null,
           onTap: onTap,
           child: AnimatedContainer(

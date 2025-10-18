@@ -40,7 +40,12 @@ class _QuizScreenState extends State<QuizScreen> {
     await _controller.loadCombined(shuffle: true);
     await ProgressRepository.instance.init();
     await ProgressRepository.instance.startSession(sessionId: _sessionId, mode: SessionMode.practice, totalQuestions: _controller.questions.length);
-    _tracker = ProgressTracker(mode: SessionMode.practice, repo: ProgressRepository.instance, sessionId: _sessionId);
+    _tracker = ProgressTracker(
+      mode: SessionMode.practice,
+      repo: ProgressRepository.instance,
+      sessionId: _sessionId,
+      isStateResolver: (q) => _controller.isStateQuestion(q),
+    );
     _controller.attachTracker(_tracker!);
     _prefetchAroundCurrent();
   }

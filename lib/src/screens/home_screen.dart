@@ -279,7 +279,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     gradient: LinearGradient(
                       colors: [
                         colorScheme.primary,
-                        colorScheme.primaryContainer.withOpacity(0.85),
+                        colorScheme.primaryContainer.withValues(alpha: 0.85),
                       ],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
@@ -308,16 +308,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                 const SizedBox(height: 8),
                                 Text(
                                   'Learn, practice and pass the test',
-                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: onPrimary.withOpacity(0.9)),
+                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: onPrimary.withValues(alpha: 0.9)),
                                 ),
                                 const SizedBox(height: 12),
                                 if (_selectedStateLabel != null)
                                   _StateChip(label: _selectedStateLabel!, code: _selectedStateCode, onPrimary: onPrimary)
                                 else
-                                  Text(
-                                    'No state selected',
-                                    style: Theme.of(context).textTheme.bodySmall?.copyWith(color: onPrimary.withOpacity(0.9)),
-                                  ),
+                                  Text('No state selected', style: Theme.of(context).textTheme.bodySmall?.copyWith(color: onPrimary.withValues(alpha: 0.9))),
                               ],
                             ),
                           ),
@@ -325,11 +322,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             const SizedBox(width: 8)
                           else
                             const SizedBox(width: 12),
-                          Icon(
-                            Icons.school,
-                            size: isWide ? 96 : 80,
-                            color: onPrimary.withOpacity(0.95),
-                          ),
+                          Icon(Icons.school, size: isWide ? 96 : 80, color: onPrimary.withValues(alpha: 0.95)),
                         ],
                       ),
                     ),
@@ -423,9 +416,9 @@ class _StateChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
-        color: onPrimary.withOpacity(0.15),
+        color: onPrimary.withValues(alpha: 0.15),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: onPrimary.withOpacity(0.25)),
+        border: Border.all(color: onPrimary.withValues(alpha: 0.25)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -433,7 +426,7 @@ class _StateChip extends StatelessWidget {
           Icon(Icons.location_on_outlined, size: 16, color: onPrimary),
           const SizedBox(width: 6),
           Text(
-            code == null ? label : '$label',
+            code == null ? label : label,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(color: onPrimary),
           ),
         ],
@@ -459,10 +452,9 @@ class _ActionCardState extends State<_ActionCard> {
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    final bg = Theme.of(context).brightness == Brightness.dark
-        ? scheme.surfaceVariant.withOpacity(0.4)
-        : Colors.white;
+  final bg = Theme.of(context).brightness == Brightness.dark
+    ? Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.4)
+    : Colors.white;
     final iconColor = widget.color;
     return Semantics(
       button: true,
@@ -492,7 +484,7 @@ class _ActionCardState extends State<_ActionCard> {
                         height: 44,
                         width: 44,
                         decoration: BoxDecoration(
-                          color: iconColor.withOpacity(0.12),
+                          color: iconColor.withValues(alpha: 0.12),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Icon(widget.icon, color: iconColor, size: 26),

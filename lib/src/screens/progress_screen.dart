@@ -30,10 +30,11 @@ class _ProgressScreenState extends State<ProgressScreen> {
   final rawTopicStats = await ProgressRepository.instance.topicAccuracy(includePractice: includePractice, includeExam: includeExam);
   final passRate = includeExam ? await ProgressRepository.instance.examPassRate() : 0.0;
   final exams = includeExam ? await ProgressRepository.instance.examResults(limit: 5) : <ExamResult>[];
-    final titles = {for (final t in repo.topics) t.id: t.title};
+    final titles = {for (final t in repo.topics) if (t.id != 'state') t.id: t.title};
     final rawMap = {for (final s in rawTopicStats) s.topicId: s};
     final normalized = <TopicStat>[];
     for (final t in repo.topics) {
+      if (t.id == 'state') continue; // exclude state from per-topic list; handled separately
       final s = rawMap[t.id];
       if (s != null) {
         normalized.add(s);
@@ -43,7 +44,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
     }
     // Append any topics not known to repository (fallback)
     for (final entry in rawMap.entries) {
-      if (!titles.containsKey(entry.key)) {
+      if (!titles.containsKey(entry.key) && entry.key != 'state') {
         normalized.add(entry.value);
       }
     }

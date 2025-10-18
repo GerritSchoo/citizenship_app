@@ -43,25 +43,25 @@ class ImageAnswerGrid extends StatelessWidget {
         if (revealed) {
           if (isCorrect && isSelected) {
             border = AppColors.correct;
-            overlay = AppColors.correct.withOpacity(0.45);
+            overlay = AppColors.correct.withValues(alpha: 0.45);
             icon = Icons.check_circle; // round check icon
             iconColor = AppColors.correct;
           } else if (!isCorrect && isSelected) {
             border = AppColors.wrong;
-            overlay = AppColors.wrong.withOpacity(0.45);
+            overlay = AppColors.wrong.withValues(alpha: 0.45);
             icon = Icons.cancel; // round cancel icon
             iconColor = AppColors.wrong;
           } else if (isCorrect && !isSelected) {
             // Show lighter green and the same round check icon for consistency
             border = AppColors.correct;
-            overlay = AppColors.correctLight.withOpacity(0.55);
+            overlay = AppColors.correctLight.withValues(alpha: 0.55);
             icon = Icons.check_circle; // round check icon
             iconColor = AppColors.correct;
           }
         } else if (isSelected) {
           // Pre-selection subtle highlight
           border = theme.colorScheme.primary;
-          overlay = theme.colorScheme.primary.withOpacity(0.12);
+          overlay = theme.colorScheme.primary.withValues(alpha: 0.12);
           icon = Icons.check_circle_outline;
           iconColor = theme.colorScheme.primary;
         }
@@ -76,13 +76,13 @@ class ImageAnswerGrid extends StatelessWidget {
             customBorder: shape,
             splashColor: disableInkSplash ? Colors.transparent : null,
             highlightColor: disableInkSplash ? Colors.transparent : null,
-            overlayColor: disableInkSplash ? const MaterialStatePropertyAll(Colors.transparent) : null,
+            overlayColor: disableInkSplash ? const WidgetStatePropertyAll(Colors.transparent) : null,
             splashFactory: disableInkSplash ? NoSplash.splashFactory : null,
             onTap: () => onTap(i),
             child: Stack(fit: StackFit.expand, children: [
               Container(
                 decoration: BoxDecoration(
-                  color: theme.colorScheme.surfaceVariant,
+                  color: theme.colorScheme.surfaceContainerHighest,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 padding: const EdgeInsets.all(8),

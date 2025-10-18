@@ -43,7 +43,7 @@ class _LearningModeScreenState extends State<LearningModeScreen> {
     }
   }
 
-  void _openSession({required List<Question> questions, required String title}) {
+  void _openSession({required List<Question> questions, required String title, String? stateCode}) {
     if (questions.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Keine Fragen verfugbar.')),
@@ -53,7 +53,7 @@ class _LearningModeScreenState extends State<LearningModeScreen> {
 
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (_) => LearningSessionScreen(questions: questions, title: title),
+        builder: (_) => LearningSessionScreen(questions: questions, title: title, stateCode: stateCode),
       ),
     );
   }
@@ -167,7 +167,7 @@ class _LearningModeScreenState extends State<LearningModeScreen> {
                       final combined = <Question>[];
                       combined.addAll(generalQuestions);
                       if (stateCode != null) combined.addAll(stateQuestions);
-                      _openSession(questions: combined, title: 'Alle Fragen');
+                      _openSession(questions: combined, title: 'Alle Fragen', stateCode: stateCode);
                     }
                   : null,
             ),
@@ -182,7 +182,7 @@ class _LearningModeScreenState extends State<LearningModeScreen> {
                 ),
               )
             else
-              ...topics.map((topic) {
+              ...topics.where((t) => t.id != 'state').map((topic) {
                 final questions = _repository.getQuestionsByTopic(topic.id);
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 12),
@@ -191,10 +191,11 @@ class _LearningModeScreenState extends State<LearningModeScreen> {
                     title: topic.title,
                     subtitle: '${questions.length} Fragen',
                     onTap: questions.isNotEmpty
-                        ? () => _openSession(
-                              questions: questions,
-                              title: topic.title,
-                            )
+                            ? () => _openSession(
+                                  questions: questions,
+                                  title: topic.title,
+                                  stateCode: null,
+                                )
                         : null,
                   ),
                 );
@@ -228,6 +229,7 @@ class _LearningModeScreenState extends State<LearningModeScreen> {
                 onTap: () => _openSession(
                   questions: stateQuestions,
                   title: widget.stateLabel ?? stateCode,
+                  stateCode: stateCode,
                 ),
               ),
           ],
