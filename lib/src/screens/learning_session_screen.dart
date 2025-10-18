@@ -110,7 +110,7 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
                           boxColor = isDark
                               ? AppColors.correctDark.withAlpha(128)
                               : AppColors.correctLight;
-                          icon = Icons.check;
+                          icon = Icons.check_circle;
                         }
                       }
 
