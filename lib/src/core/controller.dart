@@ -3,6 +3,7 @@ import 'dart:math';
 
 import '../data/question_repository.dart';
 import '../models/question.dart';
+import '../analytics/progress_tracker.dart';
 
 /// Generic session controller for quizzes and learning sessions.
 ///
@@ -19,6 +20,7 @@ class Controller extends ChangeNotifier {
   int? selectedIndex;
   bool isLoading = false;
   String? error;
+  ProgressTracker? tracker;
 
   Controller({QuestionRepository? repository, this.stateCode}) : _repo = repository ?? QuestionRepository();
 
@@ -45,6 +47,9 @@ class Controller extends ChangeNotifier {
 
       currentIndex = 0;
       selectedIndex = null;
+      if (questions.isNotEmpty) {
+        tracker?.onQuestionShown(questions[currentIndex]);
+      }
     } catch (e) {
       error = e.toString();
       questions = [];
@@ -96,6 +101,9 @@ class Controller extends ChangeNotifier {
       questions = selected;
       currentIndex = 0;
       selectedIndex = null;
+      if (questions.isNotEmpty) {
+        tracker?.onQuestionShown(questions[currentIndex]);
+      }
     } catch (e) {
       error = e.toString();
       questions = [];
@@ -121,6 +129,9 @@ class Controller extends ChangeNotifier {
       if (shuffle) questions.shuffle();
       currentIndex = 0;
       selectedIndex = null;
+      if (questions.isNotEmpty) {
+        tracker?.onQuestionShown(questions[currentIndex]);
+      }
     } catch (e) {
       error = e.toString();
       questions = [];
@@ -137,6 +148,9 @@ class Controller extends ChangeNotifier {
     if (shuffle) questions.shuffle();
     currentIndex = 0;
     selectedIndex = null;
+    if (questions.isNotEmpty) {
+      tracker?.onQuestionShown(questions[currentIndex]);
+    }
     notifyListeners();
   }
 
@@ -144,6 +158,7 @@ class Controller extends ChangeNotifier {
   void select(int index) {
     if (selectedIndex == null) {
       selectedIndex = index;
+      tracker?.onAnswered(q: questions[currentIndex], selectedIndex: index);
       notifyListeners();
     }
   }
@@ -151,8 +166,12 @@ class Controller extends ChangeNotifier {
   /// Move to the next question and clear selection.
   void next() {
     if (currentIndex < questions.length - 1) {
+      if (selectedIndex == null) {
+        tracker?.onSkipped(questions[currentIndex]);
+      }
       currentIndex += 1;
       selectedIndex = null;
+      tracker?.onQuestionShown(questions[currentIndex]);
       notifyListeners();
     }
   }
@@ -162,7 +181,25 @@ class Controller extends ChangeNotifier {
     if (currentIndex > 0) {
       currentIndex -= 1;
       selectedIndex = null;
+      tracker?.onQuestionShown(questions[currentIndex]);
       notifyListeners();
+    }
+  }
+
+  void attachTracker(ProgressTracker t) {
+    tracker = t;
+  }
+
+  /// Whether a question belongs to the selected state's questions.
+  bool isStateQuestion(Question q) {
+    if (stateCode == null) return false;
+    try {
+      if (_repo.hasStateQuestions(stateCode!)) {
+        return _repo.getStateQuestions(stateCode!).any((s) => s.id == q.id);
+      }
+      return false;
+    } catch (_) {
+      return false;
     }
   }
 
