@@ -58,6 +58,22 @@ class _LearningModeScreenState extends State<LearningModeScreen> {
     );
   }
 
+  IconData _iconForTopicId(String id) {
+    switch (id) {
+      case 'democracy':
+        // Democracy, voting, participation
+        return Icons.how_to_vote; // changed from gavel to voting icon
+      case 'history_responsibility':
+        // History and responsibility
+        return Icons.history_edu_outlined; // alternatives: museum_outlined
+      case 'people_society':
+        // People and society
+        return Icons.groups_outlined; // alternatives: diversity_3_outlined
+      default:
+        return Icons.category_outlined;
+    }
+  }
+
   Widget _buildModeTile({
     required IconData icon,
     required String title,
@@ -171,7 +187,7 @@ class _LearningModeScreenState extends State<LearningModeScreen> {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 12),
                   child: _buildModeTile(
-                    icon: Icons.category_outlined,
+                    icon: _iconForTopicId(topic.id),
                     title: topic.title,
                     subtitle: '${questions.length} Fragen',
                     onTap: questions.isNotEmpty
