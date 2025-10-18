@@ -79,125 +79,132 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(Icons.school, size: 80, color: Colors.blue),
-              const SizedBox(height: 8),
-              if (_selectedStateLabel != null) ...[
-                Text('State: ${_selectedStateLabel!} (${_selectedStateCode!})'),
-                const SizedBox(height: 32),
-              ] else
-                const SizedBox(height: 40),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => LearningModeScreen(
-                          stateCode: _selectedStateCode,
-                          stateLabel: _selectedStateLabel,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return SingleChildScrollView(
+            padding: const EdgeInsets.all(24),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: IntrinsicHeight(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.school, size: 80, color: Colors.blue),
+                    const SizedBox(height: 8),
+                    if (_selectedStateLabel != null) ...[
+                      Text('State: ${_selectedStateLabel!} (${_selectedStateCode!})'),
+                      const SizedBox(height: 32),
+                    ] else
+                      const SizedBox(height: 40),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => LearningModeScreen(
+                                stateCode: _selectedStateCode,
+                                stateLabel: _selectedStateLabel,
+                              ),
+                            ),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: const Size.fromHeight(56),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          alignment: Alignment.centerLeft,
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: const [
+                            SizedBox(width: 4),
+                            SizedBox(width: 32, child: Icon(Icons.lightbulb_outline, size: 20)),
+                            SizedBox(width: 12),
+                            Expanded(
+                              child: Text(
+                                'Start Learning',
+                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size.fromHeight(56),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
                     ),
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    alignment: Alignment.centerLeft,
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: const [
-                      SizedBox(width: 4),
-                      SizedBox(width: 32, child: Icon(Icons.lightbulb_outline, size: 20)),
-                      SizedBox(width: 12),
-                      Expanded(
-                        child: Text(
-                          'Start Learning',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                    const SizedBox(height: 16),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => const QuizScreen()),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: const Size.fromHeight(56),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          alignment: Alignment.centerLeft,
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: const [
+                            SizedBox(width: 4),
+                            SizedBox(width: 32, child: Icon(Icons.quiz_outlined, size: 20)),
+                            SizedBox(width: 12),
+                            Expanded(
+                              child: Text(
+                                'Start Quiz',
+                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(height: 16),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (_) => const MockExamRulesScreen()));
+                        },
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: const Size.fromHeight(56),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          alignment: Alignment.centerLeft,
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: const [
+                            SizedBox(width: 4),
+                            SizedBox(width: 32, child: Icon(Icons.assignment_outlined, size: 20)),
+                            SizedBox(width: 12),
+                            Expanded(
+                              child: Text(
+                                'Mock Exams',
+                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(height: 16),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => const QuizScreen()),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size.fromHeight(56),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    alignment: Alignment.centerLeft,
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: const [
-                      SizedBox(width: 4),
-                      SizedBox(width: 32, child: Icon(Icons.quiz_outlined, size: 20)),
-                      SizedBox(width: 12),
-                      Expanded(
-                        child: Text(
-                          'Start Quiz',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (_) => const MockExamRulesScreen()));
-                  },
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size.fromHeight(56),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    alignment: Alignment.centerLeft,
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: const [
-                      SizedBox(width: 4),
-                      SizedBox(width: 32, child: Icon(Icons.assignment_outlined, size: 20)),
-                      SizedBox(width: 12),
-                      Expanded(
-                        child: Text(
-                          'Mock Exams',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }
