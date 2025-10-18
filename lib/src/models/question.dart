@@ -6,6 +6,10 @@ class Question {
   final String topicId;
   final String explanation;
   final bool hasImage;
+  // Optional single context image displayed with the question
+  final String? image;
+  // Optional list of images corresponding to each answer option (e.g., 4)
+  final List<String>? answerImages;
 
   Question({
     required this.id,
@@ -15,6 +19,8 @@ class Question {
     required this.topicId,
     required this.explanation,
     this.hasImage = false,
+    this.image,
+    this.answerImages,
   });
 
   factory Question.fromJson(Map<String, dynamic> json) {
@@ -26,6 +32,13 @@ class Question {
       topicId: json['topicId'],
       explanation: json['explanation'],
       hasImage: json['hasImage'] == true,
+      image: json['image'] as String?,
+      answerImages: (json['answerImages'] as List?)?.map((e) => e.toString()).toList(),
     );
   }
+
+  // Convenience flags used by UI
+  bool get hasContextImage => image != null && image!.isNotEmpty;
+  bool get hasAnswerImages =>
+      answerImages != null && answerImages!.isNotEmpty && answerImages!.length == answers.length;
 }

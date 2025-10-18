@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../models/question.dart';
 import '../theme/app_colors.dart';
 import '../core/controller.dart';
+import '../widgets/question_card.dart';
+import '../widgets/image_answer_grid.dart';
 
 class LearningSessionScreen extends StatefulWidget {
   final List<Question> questions;
@@ -67,20 +69,28 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
             children: [
               Text(positionLabel, style: theme.textTheme.titleMedium),
               const SizedBox(height: 12),
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Text(
-                    question.text,
-                    style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-                  ),
-                ),
+              QuestionCard(
+                text: question.text,
+                index: _controller.currentIndex,
+                image: question.hasContextImage ? question.image : null,
               ),
               const SizedBox(height: 16),
               Expanded(
                 child: ListView(
                   children: [
-                    ...List.generate(question.answers.length, (index) {
+                    if (question.hasAnswerImages)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: ImageAnswerGrid(
+                          images: question.answerImages!,
+                          correctIndex: question.correctIndex,
+                          selectedIndex: _controller.selectedIndex,
+                          revealed: _controller.selectedIndex != null,
+                          onTap: (i) => _controller.select(i),
+                        ),
+                      ),
+                    if (!question.hasAnswerImages)
+                      ...List.generate(question.answers.length, (index) {
                       final isSelected = _controller.selectedIndex == index;
                       final isCorrect = index == question.correctIndex;
 
