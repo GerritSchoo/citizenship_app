@@ -53,47 +53,51 @@ class ProgressRepository {
   static final ProgressRepository instance = ProgressRepository._();
 
   Database? _db;
+  bool get isAvailable => _db != null;
 
   Future<void> init() async {
     if (_db != null) return;
-    final dir = await getApplicationDocumentsDirectory();
-    final dbPath = p.join(dir.path, 'progress.db');
-    _db = await openDatabase(
-      dbPath,
-      version: 1,
-      onCreate: (db, _) async {
-        await db.execute('''
-          CREATE TABLE attempts (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            sessionId TEXT NOT NULL,
-            timestamp INTEGER NOT NULL,
-            questionId TEXT NOT NULL,
-            topicId TEXT,
-            isState INTEGER NOT NULL DEFAULT 0,
-            mode TEXT NOT NULL,
-            selectedIndex INTEGER,
-            correctIndex INTEGER,
-            isCorrect INTEGER NOT NULL,
-            skipped INTEGER NOT NULL DEFAULT 0,
-            timeToAnswerMs INTEGER NOT NULL
-          );
-        ''');
-        await db.execute('''
-          CREATE TABLE sessions (
-            id TEXT PRIMARY KEY,
-            mode TEXT NOT NULL,
-            startedAt INTEGER NOT NULL,
-            endedAt INTEGER,
-            totalQuestions INTEGER NOT NULL,
-            correctCount INTEGER NOT NULL DEFAULT 0,
-            durationMs INTEGER NOT NULL DEFAULT 0
-          );
-        ''');
-      },
-    );
+    try {
+      final dir = await getApplicationDocumentsDirectory();
+      final dbPath = p.join(dir.path, 'progress.db');
+      _db = await openDatabase(
+        dbPath,
+        version: 1,
+        onCreate: (db, _) async {
+          await db.execute('''
+            CREATE TABLE attempts (
+              id INTEGER PRIMARY KEY AUTOINCREMENT,
+              sessionId TEXT NOT NULL,
+              timestamp INTEGER NOT NULL,
+              questionId TEXT NOT NULL,
+              topicId TEXT,
+              isState INTEGER NOT NULL DEFAULT 0,
+              mode TEXT NOT NULL,
+              selectedIndex INTEGER,
+              correctIndex INTEGER,
+              isCorrect INTEGER NOT NULL,
+              skipped INTEGER NOT NULL DEFAULT 0,
+              timeToAnswerMs INTEGER NOT NULL
+            );
+          ''');
+          await db.execute('''
+            CREATE TABLE sessions (
+              id TEXT PRIMARY KEY,
+              mode TEXT NOT NULL,
+              startedAt INTEGER NOT NULL,
+              endedAt INTEGER,
+              totalQuestions INTEGER NOT NULL,
+              correctCount INTEGER NOT NULL DEFAULT 0,
+              durationMs INTEGER NOT NULL DEFAULT 0
+            );
+          ''');
+        },
+      );
+    } catch (_) {
+      // If database init fails, leave _db as null. Callers should handle isAvailable.
+      _db = null;
+    }
   }
-
-  Database get _database => _db!;
 
   Future<void> startSession({
     required String sessionId,
@@ -101,7 +105,8 @@ class ProgressRepository {
     required int totalQuestions,
     DateTime? startedAt,
   }) async {
-    final db = _database;
+    final db = _db;
+    if (db == null) return;
     await db.insert('sessions', {
       'id': sessionId,
       'mode': mode.name,
@@ -118,7 +123,8 @@ class ProgressRepository {
     required Duration duration,
     DateTime? endedAt,
   }) async {
-    final db = _database;
+    final db = _db;
+    if (db == null) return;
     await db.update(
       'sessions',
       {
@@ -144,7 +150,8 @@ class ProgressRepository {
     required int timeToAnswerMs,
     DateTime? timestamp,
   }) async {
-    final db = _database;
+    final db = _db;
+    if (db == null) return;
     await db.insert('attempts', {
       'sessionId': sessionId,
       'timestamp': (timestamp ?? DateTime.now()).millisecondsSinceEpoch,
@@ -161,7 +168,8 @@ class ProgressRepository {
   }
 
   Future<int> sessionCorrectCount(String sessionId) async {
-    final db = _database;
+    final db = _db;
+    if (db == null) return 0;
     final rows = await db.rawQuery(
       'SELECT SUM(isCorrect) as correct FROM attempts WHERE sessionId = ?',
       [sessionId],
@@ -170,7 +178,8 @@ class ProgressRepository {
   }
 
   Future<OverallStat> overallStats({bool includePractice = true, bool includeExam = true}) async {
-    final db = _database;
+    final db = _db;
+    if (db == null) return const OverallStat(correct: 0, total: 0, avgTimeMs: 0);
     final modes = <String>[];
     if (includePractice) modes.add(SessionMode.practice.name);
     if (includeExam) modes.add(SessionMode.exam.name);
@@ -186,7 +195,8 @@ class ProgressRepository {
   }
 
   Future<OverallStat> stateStats({bool includePractice = true, bool includeExam = true}) async {
-    final db = _database;
+    final db = _db;
+    if (db == null) return const OverallStat(correct: 0, total: 0, avgTimeMs: 0);
     final modes = <String>[];
     if (includePractice) modes.add(SessionMode.practice.name);
     if (includeExam) modes.add(SessionMode.exam.name);
@@ -203,7 +213,8 @@ class ProgressRepository {
   }
 
   Future<List<DailyStat>> dailyAccuracy({int days = 30, bool includePractice = true, bool includeExam = true}) async {
-    final db = _database;
+    final db = _db;
+    if (db == null) return const <DailyStat>[];
     final modes = <String>[];
     if (includePractice) modes.add(SessionMode.practice.name);
     if (includeExam) modes.add(SessionMode.exam.name);
@@ -224,7 +235,8 @@ class ProgressRepository {
   }
 
   Future<List<TopicStat>> topicAccuracy({bool includePractice = true, bool includeExam = true}) async {
-    final db = _database;
+    final db = _db;
+    if (db == null) return const <TopicStat>[];
     final modes = <String>[];
     if (includePractice) modes.add(SessionMode.practice.name);
     if (includeExam) modes.add(SessionMode.exam.name);
@@ -242,7 +254,8 @@ class ProgressRepository {
   }
 
   Future<List<ExamResult>> examResults({int limit = 5}) async {
-    final db = _database;
+    final db = _db;
+    if (db == null) return const <ExamResult>[];
     final rows = await db.rawQuery('''
       SELECT id, startedAt, endedAt, correctCount, totalQuestions, durationMs
       FROM sessions WHERE mode = ?
