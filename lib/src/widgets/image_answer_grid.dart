@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// Using theme-derived colors for overlays; no direct AppColors dependency
+import '../theme/app_colors.dart';
 
 class ImageAnswerGrid extends StatelessWidget {
   final List<String> images;    // must match answers length
@@ -20,7 +20,7 @@ class ImageAnswerGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
+  // final isDark = theme.brightness == Brightness.dark; // not needed with AppColors
 
     return GridView.builder(
       shrinkWrap: true,
@@ -39,16 +39,22 @@ class ImageAnswerGrid extends StatelessWidget {
         Color iconColor = theme.colorScheme.primary;
 
         if (revealed) {
-          if (isCorrect) {
-            border = Colors.green.shade700;
-            overlay = (isDark ? Colors.green.shade200 : Colors.green).withOpacity(0.12);
-            icon = Icons.check_circle;
-            iconColor = Colors.green.shade700;
-          } else if (isSelected) {
-            border = Colors.red.shade700;
-            overlay = (isDark ? Colors.red.shade200 : Colors.red).withOpacity(0.12);
-            icon = Icons.cancel;
-            iconColor = Colors.red.shade700;
+          if (isCorrect && isSelected) {
+            border = AppColors.correct;
+            overlay = AppColors.correct.withOpacity(0.45);
+            icon = Icons.check_circle; // round check icon
+            iconColor = AppColors.correct;
+          } else if (!isCorrect && isSelected) {
+            border = AppColors.wrong;
+            overlay = AppColors.wrong.withOpacity(0.45);
+            icon = Icons.cancel; // round cancel icon
+            iconColor = AppColors.wrong;
+          } else if (isCorrect && !isSelected) {
+            // Show lighter green and the same round check icon for consistency
+            border = AppColors.correct;
+            overlay = AppColors.correctLight.withOpacity(0.55);
+            icon = Icons.check_circle; // round check icon
+            iconColor = AppColors.correct;
           }
         } else if (isSelected) {
           // Pre-selection subtle highlight
