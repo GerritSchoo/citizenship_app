@@ -2,7 +2,8 @@
   "topics": [
     { "id": "democracy", "title": "Leben in der Demokratie" },
     { "id": "history_responsibility", "title": "Geschichte und Verantwortung" },
-    { "id": "people_society", "title": "Mensch und Gesellschaft" }
+    { "id": "people_society", "title": "Mensch und Gesellschaft" },
+    { "id": "state", "title": "Bundesland-Fragen" }
   ],
 
   "generalQuestions": [
@@ -3472,7 +3473,7 @@
           "assets/images/HH.png"
         ],
         "correctIndex": 0,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Das Landeswappen Baden-Württembergs zeigt drei schwarze Löwen auf goldenem Schild (Bild 1).",
         "hasImage": true
       },
@@ -3481,7 +3482,7 @@
         "text": "Welches ist ein Landkreis in Baden-Württemberg?",
         "answers": ["Mecklenburgische Seenplatte", "Neckar-Odenwald-Kreis", "Nordfriesland", "Altötting"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Der Neckar-Odenwald-Kreis liegt im Norden Baden-Württembergs.",
         "hasImage": false
       },
@@ -3490,7 +3491,7 @@
         "text": "Für wie viele Jahre wird der Landtag in Baden-Württemberg gewählt?",
         "answers": ["3", "4", "5", "6"],
         "correctIndex": 2,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Wahlperiode des Landtags Baden-Württemberg beträgt 5 Jahre.",
         "hasImage": false
       },
@@ -3499,7 +3500,7 @@
         "text": "Ab welchem Alter darf man in Baden-Württemberg bei Kommunalwahlen wählen?",
         "answers": ["14", "16", "18", "20"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Das Wahlalter für Kommunalwahlen in Baden-Württemberg beträgt 16 Jahre.",
         "hasImage": false
       },
@@ -3508,7 +3509,7 @@
         "text": "Welche Farben hat die Landesflagge von Baden-Württemberg?",
         "answers": ["blau-weiß-rot", "schwarz-gold", "weiß-blau", "grün-weiß-rot"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Landesfarben Baden-Württembergs sind Schwarz und Gold.",
         "hasImage": false
       },
@@ -3522,7 +3523,7 @@
           "bei den Kirchen"
         ],
         "correctIndex": 2,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Landeszentrale für politische Bildung informiert über politische Themen in Baden-Württemberg.",
         "hasImage": false
       },
@@ -3531,7 +3532,7 @@
         "text": "Die Landeshauptstadt von Baden-Württemberg heißt …",
         "answers": ["Heidelberg.", "Stuttgart.", "Karlsruhe.", "Mannheim."],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Stuttgart ist Regierungssitz und Landeshauptstadt Baden-Württembergs.",
         "hasImage": false
       },
@@ -3541,7 +3542,7 @@
         "image": "assets/images/Laender1.png",
         "answers": ["1", "2", "3", "4"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Auf der Deutschlandkarte ist Baden-Württemberg als südwestliches Bundesland (Nr. 2) markiert.",
         "hasImage": true
       },
@@ -3550,7 +3551,7 @@
         "text": "Wie nennt man die Regierungschefin/den Regierungschef in Baden-Württemberg?",
         "answers": ["Erste Ministerin/Erster Minister", "Premierministerin/Premierminister", "Bürgermeisterin/Bürgermeister", "Ministerpräsidentin/Ministerpräsident"],
         "correctIndex": 3,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Der Regierungschef eines Bundeslandes heißt Ministerpräsident bzw. Ministerpräsidentin.",
         "hasImage": false
       },
@@ -3564,7 +3565,7 @@
           "Außenministerin/Außenminister"
         ],
         "correctIndex": 3,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Außenpolitik ist Aufgabe des Bundes, daher hat Baden-Württemberg keine Außenministerin bzw. keinen Außenminister.",
         "hasImage": false
       }
@@ -3581,7 +3582,7 @@
           "assets/images/MV.png"
         ],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Das bayerische Wappen zeigt den weiß-blauen Rautenschild mit Krone (Bild 2).",
         "hasImage": true
       },
@@ -3590,7 +3591,7 @@
         "text": "Welches ist ein Landkreis in Bayern?",
         "answers": ["Prignitz", "Rhein-Sieg-Kreis", "Nordfriesland", "Altötting"],
         "correctIndex": 3,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Altötting liegt im Südosten Bayerns.",
         "hasImage": false
       },
@@ -3599,7 +3600,7 @@
         "text": "Für wie viele Jahre wird der Landtag in Bayern gewählt?",
         "answers": ["3", "4", "5", "6"],
         "correctIndex": 2,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Wahlperiode des Bayerischen Landtags beträgt 5 Jahre.",
         "hasImage": false
       },
@@ -3608,7 +3609,7 @@
         "text": "Ab welchem Alter darf man in Bayern bei Kommunalwahlen wählen?",
         "answers": ["14", "16", "18", "20"],
         "correctIndex": 2,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "In Bayern dürfen Bürgerinnen und Bürger ab 18 Jahren bei Kommunalwahlen wählen.",
         "hasImage": false
       },
@@ -3617,7 +3618,7 @@
         "text": "Welche Farben hat die Landesflagge von Bayern?",
         "answers": ["blau-weiß-rot", "weiß-blau", "grün-weiß-rot", "schwarz-gelb"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die bayerische Flagge zeigt die Landesfarben Weiß und Blau.",
         "hasImage": false
       },
@@ -3631,7 +3632,7 @@
           "bei den Kirchen"
         ],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Bayerische Landeszentrale für politische Bildungsarbeit bietet Informationen zu politischen Themen.",
         "hasImage": false
       },
@@ -3640,7 +3641,7 @@
         "text": "Die Landeshauptstadt von Bayern heißt …",
         "answers": ["Ingolstadt.", "Regensburg.", "Nürnberg.", "München."],
         "correctIndex": 3,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "München ist die Landeshauptstadt und Regierungssitz des Freistaates Bayern.",
         "hasImage": false
       },
@@ -3650,7 +3651,7 @@
         "image": "assets/images/Laender2.png",
         "answers": ["1", "2", "3", "4"],
         "correctIndex": 3,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Auf der Deutschlandkarte ist Bayern als südöstliches Bundesland (Nr. 4) markiert.",
         "hasImage": true
       },
@@ -3664,7 +3665,7 @@
           "Ministerpräsidentin/Ministerpräsident"
         ],
         "correctIndex": 3,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Der Regierungschef des Freistaates Bayern heißt Ministerpräsident oder Ministerpräsidentin.",
         "hasImage": false
       },
@@ -3678,7 +3679,7 @@
           "Innenministerin/Innenminister"
         ],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Außenpolitik ist Sache des Bundes; Bayern hat daher keine Außenministerin bzw. keinen Außenminister.",
         "hasImage": false
       }
@@ -3695,7 +3696,7 @@
           "assets/images/BE.png"
         ],
         "correctIndex": 3,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Das Berliner Wappen zeigt den schwarzen Bären auf weißem Schild mit roter Krone (Bild 4).",
         "hasImage": true
       },
@@ -3704,7 +3705,7 @@
         "text": "Welches ist ein Bezirk von Berlin?",
         "answers": ["Altona", "Prignitz", "Pankow", "Mecklenburgische Seenplatte"],
         "correctIndex": 2,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Pankow ist einer der zwölf Bezirke Berlins.",
         "hasImage": false
       },
@@ -3713,7 +3714,7 @@
         "text": "Für wie viele Jahre wird das Landesparlament in Berlin gewählt?",
         "answers": ["3", "4", "5", "6"],
         "correctIndex": 2,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Das Abgeordnetenhaus von Berlin wird für 5 Jahre gewählt.",
         "hasImage": false
       },
@@ -3722,7 +3723,7 @@
         "text": "Ab welchem Alter darf man in Berlin bei Kommunalwahlen (Wahl der Bezirksverordnetenversammlung) wählen?",
         "answers": ["14", "16", "18", "20"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "In Berlin dürfen Bürgerinnen und Bürger ab 16 Jahren bei den Bezirksverordnetenwahlen teilnehmen.",
         "hasImage": false
       },
@@ -3731,7 +3732,7 @@
         "text": "Welche Farben hat die Landesflagge von Berlin?",
         "answers": ["blau-weiß-rot", "weiß-rot", "grün-weiß-rot", "schwarz-gold"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Berliner Landesflagge ist weiß-rot mit einem schwarzen Bären.",
         "hasImage": false
       },
@@ -3740,7 +3741,7 @@
         "text": "Wo können Sie sich in Berlin über politische Themen informieren?",
         "answers": ["beim Ordnungsamt der Gemeinde", "bei den Kirchen", "bei der Verbraucherzentrale", "bei der Landeszentrale für politische Bildung"],
         "correctIndex": 3,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Berliner Landeszentrale für politische Bildung informiert Bürgerinnen und Bürger über politische Themen.",
         "hasImage": false
       },
@@ -3749,7 +3750,7 @@
         "text": "Welches Bundesland ist ein Stadtstaat?",
         "answers": ["Berlin", "Saarland", "Brandenburg", "Hessen"],
         "correctIndex": 0,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Berlin ist - wie Hamburg und Bremen - ein Stadtstaat, also Stadt und Bundesland zugleich.",
         "hasImage": false
       },
@@ -3759,7 +3760,7 @@
         "image": "assets/images/Laender3.png",
         "answers": ["1", "2", "3", "4"],
         "correctIndex": 3,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Auf der Deutschlandkarte ist Berlin als eigenständiger Stadtstaat (Nr. 4) markiert.",
         "hasImage": true
       },
@@ -3768,7 +3769,7 @@
         "text": "Wie nennt man die Regierungschefin/den Regierungschef des Stadtstaates Berlin?",
         "answers": ["Ministerpräsidentin/Ministerpräsident", "Oberbürgermeisterin/Oberbürgermeister", "Präsidentin/Präsident des Senates", "Regierende Bürgermeisterin/Regierender Bürgermeister"],
         "correctIndex": 3,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Regierungschefin oder der Regierungschef Berlins trägt den Titel Regierende Bürgermeisterin bzw. Regierender Bürgermeister.",
         "hasImage": false
       },
@@ -3777,7 +3778,7 @@
         "text": "Welche Senatorin/welchen Senator hat Berlin nicht?",
         "answers": ["Finanzsenatorin/Finanzsenator", "Innensenatorin/Innensenator", "Senatorin/Senator für Außenbeziehungen", "Justizsenatorin/Justizsenator"],
         "correctIndex": 2,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Außenpolitik ist Aufgabe des Bundes, daher gibt es in Berlin keinen Senator für Außenbeziehungen.",
         "hasImage": false
       }
@@ -3794,7 +3795,7 @@
           "assets/images/BW.png"
         ],
         "correctIndex": 0,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Das Landeswappen Brandenburgs zeigt einen roten Adler auf weißem Hintergrund (Bild 1).",
         "hasImage": true
       },
@@ -3803,7 +3804,7 @@
         "text": "Welches ist ein Landkreis in Brandenburg?",
         "answers": ["Prignitz", "Rhein-Sieg-Kreis", "Vogtlandkreis", "Amberg-Sulzbach"],
         "correctIndex": 0,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Prignitz ist ein Landkreis im Nordwesten des Landes Brandenburg.",
         "hasImage": false
       },
@@ -3812,7 +3813,7 @@
         "text": "Für wie viele Jahre wird der Landtag in Brandenburg gewählt?",
         "answers": ["3", "4", "5", "6"],
         "correctIndex": 2,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Wahlperiode des Brandenburger Landtags beträgt 5 Jahre.",
         "hasImage": false
       },
@@ -3821,7 +3822,7 @@
         "text": "Ab welchem Alter darf man in Brandenburg bei Kommunalwahlen wählen?",
         "answers": ["14", "16", "18", "20"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "In Brandenburg dürfen Bürgerinnen und Bürger ab 16 Jahren bei Kommunalwahlen wählen.",
         "hasImage": false
       },
@@ -3830,7 +3831,7 @@
         "text": "Welche Farben hat die Landesflagge von Brandenburg?",
         "answers": ["blau-weiß-rot", "rot-weiß", "grün-weiß-rot", "schwarz-gelb"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Landesflagge Brandenburgs ist rot-weiß mit dem roten Adler im Zentrum.",
         "hasImage": false
       },
@@ -3839,7 +3840,7 @@
         "text": "Wo können Sie sich in Brandenburg über politische Themen informieren?",
         "answers": ["bei den Kirchen", "beim Ordnungsamt der Gemeinde", "bei der Landeszentrale für politische Bildung", "bei der Verbraucherzentrale"],
         "correctIndex": 2,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Landeszentrale für politische Bildung Brandenburg bietet Informationen zu Politik und Gesellschaft.",
         "hasImage": false
       },
@@ -3848,7 +3849,7 @@
         "text": "Die Landeshauptstadt von Brandenburg heißt …",
         "answers": ["Potsdam.", "Cottbus.", "Brandenburg.", "Frankfurt/Oder."],
         "correctIndex": 0,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Potsdam ist die Landeshauptstadt und Regierungssitz des Landes Brandenburg.",
         "hasImage": false
       },
@@ -3858,7 +3859,7 @@
         "image": "assets/images/Laender4.png",
         "answers": ["1", "2", "3", "4"],
         "correctIndex": 3,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Auf der Deutschlandkarte ist Brandenburg im Osten, rund um Berlin (Nr. 4), markiert.",
         "hasImage": true
       },
@@ -3867,7 +3868,7 @@
         "text": "Wie nennt man die Regierungschefin/den Regierungschef in Brandenburg?",
         "answers": ["Erste Ministerin/Erster Minister", "Premierministerin/Premierminister", "Bürgermeisterin/Bürgermeister", "Ministerpräsidentin/Ministerpräsident"],
         "correctIndex": 3,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Der Regierungschef Brandenburgs trägt den Titel Ministerpräsident bzw. Ministerpräsidentin.",
         "hasImage": false
       },
@@ -3876,7 +3877,7 @@
         "text": "Welche Ministerin/welchen Minister hat Brandenburg nicht?",
         "answers": ["Justizministerin/Justizminister", "Außenministerin/Außenminister", "Finanzministerin/Finanzminister", "Innenministerin/Innenminister"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Außenpolitik ist Aufgabe des Bundes, daher hat Brandenburg keine Außenministerin bzw. keinen Außenminister.",
         "hasImage": false
       }
@@ -3893,7 +3894,7 @@
           "assets/images/BY.png"
         ],
         "correctIndex": 2,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Das Wappen Bremens zeigt einen silbernen Schlüssel auf rotem Grund (Bild 3).",
         "hasImage": true
       },
@@ -3902,7 +3903,7 @@
         "text": "Welches ist ein Stadtteil von Bremen?",
         "answers": ["Altona", "Hemelingen", "Pankow", "Babelsberg"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Hemelingen ist einer der Stadtteile der Freien Hansestadt Bremen.",
         "hasImage": false
       },
@@ -3911,7 +3912,7 @@
         "text": "Für wie viele Jahre wird das Landesparlament in Bremen gewählt?",
         "answers": ["3", "4", "5", "6"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Bürgerschaft der Freien Hansestadt Bremen wird alle 4 Jahre gewählt.",
         "hasImage": false
       },
@@ -3920,7 +3921,7 @@
         "text": "Ab welchem Alter darf man in Bremen bei den Wahlen zur Bürgerschaft (Landtag) wählen?",
         "answers": ["14", "16", "18", "20"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Das Wahlalter zur Bremischen Bürgerschaft liegt bei 16 Jahren.",
         "hasImage": false
       },
@@ -3929,7 +3930,7 @@
         "text": "Welche Farben hat die Landesflagge von Bremen?",
         "answers": ["blau-weiß-rot", "rot-weiß", "grün-weiß-rot", "schwarz-gold"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Landesflagge Bremens besteht aus roten und weißen Streifen.",
         "hasImage": false
       },
@@ -3943,7 +3944,7 @@
           "bei der Verbraucherzentrale"
         ],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Landeszentrale für politische Bildung Bremen informiert über politische Themen und Zusammenhänge.",
         "hasImage": false
       },
@@ -3952,7 +3953,7 @@
         "text": "Was ist ein deutscher Stadtstaat?",
         "answers": ["Bremen", "München", "Frankfurt", "Erfurt"],
         "correctIndex": 0,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Bremen ist - wie Hamburg und Berlin - ein Stadtstaat, also Stadt und Bundesland zugleich.",
         "hasImage": false
       },
@@ -3962,7 +3963,7 @@
         "image": "assets/images/Laender3.png",
         "answers": ["1", "2", "3", "4"],
         "correctIndex": 0,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Auf der Deutschlandkarte ist Bremen im Nordwesten als Stadtstaat (Nr. 1) markiert.",
         "hasImage": true
       },
@@ -3976,7 +3977,7 @@
           "Regierende Bürgermeisterin/Regierender Bürgermeister"
         ],
         "correctIndex": 2,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Der Regierungschef Bremens trägt den Titel Präsident bzw. Präsidentin des Senats, da Bremen einen Senat als Regierung hat.",
         "hasImage": false
       },
@@ -3990,7 +3991,7 @@
           "Innensenatorin/Innensenator"
         ],
         "correctIndex": 0,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Außenpolitik ist Aufgabe des Bundes, daher hat Bremen keinen Senator für Außenbeziehungen.",
         "hasImage": false
       }
@@ -4007,7 +4008,7 @@
           "assets/images/ST.png"
         ],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Das Wappen Hamburgs zeigt eine weiße Burg mit drei Türmen auf rotem Grund (Bild 2).",
         "hasImage": true
       },
@@ -4016,7 +4017,7 @@
         "text": "Welches ist ein Bezirk von Hamburg?",
         "answers": ["Altona", "Hemelingen", "Pankow", "Mecklenburgische Seenplatte"],
         "correctIndex": 0,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Altona ist einer der sieben Bezirke der Freien und Hansestadt Hamburg.",
         "hasImage": false
       },
@@ -4025,7 +4026,7 @@
         "text": "Für wie viele Jahre wird das Landesparlament in Hamburg gewählt?",
         "answers": ["3", "4", "5", "6"],
         "correctIndex": 2,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Hamburgische Bürgerschaft wird alle 5 Jahre gewählt.",
         "hasImage": false
       },
@@ -4034,7 +4035,7 @@
         "text": "Ab welchem Alter darf man in Hamburg bei Kommunalwahlen (Wahl der Bezirksversammlungen) wählen?",
         "answers": ["14", "16", "18", "20"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Das Wahlalter für die Bezirksversammlungen in Hamburg beträgt 16 Jahre.",
         "hasImage": false
       },
@@ -4043,7 +4044,7 @@
         "text": "Welche Farben hat die Landesflagge von Hamburg?",
         "answers": ["blau-weiß-rot", "weiß-rot", "grün-weiß-rot", "schwarz-gelb"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Landesflagge Hamburgs ist weiß-rot mit dem Stadtwappen in der Mitte.",
         "hasImage": false
       },
@@ -4057,7 +4058,7 @@
           "bei der Landeszentrale für politische Bildung"
         ],
         "correctIndex": 3,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Landeszentrale für politische Bildung Hamburg informiert Bürgerinnen und Bürger über politische Themen.",
         "hasImage": false
       },
@@ -4066,7 +4067,7 @@
         "text": "Welches Bundesland ist ein Stadtstaat?",
         "answers": ["Hamburg", "Sachsen", "Bayern", "Thüringen"],
         "correctIndex": 0,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Hamburg ist - wie Berlin und Bremen - ein Stadtstaat, also Stadt und Bundesland zugleich.",
         "hasImage": false
       },
@@ -4076,7 +4077,7 @@
         "image": "assets/images/Laender3.png",
         "answers": ["1", "2", "3", "4"],
         "correctIndex": 2,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Auf der Deutschlandkarte ist Hamburg als Stadtstaat im Norden (Nr. 3) markiert.",
         "hasImage": true
       },
@@ -4090,7 +4091,7 @@
           "Oberbürgermeisterin/Oberbürgermeister"
         ],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Der Regierungschef Hamburgs trägt den Titel Erste Bürgermeisterin bzw. Erster Bürgermeister.",
         "hasImage": false
       },
@@ -4104,7 +4105,7 @@
           "Innensenatorin/Innensenator"
         ],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Außenpolitik ist Aufgabe des Bundes; Hamburg hat daher keinen Senator für Außenbeziehungen.",
         "hasImage": false
       }
@@ -4121,7 +4122,7 @@
           "assets/images/SN.png"
         ],
         "correctIndex": 0,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Das hessische Wappen zeigt einen rot-weiß gestreiften Löwen auf blauem Grund (Bild 1).",
         "hasImage": true
       },
@@ -4130,7 +4131,7 @@
         "text": "Welches ist ein Landkreis in Hessen?",
         "answers": ["Ammerland", "Altötting", "Prignitz", "Main-Taunus-Kreis"],
         "correctIndex": 3,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Main-Taunus-Kreis liegt in Hessen.",
         "hasImage": false
       },
@@ -4139,7 +4140,7 @@
         "text": "Für wie viele Jahre wird der Landtag in Hessen gewählt?",
         "answers": ["3", "4", "5", "6"],
         "correctIndex": 2,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Wahlperiode: 5 Jahre.",
         "hasImage": false
       },
@@ -4148,7 +4149,7 @@
         "text": "Ab welchem Alter darf man in Hessen bei Kommunalwahlen wählen?",
         "answers": ["14", "16", "18", "20"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Kommunalwahlalter: 16 Jahre.",
         "hasImage": false
       },
@@ -4157,7 +4158,7 @@
         "text": "Welche Farben hat die Landesflagge von Hessen?",
         "answers": ["blau-weiß-rot", "rot-weiß", "schwarz-gold", "grün-weiß-rot"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Rot-Weiß sind die Landesfarben Hessens.",
         "hasImage": false
       },
@@ -4166,7 +4167,7 @@
         "text": "Wo können Sie sich in Hessen über politische Themen informieren?",
         "answers": ["bei der Landeszentrale für politische Bildung", "bei der Verbraucherzentrale", "beim Ordnungsamt der Gemeinde", "bei den Kirchen"],
         "correctIndex": 0,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Zuständig ist die Landeszentrale für politische Bildung.",
         "hasImage": false
       },
@@ -4175,7 +4176,7 @@
         "text": "Die Landeshauptstadt von Hessen heißt …",
         "answers": ["Kassel.", "Darmstadt.", "Frankfurt.", "Wiesbaden."],
         "correctIndex": 3,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Wiesbaden ist die Landeshauptstadt.",
         "hasImage": false
       },
@@ -4185,7 +4186,7 @@
         "image": "assets/images/Laender5.png",
         "answers": ["1", "2", "3", "4"],
         "correctIndex": 2,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Auf der Deutschlandkarte liegt Hessen in der Mitte (Nr. 3).",
         "hasImage": true
       },
@@ -4199,7 +4200,7 @@
           "Bürgermeisterin/Bürgermeister"
         ],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Der Regierungschef Hessens trägt den Titel Ministerpräsident bzw. Ministerpräsidentin.",
         "hasImage": false
       },
@@ -4213,7 +4214,7 @@
           "Innenministerin/Innenminister"
         ],
         "correctIndex": 2,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Außenpolitik ist Sache des Bundes; Hessen hat daher keine Außenministerin bzw. keinen Außenminister.",
         "hasImage": false
       }
@@ -4230,7 +4231,7 @@
           "assets/images/NI.png"
         ],
         "correctIndex": 2,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Das Landeswappen Mecklenburg-Vorpommerns zeigt den Stierkopf von Mecklenburg und den Greif von Vorpommern (Bild 3).",
         "hasImage": true
       },
@@ -4239,7 +4240,7 @@
         "text": "Welches ist ein Landkreis in Mecklenburg-Vorpommern?",
         "answers": ["Prignitz", "Mecklenburgische Seenplatte", "Vogtlandkreis", "Rhein-Sieg-Kreis"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Mecklenburgische Seenplatte ist der flächenmäßig größte deutsche Landkreis.",
         "hasImage": false
       },
@@ -4248,7 +4249,7 @@
         "text": "Für wie viele Jahre wird der Landtag in Mecklenburg-Vorpommern gewählt?",
         "answers": ["3", "4", "5", "6"],
         "correctIndex": 2,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Wahlperiode beträgt fünf Jahre.",
         "hasImage": false
       },
@@ -4257,7 +4258,7 @@
         "text": "Ab welchem Alter darf man in Mecklenburg-Vorpommern bei Kommunalwahlen wählen?",
         "answers": ["14", "16", "18", "20"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Kommunalwahlrecht ab 16 Jahren.",
         "hasImage": false
       },
@@ -4266,7 +4267,7 @@
         "text": "Welche Farben hat die Landesflagge von Mecklenburg-Vorpommern?",
         "answers": ["schwarz-rot-gold", "blau-weiß-gelb-rot", "grün-weiß-rot", "schwarz-gelb"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Flagge besteht aus Blau, Weiß, Gelb und Rot.",
         "hasImage": false
       },
@@ -4275,7 +4276,7 @@
         "text": "Wo können Sie sich in Mecklenburg-Vorpommern über politische Themen informieren?",
         "answers": ["bei der Landeszentrale für politische Bildung", "bei den Kirchen", "beim Ordnungsamt der Gemeinde", "bei der Verbraucherzentrale"],
         "correctIndex": 0,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Landeszentrale informiert neutral über Politik.",
         "hasImage": false
       },
@@ -4284,7 +4285,7 @@
         "text": "Die Landeshauptstadt von Mecklenburg-Vorpommern heißt …",
         "answers": ["Greifswald.", "Schwerin.", "Rostock.", "Wismar."],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Schwerin ist die Landeshauptstadt.",
         "hasImage": false
       },
@@ -4294,7 +4295,7 @@
         "image": "assets/images/Laender6.png",
         "answers": ["1", "2", "3", "4"],
         "correctIndex": 2,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Auf der Deutschlandkarte ist Mecklenburg-Vorpommern im Nordosten (Nr. 3) markiert.",
         "hasImage": true
       },
@@ -4308,7 +4309,7 @@
           "Landespräsidentin/Landespräsident"
         ],
         "correctIndex": 0,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Regierungschefin oder der Regierungschef eines deutschen Bundeslandes trägt den Titel Ministerpräsident/in.",
         "hasImage": false
       },
@@ -4322,7 +4323,7 @@
           "Außenministerin/Außenminister"
         ],
         "correctIndex": 3,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Außenpolitik ist Aufgabe des Bundes, daher hat Mecklenburg-Vorpommern keine Außenministerin bzw. keinen Außenminister.",
         "hasImage": false
       }
@@ -4339,7 +4340,7 @@
           "assets/images/SN.png"
         ],
         "correctIndex": 2,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Das Wappen Niedersachsens zeigt ein weißes Pferd auf rotem Grund (Bild 3).",
         "hasImage": true
       },
@@ -4348,7 +4349,7 @@
         "text": "Welches ist ein Landkreis in Niedersachsen?",
         "answers": ["Ammerland", "Rhein-Sieg-Kreis", "Nordfriesland", "Vogtlandkreis"],
         "correctIndex": 0,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Das Ammerland ist ein Landkreis im Nordwesten Niedersachsens.",
         "hasImage": false
       },
@@ -4357,7 +4358,7 @@
         "text": "Für wie viele Jahre wird der Landtag in Niedersachsen gewählt?",
         "answers": ["3", "4", "5", "6"],
         "correctIndex": 2,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Wahlperiode des Niedersächsischen Landtags beträgt 5 Jahre.",
         "hasImage": false
       },
@@ -4366,7 +4367,7 @@
         "text": "Ab welchem Alter darf man in Niedersachsen bei Kommunalwahlen wählen?",
         "answers": ["14", "16", "18", "20"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "In Niedersachsen dürfen Bürgerinnen und Bürger ab 16 Jahren an Kommunalwahlen teilnehmen.",
         "hasImage": false
       },
@@ -4375,7 +4376,7 @@
         "text": "Welche Farben hat die Landesflagge von Niedersachsen?",
         "answers": ["weiß-blau", "schwarz-rot-gold", "schwarz-gelb", "blau-weiß-rot"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Landesflagge von Niedersachsen zeigt die Farben Schwarz-Rot-Gold mit dem Landeswappen.",
         "hasImage": false
       },
@@ -4389,7 +4390,7 @@
           "bei den Kirchen"
         ],
         "correctIndex": 0,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Landeszentrale für politische Bildung Niedersachsen informiert über Politik und Gesellschaft.",
         "hasImage": false
       },
@@ -4398,7 +4399,7 @@
         "text": "Die Landeshauptstadt von Niedersachsen heißt …",
         "answers": ["Hannover.", "Braunschweig.", "Wolfsburg.", "Osnabrück."],
         "correctIndex": 0,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Hannover ist die Landeshauptstadt und Regierungssitz Niedersachsens.",
         "hasImage": false
       },
@@ -4408,7 +4409,7 @@
         "image": "assets/images/Laender7.png",
         "answers": ["1", "2", "3", "4"],
         "correctIndex": 0,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Auf der Deutschlandkarte ist Niedersachsen im Nordwesten (Nr. 1) markiert.",
         "hasImage": true
       },
@@ -4422,7 +4423,7 @@
           "Ministerpräsidentin/Ministerpräsident"
         ],
         "correctIndex": 3,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Der Regierungschef eines deutschen Bundeslandes heißt Ministerpräsident bzw. Ministerpräsidentin.",
         "hasImage": false
       },
@@ -4436,7 +4437,7 @@
           "Innenministerin/Innenminister"
         ],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Außenpolitik ist Aufgabe des Bundes, daher hat Niedersachsen keine Außenministerin bzw. keinen Außenminister.",
         "hasImage": false
       }
@@ -4453,7 +4454,7 @@
           "assets/images/BW.png"
         ],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Das Landeswappen Nordrhein-Westfalens zeigt den Rhein, das Westfalenross und die Lippische Rose (Bild 2).",
         "hasImage": true
       },
@@ -4462,7 +4463,7 @@
         "text": "Welches ist ein Landkreis in Nordrhein-Westfalen?",
         "answers": ["Ammerland", "Rhein-Sieg-Kreis", "Nordfriesland", "Vogtlandkreis"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Der Rhein-Sieg-Kreis ist ein Landkreis im Süden Nordrhein-Westfalens.",
         "hasImage": false
       },
@@ -4471,7 +4472,7 @@
         "text": "Für wie viele Jahre wird der Landtag in Nordrhein-Westfalen gewählt?",
         "answers": ["3", "4", "5", "6"],
         "correctIndex": 2,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Wahlperiode des Landtags in Nordrhein-Westfalen beträgt 5 Jahre.",
         "hasImage": false
       },
@@ -4480,7 +4481,7 @@
         "text": "Ab welchem Alter darf man in Nordrhein-Westfalen bei Kommunalwahlen wählen?",
         "answers": ["14", "16", "18", "20"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "In Nordrhein-Westfalen dürfen Bürgerinnen und Bürger ab 16 Jahren bei Kommunalwahlen wählen.",
         "hasImage": false
       },
@@ -4489,7 +4490,7 @@
         "text": "Welche Farben hat die Landesflagge von Nordrhein-Westfalen?",
         "answers": ["rot-weiß", "grün-weiß-rot", "schwarz-gold", "blau-weiß-rot"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Landesflagge Nordrhein-Westfalens hat die Farben Grün, Weiß und Rot.",
         "hasImage": false
       },
@@ -4503,7 +4504,7 @@
           "bei der Landeszentrale für politische Bildung"
         ],
         "correctIndex": 3,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Landeszentrale für politische Bildung Nordrhein-Westfalen bietet Informationen zu Politik und Gesellschaft.",
         "hasImage": false
       },
@@ -4512,7 +4513,7 @@
         "text": "Die Landeshauptstadt von Nordrhein-Westfalen heißt …",
         "answers": ["Köln.", "Bonn.", "Düsseldorf.", "Dortmund."],
         "correctIndex": 2,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Düsseldorf ist die Landeshauptstadt und Regierungssitz des Bundeslandes Nordrhein-Westfalen.",
         "hasImage": false
       },
@@ -4522,7 +4523,7 @@
         "image": "assets/images/Laender8.png",
         "answers": ["1", "2", "3", "4"],
         "correctIndex": 2,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Auf der Deutschlandkarte ist Nordrhein-Westfalen im Westen (Nr. 3) markiert.",
         "hasImage": true
       },
@@ -4536,7 +4537,7 @@
           "Ministerpräsidentin/Ministerpräsident"
         ],
         "correctIndex": 3,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Der Regierungschef eines Bundeslandes heißt Ministerpräsident bzw. Ministerpräsidentin.",
         "hasImage": false
       },
@@ -4550,7 +4551,7 @@
           "Innenministerin/Innenminister"
         ],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Außenpolitik ist Aufgabe des Bundes; Nordrhein-Westfalen hat keine Außenministerin bzw. keinen Außenminister.",
         "hasImage": false
       }
@@ -4567,7 +4568,7 @@
           "assets/images/SH.png"
         ],
         "correctIndex": 0,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Das Wappen Rheinland-Pfalz zeigt das Mainzer Rad, das Trierer Kreuz und den Pfälzer Löwen (Bild 1).",
         "hasImage": true
       },
@@ -4576,7 +4577,7 @@
         "text": "Welches ist ein Landkreis in Rheinland-Pfalz?",
         "answers": ["Westerwaldkreis", "Altötting", "Emsland", "Prignitz"],
         "correctIndex": 0,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Der Westerwaldkreis liegt im Nordosten von Rheinland-Pfalz.",
         "hasImage": false
       },
@@ -4585,7 +4586,7 @@
         "text": "Für wie viele Jahre wird der Landtag in Rheinland-Pfalz gewählt?",
         "answers": ["3", "4", "5", "6"],
         "correctIndex": 2,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Wahlperiode des Landtags von Rheinland-Pfalz beträgt 5 Jahre.",
         "hasImage": false
       },
@@ -4594,7 +4595,7 @@
         "text": "Ab welchem Alter darf man in Rheinland-Pfalz bei Kommunalwahlen wählen?",
         "answers": ["14", "16", "18", "20"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "In Rheinland-Pfalz dürfen Bürgerinnen und Bürger ab 16 Jahren an Kommunalwahlen teilnehmen.",
         "hasImage": false
       },
@@ -4603,7 +4604,7 @@
         "text": "Welche Farben hat die Landesflagge von Rheinland-Pfalz?",
         "answers": ["weiß-rot", "schwarz-rot-gold", "schwarz-gelb", "grün-weiß-rot"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Landesflagge Rheinland-Pfalz zeigt die Farben Schwarz-Rot-Gold mit dem Landeswappen.",
         "hasImage": false
       },
@@ -4617,7 +4618,7 @@
           "bei der Landeszentrale für politische Bildung"
         ],
         "correctIndex": 3,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Landeszentrale für politische Bildung Rheinland-Pfalz bietet Informationen über Politik und Geschichte.",
         "hasImage": false
       },
@@ -4626,7 +4627,7 @@
         "text": "Die Landeshauptstadt von Rheinland-Pfalz heißt …",
         "answers": ["Mainz.", "Kaiserslautern.", "Ludwigshafen.", "Koblenz."],
         "correctIndex": 0,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Mainz ist die Landeshauptstadt und Regierungssitz von Rheinland-Pfalz.",
         "hasImage": false
       },
@@ -4636,7 +4637,7 @@
         "image": "assets/images/Laender1.png",
         "answers": ["1", "2", "3", "4"],
         "correctIndex": 0,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Auf der Deutschlandkarte ist Rheinland-Pfalz im Westen (Nr. 1) markiert.",
         "hasImage": true
       },
@@ -4650,7 +4651,7 @@
           "Ministerpräsidentin/Ministerpräsident"
         ],
         "correctIndex": 3,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Der Regierungschef eines deutschen Bundeslandes heißt Ministerpräsident bzw. Ministerpräsidentin.",
         "hasImage": false
       },
@@ -4664,7 +4665,7 @@
           "Innenministerin/Innenminister"
         ],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Außenpolitik ist Aufgabe des Bundes; Rheinland-Pfalz hat keine Außenministerin bzw. keinen Außenminister.",
         "hasImage": false
       }
@@ -4681,7 +4682,7 @@
           "assets/images/SL.png"
         ],
         "correctIndex": 3,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Das Wappen des Saarlands vereint Symbole der Regionen Nassau, Lothringen, Pfalz-Zweibrücken und Saarbrücken (Bild 4).",
         "hasImage": true
       },
@@ -4690,7 +4691,7 @@
         "text": "Welches ist ein Landkreis im Saarland?",
         "answers": ["Mecklenburgische Seenplatte", "Altötting", "Neunkirchen", "Rhein-Sieg-Kreis"],
         "correctIndex": 2,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Der Landkreis Neunkirchen liegt im Saarland.",
         "hasImage": false
       },
@@ -4699,7 +4700,7 @@
         "text": "Für wie viele Jahre wird der Landtag des Saarlandes gewählt?",
         "answers": ["3", "4", "5", "6"],
         "correctIndex": 2,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Wahlperiode des Landtags im Saarland beträgt 5 Jahre.",
         "hasImage": false
       },
@@ -4708,7 +4709,7 @@
         "text": "Ab welchem Alter darf man im Saarland bei Kommunalwahlen wählen?",
         "answers": ["14", "16", "18", "20"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "In Saarland dürfen Bürgerinnen und Bürger ab 16 Jahren an Kommunalwahlen teilnehmen.",
         "hasImage": false
       },
@@ -4717,7 +4718,7 @@
         "text": "Welche Farben hat die Landesflagge des Saarlandes?",
         "answers": ["weiß-blau", "schwarz-rot-gold", "schwarz-gelb", "grün-weiß-rot"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Landesflagge des Saarlandes zeigt die Farben Schwarz-Rot-Gold mit dem Landeswappen.",
         "hasImage": false
       },
@@ -4726,7 +4727,7 @@
         "text": "Wo können Sie sich im Saarland über politische Themen informieren?",
         "answers": ["bei den Kirchen", "bei der Landeszentrale für politische Bildung", "bei der Verbraucherzentrale", "beim Ordnungsamt der Gemeinde"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Landeszentrale für politische Bildung Saarland bietet Informationen über Politik, Geschichte und Demokratie an.",
         "hasImage": false
       },
@@ -4735,7 +4736,7 @@
         "text": "Die Landeshauptstadt des Saarlandes heißt …",
         "answers": ["Neunkirchen.", "Homburg.", "Saarbrücken.", "Völklingen."],
         "correctIndex": 2,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Saarbrücken ist die Landeshauptstadt und Regierungssitz des Saarlandes.",
         "hasImage": false
       },
@@ -4745,7 +4746,7 @@
         "image": "assets/images/Laender3.png",
         "answers": ["1", "2", "3", "4"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Auf der Deutschlandkarte ist das Saarland im Südwesten (Nr. 2) markiert.",
         "hasImage": true
       },
@@ -4754,7 +4755,7 @@
         "text": "Wie nennt man die Regierungschefin/den Regierungschef des Saarlandes?",
         "answers": ["Erste Ministerin/Erster Minister", "Premierministerin/Premierminister", "Bürgermeisterin/Bürgermeister", "Ministerpräsidentin/Ministerpräsident"],
         "correctIndex": 3,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Der Regierungschef eines deutschen Bundeslandes heißt Ministerpräsident bzw. Ministerpräsidentin.",
         "hasImage": false
       },
@@ -4763,7 +4764,7 @@
         "text": "Welche Ministerin/welchen Minister hat das Saarland nicht?",
         "answers": ["Justizministerin/Justizminister", "Außenministerin/Außenminister", "Finanzministerin/Finanzminister", "Innenministerin/Innenminister"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Außenpolitik ist Aufgabe des Bundes; das Saarland hat keine Außenministerin bzw. keinen Außenminister.",
         "hasImage": false
       }
@@ -4780,7 +4781,7 @@
           "assets/images/SN.png"
         ],
         "correctIndex": 3,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Das Wappen Sachsens zeigt einen schwarz-gold gestreiften Schild mit grünem Rautenkranz (Bild 4).",
         "hasImage": true
       },
@@ -4789,7 +4790,7 @@
         "text": "Welches ist ein Landkreis in Sachsen?",
         "answers": ["Vogtlandkreis", "Altötting", "Uckermark", "Nordfriesland"],
         "correctIndex": 0,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Der Vogtlandkreis liegt im Südwesten des Freistaats Sachsen.",
         "hasImage": false
       },
@@ -4798,7 +4799,7 @@
         "text": "Für wie viele Jahre wird der Landtag in Sachsen gewählt?",
         "answers": ["3", "4", "5", "6"],
         "correctIndex": 2,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Wahlperiode des Sächsischen Landtags beträgt 5 Jahre.",
         "hasImage": false
       },
@@ -4807,7 +4808,7 @@
         "text": "Ab welchem Alter darf man in Sachsen bei Kommunalwahlen wählen?",
         "answers": ["14", "16", "18", "20"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "In Sachsen dürfen Bürgerinnen und Bürger ab 16 Jahren an Kommunalwahlen teilnehmen.",
         "hasImage": false
       },
@@ -4816,7 +4817,7 @@
         "text": "Welche Farben hat die Landesflagge von Sachsen?",
         "answers": ["blau-weiß-rot", "weiß-grün", "grün-weiß-rot", "schwarz-gelb"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Landesflagge Sachsens hat die Farben Weiß und Grün.",
         "hasImage": false
       },
@@ -4830,7 +4831,7 @@
           "bei der Verbraucherzentrale"
         ],
         "correctIndex": 0,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Landeszentrale für politische Bildung Sachsen bietet Informationen über Politik und Gesellschaft.",
         "hasImage": false
       },
@@ -4839,7 +4840,7 @@
         "text": "Die Landeshauptstadt von Sachsen heißt …",
         "answers": ["Leipzig.", "Dresden.", "Chemnitz.", "Zwickau."],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Dresden ist die Landeshauptstadt des Freistaats Sachsen.",
         "hasImage": false
       },
@@ -4849,7 +4850,7 @@
         "image": "assets/images/Laender7.png",
         "answers": ["1", "2", "3", "4"],
         "correctIndex": 3,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Auf der Deutschlandkarte ist Sachsen im Osten (Nr. 4) markiert.",
         "hasImage": true
       },
@@ -4863,7 +4864,7 @@
           "Ministerpräsidentin/Ministerpräsident"
         ],
         "correctIndex": 3,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Der Regierungschef eines Bundeslandes heißt Ministerpräsident bzw. Ministerpräsidentin.",
         "hasImage": false
       },
@@ -4877,7 +4878,7 @@
           "Innenministerin/Innenminister"
         ],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Außenpolitik ist Aufgabe des Bundes; Sachsen hat keine Außenministerin bzw. keinen Außenminister.",
         "hasImage": false
       }
@@ -4894,7 +4895,7 @@
           "assets/images/ST.png"
         ],
         "correctIndex": 3,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Das Wappen von Sachsen-Anhalt zeigt einen geteilten Schild mit dem preußischen Adler und dem sächsischen Rautenkranz und unten einen schreitenden Bären auf roter Zinnenmauer (Bild 4).",
         "hasImage": true
       },
@@ -4903,7 +4904,7 @@
         "text": "Welches ist ein Landkreis in Sachsen-Anhalt?",
         "answers": ["Ammerland", "Altötting", "Uckermark", "Börde"],
         "correctIndex": 3,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Der Landkreis Börde liegt im Westen Sachsen-Anhalts.",
         "hasImage": false
       },
@@ -4912,7 +4913,7 @@
         "text": "Für wie viele Jahre wird der Landtag in Sachsen-Anhalt gewählt?",
         "answers": ["3", "4", "5", "6"],
         "correctIndex": 2,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Wahlperiode des Landtags von Sachsen-Anhalt beträgt 5 Jahre.",
         "hasImage": false
       },
@@ -4921,7 +4922,7 @@
         "text": "Ab welchem Alter darf man in Sachsen-Anhalt bei Kommunalwahlen wählen?",
         "answers": ["14", "16", "18", "20"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "In Sachsen-Anhalt dürfen Bürgerinnen und Bürger ab 16 Jahren an Kommunalwahlen teilnehmen.",
         "hasImage": false
       },
@@ -4930,7 +4931,7 @@
         "text": "Welche Farben hat die Landesflagge von Sachsen-Anhalt?",
         "answers": ["blau-weiß-rot", "gelb-schwarz", "grün-weiß-rot", "weiß-rot"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Landesfarben Sachsen-Anhalts sind Gelb-Schwarz.",
         "hasImage": false
       },
@@ -4939,7 +4940,7 @@
         "text": "Wo können Sie sich in Sachsen-Anhalt über politische Themen informieren?",
         "answers": ["bei den Kirchen", "bei der Landeszentrale für politische Bildung", "beim Ordnungsamt der Gemeinde", "bei der Verbraucherzentrale"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Landeszentrale für politische Bildung Sachsen-Anhalt bietet Informationen über Politik, Geschichte und Gesellschaft.",
         "hasImage": false
       },
@@ -4948,7 +4949,7 @@
         "text": "Die Landeshauptstadt von Sachsen-Anhalt heißt …",
         "answers": ["Halle.", "Dessau.", "Magdeburg.", "Wittenberg."],
         "correctIndex": 2,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Magdeburg ist die Landeshauptstadt und Regierungssitz von Sachsen-Anhalt.",
         "hasImage": false
       },
@@ -4958,7 +4959,7 @@
         "image": "assets/images/Laender7.png",
         "answers": ["1", "2", "3", "4"],
         "correctIndex": 2,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Auf der Deutschlandkarte ist Sachsen-Anhalt in der Mitte-Ost-Region (Nr. 3) markiert.",
         "hasImage": true
       },
@@ -4967,7 +4968,7 @@
         "text": "Wie nennt man die Regierungschefin/den Regierungschef in Sachsen-Anhalt?",
         "answers": ["Erste Ministerin/Erster Minister", "Premierministerin/Premierminister", "Bürgermeisterin/Bürgermeister", "Ministerpräsidentin/Ministerpräsident"],
         "correctIndex": 3,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Der Regierungschef eines deutschen Bundeslandes heißt Ministerpräsident bzw. Ministerpräsidentin.",
         "hasImage": false
       },
@@ -4976,7 +4977,7 @@
         "text": "Welche Ministerin/welchen Minister hat Sachsen-Anhalt nicht?",
         "answers": ["Justizministerin/Justizminister", "Außenministerin/Außenminister", "Finanzministerin/Finanzminister", "Innenministerin/Innenminister"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Außenpolitik ist Aufgabe des Bundes; Sachsen-Anhalt hat keine Außenministerin bzw. keinen Außenminister.",
         "hasImage": false
       }
@@ -4993,7 +4994,7 @@
           "assets/images/TH.png"
         ],
         "correctIndex": 2,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Das Wappen von Schleswig-Holstein zeigt die Holsteiner Nesselblattfigur und den Schleswiger Löwen (Bild 3).",
         "hasImage": true
       },
@@ -5002,7 +5003,7 @@
         "text": "Welches ist ein Landkreis in Schleswig-Holstein?",
         "answers": ["Ammerland", "Mecklenburgische Seenplatte", "Nordfriesland", "Rhein-Sieg-Kreis"],
         "correctIndex": 2,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Der Landkreis Nordfriesland liegt im Nordwesten Schleswig-Holsteins an der Nordsee.",
         "hasImage": false
       },
@@ -5011,7 +5012,7 @@
         "text": "Für wie viele Jahre wird der Landtag in Schleswig-Holstein gewählt?",
         "answers": ["3", "4", "5", "6"],
         "correctIndex": 2,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Wahlperiode des Landtags von Schleswig-Holstein beträgt 5 Jahre.",
         "hasImage": false
       },
@@ -5020,7 +5021,7 @@
         "text": "Ab welchem Alter darf man in Schleswig-Holstein bei Kommunalwahlen wählen?",
         "answers": ["14", "16", "18", "20"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "In Schleswig-Holstein dürfen Bürgerinnen und Bürger ab 16 Jahren an Kommunalwahlen teilnehmen.",
         "hasImage": false
       },
@@ -5029,7 +5030,7 @@
         "text": "Welche Farben hat die Landesflagge von Schleswig-Holstein?",
         "answers": ["weiß-blau", "blau-weiß-rot", "weiß-rot", "grün-weiß-rot"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Landesflagge von Schleswig-Holstein hat die Farben Blau-Weiß-Rot.",
         "hasImage": false
       },
@@ -5043,7 +5044,7 @@
           "bei den Kirchen"
         ],
         "correctIndex": 2,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die oder der Landesbeauftragte für politische Bildung Schleswig-Holstein bietet Informationen über Politik und Gesellschaft.",
         "hasImage": false
       },
@@ -5052,7 +5053,7 @@
         "text": "Die Landeshauptstadt von Schleswig-Holstein heißt …",
         "answers": ["Husum.", "Flensburg.", "Lübeck.", "Kiel."],
         "correctIndex": 3,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Kiel ist die Landeshauptstadt und Regierungssitz von Schleswig-Holstein.",
         "hasImage": false
       },
@@ -5062,7 +5063,7 @@
         "image": "assets/images/Laender9.png",
         "answers": ["1", "2", "3", "4"],
         "correctIndex": 0,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Auf der Deutschlandkarte ist Schleswig-Holstein im Norden (Nr. 1) markiert.",
         "hasImage": true
       },
@@ -5076,7 +5077,7 @@
           "Ministerpräsidentin/Ministerpräsident"
         ],
         "correctIndex": 3,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Der Regierungschef eines deutschen Bundeslandes heißt Ministerpräsident bzw. Ministerpräsidentin.",
         "hasImage": false
       },
@@ -5090,7 +5091,7 @@
           "Innenministerin/Innenminister"
         ],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Außenpolitik ist Aufgabe des Bundes; Schleswig-Holstein hat keine Außenministerin bzw. keinen Außenminister.",
         "hasImage": false
       }
@@ -5107,7 +5108,7 @@
           "assets/images/TH.png"
         ],
         "correctIndex": 3,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Das Wappen Thüringens zeigt den achtstrahligen Sternenkranz und den Löwen auf blauem Grund (Bild 4).",
         "hasImage": true
       },
@@ -5116,7 +5117,7 @@
         "text": "Welches ist ein Landkreis in Thüringen?",
         "answers": ["Ammerland", "Altötting", "Nordfriesland", "Wartburgkreis"],
         "correctIndex": 3,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Der Wartburgkreis ist ein Landkreis im Westen Thüringens.",
         "hasImage": false
       },
@@ -5125,7 +5126,7 @@
         "text": "Für wie viele Jahre wird der Landtag in Thüringen gewählt?",
         "answers": ["3", "4", "5", "6"],
         "correctIndex": 2,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Wahlperiode des Thüringer Landtags beträgt 5 Jahre.",
         "hasImage": false
       },
@@ -5134,7 +5135,7 @@
         "text": "Ab welchem Alter darf man in Thüringen bei Kommunalwahlen wählen?",
         "answers": ["14", "16", "18", "20"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "In Thüringen dürfen Bürgerinnen und Bürger ab 16 Jahren an Kommunalwahlen teilnehmen.",
         "hasImage": false
       },
@@ -5143,7 +5144,7 @@
         "text": "Welche Farben hat die Landesflagge von Thüringen?",
         "answers": ["blau-weiß-rot", "weiß-rot", "grün-weiß-rot", "schwarz-gold"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Landesflagge Thüringens hat die Farben Weiß und Rot.",
         "hasImage": false
       },
@@ -5157,7 +5158,7 @@
           "beim Ordnungsamt der Gemeinde"
         ],
         "correctIndex": 2,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Die Landeszentrale für politische Bildung Thüringen informiert über Demokratie, Geschichte und Politik.",
         "hasImage": false
       },
@@ -5166,7 +5167,7 @@
         "text": "Die Landeshauptstadt von Thüringen heißt …",
         "answers": ["Eisenach.", "Erfurt.", "Gera.", "Jena."],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Erfurt ist die Landeshauptstadt und Regierungssitz des Freistaats Thüringen.",
         "hasImage": false
       },
@@ -5176,7 +5177,7 @@
         "image": "assets/images/Laender7.png",
         "answers": ["1", "2", "3", "4"],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Auf der Deutschlandkarte ist Thüringen zentral im Osten (Nr. 2) markiert.",
         "hasImage": true
       },
@@ -5190,7 +5191,7 @@
           "Ministerpräsidentin/Ministerpräsident"
         ],
         "correctIndex": 3,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Der Regierungschef eines Bundeslandes heißt Ministerpräsident bzw. Ministerpräsidentin.",
         "hasImage": false
       },
@@ -5204,7 +5205,7 @@
           "Innenministerin/Innenminister"
         ],
         "correctIndex": 1,
-        "topicId": "democracy",
+        "topicId": "state",
         "explanation": "Außenpolitik ist Aufgabe des Bundes; Thüringen hat keine Außenministerin bzw. keinen Außenminister.",
         "hasImage": false
       }

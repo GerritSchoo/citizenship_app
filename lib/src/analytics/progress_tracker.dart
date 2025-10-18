@@ -6,10 +6,14 @@ class ProgressTracker {
   final SessionMode mode; // practice (learn+quiz) or exam
   final ProgressRepository repo;
   final String sessionId;
+  // Determines whether a question should be logged as a state question.
+  // Defaults to always false if not provided.
+  final bool Function(Question) isStateResolver;
 
   DateTime? _shownAt;
 
-  ProgressTracker({required this.mode, required this.repo, required this.sessionId});
+  ProgressTracker({required this.mode, required this.repo, required this.sessionId, bool Function(Question)? isStateResolver})
+      : isStateResolver = isStateResolver ?? ((_) => false);
 
   void onQuestionShown(Question q) {
     _shownAt = DateTime.now();
@@ -23,7 +27,7 @@ class ProgressTracker {
       sessionId: sessionId,
       questionId: q.id,
       topicId: q.topicId,
-      isState: false, // extend model if needed
+      isState: isStateResolver(q),
       mode: mode,
       selectedIndex: selectedIndex,
       correctIndex: q.correctIndex,
@@ -43,7 +47,7 @@ class ProgressTracker {
       sessionId: sessionId,
       questionId: q.id,
       topicId: q.topicId,
-      isState: false,
+      isState: isStateResolver(q),
       mode: mode,
       selectedIndex: null,
       correctIndex: q.correctIndex,

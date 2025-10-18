@@ -12,8 +12,9 @@ import '../analytics/progress_tracker.dart';
 class LearningSessionScreen extends StatefulWidget {
   final List<Question> questions;
   final String title;
+  final String? stateCode;
 
-  const LearningSessionScreen({super.key, required this.questions, required this.title});
+  const LearningSessionScreen({super.key, required this.questions, required this.title, this.stateCode});
 
   @override
   State<LearningSessionScreen> createState() => _LearningSessionScreenState();
@@ -39,7 +40,7 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
   @override
   void initState() {
     super.initState();
-    _controller = Controller();
+    _controller = Controller(stateCode: widget.stateCode);
     _controllerListener = () {
       setState(() {});
       // Also prefetch when current index changes via external calls
@@ -51,7 +52,12 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
     // init analytics
     ProgressRepository.instance.init().then((_) async {
       await ProgressRepository.instance.startSession(sessionId: _sessionId, mode: SessionMode.practice, totalQuestions: widget.questions.length);
-      _tracker = ProgressTracker(mode: SessionMode.practice, repo: ProgressRepository.instance, sessionId: _sessionId);
+      _tracker = ProgressTracker(
+        mode: SessionMode.practice,
+        repo: ProgressRepository.instance,
+        sessionId: _sessionId,
+        isStateResolver: (q) => _controller.isStateQuestion(q),
+      );
       _controller.attachTracker(_tracker!);
     });
     // Initial prefetch

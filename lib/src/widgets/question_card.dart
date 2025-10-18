@@ -34,7 +34,7 @@ class QuestionCard extends StatelessWidget {
               const SizedBox(height: 12),
               _TappableProportionalAssetImage(
                 imagePath: image!,
-                backgroundColor: theme.colorScheme.surfaceVariant,
+                backgroundColor: theme.colorScheme.surfaceContainerHighest,
                 borderRadius: 10,
                 padding: const EdgeInsets.all(8),
                 maxHeightFraction: 0.35,

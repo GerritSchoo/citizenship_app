@@ -60,7 +60,12 @@ class _MockExamScreenState extends State<MockExamScreen> {
     _startTimer();
     await ProgressRepository.instance.init();
     await ProgressRepository.instance.startSession(sessionId: _sessionId, mode: SessionMode.exam, totalQuestions: _controller!.questions.length);
-    _tracker = ProgressTracker(mode: SessionMode.exam, repo: ProgressRepository.instance, sessionId: _sessionId);
+    _tracker = ProgressTracker(
+      mode: SessionMode.exam,
+      repo: ProgressRepository.instance,
+      sessionId: _sessionId,
+      isStateResolver: (q) => _controller!.isStateQuestion(q),
+    );
     _controller!.attachTracker(_tracker!);
     if (_controller!.questions.isNotEmpty) {
       _controller!.tracker?.onQuestionShown(_controller!.questions[_controller!.currentIndex]);
@@ -186,8 +191,8 @@ class _MockExamScreenState extends State<MockExamScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
+    return PopScope(
+      canPop: false,
       child: Scaffold(
         appBar: null,
         body: SafeArea(

@@ -53,33 +53,33 @@ class MockExamResultScreen extends StatelessWidget {
                       Color iconColor;
                       switch (category) {
                         case 'sehr gut':
-                          bg = gradeColors.sehrGut.withOpacity(0.12);
+                          bg = gradeColors.sehrGut.withValues(alpha: 0.12);
                           cueIcon = Icons.check_circle;
                           iconColor = gradeColors.sehrGut;
                           break;
                         case 'gut':
-                          bg = gradeColors.gut.withOpacity(0.12);
+                          bg = gradeColors.gut.withValues(alpha: 0.12);
                           cueIcon = Icons.check_circle;
                           iconColor = gradeColors.gut;
                           break;
                         case 'befriedigend':
-                          bg = gradeColors.befriedigend.withOpacity(0.12);
+                          bg = gradeColors.befriedigend.withValues(alpha: 0.12);
                           cueIcon = Icons.warning;
                           iconColor = gradeColors.befriedigend;
                           break;
                         case 'ausreichend':
-                          bg = gradeColors.ausreichend.withOpacity(0.12);
+                          bg = gradeColors.ausreichend.withValues(alpha: 0.12);
                           cueIcon = Icons.warning;
                           iconColor = gradeColors.ausreichend;
                           break;
                         case 'mangelhaft':
-                          bg = gradeColors.mangelhaft.withOpacity(0.12);
+                          bg = gradeColors.mangelhaft.withValues(alpha: 0.12);
                           cueIcon = Icons.cancel;
                           iconColor = gradeColors.mangelhaft;
                           break;
                         case 'ungenügend':
                         default:
-                          bg = gradeColors.ungenuegend.withOpacity(0.12);
+                          bg = gradeColors.ungenuegend.withValues(alpha: 0.12);
                           cueIcon = Icons.cancel;
                           iconColor = gradeColors.ungenuegend;
                           break;
