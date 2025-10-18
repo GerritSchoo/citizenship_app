@@ -7,6 +7,8 @@ class AnswerTextTile extends StatelessWidget {
   final bool isSelected;
   final bool isCorrect;
   final VoidCallback onTap;
+  final Duration animationDuration;
+  final bool disableInkSplash;
 
   const AnswerTextTile({
     super.key,
@@ -15,6 +17,8 @@ class AnswerTextTile extends StatelessWidget {
     required this.isSelected,
     required this.isCorrect,
     required this.onTap,
+    this.animationDuration = const Duration(milliseconds: 160),
+    this.disableInkSplash = false,
   });
 
   @override
@@ -53,9 +57,13 @@ class AnswerTextTile extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           borderRadius: BorderRadius.circular(16),
+          splashColor: disableInkSplash ? Colors.transparent : null,
+          highlightColor: disableInkSplash ? Colors.transparent : null,
+          overlayColor: disableInkSplash ? const MaterialStatePropertyAll(Colors.transparent) : null,
+          splashFactory: disableInkSplash ? NoSplash.splashFactory : null,
           onTap: onTap,
           child: AnimatedContainer(
-            duration: const Duration(milliseconds: 160),
+            duration: animationDuration,
             decoration: BoxDecoration(
               color: boxColor,
               borderRadius: BorderRadius.circular(16),

@@ -8,6 +8,8 @@ import '../widgets/question_card.dart';
 import '../widgets/image_answer_grid.dart';
 import '../widgets/answer_text_tile.dart';
 import '../utils/asset_image_cache.dart';
+import '../analytics/progress_repository.dart';
+import '../analytics/progress_tracker.dart';
 // question model used indirectly via controller
 import 'mock_exam_result_screen.dart';
 
@@ -27,6 +29,9 @@ class _MockExamScreenState extends State<MockExamScreen> {
   Timer? _timer;
   Duration _remaining = const Duration(minutes: 60);
   bool _submitting = false;
+  ProgressTracker? _tracker;
+  late final DateTime _sessionStart = DateTime.now();
+  late final String _sessionId = 'exam-${_sessionStart.millisecondsSinceEpoch}';
 
   // local answers: index -> selected answer index (or null)
   List<int?> answers = [];
@@ -51,6 +56,13 @@ class _MockExamScreenState extends State<MockExamScreen> {
     answers = List<int?>.filled(_controller!.questions.length, null);
     setState(() {});
     _startTimer();
+    await ProgressRepository.instance.init();
+    await ProgressRepository.instance.startSession(sessionId: _sessionId, mode: SessionMode.exam, totalQuestions: _controller!.questions.length);
+    _tracker = ProgressTracker(mode: SessionMode.exam, repo: ProgressRepository.instance, sessionId: _sessionId);
+    _controller!.attachTracker(_tracker!);
+    if (_controller!.questions.isNotEmpty) {
+      _controller!.tracker?.onQuestionShown(_controller!.questions[_controller!.currentIndex]);
+    }
     // Prefetch images for current + next two
     WidgetsBinding.instance.addPostFrameCallback((_) => _prefetchAroundCurrent());
   }
@@ -90,7 +102,7 @@ class _MockExamScreenState extends State<MockExamScreen> {
     setState(() => _submitting = true);
     _timer?.cancel();
 
-    // Evaluate
+    // Evaluate and log each attempt (exam mode)
     final total = _controller!.questions.length;
     int correct = 0;
     final results = <int?>[];
@@ -98,8 +110,24 @@ class _MockExamScreenState extends State<MockExamScreen> {
       final q = _controller!.questions[i];
       final sel = answers[i];
       results.add(sel);
-      if (sel != null && sel == q.correctIndex) correct += 1;
+      final isCorrect = sel != null && sel == q.correctIndex;
+      if (isCorrect) correct += 1;
+      // Log attempt for progress/analytics
+      await ProgressRepository.instance.logAttempt(
+        sessionId: _sessionId,
+        questionId: q.id,
+        topicId: q.topicId,
+        isState: _controller!.isStateQuestion(q),
+        mode: SessionMode.exam,
+        selectedIndex: sel,
+        correctIndex: q.correctIndex,
+        isCorrect: isCorrect,
+        skipped: sel == null,
+        timeToAnswerMs: 0, // unknown per-question after review; can be improved later
+        timestamp: _sessionStart.add(Duration(seconds: i)),
+      );
     }
+    await ProgressRepository.instance.finishSession(sessionId: _sessionId, correctCount: correct, duration: DateTime.now().difference(_sessionStart));
 
     // Navigate to results; remove this route (so user lands back on home later)
     if (!mounted) return;
@@ -210,6 +238,7 @@ class _MockExamScreenState extends State<MockExamScreen> {
                                       selectedIndex: answers[_controller!.currentIndex],
                                       revealed: false, // no reveal in mock exam before submit
                                       onTap: (i) => _select(i),
+                                      disableInkSplash: true,
                                     ),
                                   )
                                 else
@@ -224,6 +253,8 @@ class _MockExamScreenState extends State<MockExamScreen> {
                                       isSelected: selected,
                                       isCorrect: i == _controller!.questions[_controller!.currentIndex].correctIndex,
                                       onTap: () => _select(i),
+                                      disableInkSplash: true,
+                                      animationDuration: Duration.zero,
                                     );
                                   }),
                                 const SizedBox(height: 12),

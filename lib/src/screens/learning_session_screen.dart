@@ -6,6 +6,8 @@ import '../core/controller.dart';
 import '../widgets/question_card.dart';
 import '../widgets/image_answer_grid.dart';
 import '../utils/asset_image_cache.dart';
+import '../analytics/progress_repository.dart';
+import '../analytics/progress_tracker.dart';
 
 class LearningSessionScreen extends StatefulWidget {
   final List<Question> questions;
@@ -19,6 +21,9 @@ class LearningSessionScreen extends StatefulWidget {
 
 class _LearningSessionScreenState extends State<LearningSessionScreen> {
   late final Controller _controller;
+  ProgressTracker? _tracker;
+  late final DateTime _sessionStart = DateTime.now();
+  late final String _sessionId = 'practice-${_sessionStart.millisecondsSinceEpoch}';
 
   void _goToNext() {
     _controller.next();
@@ -41,6 +46,12 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
     });
     // use provided list (learning session should not shuffle)
     _controller.setQuestions(widget.questions, shuffle: false);
+    // init analytics
+    ProgressRepository.instance.init().then((_) async {
+      await ProgressRepository.instance.startSession(sessionId: _sessionId, mode: SessionMode.practice, totalQuestions: widget.questions.length);
+      _tracker = ProgressTracker(mode: SessionMode.practice, repo: ProgressRepository.instance, sessionId: _sessionId);
+      _controller.attachTracker(_tracker!);
+    });
     // Initial prefetch
     WidgetsBinding.instance.addPostFrameCallback((_) => _prefetchAroundCurrent());
   }
@@ -48,6 +59,8 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
   @override
   void dispose() {
     _controller.removeListener(() {});
+    final duration = DateTime.now().difference(_sessionStart);
+    ProgressRepository.instance.finishSession(sessionId: _sessionId, correctCount: 0, duration: duration);
     super.dispose();
   }
 

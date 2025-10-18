@@ -7,6 +7,7 @@ class ImageAnswerGrid extends StatelessWidget {
   final int? selectedIndex;
   final bool revealed;          // show correct/wrong cues
   final ValueChanged<int> onTap;
+  final bool disableInkSplash;
 
   const ImageAnswerGrid({
     super.key,
@@ -15,6 +16,7 @@ class ImageAnswerGrid extends StatelessWidget {
     required this.selectedIndex,
     required this.revealed,
     required this.onTap,
+    this.disableInkSplash = false,
   });
 
   @override
@@ -72,6 +74,10 @@ class ImageAnswerGrid extends StatelessWidget {
           clipBehavior: Clip.none,
           child: InkWell(
             customBorder: shape,
+            splashColor: disableInkSplash ? Colors.transparent : null,
+            highlightColor: disableInkSplash ? Colors.transparent : null,
+            overlayColor: disableInkSplash ? const MaterialStatePropertyAll(Colors.transparent) : null,
+            splashFactory: disableInkSplash ? NoSplash.splashFactory : null,
             onTap: () => onTap(i),
             child: Stack(fit: StackFit.expand, children: [
               Container(

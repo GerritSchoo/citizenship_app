@@ -6,6 +6,8 @@ import '../core/prefs.dart';
 import '../theme/app_colors.dart';
 import '../widgets/question_card.dart';
 import '../widgets/image_answer_grid.dart';
+import '../analytics/progress_repository.dart';
+import '../analytics/progress_tracker.dart';
 import '../utils/asset_image_cache.dart';
 
 class QuizScreen extends StatefulWidget {
@@ -18,6 +20,9 @@ class QuizScreen extends StatefulWidget {
 class _QuizScreenState extends State<QuizScreen> {
   final QuestionRepository _repo = QuestionRepository();
   late final Controller _controller;
+  ProgressTracker? _tracker;
+  late final DateTime _sessionStart = DateTime.now();
+  late final String _sessionId = 'practice-${_sessionStart.millisecondsSinceEpoch}';
 
   @override
   void initState() {
@@ -33,6 +38,10 @@ class _QuizScreenState extends State<QuizScreen> {
       _prefetchAroundCurrent();
     });
     await _controller.loadCombined(shuffle: true);
+    await ProgressRepository.instance.init();
+    await ProgressRepository.instance.startSession(sessionId: _sessionId, mode: SessionMode.practice, totalQuestions: _controller.questions.length);
+    _tracker = ProgressTracker(mode: SessionMode.practice, repo: ProgressRepository.instance, sessionId: _sessionId);
+    _controller.attachTracker(_tracker!);
     _prefetchAroundCurrent();
   }
 
@@ -197,6 +206,12 @@ class _QuizScreenState extends State<QuizScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    ProgressRepository.instance.finishSession(sessionId: _sessionId, correctCount: 0, duration: DateTime.now().difference(_sessionStart));
+    super.dispose();
   }
 
   void _prefetchAroundCurrent() {

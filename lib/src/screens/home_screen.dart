@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'quiz_screen.dart';
 import 'learning_mode_screen.dart';
 import 'mock_exam_rules_screen.dart';
+import 'progress_screen.dart';
 import '../data/states.dart';
 import '../core/prefs.dart';
 
@@ -199,6 +200,40 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                     ),
+                    const SizedBox(height: 16),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => const ProgressScreen()),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: const Size.fromHeight(56),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          alignment: Alignment.centerLeft,
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: const [
+                            SizedBox(width: 4),
+                            SizedBox(width: 32, child: Icon(Icons.insights_outlined, size: 20)),
+                            SizedBox(width: 12),
+                            Expanded(
+                              child: Text(
+                                'Analyse',
+                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -206,6 +241,7 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         },
       ),
+      bottomNavigationBar: null,
     );
   }
 }
