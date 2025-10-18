@@ -4,6 +4,8 @@ import '../models/question.dart';
 import '../core/controller.dart';
 import '../core/prefs.dart';
 import '../theme/app_colors.dart';
+import '../widgets/question_card.dart';
+import '../widgets/image_answer_grid.dart';
 
 class QuizScreen extends StatefulWidget {
   const QuizScreen({super.key});
@@ -81,19 +83,11 @@ class _QuizScreenState extends State<QuizScreen> {
           padding: const EdgeInsets.all(16),
           child: Column(
             children: [
-              // Question Card
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Text(
-                    question.text,
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                        ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
+              // Question Card with optional context image
+              QuestionCard(
+                text: question.text,
+                index: _controller.currentIndex,
+                image: question.hasContextImage ? question.image : null,
               ),
 
               const SizedBox(height: 16),
@@ -102,7 +96,19 @@ class _QuizScreenState extends State<QuizScreen> {
               Expanded(
                 child: ListView(
                   children: [
-                    ...List.generate(question.answers.length, (index) {
+                    if (question.hasAnswerImages)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: ImageAnswerGrid(
+                          images: question.answerImages!,
+                          correctIndex: question.correctIndex,
+                          selectedIndex: _controller.selectedIndex,
+                          revealed: _controller.selectedIndex != null,
+                          onTap: (i) => setState(() => _controller.select(i)),
+                        ),
+                      ),
+                    if (!question.hasAnswerImages)
+                      ...List.generate(question.answers.length, (index) {
                       final isSelected = _controller.selectedIndex == index;
                       final isCorrect = index == question.correctIndex;
 

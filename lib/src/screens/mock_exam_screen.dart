@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 import '../core/controller.dart';
 import '../core/prefs.dart';
+import '../widgets/question_card.dart';
+import '../widgets/image_answer_grid.dart';
 // question model used indirectly via controller
 import 'mock_exam_result_screen.dart';
 
@@ -188,28 +190,38 @@ class _MockExamScreenState extends State<MockExamScreen> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
-                                  Card(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(16.0),
-                                      child: Text(
-                                        _controller!.questions[_controller!.currentIndex].text,
-                                        style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
+                                  QuestionCard(
+                                    text: _controller!.questions[_controller!.currentIndex].text,
+                                    index: _controller!.currentIndex,
+                                    image: _controller!.questions[_controller!.currentIndex].hasContextImage
+                                        ? _controller!.questions[_controller!.currentIndex].image
+                                        : null,
                                   ),
                                   const SizedBox(height: 12),
-                                  ...List.generate(_controller!.questions[_controller!.currentIndex].answers.length, (i) {
-                                    final a = _controller!.questions[_controller!.currentIndex].answers[i];
-                                    final sel = answers[_controller!.currentIndex];
-                                    final selected = sel == i;
-                                    return Card(
-                                      color: selected ? Colors.blue.shade100 : null,
-                                      child: ListTile(
-                                        title: Text(a, style: Theme.of(context).textTheme.bodyLarge),
-                                        onTap: () => _select(i),
+                                  if (_controller!.questions[_controller!.currentIndex].hasAnswerImages)
+                                    Padding(
+                                      padding: const EdgeInsets.only(bottom: 12),
+                                      child: ImageAnswerGrid(
+                                        images: _controller!.questions[_controller!.currentIndex].answerImages!,
+                                        correctIndex: _controller!.questions[_controller!.currentIndex].correctIndex,
+                                        selectedIndex: answers[_controller!.currentIndex],
+                                        revealed: false, // no reveal in mock exam before submit
+                                        onTap: (i) => _select(i),
                                       ),
-                                    );
-                                  }),
+                                    )
+                                  else
+                                    ...List.generate(_controller!.questions[_controller!.currentIndex].answers.length, (i) {
+                                      final a = _controller!.questions[_controller!.currentIndex].answers[i];
+                                      final sel = answers[_controller!.currentIndex];
+                                      final selected = sel == i;
+                                      return Card(
+                                        color: selected ? Colors.blue.shade100 : null,
+                                        child: ListTile(
+                                          title: Text(a, style: Theme.of(context).textTheme.bodyLarge),
+                                          onTap: () => _select(i),
+                                        ),
+                                      );
+                                    }),
                                   const SizedBox(height: 12),
                                 ],
                               ),
