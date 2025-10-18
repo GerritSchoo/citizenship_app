@@ -27,7 +27,7 @@ class QuestionCard extends StatelessWidget {
           children: [
             Text(
               text,
-              style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+              style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
             ),
             if (image != null && image!.isNotEmpty) ...[
               const SizedBox(height: 12),
@@ -36,17 +36,25 @@ class QuestionCard extends StatelessWidget {
                 child: Container(
                   color: theme.colorScheme.surfaceVariant,
                   padding: const EdgeInsets.all(8),
-                  child: Center(
-                    child: Image.asset(
-                      image!,
-                      fit: BoxFit.contain,
-                      filterQuality: FilterQuality.medium,
-                      errorBuilder: (_, __, ___) => Container(
-                        height: 140,
-                        alignment: Alignment.center,
-                        child: const Text('Bild nicht gefunden'),
-                      ),
-                    ),
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      final maxH = MediaQuery.of(context).size.height * 0.35; // cap at ~35% of screen
+                      return ConstrainedBox(
+                        constraints: BoxConstraints(maxHeight: maxH),
+                        child: Center(
+                          child: Image.asset(
+                            image!,
+                            fit: BoxFit.contain,
+                            filterQuality: FilterQuality.medium,
+                            errorBuilder: (_, __, ___) => Container(
+                              height: 140,
+                              alignment: Alignment.center,
+                              child: const Text('Bild nicht gefunden'),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),

@@ -217,7 +217,7 @@ class _MockExamScreenState extends State<MockExamScreen> {
                                       return Card(
                                         color: selected ? Colors.blue.shade100 : null,
                                         child: ListTile(
-                                          title: Text(a, style: Theme.of(context).textTheme.bodyLarge),
+                                          title: Text(a, style: Theme.of(context).textTheme.bodyMedium),
                                           onTap: () => _select(i),
                                         ),
                                       );

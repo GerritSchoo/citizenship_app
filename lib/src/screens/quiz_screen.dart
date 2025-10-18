@@ -83,19 +83,17 @@ class _QuizScreenState extends State<QuizScreen> {
           padding: const EdgeInsets.all(16),
           child: Column(
             children: [
-              // Question Card with optional context image
-              QuestionCard(
-                text: question.text,
-                index: _controller.currentIndex,
-                image: question.hasContextImage ? question.image : null,
-              ),
-
-              const SizedBox(height: 16),
-
-              // Answers + Explanation
+              // Single scrollable area: question + answers + explanation
               Expanded(
                 child: ListView(
+                  padding: EdgeInsets.zero,
                   children: [
+                    QuestionCard(
+                      text: question.text,
+                      index: _controller.currentIndex,
+                      image: question.hasContextImage ? question.image : null,
+                    ),
+                    const SizedBox(height: 16),
                     if (question.hasAnswerImages)
                       Padding(
                         padding: const EdgeInsets.only(bottom: 12),
@@ -151,7 +149,7 @@ class _QuizScreenState extends State<QuizScreen> {
                                   Flexible(
                                     child: Text(
                                       question.answers[index],
-                                      style: Theme.of(context).textTheme.bodyLarge,
+                    style: Theme.of(context).textTheme.bodyMedium,
                                     ),
                                   ),
                                   if (icon != null)
@@ -165,7 +163,6 @@ class _QuizScreenState extends State<QuizScreen> {
                     }),
 
                     const SizedBox(height: 16),
-
                     if (_controller.selectedIndex != null)
                       Card(
                         child: Padding(
