@@ -75,7 +75,10 @@ class ImageAnswerGrid extends StatelessWidget {
             onTap: () => onTap(i),
             child: Stack(fit: StackFit.expand, children: [
               Container(
-                color: theme.colorScheme.surfaceVariant,
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.surfaceVariant,
+                  borderRadius: BorderRadius.circular(12),
+                ),
                 padding: const EdgeInsets.all(8),
                 child: Center(
                   child: Image.asset(
