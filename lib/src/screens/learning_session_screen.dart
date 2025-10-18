@@ -69,15 +69,16 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
             children: [
               Text(positionLabel, style: theme.textTheme.titleMedium),
               const SizedBox(height: 12),
-              QuestionCard(
-                text: question.text,
-                index: _controller.currentIndex,
-                image: question.hasContextImage ? question.image : null,
-              ),
-              const SizedBox(height: 16),
               Expanded(
                 child: ListView(
+                  padding: EdgeInsets.zero,
                   children: [
+                    QuestionCard(
+                      text: question.text,
+                      index: _controller.currentIndex,
+                      image: question.hasContextImage ? question.image : null,
+                    ),
+                    const SizedBox(height: 16),
                     if (question.hasAnswerImages)
                       Padding(
                         padding: const EdgeInsets.only(bottom: 12),
@@ -134,7 +135,7 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
                                   Flexible(
                                     child: Text(
                                       question.answers[index],
-                                      style: theme.textTheme.bodyLarge,
+                    style: theme.textTheme.bodyMedium,
                                     ),
                                   ),
                                   if (icon != null)
@@ -182,9 +183,8 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
                         minimumSize: const Size.fromHeight(48),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                       ),
-                      onPressed: _controller.selectedIndex != null
-                          ? (isLastQuestion ? () => Navigator.of(context).pop() : _goToNext)
-                          : null,
+                      // Allow skipping without answering in Learning mode
+                      onPressed: isLastQuestion ? () => Navigator.of(context).pop() : _goToNext,
                       child: Text(isLastQuestion ? 'Fertig' : 'Weiter'),
                     ),
                   ),
