@@ -210,7 +210,19 @@ class _QuizScreenState extends State<QuizScreen> {
 
   @override
   void dispose() {
-    ProgressRepository.instance.finishSession(sessionId: _sessionId, correctCount: 0, duration: DateTime.now().difference(_sessionStart));
+    // Best-effort: compute correct answers from attempts if repository is available
+    final duration = DateTime.now().difference(_sessionStart);
+    Future(() async {
+      int correct = 0;
+      try {
+        if (ProgressRepository.instance.isAvailable) {
+          correct = await ProgressRepository.instance.sessionCorrectCount(_sessionId);
+        }
+      } catch (_) {}
+      await ProgressRepository.instance.finishSession(sessionId: _sessionId, correctCount: correct, duration: duration);
+    });
+    // Clear cached images for memory hygiene when leaving quiz
+    AssetImageInfoCache.clear();
     super.dispose();
   }
 

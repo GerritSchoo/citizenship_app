@@ -24,6 +24,7 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
   ProgressTracker? _tracker;
   late final DateTime _sessionStart = DateTime.now();
   late final String _sessionId = 'practice-${_sessionStart.millisecondsSinceEpoch}';
+  late final VoidCallback _controllerListener;
 
   void _goToNext() {
     _controller.next();
@@ -39,11 +40,12 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
   void initState() {
     super.initState();
     _controller = Controller();
-    _controller.addListener(() {
+    _controllerListener = () {
       setState(() {});
       // Also prefetch when current index changes via external calls
       _prefetchAroundCurrent();
-    });
+    };
+    _controller.addListener(_controllerListener);
     // use provided list (learning session should not shuffle)
     _controller.setQuestions(widget.questions, shuffle: false);
     // init analytics
@@ -58,9 +60,20 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
 
   @override
   void dispose() {
-    _controller.removeListener(() {});
+    _controller.removeListener(_controllerListener);
     final duration = DateTime.now().difference(_sessionStart);
-    ProgressRepository.instance.finishSession(sessionId: _sessionId, correctCount: 0, duration: duration);
+    // Best-effort: compute correct answers from attempts if repository is available
+    Future(() async {
+      int correct = 0;
+      try {
+        if (ProgressRepository.instance.isAvailable) {
+          correct = await ProgressRepository.instance.sessionCorrectCount(_sessionId);
+        }
+      } catch (_) {}
+      await ProgressRepository.instance.finishSession(sessionId: _sessionId, correctCount: correct, duration: duration);
+    });
+    // Clear image cache to free memory at end of session
+    AssetImageInfoCache.clear();
     super.dispose();
   }
 

@@ -84,15 +84,21 @@ class _ProportionalAssetImage extends StatelessWidget {
               alignment: Alignment.center,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(borderRadius > 2 ? borderRadius - 2 : borderRadius),
-                child: Image.asset(
-                  imagePath,
-                  filterQuality: FilterQuality.medium,
-                  gaplessPlayback: true,
-                  errorBuilder: (_, __, ___) => const SizedBox(
-                    height: 140,
-                    child: Center(child: Text('Bild nicht gefunden')),
-                  ),
-                ),
+                child: LayoutBuilder(builder: (context, constraints) {
+                  final targetW = constraints.maxWidth.isFinite ? constraints.maxWidth.toInt() : null;
+                  final targetH = maxHeight.toInt();
+                  return Image.asset(
+                    imagePath,
+                    cacheWidth: targetW,
+                    cacheHeight: targetH,
+                    filterQuality: FilterQuality.medium,
+                    gaplessPlayback: true,
+                    errorBuilder: (_, __, ___) => const SizedBox(
+                      height: 140,
+                      child: Center(child: Text('Bild nicht gefunden')),
+                    ),
+                  );
+                }),
               ),
             ),
           ),

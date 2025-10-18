@@ -48,6 +48,8 @@ class _MockExamScreenState extends State<MockExamScreen> {
   @override
   void dispose() {
     _timer?.cancel();
+    // Clear image cache to free memory when leaving the exam
+    AssetImageInfoCache.clear();
     super.dispose();
   }
 
