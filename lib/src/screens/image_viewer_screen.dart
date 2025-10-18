@@ -15,6 +15,7 @@ class ImageViewerScreen extends StatelessWidget {
 
     final imageWidget = Image.asset(
       imagePath,
+      gaplessPlayback: true,
       errorBuilder: (_, __, ___) => Center(
         child: Text('Bild nicht gefunden', style: theme.textTheme.bodyMedium),
       ),

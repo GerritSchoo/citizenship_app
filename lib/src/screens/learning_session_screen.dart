@@ -5,6 +5,7 @@ import '../theme/app_colors.dart';
 import '../core/controller.dart';
 import '../widgets/question_card.dart';
 import '../widgets/image_answer_grid.dart';
+import '../utils/asset_image_cache.dart';
 
 class LearningSessionScreen extends StatefulWidget {
   final List<Question> questions;
@@ -21,19 +22,27 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
 
   void _goToNext() {
     _controller.next();
+    _prefetchAroundCurrent();
   }
 
   void _goToPrevious() {
     _controller.previous();
+    _prefetchAroundCurrent();
   }
 
   @override
   void initState() {
     super.initState();
     _controller = Controller();
-    _controller.addListener(() => setState(() {}));
+    _controller.addListener(() {
+      setState(() {});
+      // Also prefetch when current index changes via external calls
+      _prefetchAroundCurrent();
+    });
     // use provided list (learning session should not shuffle)
     _controller.setQuestions(widget.questions, shuffle: false);
+    // Initial prefetch
+    WidgetsBinding.instance.addPostFrameCallback((_) => _prefetchAroundCurrent());
   }
 
   @override
@@ -195,5 +204,26 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
         ),
       ),
     );
+  }
+
+  void _prefetchAroundCurrent() {
+    if (!mounted || _controller.questions.isEmpty) return;
+    final ctx = context;
+    final idx = _controller.currentIndex;
+    final qs = _controller.questions;
+    // Prefetch current + next two (if available)
+    final toPrefetch = <String>{};
+    for (final i in [idx, idx + 1, idx + 2]) {
+      if (i >= 0 && i < qs.length) {
+        final q = qs[i];
+        if (q.hasContextImage && q.image != null && q.image!.isNotEmpty) {
+          toPrefetch.add(q.image!);
+        }
+        if (q.hasAnswerImages) {
+          toPrefetch.addAll(q.answerImages!.where((p) => p.isNotEmpty));
+        }
+      }
+    }
+    AssetImageInfoCache.precacheAll(ctx, toPrefetch);
   }
 }

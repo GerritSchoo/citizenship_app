@@ -80,6 +80,7 @@ class ImageAnswerGrid extends StatelessWidget {
                 child: Center(
                   child: Image.asset(
                     images[i],
+                    gaplessPlayback: true,
                     fit: BoxFit.contain,
                     filterQuality: FilterQuality.medium,
                     errorBuilder: (_, __, ___) => Container(

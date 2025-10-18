@@ -6,6 +6,8 @@ import '../core/controller.dart';
 import '../core/prefs.dart';
 import '../widgets/question_card.dart';
 import '../widgets/image_answer_grid.dart';
+import '../widgets/answer_text_tile.dart';
+import '../utils/asset_image_cache.dart';
 // question model used indirectly via controller
 import 'mock_exam_result_screen.dart';
 
@@ -49,6 +51,8 @@ class _MockExamScreenState extends State<MockExamScreen> {
     answers = List<int?>.filled(_controller!.questions.length, null);
     setState(() {});
     _startTimer();
+    // Prefetch images for current + next two
+    WidgetsBinding.instance.addPostFrameCallback((_) => _prefetchAroundCurrent());
   }
 
   void _startTimer() {
@@ -186,45 +190,44 @@ class _MockExamScreenState extends State<MockExamScreen> {
                           Text(_controller!.positionLabel(), style: Theme.of(context).textTheme.titleSmall),
                           const SizedBox(height: 8),
                           Expanded(
-                            child: SingleChildScrollView(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  QuestionCard(
-                                    text: _controller!.questions[_controller!.currentIndex].text,
-                                    index: _controller!.currentIndex,
-                                    image: _controller!.questions[_controller!.currentIndex].hasContextImage
-                                        ? _controller!.questions[_controller!.currentIndex].image
-                                        : null,
-                                  ),
-                                  const SizedBox(height: 12),
-                                  if (_controller!.questions[_controller!.currentIndex].hasAnswerImages)
-                                    Padding(
-                                      padding: const EdgeInsets.only(bottom: 12),
-                                      child: ImageAnswerGrid(
-                                        images: _controller!.questions[_controller!.currentIndex].answerImages!,
-                                        correctIndex: _controller!.questions[_controller!.currentIndex].correctIndex,
-                                        selectedIndex: answers[_controller!.currentIndex],
-                                        revealed: false, // no reveal in mock exam before submit
-                                        onTap: (i) => _select(i),
-                                      ),
-                                    )
-                                  else
-                                    ...List.generate(_controller!.questions[_controller!.currentIndex].answers.length, (i) {
-                                      final a = _controller!.questions[_controller!.currentIndex].answers[i];
-                                      final sel = answers[_controller!.currentIndex];
-                                      final selected = sel == i;
-                                      return Card(
-                                        color: selected ? Colors.blue.shade100 : null,
-                                        child: ListTile(
-                                          title: Text(a, style: Theme.of(context).textTheme.bodyMedium),
-                                          onTap: () => _select(i),
-                                        ),
-                                      );
-                                    }),
-                                  const SizedBox(height: 12),
-                                ],
-                              ),
+                            child: ListView(
+                              padding: EdgeInsets.zero,
+                              children: [
+                                QuestionCard(
+                                  text: _controller!.questions[_controller!.currentIndex].text,
+                                  index: _controller!.currentIndex,
+                                  image: _controller!.questions[_controller!.currentIndex].hasContextImage
+                                      ? _controller!.questions[_controller!.currentIndex].image
+                                      : null,
+                                ),
+                                const SizedBox(height: 12),
+                                if (_controller!.questions[_controller!.currentIndex].hasAnswerImages)
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 12),
+                                    child: ImageAnswerGrid(
+                                      images: _controller!.questions[_controller!.currentIndex].answerImages!,
+                                      correctIndex: _controller!.questions[_controller!.currentIndex].correctIndex,
+                                      selectedIndex: answers[_controller!.currentIndex],
+                                      revealed: false, // no reveal in mock exam before submit
+                                      onTap: (i) => _select(i),
+                                    ),
+                                  )
+                                else
+                                  ...List.generate(_controller!.questions[_controller!.currentIndex].answers.length, (i) {
+                                    final a = _controller!.questions[_controller!.currentIndex].answers[i];
+                                    final sel = answers[_controller!.currentIndex];
+                                    final selected = sel == i;
+                                    // In mock exam, revealed is always false before submit
+                                    return AnswerTextTile(
+                                      text: a,
+                                      revealed: false,
+                                      isSelected: selected,
+                                      isCorrect: i == _controller!.questions[_controller!.currentIndex].correctIndex,
+                                      onTap: () => _select(i),
+                                    );
+                                  }),
+                                const SizedBox(height: 12),
+                              ],
                             ),
                           ),
                           Row(
@@ -235,7 +238,16 @@ class _MockExamScreenState extends State<MockExamScreen> {
                                     minimumSize: const Size.fromHeight(48),
                                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                                   ),
-                                  onPressed: _controller!.currentIndex > 0 ? () { setState(() { _controller!.previous(); }); } : null,
+                                  onPressed: _controller!.currentIndex > 0
+                                      ? () {
+                                          setState(() {
+                                            _controller!.previous();
+                                          });
+                                          _prefetchAroundCurrent();
+                                        }
+                                      : null,
+                                      // Prefetch around new index
+                                      onLongPress: null,
                                   child: const Text('Zurück'),
                                 ),
                               ),
@@ -246,7 +258,7 @@ class _MockExamScreenState extends State<MockExamScreen> {
                                     minimumSize: const Size.fromHeight(48),
                                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                                   ),
-                                  onPressed: _controller!.currentIndex < _controller!.questions.length - 1 ? () { setState(() { _controller!.next(); }); } : null,
+                                  onPressed: _controller!.currentIndex < _controller!.questions.length - 1 ? () { setState(() { _controller!.next(); }); _prefetchAroundCurrent(); } : null,
                                   child: const Text('Weiter'),
                                 ),
                               ),
@@ -258,6 +270,26 @@ class _MockExamScreenState extends State<MockExamScreen> {
         ),
       ),
     );
+  }
+
+  void _prefetchAroundCurrent() {
+    if (!mounted || _controller == null || _controller!.questions.isEmpty) return;
+    final ctx = context;
+    final idx = _controller!.currentIndex;
+    final qs = _controller!.questions;
+    final toPrefetch = <String>{};
+    for (final i in [idx, idx + 1, idx + 2]) {
+      if (i >= 0 && i < qs.length) {
+        final q = qs[i];
+        if (q.hasContextImage && q.image != null && q.image!.isNotEmpty) {
+          toPrefetch.add(q.image!);
+        }
+        if (q.hasAnswerImages) {
+          toPrefetch.addAll(q.answerImages!.where((p) => p.isNotEmpty));
+        }
+      }
+    }
+    AssetImageInfoCache.precacheAll(ctx, toPrefetch);
   }
 }
 
