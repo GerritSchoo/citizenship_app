@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
 import 'package:citizenship_quiz_app/src/screens/image_viewer_screen.dart';
 
 class QuestionCard extends StatelessWidget {
@@ -76,77 +75,33 @@ class _ProportionalAssetImage extends StatelessWidget {
       child: Container(
         color: backgroundColor,
         padding: padding,
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return FutureBuilder<ImageInfo>(
-              future: _getImageInfo(imagePath),
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return SizedBox(
+        child: SizedBox(
+          height: maxHeight,
+          width: double.infinity,
+          child: Center(
+            child: FittedBox(
+              fit: BoxFit.contain,
+              alignment: Alignment.center,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(borderRadius > 2 ? borderRadius - 2 : borderRadius),
+                child: Image.asset(
+                  imagePath,
+                  filterQuality: FilterQuality.medium,
+                  gaplessPlayback: true,
+                  errorBuilder: (_, __, ___) => const SizedBox(
                     height: 140,
-                    child: const Center(child: Text('Bild nicht gefunden')),
-                  );
-                }
-                if (!snapshot.hasData) {
-                  return const SizedBox(height: 140, child: Center(child: CircularProgressIndicator(strokeWidth: 2)));
-                }
-                final info = snapshot.data!;
-                final aspect = info.image.width / info.image.height;
-                // Compute target size to fit within maxHeight and available width
-                final availableWidth = constraints.maxWidth;
-                double targetWidth = availableWidth;
-                double targetHeight = targetWidth / aspect;
-                if (targetHeight > maxHeight) {
-                  targetHeight = maxHeight;
-                  targetWidth = targetHeight * aspect;
-                }
-                final innerRadius = borderRadius > 2 ? borderRadius - 2 : borderRadius;
-
-                return SizedBox(
-                  height: targetHeight,
-                  child: Center(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(innerRadius),
-                      child: Image.asset(
-                        imagePath,
-                        width: targetWidth,
-                        height: targetHeight,
-                        fit: BoxFit.fill, // already computed proportional size
-                        filterQuality: FilterQuality.medium,
-                        errorBuilder: (_, __, ___) => SizedBox(
-                          height: 140,
-                          child: const Center(child: Text('Bild nicht gefunden')),
-                        ),
-                      ),
-                    ),
+                    child: Center(child: Text('Bild nicht gefunden')),
                   ),
-                );
-              },
-            );
-          },
+                ),
+              ),
+            ),
+          ),
         ),
       ),
     );
   }
 
-  Future<ImageInfo> _getImageInfo(String assetPath) async {
-    final imageProvider = AssetImage(assetPath);
-    final completer = Completer<ImageInfo>();
-    final stream = imageProvider.resolve(const ImageConfiguration());
-    late final ImageStreamListener listener;
-    listener = ImageStreamListener((ImageInfo info, bool _) {
-      completer.complete(info);
-    }, onError: (error, stackTrace) {
-      completer.completeError(error, stackTrace);
-    });
-    stream.addListener(listener);
-    try {
-      final info = await completer.future;
-      return info;
-    } finally {
-      stream.removeListener(listener);
-    }
-  }
+  // resolution handled by AssetImageInfoCache
 }
 
 class _TappableProportionalAssetImage extends StatelessWidget {
@@ -181,6 +136,8 @@ class _TappableProportionalAssetImage extends StatelessWidget {
       },
       child: Hero(
         tag: heroTag,
+        placeholderBuilder: (context, size, child) => child,
+        transitionOnUserGestures: true,
         // Keep rounded context image in card
         child: _ProportionalAssetImage(
           imagePath: imagePath,

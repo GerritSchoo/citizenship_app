@@ -6,6 +6,7 @@ import '../core/prefs.dart';
 import '../theme/app_colors.dart';
 import '../widgets/question_card.dart';
 import '../widgets/image_answer_grid.dart';
+import '../utils/asset_image_cache.dart';
 
 class QuizScreen extends StatefulWidget {
   const QuizScreen({super.key});
@@ -27,8 +28,12 @@ class _QuizScreenState extends State<QuizScreen> {
   Future<void> _init() async {
     final code = await AppPrefs.getSelectedState();
     _controller = Controller(repository: _repo, stateCode: code);
-    _controller.addListener(() => setState(() {}));
+    _controller.addListener(() {
+      setState(() {});
+      _prefetchAroundCurrent();
+    });
     await _controller.loadCombined(shuffle: true);
+    _prefetchAroundCurrent();
   }
 
   Future<void> _loadData() async {
@@ -37,6 +42,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
   void _nextQuestion() {
     _controller.next();
+    _prefetchAroundCurrent();
   }
 
   @override
@@ -191,5 +197,25 @@ class _QuizScreenState extends State<QuizScreen> {
         ),
       ),
     );
+  }
+
+  void _prefetchAroundCurrent() {
+    if (!mounted || _controller.questions.isEmpty) return;
+    final ctx = context;
+    final idx = _controller.currentIndex;
+    final qs = _controller.questions;
+    final toPrefetch = <String>{};
+    for (final i in [idx, idx + 1, idx + 2]) {
+      if (i >= 0 && i < qs.length) {
+        final q = qs[i];
+        if (q.hasContextImage && q.image != null && q.image!.isNotEmpty) {
+          toPrefetch.add(q.image!);
+        }
+        if (q.hasAnswerImages) {
+          toPrefetch.addAll(q.answerImages!.where((p) => p.isNotEmpty));
+        }
+      }
+    }
+    AssetImageInfoCache.precacheAll(ctx, toPrefetch);
   }
 }
