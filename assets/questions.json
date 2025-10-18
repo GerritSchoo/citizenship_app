@@ -266,7 +266,7 @@
         "assets/images/Bundeswehr.png",
         "assets/images/DDR.png"
         ],
-      "correctIndex": 3,
+      "correctIndex": 0,
       "topicId": "people_society",
       "explanation": "Das Wappen der Bundesrepublik Deutschland zeigt einen schwarzen Adler auf goldenem Grund.",
       "hasImage": true
@@ -1122,7 +1122,7 @@
     "id": "Q102",
     "text": "Womit kann man in der Bundesrepublik Deutschland geehrt werden, wenn man auf politischem, wirtschaftlichem, kulturellem, geistigem oder sozialem Gebiet eine besondere Leistung erbracht hat? Mit dem …",
     "answers": ["Bundesverdienstkreuz", "Bundesadler", "Vaterländischen Verdienstorden", "Ehrentitel \"Held der Deutschen Demokratischen Republik\""],
-    "correctIndex": 2,
+    "correctIndex": 0,
     "topicId": "people_society",
     "explanation": "In der Bundesrepublik Deutschland wird das Bundesverdienstkreuz verliehen, als höchste Auszeichnung für besondere Verdienste.",
     "hasImage": false
@@ -4520,15 +4520,6 @@
         "id": "NW008",
         "text": "Welches Bundesland ist Nordrhein-Westfalen?",
         "image": "assets/images/Laender8.png",
-        "answers": ["1", "2", "3", "4"],
-        "correctIndex": 2,
-        "topicId": "democracy",
-        "explanation": "Auf der Deutschlandkarte ist Nordrhein-Westfalen im Westen (Nr. 3) markiert.",
-        "hasImage": true
-      },
-      {
-        "id": "NW008",
-        "text": "Welches Bundesland ist Nordrhein-Westfalen?",
         "answers": ["1", "2", "3", "4"],
         "correctIndex": 2,
         "topicId": "democracy",
