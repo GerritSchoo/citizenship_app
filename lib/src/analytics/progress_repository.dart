@@ -243,8 +243,12 @@ class ProgressRepository {
     final placeholders = List.filled(modes.length, '?').join(',');
     final rows = await db.rawQuery('''
       SELECT topicId as t, SUM(isCorrect) as correct, COUNT(*) as total
-      FROM attempts WHERE topicId IS NOT NULL AND mode IN ($placeholders)
-      GROUP BY topicId ORDER BY t ASC
+      FROM attempts
+      WHERE topicId IS NOT NULL
+        AND isState = 0
+        AND mode IN ($placeholders)
+      GROUP BY topicId
+      ORDER BY t ASC
     ''', modes);
     return rows.map((r) => TopicStat(
           topicId: (r['t'] as String?) ?? 'unknown',
@@ -279,5 +283,31 @@ class ProgressRepository {
     final completed = results.where((e) => e.completed).length;
     if (completed == 0) return 0.0;
     return passed / completed;
+  }
+
+  Future<void> clearAll() async {
+    // Best-effort: initialize if not yet initialized
+    if (_db == null) {
+      await init();
+    }
+    final db = _db;
+    if (db == null) return;
+    await db.transaction((txn) async {
+      await txn.delete('attempts');
+      await txn.delete('sessions');
+    });
+  }
+
+  Future<void> clearByMode(SessionMode mode) async {
+    if (_db == null) {
+      await init();
+    }
+    final db = _db;
+    if (db == null) return;
+    final modeName = mode.name;
+    await db.transaction((txn) async {
+      await txn.delete('attempts', where: 'mode = ?', whereArgs: [modeName]);
+      await txn.delete('sessions', where: 'mode = ?', whereArgs: [modeName]);
+    });
   }
 }
