@@ -260,6 +260,12 @@
       "id": "Q021",
       "text": "Welches ist das Wappen der Bundesrepublik Deutschland?",
       "answers": ["Bild 1.", "Bild 2.", "Bild 3.", "Bild 4."],
+      "answerImages": [
+        "assets/images/GER.png",
+        "assets/images/Christ.png",
+        "assets/images/Bundeswehr.png",
+        "assets/images/DDR.png"
+        ],
       "correctIndex": 3,
       "topicId": "people_society",
       "explanation": "Das Wappen der Bundesrepublik Deutschland zeigt einen schwarzen Adler auf goldenem Grund.",
@@ -660,6 +666,7 @@
   {
     "id": "Q055",
     "text": "Was zeigt dieses Bild?",
+    "image": "assets/images/Bundestag.jpg",
     "answers": [
       "den Bundestagssitz in Berlin",
       "das Bundesverfassungsgericht in Karlsruhe",
@@ -815,6 +822,7 @@
   {
     "id": "Q070",
     "text": "Der deutsche Bundespräsident Gustav Heinemann gibt Helmut Schmidt 1974 die Ernennungsurkunde zum deutschen Bundeskanzler. Was gehört zu den Aufgaben der deutschen Bundespräsidentin/des deutschen Bundespräsidenten?",
+    "image": "assets/images/Bundespresident.png",
     "answers": [
       "Sie/Er führt die Regierungsgeschäfte.",
       "Sie/Er kontrolliert die Regierungspartei.",
@@ -1415,6 +1423,7 @@
   {
     "id": "Q130",
     "text": "Welcher Stimmzettel wäre bei einer Bundestagswahl gültig?",
+    "image": "assets/images/Stimmzettel.png",
     "answers": ["1", "2", "3", "4"],
     "correctIndex": 0,
     "topicId": "democracy",
@@ -2014,6 +2023,7 @@
   {
     "id": "Q176",
     "text": "Wie waren die Besatzungszonen Deutschlands nach 1945 verteilt?",
+    "image": "assets/images/Besatzungszonen.png",
     "answers": [
       "1=Großbritannien, 2=Sowjetunion, 3=Frankreich, 4=USA",
       "1=Sowjetunion, 2=Großbritannien, 3=USA, 4=Frankreich",
@@ -2023,7 +2033,7 @@
     "correctIndex": 2,
     "topicId": "history_responsibility",
     "explanation": "Die Besatzungszonen waren: 1=Großbritannien, 2=Sowjetunion, 3=USA, 4=Frankreich.",
-    "hasImage": false
+    "hasImage": true
   },
   {
     "id": "Q177",
@@ -2084,6 +2094,7 @@
   {
     "id": "Q181",
     "text": "Was wollte Willy Brandt mit seinem Kniefall 1970 im ehemaligen jüdischen Ghetto in Warschau ausdrücken?",
+    "image": "assets/images/WillyBrandKniefall.jpg",
     "answers": [
       "Er hat sich den ehemaligen Alliierten unterworfen.",
       "Er bat Polen und die polnischen Juden um Vergebung.",
@@ -2163,6 +2174,7 @@
   {
     "id": "Q187",
     "text": "Welcher deutsche Staat hatte eine schwarz-rot-goldene Flagge mit Hammer, Zirkel und Ährenkranz?",
+    "image": "assets/images/DDRFlagge.png",
     "answers": ["Preußen", "Bundesrepublik Deutschland", "‚Drittes Reich‘", "DDR"],
     "correctIndex": 3,
     "topicId": "history_responsibility",
@@ -2417,6 +2429,12 @@
     "id": "Q209",
     "text": "Welches war das Wappen der Deutschen Demokratischen Republik?",
     "answers": ["Bild 1", "Bild 2", "Bild 3", "Bild 4"],
+    "answerImages": [
+        "assets/images/GER.png",
+        "assets/images/Christ.png",
+        "assets/images/Bundeswehr.png",
+        "assets/images/DDR.png"
+        ],
     "correctIndex": 3,
     "topicId": "history_responsibility",
     "explanation": "Das Wappen der DDR zeigte Hammer, Zirkel und Ährenkranz als Symbole der Arbeiter, Bauern und Intelligenz.",
@@ -2504,6 +2522,7 @@
   {
     "id": "Q216",
     "text": "Welches Symbol ist im Plenarsaal des Deutschen Bundestages zu sehen?",
+    "image": "assets/images/BundesadlerParlament.jpg",
     "answers": [
       "der Bundesadler",
       "die Fahne der Stadt Berlin",
@@ -2610,6 +2629,12 @@
     "id": "Q226",
     "text": "Welche ist die Flagge der Europäischen Union?",
     "answers": ["Bild 1", "Bild 2", "Bild 3", "Bild 4"],
+    "answerImages": [
+        "assets/images/USA.png",
+        "assets/images/EU.jpg",
+        "assets/images/UN.jpg",
+        "assets/images/Etwas.jpg"
+        ],
     "correctIndex": 1,
     "topicId": "democracy",
     "explanation": "Die Flagge der EU ist blau mit einem Kreis aus zwölf goldenen Sternen.",
@@ -2695,6 +2720,7 @@
   {
     "id": "Q235",
     "text": "Der damalige französische Staatspräsident François Mitterrand und der damalige deutsche Bundeskanzler Helmut Kohl gedenken in Verdun gemeinsam der Toten beider Weltkriege. Welches Ziel der Europäischen Union wird bei diesem Treffen deutlich?",
+    "image": "assets/images/KohlFranzose.jpg",
     "answers": [
       "Freundschaft zwischen England und Deutschland",
       "Reisefreiheit in alle Länder der EU",
@@ -3439,6 +3465,12 @@
         "id": "BW001",
         "text": "Welches Wappen gehört zum Bundesland Baden-Württemberg?",
         "answers": ["Bild 1", "Bild 2", "Bild 3", "Bild 4"],
+        "answerImages": [
+          "assets/images/BW.png",
+          "assets/images/TH.png",
+          "assets/images/ST.png",
+          "assets/images/HH.png"
+        ],
         "correctIndex": 0,
         "topicId": "democracy",
         "explanation": "Das Landeswappen Baden-Württembergs zeigt drei schwarze Löwen auf goldenem Schild (Bild 1).",
@@ -3506,6 +3538,7 @@
       {
         "id": "BW008",
         "text": "Welches Bundesland ist Baden-Württemberg?",
+        "image": "assets/images/Laender1.png",
         "answers": ["1", "2", "3", "4"],
         "correctIndex": 1,
         "topicId": "democracy",
@@ -3541,6 +3574,12 @@
         "id": "BY001",
         "text": "Welches Wappen gehört zum Freistaat Bayern?",
         "answers": ["Bild 1", "Bild 2", "Bild 3", "Bild 4"],
+        "answerImages": [
+          "assets/images/BW.png",
+          "assets/images/BY.png",
+          "assets/images/ST.png",
+          "assets/images/MV.png"
+        ],
         "correctIndex": 1,
         "topicId": "democracy",
         "explanation": "Das bayerische Wappen zeigt den weiß-blauen Rautenschild mit Krone (Bild 2).",
@@ -3608,6 +3647,7 @@
       {
         "id": "BY008",
         "text": "Welches Bundesland ist Bayern?",
+        "image": "assets/images/Laender2.png",
         "answers": ["1", "2", "3", "4"],
         "correctIndex": 3,
         "topicId": "democracy",
@@ -3648,7 +3688,13 @@
         "id": "BE001",
         "text": "Welches Wappen gehört zum Bundesland Berlin?",
         "answers": ["Bild 1", "Bild 2", "Bild 3", "Bild 4"],
-        "correctIndex": 4,
+        "answerImages": [
+          "assets/images/HH.png",
+          "assets/images/HB.png",
+          "assets/images/HE.png",
+          "assets/images/BE.png"
+        ],
+        "correctIndex": 3,
         "topicId": "democracy",
         "explanation": "Das Berliner Wappen zeigt den schwarzen Bären auf weißem Schild mit roter Krone (Bild 4).",
         "hasImage": true
@@ -3710,6 +3756,7 @@
       {
         "id": "BE008",
         "text": "Welches Bundesland ist Berlin?",
+        "image": "assets/images/Laender3.png",
         "answers": ["1", "2", "3", "4"],
         "correctIndex": 3,
         "topicId": "democracy",
@@ -3740,6 +3787,12 @@
         "id": "BB001",
         "text": "Welches Wappen gehört zum Bundesland Brandenburg?",
         "answers": ["Bild 1", "Bild 2", "Bild 3", "Bild 4"],
+        "answerImages": [
+          "assets/images/BB.png",
+          "assets/images/RP.png",
+          "assets/images/SL.png",
+          "assets/images/BW.png"
+        ],
         "correctIndex": 0,
         "topicId": "democracy",
         "explanation": "Das Landeswappen Brandenburgs zeigt einen roten Adler auf weißem Hintergrund (Bild 1).",
@@ -3802,6 +3855,7 @@
       {
         "id": "BB008",
         "text": "Welches Bundesland ist Brandenburg?",
+        "image": "assets/images/Laender4.png",
         "answers": ["1", "2", "3", "4"],
         "correctIndex": 3,
         "topicId": "democracy",
@@ -3832,6 +3886,12 @@
         "id": "HB001",
         "text": "Welches Wappen gehört zur Freien Hansestadt Bremen?",
         "answers": ["Bild 1", "Bild 2", "Bild 3", "Bild 4"],
+        "answerImages": [
+          "assets/images/SH.png",
+          "assets/images/BW.png",
+          "assets/images/HB.png",
+          "assets/images/BY.png"
+        ],
         "correctIndex": 2,
         "topicId": "democracy",
         "explanation": "Das Wappen Bremens zeigt einen silbernen Schlüssel auf rotem Grund (Bild 3).",
@@ -3899,6 +3959,7 @@
       {
         "id": "HB008",
         "text": "Welches Bundesland ist Bremen?",
+        "image": "assets/images/Laender3.png",
         "answers": ["1", "2", "3", "4"],
         "correctIndex": 0,
         "topicId": "democracy",
@@ -3939,6 +4000,12 @@
         "id": "HH001",
         "text": "Welches Wappen gehört zur Freien und Hansestadt Hamburg?",
         "answers": ["Bild 1", "Bild 2", "Bild 3", "Bild 4"],
+        "answerImages": [
+          "assets/images/NI.png",
+          "assets/images/HH.png",
+          "assets/images/NR.png",
+          "assets/images/ST.png"
+        ],
         "correctIndex": 1,
         "topicId": "democracy",
         "explanation": "Das Wappen Hamburgs zeigt eine weiße Burg mit drei Türmen auf rotem Grund (Bild 2).",
@@ -4006,6 +4073,7 @@
       {
         "id": "HH008",
         "text": "Welches Bundesland ist Hamburg?",
+        "image": "assets/images/Laender3.png",
         "answers": ["1", "2", "3", "4"],
         "correctIndex": 2,
         "topicId": "democracy",
@@ -4046,6 +4114,12 @@
         "id": "HE001",
         "text": "Welches Wappen gehört zum Bundesland Hessen?",
         "answers": ["Bild 1", "Bild 2", "Bild 3", "Bild 4"],
+        "answerImages": [
+          "assets/images/HE.png",
+          "assets/images/BE.png",
+          "assets/images/SH.png",
+          "assets/images/SN.png"
+        ],
         "correctIndex": 0,
         "topicId": "democracy",
         "explanation": "Das hessische Wappen zeigt einen rot-weiß gestreiften Löwen auf blauem Grund (Bild 1).",
@@ -4108,6 +4182,7 @@
       {
         "id": "HE008",
         "text": "Welches Bundesland ist Hessen?",
+        "image": "assets/images/Laender5.png",
         "answers": ["1", "2", "3", "4"],
         "correctIndex": 2,
         "topicId": "democracy",
@@ -4148,6 +4223,12 @@
         "id": "MV001",
         "text": "Welches Wappen gehört zum Bundesland Mecklenburg-Vorpommern?",
         "answers": ["Bild 1", "Bild 2", "Bild 3", "Bild 4"],
+        "answerImages": [
+          "assets/images/TH.png",
+          "assets/images/BB.png",
+          "assets/images/MV.png",
+          "assets/images/NI.png"
+        ],
         "correctIndex": 2,
         "topicId": "democracy",
         "explanation": "Das Landeswappen Mecklenburg-Vorpommerns zeigt den Stierkopf von Mecklenburg und den Greif von Vorpommern (Bild 3).",
@@ -4210,6 +4291,7 @@
       {
         "id": "MV008",
         "text": "Welches Bundesland ist Mecklenburg-Vorpommern?",
+        "image": "assets/images/Laender6.png",
         "answers": ["1", "2", "3", "4"],
         "correctIndex": 2,
         "topicId": "democracy",
@@ -4250,6 +4332,12 @@
         "id": "NI001",
         "text": "Welches Wappen gehört zum Bundesland Niedersachsen?",
         "answers": ["Bild 1", "Bild 2", "Bild 3", "Bild 4"],
+        "answerImages": [
+          "assets/images/BY.png",
+          "assets/images/SH.png",
+          "assets/images/NI.png",
+          "assets/images/SN.png"
+        ],
         "correctIndex": 2,
         "topicId": "democracy",
         "explanation": "Das Wappen Niedersachsens zeigt ein weißes Pferd auf rotem Grund (Bild 3).",
@@ -4317,6 +4405,7 @@
       {
         "id": "NI008",
         "text": "Welches Bundesland ist Niedersachsen?",
+        "image": "assets/images/Laender7.png",
         "answers": ["1", "2", "3", "4"],
         "correctIndex": 0,
         "topicId": "democracy",
@@ -4357,6 +4446,12 @@
         "id": "NW001",
         "text": "Welches Wappen gehört zum Bundesland Nordrhein-Westfalen?",
         "answers": ["Bild 1", "Bild 2", "Bild 3", "Bild 4"],
+        "answerImages": [
+          "assets/images/HB.png",
+          "assets/images/NR.png",
+          "assets/images/ST.png",
+          "assets/images/BW.png"
+        ],
         "correctIndex": 1,
         "topicId": "democracy",
         "explanation": "Das Landeswappen Nordrhein-Westfalens zeigt den Rhein, das Westfalenross und die Lippische Rose (Bild 2).",
@@ -4424,6 +4519,7 @@
       {
         "id": "NW008",
         "text": "Welches Bundesland ist Nordrhein-Westfalen?",
+        "image": "assets/images/Laender8.png",
         "answers": ["1", "2", "3", "4"],
         "correctIndex": 2,
         "topicId": "democracy",
@@ -4473,6 +4569,12 @@
         "id": "RP001",
         "text": "Welches Wappen gehört zum Bundesland Rheinland-Pfalz?",
         "answers": ["Bild 1", "Bild 2", "Bild 3", "Bild 4"],
+        "answerImages": [
+          "assets/images/RP.png",
+          "assets/images/HH.png",
+          "assets/images/TH.png",
+          "assets/images/SH.png"
+        ],
         "correctIndex": 0,
         "topicId": "democracy",
         "explanation": "Das Wappen Rheinland-Pfalz zeigt das Mainzer Rad, das Trierer Kreuz und den Pfälzer Löwen (Bild 1).",
@@ -4540,6 +4642,7 @@
       {
         "id": "RP008",
         "text": "Welches Bundesland ist Rheinland-Pfalz?",
+        "image": "assets/images/Laender1.png",
         "answers": ["1", "2", "3", "4"],
         "correctIndex": 0,
         "topicId": "democracy",
@@ -4580,6 +4683,12 @@
         "id": "SL001",
         "text": "Welches Wappen gehört zum Bundesland Saarland?",
         "answers": ["Bild 1", "Bild 2", "Bild 3", "Bild 4"],
+        "answerImages": [
+          "assets/images/RP.png",
+          "assets/images/HE.png",
+          "assets/images/MV.png",
+          "assets/images/SL.png"
+        ],
         "correctIndex": 3,
         "topicId": "democracy",
         "explanation": "Das Wappen des Saarlands vereint Symbole der Regionen Nassau, Lothringen, Pfalz-Zweibrücken und Saarbrücken (Bild 4).",
@@ -4642,10 +4751,11 @@
       {
         "id": "SL008",
         "text": "Welches Bundesland ist das Saarland?",
+        "image": "assets/images/Laender3.png",
         "answers": ["1", "2", "3", "4"],
-        "correctIndex": 3,
+        "correctIndex": 1,
         "topicId": "democracy",
-        "explanation": "Auf der Deutschlandkarte ist das Saarland im Südwesten (Nr. 4) markiert.",
+        "explanation": "Auf der Deutschlandkarte ist das Saarland im Südwesten (Nr. 2) markiert.",
         "hasImage": true
       },
       {
@@ -4672,6 +4782,12 @@
         "id": "SN001",
         "text": "Welches Wappen gehört zum Freistaat Sachsen?",
         "answers": ["Bild 1", "Bild 2", "Bild 3", "Bild 4"],
+        "answerImages": [
+          "assets/images/BY.png",
+          "assets/images/BE.png",
+          "assets/images/NI.png",
+          "assets/images/SN.png"
+        ],
         "correctIndex": 3,
         "topicId": "democracy",
         "explanation": "Das Wappen Sachsens zeigt einen schwarz-gold gestreiften Schild mit grünem Rautenkranz (Bild 4).",
@@ -4739,6 +4855,7 @@
       {
         "id": "SN008",
         "text": "Welches Bundesland ist Sachsen?",
+        "image": "assets/images/Laender7.png",
         "answers": ["1", "2", "3", "4"],
         "correctIndex": 3,
         "topicId": "democracy",
@@ -4779,6 +4896,12 @@
         "id": "ST001",
         "text": "Welches Wappen gehört zum Bundesland Sachsen-Anhalt?",
         "answers": ["Bild 1", "Bild 2", "Bild 3", "Bild 4"],
+        "answerImages": [
+          "assets/images/BY.png",
+          "assets/images/HH.png",
+          "assets/images/RP.png",
+          "assets/images/ST.png"
+        ],
         "correctIndex": 3,
         "topicId": "democracy",
         "explanation": "Das Wappen von Sachsen-Anhalt zeigt einen geteilten Schild mit dem preußischen Adler und dem sächsischen Rautenkranz und unten einen schreitenden Bären auf roter Zinnenmauer (Bild 4).",
@@ -4841,6 +4964,7 @@
       {
         "id": "ST008",
         "text": "Welches Bundesland ist Sachsen-Anhalt?",
+        "image": "assets/images/Laender7.png",
         "answers": ["1", "2", "3", "4"],
         "correctIndex": 2,
         "topicId": "democracy",
@@ -4871,6 +4995,12 @@
         "id": "SH001",
         "text": "Welches Wappen gehört zum Bundesland Schleswig-Holstein?",
         "answers": ["Bild 1", "Bild 2", "Bild 3", "Bild 4"],
+        "answerImages": [
+          "assets/images/SL.png",
+          "assets/images/BE.png",
+          "assets/images/SH.png",
+          "assets/images/TH.png"
+        ],
         "correctIndex": 2,
         "topicId": "democracy",
         "explanation": "Das Wappen von Schleswig-Holstein zeigt die Holsteiner Nesselblattfigur und den Schleswiger Löwen (Bild 3).",
@@ -4938,6 +5068,7 @@
       {
         "id": "SH008",
         "text": "Welches Bundesland ist Schleswig-Holstein?",
+        "image": "assets/images/Laender9.png",
         "answers": ["1", "2", "3", "4"],
         "correctIndex": 0,
         "topicId": "democracy",
@@ -4978,6 +5109,12 @@
         "id": "TH001",
         "text": "Welches Wappen gehört zum Freistaat Thüringen?",
         "answers": ["Bild 1", "Bild 2", "Bild 3", "Bild 4"],
+        "answerImages": [
+          "assets/images/BW.png",
+          "assets/images/MV.png",
+          "assets/images/SN.png",
+          "assets/images/TH.png"
+        ],
         "correctIndex": 3,
         "topicId": "democracy",
         "explanation": "Das Wappen Thüringens zeigt den achtstrahligen Sternenkranz und den Löwen auf blauem Grund (Bild 4).",
@@ -5045,10 +5182,11 @@
       {
         "id": "TH008",
         "text": "Welches Bundesland ist Thüringen?",
+        "image": "assets/images/Laender7.png",
         "answers": ["1", "2", "3", "4"],
         "correctIndex": 1,
         "topicId": "democracy",
-        "explanation": "Auf der Deutschlandkarte ist Thüringen zentral im Osten (Nr. 3) markiert.",
+        "explanation": "Auf der Deutschlandkarte ist Thüringen zentral im Osten (Nr. 2) markiert.",
         "hasImage": true
       },
       {
