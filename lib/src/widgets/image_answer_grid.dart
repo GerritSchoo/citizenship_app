@@ -68,7 +68,8 @@ class ImageAnswerGrid extends StatelessWidget {
         return Material(
           color: Colors.transparent,
           shape: shape,
-          clipBehavior: Clip.antiAlias,
+          // Do not clip children so image edges stay intact (not rounded)
+          clipBehavior: Clip.none,
           child: InkWell(
             customBorder: shape,
             onTap: () => onTap(i),
@@ -89,7 +90,11 @@ class ImageAnswerGrid extends StatelessWidget {
                 ),
               ),
               if (overlay != null)
-                Container(color: overlay),
+                // Keep rounded highlight while preserving image edges
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Container(color: overlay),
+                ),
               if (icon != null)
                 Positioned(right: 8, top: 8, child: Icon(icon, color: iconColor, size: 24)),
             ]),
