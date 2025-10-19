@@ -7,13 +7,13 @@ import 'src/core/prefs.dart';
 class App extends StatefulWidget {
   const App({super.key});
 
-  static _AppState? of(BuildContext context) => context.findAncestorStateOfType<_AppState>();
+  static AppState? of(BuildContext context) => context.findAncestorStateOfType<AppState>();
 
   @override
-  State<App> createState() => _AppState();
+  State<App> createState() => AppState();
 }
 
-class _AppState extends State<App> {
+class AppState extends State<App> {
   String? _initialStateCode;
   bool _loading = true;
   ThemeMode _themeMode = ThemeMode.system;
