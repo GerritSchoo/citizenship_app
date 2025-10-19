@@ -111,7 +111,12 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(positionLabel, style: theme.textTheme.titleMedium),
+              Text(
+                positionLabel,
+                style: theme.textTheme.titleMedium,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
               const SizedBox(height: 12),
               Expanded(
                 child: ListView(

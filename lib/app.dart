@@ -6,6 +6,7 @@ import 'src/core/prefs.dart';
 import 'src/analytics/progress_repository.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'l10n/app_localizations.dart';
+import 'package:flutter_localized_locales/flutter_localized_locales.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -112,11 +113,20 @@ class AppState extends State<App> {
       scaffoldMessengerKey: _messengerKey,
       localizationsDelegates: [
         AppLocalizations.delegate,
+        LocaleNamesLocalizationsDelegate(),
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: const [Locale('de'), Locale('en')],
+      supportedLocales: AppLocalizations.supportedLocales,
+      localeResolutionCallback: (deviceLocale, supported) {
+        if (_locale != null) return _locale; // explicit choice wins
+        if (deviceLocale == null) return supported.first;
+        for (final l in supported) {
+          if (l.languageCode == deviceLocale.languageCode) return l;
+        }
+        return supported.first; // default fallback
+      },
       locale: _locale,
       home: _initialStateCode == null ? const InitialSetupScreen() : const HomeScreen(),
     );

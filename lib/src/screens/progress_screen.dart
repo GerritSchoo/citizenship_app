@@ -154,9 +154,9 @@ class _KpiRow extends StatelessWidget {
     return SizedBox(
       height: 120,
       child: Row(children: [
-        Expanded(child: _KpiCard(label: 'Fragen bearbeitet', value: '${overall.total}')),
+        Expanded(child: _KpiCard(label: AppLocalizations.of(context).progress_worked_questions, value: '${overall.total}')),
         const SizedBox(width: 12),
-        Expanded(child: _KpiCard(label: 'Ø Zeit', value: time(overall.avgTimeMs))),
+        Expanded(child: _KpiCard(label: AppLocalizations.of(context).progress_avg_time, value: time(overall.avgTimeMs))),
       ]),
     );
   }
@@ -218,7 +218,7 @@ class _OverallProgressBar extends StatelessWidget {
           children: [
             Row(
               children: [
-                Expanded(child: Text('Insgesamt', style: Theme.of(context).textTheme.labelLarge)),
+                Expanded(child: Text(AppLocalizations.of(context).progress_overall_accuracy, style: Theme.of(context).textTheme.labelLarge)),
                 Text('$pct%'),
               ],
             ),
@@ -323,7 +323,7 @@ class _PassRateBar extends StatelessWidget {
           children: [
             Row(
               children: [
-                Expanded(child: Text('Pass-Rate', style: Theme.of(context).textTheme.labelLarge)),
+                Expanded(child: Text(AppLocalizations.of(context).progress_pass_rate, style: Theme.of(context).textTheme.labelLarge)),
                 Text('$pct%'),
               ],
             ),

@@ -19,7 +19,7 @@ class MockExamRulesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context).exam_rules_title),
+  title: Text(AppLocalizations.of(context).exam_rules_title, maxLines: 1, overflow: TextOverflow.ellipsis),
         // keep the default back button
       ),
       body: SafeArea(
@@ -37,7 +37,7 @@ class MockExamRulesScreen extends StatelessWidget {
                     children: [
                       CircleAvatar(radius: 14, backgroundColor: Colors.blue.shade100, child: Text('${index + 1}')),
                       const SizedBox(width: 12),
-                      Expanded(child: Text(rule, style: Theme.of(context).textTheme.bodyMedium)),
+                      Expanded(child: Text(rule, style: Theme.of(context).textTheme.bodyMedium, softWrap: true)),
                     ],
                   );
                 },
