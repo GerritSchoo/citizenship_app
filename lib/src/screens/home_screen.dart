@@ -77,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
         PopupMenuItem(value: 'language', child: SizedBox(width: _menuWidth, child: Text('Language', style: Theme.of(context).textTheme.bodySmall))),
         PopupMenuItem(value: 'state', child: SizedBox(width: _menuWidth, child: Text('State', style: Theme.of(context).textTheme.bodySmall))),
         PopupMenuItem(value: 'theme', child: SizedBox(width: _menuWidth, child: Text('Theme', style: Theme.of(context).textTheme.bodySmall))),
-        PopupMenuItem(value: 'reset', child: SizedBox(width: _menuWidth, child: Text('Reset Analyse', style: Theme.of(context).textTheme.bodySmall))),
+        PopupMenuItem(value: 'analyse', child: SizedBox(width: _menuWidth, child: Text('Analyse', style: Theme.of(context).textTheme.bodySmall))),
       ],
     );
     switch (selected) {
@@ -90,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
       case 'theme':
         _showThemeMenu();
         break;
-      case 'reset':
+      case 'analyse':
         _showResetMenu();
         break;
     }
@@ -197,13 +197,24 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
-                    'Reset Analyse',
+                    'Analyse',
                     style: Theme.of(context).textTheme.titleSmall,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ],
+            ),
+          ),
+        ),
+        PopupMenuItem(
+          value: 'reset_all',
+          child: SizedBox(
+            width: _menuWidth,
+            child: Text(
+              'Alles zurücksetzen',
+              style: Theme.of(context).textTheme.bodySmall,
+              softWrap: true,
             ),
           ),
         ),
@@ -233,6 +244,13 @@ class _HomeScreenState extends State<HomeScreen> {
     );
     if (choice == null) return;
     if (choice == 'back') {
+      _showMainMenu();
+      return;
+    }
+    if (choice == 'reset_all') {
+      await ProgressRepository.instance.clearAll();
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Analyse: Alles zurückgesetzt')));
       _showMainMenu();
       return;
     }
