@@ -11,6 +11,7 @@ import '../utils/asset_image_cache.dart';
 import '../analytics/progress_repository.dart';
 // question model used indirectly via controller
 import 'mock_exam_result_screen.dart';
+import '../../l10n/app_localizations.dart';
 
 /// Mock exam screen: uses Controller.loadMockExam to prepare a 33-question exam.
 /// - 30 general + 3 state (if available)
@@ -139,12 +140,13 @@ class _MockExamScreenState extends State<MockExamScreen> {
     final ok = await showDialog<bool>(
       context: context,
       builder: (c) {
+        final l10n = AppLocalizations.of(c);
         return AlertDialog(
-          title: const Text('Prüfung abgeben?'),
+          title: Text(l10n.exam_confirm_title),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text('Möchtest du die Prüfung jetzt abgeben? Du kannst danach nicht zurück.'),
+              Text(l10n.exam_confirm_body),
               const SizedBox(height: 16),
               Row(
                 children: [
@@ -153,7 +155,7 @@ class _MockExamScreenState extends State<MockExamScreen> {
                       height: 44,
                       child: ElevatedButton(
                         onPressed: () => Navigator.of(c).pop(true),
-                        child: const Text('Ja'),
+                        child: Text(l10n.yes_btn),
                       ),
                     ),
                   ),
@@ -163,7 +165,7 @@ class _MockExamScreenState extends State<MockExamScreen> {
                       height: 44,
                       child: ElevatedButton(
                         onPressed: () => Navigator.of(c).pop(false),
-                        child: const Text('Nein'),
+                        child: Text(l10n.no_btn),
                       ),
                     ),
                   ),
@@ -182,6 +184,7 @@ class _MockExamScreenState extends State<MockExamScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return PopScope(
       canPop: false,
       child: Scaffold(
@@ -190,14 +193,14 @@ class _MockExamScreenState extends State<MockExamScreen> {
           child: (_controller == null || _controller!.isLoading)
               ? const Center(child: CircularProgressIndicator())
               : _controller!.questions.isEmpty
-                  ? const Center(child: Text('Keine Fragen verfügbar'))
+                  ? Center(child: Text(l10n.no_questions))
                   : Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           // Heading
-                          Center(child: Text('Probeprüfung', style: Theme.of(context).textTheme.titleLarge)),
+                          Center(child: Text(l10n.mock_exam_title, style: Theme.of(context).textTheme.titleLarge)),
                           const SizedBox(height: 8),
                           // Timer (left) and Abgeben button (right) on the same row
                           Row(
@@ -207,13 +210,13 @@ class _MockExamScreenState extends State<MockExamScreen> {
                               const Spacer(),
                               ElevatedButton(
                                 onPressed: _submitting ? null : _onAbgebenPressed,
-                                child: const Text('Abgeben'),
+                                child: Text(l10n.exam_submit),
                               ),
                             ],
                           ),
                           const SizedBox(height: 12),
                           // position label and questions below
-                          Text(_controller!.positionLabel(), style: Theme.of(context).textTheme.titleSmall),
+                          Text(l10n.position_label((_controller!.currentIndex + 1).toString(), _controller!.questions.length.toString()), style: Theme.of(context).textTheme.titleSmall),
                           const SizedBox(height: 8),
                           Expanded(
                             child: ListView(
@@ -277,7 +280,7 @@ class _MockExamScreenState extends State<MockExamScreen> {
                                       : null,
                                       // Prefetch around new index
                                       onLongPress: null,
-                                  child: const Text('Zurück'),
+                                  child: Text(l10n.back_btn),
                                 ),
                               ),
                               const SizedBox(width: 8),
@@ -288,7 +291,7 @@ class _MockExamScreenState extends State<MockExamScreen> {
                                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                                   ),
                                   onPressed: _controller!.currentIndex < _controller!.questions.length - 1 ? () { setState(() { _controller!.next(); }); _prefetchAroundCurrent(); } : null,
-                                  child: const Text('Weiter'),
+                                  child: Text(l10n.next_btn),
                                 ),
                               ),
                             ],

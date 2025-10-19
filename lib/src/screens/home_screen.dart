@@ -9,6 +9,7 @@ import 'progress_screen.dart';
 import '../data/states.dart';
 import '../core/prefs.dart';
 import '../analytics/progress_repository.dart';
+import '../../l10n/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -55,8 +56,9 @@ class _HomeScreenState extends State<HomeScreen> {
     });
     AppPrefs.saveSelectedState(code);
     final label = _selectedStateLabel ?? code;
+  final l10n = AppLocalizations.of(context);
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Selected state: $label')),
+      SnackBar(content: Text(l10n.snack_state_selected(label))),
     );
   }
 
@@ -75,10 +77,10 @@ class _HomeScreenState extends State<HomeScreen> {
       context: context,
       position: _menuPosition(),
       items: [
-        PopupMenuItem(value: 'language', child: SizedBox(width: _menuWidth, child: Text('Language', style: Theme.of(context).textTheme.bodySmall))),
-        PopupMenuItem(value: 'state', child: SizedBox(width: _menuWidth, child: Text('State', style: Theme.of(context).textTheme.bodySmall))),
-        PopupMenuItem(value: 'theme', child: SizedBox(width: _menuWidth, child: Text('Theme', style: Theme.of(context).textTheme.bodySmall))),
-        PopupMenuItem(value: 'analyse', child: SizedBox(width: _menuWidth, child: Text('Analyse', style: Theme.of(context).textTheme.bodySmall))),
+  PopupMenuItem(value: 'language', child: SizedBox(width: _menuWidth, child: Text(AppLocalizations.of(context).menu_language, style: Theme.of(context).textTheme.bodySmall))),
+  PopupMenuItem(value: 'state', child: SizedBox(width: _menuWidth, child: Text(AppLocalizations.of(context).menu_state, style: Theme.of(context).textTheme.bodySmall))),
+  PopupMenuItem(value: 'theme', child: SizedBox(width: _menuWidth, child: Text(AppLocalizations.of(context).menu_theme, style: Theme.of(context).textTheme.bodySmall))),
+  PopupMenuItem(value: 'analyse', child: SizedBox(width: _menuWidth, child: Text(AppLocalizations.of(context).menu_analyse, style: Theme.of(context).textTheme.bodySmall))),
       ],
     );
     switch (selected) {
@@ -98,7 +100,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _showLanguageMenu() async {
-    final messenger = ScaffoldMessenger.of(context);
+  final messenger = ScaffoldMessenger.of(context);
+  final appState = App.of(context);
     final choice = await showMenu<String>(
       context: context,
       position: _menuPosition(),
@@ -111,14 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 const Icon(Icons.arrow_back, size: 24),
                 const SizedBox(width: 10),
-                Expanded(
-                  child: Text(
-                    'Language',
-                    style: Theme.of(context).textTheme.titleSmall,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
+                Expanded(child: Text(AppLocalizations.of(context).menu_language, style: Theme.of(context).textTheme.titleSmall, maxLines: 1, overflow: TextOverflow.ellipsis)),
               ],
             ),
           ),
@@ -134,10 +130,13 @@ class _HomeScreenState extends State<HomeScreen> {
       return;
     }
     await AppPrefs.saveLocale(choice);
+    if (appState != null) {
+      await appState.setLocale(Locale(choice));
+    }
     if (!mounted) return;
-    messenger.showSnackBar(
-      SnackBar(content: Text('Language set to ${choice.toUpperCase()}')),
-    );
+    final code = choice.toLowerCase();
+    final label = code == 'de' ? 'Deutsch' : 'English';
+  messenger.showSnackBar(SnackBar(content: Text(AppLocalizations.of(context).snack_lang_set(label))));
     // Return to main menu for continued navigation
     _showMainMenu();
   }
@@ -153,14 +152,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               const Icon(Icons.arrow_back, size: 24),
               const SizedBox(width: 10),
-              Expanded(
-                child: Text(
-                  'State',
-                  style: Theme.of(context).textTheme.titleSmall,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
+                Expanded(child: Text(AppLocalizations.of(context).menu_state, style: Theme.of(context).textTheme.titleSmall, maxLines: 1, overflow: TextOverflow.ellipsis)),
             ],
           ),
         ),
@@ -201,14 +193,7 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 const Icon(Icons.arrow_back, size: 24),
                 const SizedBox(width: 10),
-                Expanded(
-                  child: Text(
-                    'Analyse',
-                    style: Theme.of(context).textTheme.titleSmall,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
+                Expanded(child: Text(AppLocalizations.of(context).menu_analyse, style: Theme.of(context).textTheme.titleSmall, maxLines: 1, overflow: TextOverflow.ellipsis)),
               ],
             ),
           ),
@@ -218,7 +203,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: SizedBox(
             width: _menuWidth,
             child: Text(
-              'Alles zurücksetzen',
+              AppLocalizations.of(context).reset_all,
               style: Theme.of(context).textTheme.bodySmall,
               softWrap: true,
             ),
@@ -229,7 +214,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: SizedBox(
             width: _menuWidth,
             child: Text(
-              'Lernen/Quiz zurücksetzen',
+              AppLocalizations.of(context).reset_practice,
               style: Theme.of(context).textTheme.bodySmall,
               softWrap: true,
             ),
@@ -240,7 +225,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: SizedBox(
             width: _menuWidth,
             child: Text(
-              'Prüfung zurücksetzen',
+              AppLocalizations.of(context).reset_exam,
               style: Theme.of(context).textTheme.bodySmall,
               softWrap: true,
             ),
@@ -257,21 +242,21 @@ class _HomeScreenState extends State<HomeScreen> {
     if (choice == 'reset_all') {
       await ProgressRepository.instance.clearAll();
       if (!mounted) return;
-      messenger.showSnackBar(const SnackBar(content: Text('Analyse: Alles zurückgesetzt')));
+  messenger.showSnackBar(SnackBar(content: Text(AppLocalizations.of(context).snack_reset_all)));
       _showMainMenu();
       return;
     }
     if (choice == 'reset_practice') {
       await ProgressRepository.instance.clearByMode(SessionMode.practice);
       if (!mounted) return;
-      messenger.showSnackBar(const SnackBar(content: Text('Analyse: Lernen/Quiz zurückgesetzt')));
+  messenger.showSnackBar(SnackBar(content: Text(AppLocalizations.of(context).snack_reset_practice)));
       _showMainMenu();
       return;
     }
     if (choice == 'reset_exam') {
       await ProgressRepository.instance.clearByMode(SessionMode.exam);
       if (!mounted) return;
-      messenger.showSnackBar(const SnackBar(content: Text('Analyse: Prüfung zurückgesetzt')));
+  messenger.showSnackBar(SnackBar(content: Text(AppLocalizations.of(context).snack_reset_exam)));
       _showMainMenu();
       return;
     }
@@ -294,7 +279,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
-                    'Theme',
+                    AppLocalizations.of(context).menu_theme,
                     style: Theme.of(context).textTheme.titleSmall,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -304,9 +289,9 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ),
-        PopupMenuItem(value: 'system', child: SizedBox(width: _menuWidth, child: Text('System', style: Theme.of(context).textTheme.bodySmall))),
-        PopupMenuItem(value: 'light', child: SizedBox(width: _menuWidth, child: Text('Light', style: Theme.of(context).textTheme.bodySmall))),
-        PopupMenuItem(value: 'dark', child: SizedBox(width: _menuWidth, child: Text('Dark', style: Theme.of(context).textTheme.bodySmall))),
+  PopupMenuItem(value: 'system', child: SizedBox(width: _menuWidth, child: Text(AppLocalizations.of(context).theme_system, style: Theme.of(context).textTheme.bodySmall))),
+  PopupMenuItem(value: 'light', child: SizedBox(width: _menuWidth, child: Text(AppLocalizations.of(context).theme_light, style: Theme.of(context).textTheme.bodySmall))),
+  PopupMenuItem(value: 'dark', child: SizedBox(width: _menuWidth, child: Text(AppLocalizations.of(context).theme_dark, style: Theme.of(context).textTheme.bodySmall))),
       ],
     );
     if (choice == null) return;
@@ -328,7 +313,7 @@ class _HomeScreenState extends State<HomeScreen> {
           await appState.setThemeMode(ThemeMode.system);
       }
       if (!mounted) return;
-      messenger.showSnackBar(SnackBar(content: Text('Theme: ${choice[0].toUpperCase()}${choice.substring(1)}')));
+  messenger.showSnackBar(SnackBar(content: Text('${AppLocalizations.of(context).menu_theme}: ${choice == 'system' ? AppLocalizations.of(context).theme_system : choice == 'light' ? AppLocalizations.of(context).theme_light : AppLocalizations.of(context).theme_dark}')));
       // Do not auto-reopen the menu; reopening immediately can render with stale theme.
       // Let the user open the menu again if needed.
     }
@@ -340,11 +325,11 @@ class _HomeScreenState extends State<HomeScreen> {
     final onPrimary = colorScheme.onPrimary;
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Citizenship Test Quiz"),
+  title: Text(AppLocalizations.of(context).app_title),
         actions: [
           IconButton(
             key: _menuKey,
-            tooltip: 'Menu',
+            tooltip: AppLocalizations.of(context).menu,
             icon: const Icon(Icons.more_vert),
             onPressed: _showMainMenu,
           ),
@@ -395,13 +380,16 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
+                                // Text column expands to take available space next to the icon
                                 Expanded(
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        'Citizenship Test',
+                                        AppLocalizations.of(context).home_header_title,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
                                         style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                                               color: onPrimary,
                                               fontWeight: FontWeight.w700,
@@ -409,22 +397,27 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ),
                                       const SizedBox(height: 8),
                                       Text(
-                                        'Learn, practice and pass the test',
+                                        AppLocalizations.of(context).home_header_subtitle,
+                                        maxLines: 2,
+                                        softWrap: true,
+                                        overflow: TextOverflow.ellipsis,
                                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: onPrimary.withValues(alpha: 0.9)),
                                       ),
                                       const SizedBox(height: 12),
                                       if (_selectedStateLabel != null)
                                         _StateChip(label: _selectedStateLabel!, code: _selectedStateCode, onPrimary: onPrimary)
                                       else
-                                        Text('No state selected', style: Theme.of(context).textTheme.bodySmall?.copyWith(color: onPrimary.withValues(alpha: 0.9))),
+                                        Text(AppLocalizations.of(context).home_no_state, style: Theme.of(context).textTheme.bodySmall?.copyWith(color: onPrimary.withValues(alpha: 0.9))),
                                     ],
                                   ),
                                 ),
-                                if (!isMedium && !isWide)
-                                  const SizedBox(width: 8)
-                                else
-                                  const SizedBox(width: 12),
-                                Icon(Icons.school, size: isWide ? 96 : 80, color: onPrimary.withValues(alpha: 0.95)),
+                                // Always show the decorative icon; size adapts to layout width
+                                SizedBox(width: isWide ? 12 : 8),
+                                Icon(
+                                  Icons.school,
+                                  size: isWide ? 96 : (isMedium ? 80 : 64),
+                                  color: onPrimary.withValues(alpha: 0.95),
+                                ),
                               ],
                             ),
                           ),
@@ -446,7 +439,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   delegate: SliverChildListDelegate([
                     _ActionCard(
                       icon: Icons.lightbulb_outline,
-                      label: 'Lernen',
+                      label: AppLocalizations.of(context).action_learn,
                       color: colorScheme.primary,
                       onTap: () {
                         Navigator.push(
@@ -459,11 +452,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         );
                       },
-                      semanticsLabel: 'Lernen öffnen',
+                      semanticsLabel: AppLocalizations.of(context).action_learn_sem,
                     ),
                     _ActionCard(
                       icon: Icons.quiz_outlined,
-                      label: 'Quiz',
+                      label: AppLocalizations.of(context).action_quiz,
                       color: colorScheme.tertiary,
                       onTap: () {
                         Navigator.push(
@@ -471,11 +464,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           MaterialPageRoute(builder: (_) => const QuizScreen()),
                         );
                       },
-                      semanticsLabel: 'Quiz öffnen',
+                      semanticsLabel: AppLocalizations.of(context).action_quiz_sem,
                     ),
                     _ActionCard(
                       icon: Icons.assignment_outlined,
-                      label: 'Prüfung',
+                      label: AppLocalizations.of(context).action_exam,
                       color: colorScheme.secondary,
                       onTap: () {
                         Navigator.push(
@@ -483,12 +476,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           MaterialPageRoute(builder: (_) => const MockExamRulesScreen()),
                         );
                       },
-                      semanticsLabel: 'Prüfung öffnen',
+                      semanticsLabel: AppLocalizations.of(context).action_exam_sem,
                     ),
                     // Analyse must remain last
                     _ActionCard(
                       icon: Icons.insights_outlined,
-                      label: 'Analyse',
+                      label: AppLocalizations.of(context).action_analytics,
                       color: colorScheme.surfaceTint,
                       onTap: () {
                         Navigator.push(
@@ -496,7 +489,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           MaterialPageRoute(builder: (_) => const ProgressScreen()),
                         );
                       },
-                      semanticsLabel: 'Analyse öffnen',
+                      semanticsLabel: AppLocalizations.of(context).action_analytics_sem,
                     ),
                   ]),
                 ),

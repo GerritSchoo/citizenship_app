@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../theme/app_theme.dart';
+import '../../l10n/app_localizations.dart';
 
 /// Grade categories matching the mock exam result screen semantics.
 enum ExamGradeCategory {
@@ -23,20 +24,21 @@ ExamGradeCategory gradeForCorrect(int correct) {
   return ExamGradeCategory.ungenuegend;
 }
 
-String labelForCategory(ExamGradeCategory c) {
+String labelForCategory(BuildContext context, ExamGradeCategory c) {
+  final l10n = AppLocalizations.of(context);
   switch (c) {
     case ExamGradeCategory.sehrGut:
-      return 'sehr gut';
+      return l10n.grade_sehr_gut;
     case ExamGradeCategory.gut:
-      return 'gut';
+      return l10n.grade_gut;
     case ExamGradeCategory.befriedigend:
-      return 'befriedigend';
+      return l10n.grade_befriedigend;
     case ExamGradeCategory.ausreichend:
-      return 'ausreichend';
+      return l10n.grade_ausreichend;
     case ExamGradeCategory.mangelhaft:
-      return 'mangelhaft';
+      return l10n.grade_mangelhaft;
     case ExamGradeCategory.ungenuegend:
-      return 'ungenügend';
+      return l10n.grade_ungenuegend;
   }
 }
 

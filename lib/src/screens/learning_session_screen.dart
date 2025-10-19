@@ -8,6 +8,7 @@ import '../widgets/image_answer_grid.dart';
 import '../utils/asset_image_cache.dart';
 import '../analytics/progress_repository.dart';
 import '../analytics/progress_tracker.dart';
+import '../../l10n/app_localizations.dart';
 
 class LearningSessionScreen extends StatefulWidget {
   final List<Question> questions;
@@ -86,17 +87,18 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     if (_controller.questions.isEmpty) {
       return Scaffold(
         appBar: AppBar(title: Text(widget.title)),
-        body: const Center(child: Text('Keine Fragen verfugbar.')),
+        body: Center(child: Text(l10n.no_questions)),
       );
     }
 
     final theme = Theme.of(context);
     final question = _controller.questions[_controller.currentIndex];
     final total = _controller.questions.length;
-    final positionLabel = 'Frage ${_controller.currentIndex + 1} von $total';
+  final positionLabel = l10n.position_label((_controller.currentIndex + 1).toString(), total.toString());
     final bool isLastQuestion = _controller.isLast;
 
   // colors are provided by AppColors when needed
@@ -215,7 +217,7 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                       ),
                       onPressed: _controller.currentIndex > 0 ? _goToPrevious : null,
-                      child: const Text('Zuruck'),
+                      child: Text(l10n.back_btn),
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -227,7 +229,7 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
                       ),
                       // Allow skipping without answering in Learning mode
                       onPressed: isLastQuestion ? () => Navigator.of(context).pop() : _goToNext,
-                      child: Text(isLastQuestion ? 'Fertig' : 'Weiter'),
+                      child: Text(isLastQuestion ? l10n.done_btn : l10n.next_btn),
                     ),
                   ),
                 ],

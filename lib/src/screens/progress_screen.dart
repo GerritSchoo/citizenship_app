@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../analytics/progress_repository.dart';
 import '../widgets/exam_result_indicator.dart';
 import '../data/question_repository.dart';
+import '../../l10n/app_localizations.dart';
 
 class ProgressScreen extends StatefulWidget {
   const ProgressScreen({super.key});
@@ -61,7 +62,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Analyse')),
+  appBar: AppBar(title: Text(AppLocalizations.of(context).progress_title)),
       body: FutureBuilder<_ProgressData>(
         future: _future,
         builder: (ctx, snap) {
@@ -80,9 +81,9 @@ class _ProgressScreenState extends State<ProgressScreen> {
                     ..addAll(includePractice ? ['practice'] : const [])
                     ..addAll(includeExam ? ['exam'] : const []);
                   return SegmentedButton<String>(
-                    segments: const <ButtonSegment<String>>[
-                      ButtonSegment<String>(value: 'practice', label: Text('Lernen/Quiz')),
-                      ButtonSegment<String>(value: 'exam', label: Text('Prüfung')),
+                    segments: <ButtonSegment<String>>[
+                      ButtonSegment<String>(value: 'practice', label: Text('${AppLocalizations.of(context).action_learn}/Quiz')),
+                      ButtonSegment<String>(value: 'exam', label: Text(AppLocalizations.of(context).action_exam)),
                     ],
                     selected: selected,
                     multiSelectionEnabled: true,
@@ -98,20 +99,20 @@ class _ProgressScreenState extends State<ProgressScreen> {
               const SizedBox(height: 12),
               _KpiRow(overall: data.overall),
               const SizedBox(height: 16),
-              _Section('Gesamtgenauigkeit', _OverallProgressBar(stat: data.overall)),
+              _Section(AppLocalizations.of(context).progress_overall_accuracy, _OverallProgressBar(stat: data.overall)),
               const SizedBox(height: 24),
               Builder(builder: (context) {
                 final extendedTitles = Map<String, String>.from(data.topicTitles);
-                extendedTitles['__state__'] = 'Bundesland-Fragen';
+                extendedTitles['__state__'] = AppLocalizations.of(context).progress_state_questions;
                 final extendedStats = List<TopicStat>.from(data.topics)
                   ..add(TopicStat(topicId: '__state__', correct: data.state.correct, total: data.state.total));
-                return _Section('Genauigkeit je Thema', _TopicProgressList(stats: extendedStats, titles: extendedTitles));
+                return _Section(AppLocalizations.of(context).progress_topic_accuracy, _TopicProgressList(stats: extendedStats, titles: extendedTitles));
               }),
               const SizedBox(height: 24),
               if (includeExam) ...[
-                _Section('Bestehensquote Prüfungen', _PassRateBar(rate: data.passRate)),
+                _Section(AppLocalizations.of(context).progress_pass_rate, _PassRateBar(rate: data.passRate)),
                 const SizedBox(height: 16),
-                _Section('Letzte Prüfungen', _ExamList(exams: data.exams)),
+                _Section(AppLocalizations.of(context).progress_last_exams, _ExamList(exams: data.exams)),
               ],
               const SizedBox(height: 24),
             ],
@@ -246,7 +247,7 @@ class _TopicProgressList extends StatelessWidget {
       return Card(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: Text('Noch keine Daten', style: Theme.of(context).textTheme.bodyMedium),
+          child: Text(AppLocalizations.of(context).progress_none, style: Theme.of(context).textTheme.bodyMedium),
         ),
       );
     }
@@ -350,7 +351,7 @@ class _ExamList extends StatelessWidget {
       return Card(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: Text('Noch keine Prüfungen', style: Theme.of(context).textTheme.bodyMedium),
+          child: Text(AppLocalizations.of(context).progress_no_exams, style: Theme.of(context).textTheme.bodyMedium),
         ),
       );
     }
@@ -358,9 +359,9 @@ class _ExamList extends StatelessWidget {
       children: exams.map((e) {
         final date = e.startedAt;
         final title = '${date.day}.${date.month}.${date.year}';
-        final subtitle = e.completed
-            ? '${e.correct}/${e.total} • ${(e.durationMs / 60000).toStringAsFixed(1)} min'
-            : 'nicht abgeschlossen';
+    final subtitle = e.completed
+      ? '${e.correct}/${e.total} • ${(e.durationMs / 60000).toStringAsFixed(1)} min'
+            : AppLocalizations.of(context).not_completed;
         return Card(
           child: ListTile(
             leading: ExamResultIcon(correct: e.correct),

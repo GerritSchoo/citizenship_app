@@ -4,6 +4,7 @@ import '../data/question_repository.dart';
 import '../models/question.dart';
 import '../models/topic.dart';
 import 'learning_session_screen.dart';
+import '../../l10n/app_localizations.dart';
 
 class LearningModeScreen extends StatefulWidget {
   final String? stateCode;
@@ -46,7 +47,7 @@ class _LearningModeScreenState extends State<LearningModeScreen> {
   void _openSession({required List<Question> questions, required String title, String? stateCode}) {
     if (questions.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Keine Fragen verfugbar.')),
+        SnackBar(content: Text(AppLocalizations.of(context).no_questions)),
       );
       return;
     }
@@ -102,7 +103,7 @@ class _LearningModeScreenState extends State<LearningModeScreen> {
 
     if (_error != null) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Lernmodus')),
+        appBar: AppBar(title: Text(AppLocalizations.of(context).learning_title)),
         body: Center(
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -110,7 +111,7 @@ class _LearningModeScreenState extends State<LearningModeScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Fehler beim Laden der Fragen.',
+                  AppLocalizations.of(context).error_loading_questions,
                   style: Theme.of(context).textTheme.titleMedium,
                   textAlign: TextAlign.center,
                 ),
@@ -129,7 +130,7 @@ class _LearningModeScreenState extends State<LearningModeScreen> {
                     });
                     _loadData();
                   },
-                  child: const Text('Erneut versuchen'),
+                  child: Text(AppLocalizations.of(context).retry),
                 ),
               ],
             ),
@@ -147,38 +148,38 @@ class _LearningModeScreenState extends State<LearningModeScreen> {
         stateCode != null ? _repository.getStateQuestions(stateCode) : const <Question>[];
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Lernmodus')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context).learning_title)),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            Text('Wahle einen Modus zum Lernen.', style: theme.textTheme.titleMedium),
+            Text(AppLocalizations.of(context).learning_intro, style: theme.textTheme.titleMedium),
             const SizedBox(height: 16),
-            Text('Allgemein', style: theme.textTheme.titleSmall),
+            Text(AppLocalizations.of(context).learning_general, style: theme.textTheme.titleSmall),
             const SizedBox(height: 8),
             _buildModeTile(
               icon: Icons.list_alt,
-              title: 'Alle Fragen',
+              title: AppLocalizations.of(context).learning_all_questions,
               subtitle: stateCode != null
-                  ? '${generalQuestions.length + stateQuestions.length} Fragen'
-                  : '${generalQuestions.length} Fragen',
+                  ? AppLocalizations.of(context).questions_count(generalQuestions.length + stateQuestions.length)
+                  : AppLocalizations.of(context).questions_count(generalQuestions.length),
               onTap: generalQuestions.isNotEmpty
                   ? () {
                       final combined = <Question>[];
                       combined.addAll(generalQuestions);
                       if (stateCode != null) combined.addAll(stateQuestions);
-                      _openSession(questions: combined, title: 'Alle Fragen', stateCode: stateCode);
+                      _openSession(questions: combined, title: AppLocalizations.of(context).learning_all_questions, stateCode: stateCode);
                     }
                   : null,
             ),
             const SizedBox(height: 24),
-            Text('Themen', style: theme.textTheme.titleSmall),
+            Text(AppLocalizations.of(context).learning_topics, style: theme.textTheme.titleSmall),
             const SizedBox(height: 8),
             if (topics.isEmpty)
               Card(
                 child: ListTile(
                   leading: const Icon(Icons.info_outline),
-                  title: const Text('Keine Themen verfugbar.'),
+                  title: Text(AppLocalizations.of(context).learning_no_topics),
                 ),
               )
             else
@@ -189,7 +190,7 @@ class _LearningModeScreenState extends State<LearningModeScreen> {
                   child: _buildModeTile(
                     icon: _iconForTopicId(topic.id),
                     title: topic.title,
-                    subtitle: '${questions.length} Fragen',
+                    subtitle: AppLocalizations.of(context).questions_count(questions.length),
                     onTap: questions.isNotEmpty
                             ? () => _openSession(
                                   questions: questions,
@@ -201,16 +202,14 @@ class _LearningModeScreenState extends State<LearningModeScreen> {
                 );
               }),
             const SizedBox(height: 24),
-            Text('Bundesland', style: theme.textTheme.titleSmall),
+            Text(AppLocalizations.of(context).learning_state, style: theme.textTheme.titleSmall),
             const SizedBox(height: 8),
             if (stateCode == null)
               Card(
                 child: ListTile(
                   leading: const Icon(Icons.flag_outlined),
-                  title: const Text('Kein Bundesland ausgewahlt'),
-                  subtitle: const Text(
-                    'Wahle auf dem Home Screen ein Bundesland, um Landesfragen zu lernen.',
-                  ),
+                  title: Text(AppLocalizations.of(context).learning_no_state_selected),
+                  subtitle: Text(AppLocalizations.of(context).learning_select_state_hint),
                 ),
               )
             else if (stateQuestions.isEmpty)
@@ -218,14 +217,14 @@ class _LearningModeScreenState extends State<LearningModeScreen> {
                 child: ListTile(
                   leading: const Icon(Icons.flag_outlined),
                   title: Text(widget.stateLabel ?? stateCode),
-                  subtitle: const Text('Keine Landesfragen verfugbar.'),
+                  subtitle: Text(AppLocalizations.of(context).learning_no_state_questions),
                 ),
               )
             else
               _buildModeTile(
                 icon: Icons.flag_outlined,
                 title: widget.stateLabel ?? stateCode,
-                subtitle: '${stateQuestions.length} Fragen',
+                subtitle: AppLocalizations.of(context).questions_count(stateQuestions.length),
                 onTap: () => _openSession(
                   questions: stateQuestions,
                   title: widget.stateLabel ?? stateCode,
