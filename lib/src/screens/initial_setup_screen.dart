@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../core/prefs.dart';
 import '../data/states.dart';
 import 'home_screen.dart';
+import '../../l10n/app_localizations.dart';
 
 class InitialSetupScreen extends StatefulWidget {
   const InitialSetupScreen({super.key});
@@ -44,6 +45,7 @@ class _InitialSetupScreenState extends State<InitialSetupScreen> with SingleTick
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
       body: SafeArea(
         child: LayoutBuilder(
@@ -76,9 +78,9 @@ class _InitialSetupScreenState extends State<InitialSetupScreen> with SingleTick
                               const SizedBox(width: 12),
                               Expanded(
                                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                                  Text('Wähle dein Bundesland', style: theme.textTheme.headlineSmall),
+                                  Text(l10n.setup_choose_state_title, style: theme.textTheme.headlineSmall),
                                   const SizedBox(height: 4),
-                                  Text('Dieses Bundesland wird für landesspezifische Fragen genutzt.', style: theme.textTheme.bodyMedium),
+                                  Text(l10n.setup_choose_state_subtitle, style: theme.textTheme.bodyMedium),
                                 ]),
                               )
                             ]),
@@ -86,7 +88,7 @@ class _InitialSetupScreenState extends State<InitialSetupScreen> with SingleTick
                             DropdownButtonFormField<String>(
                               isExpanded: true,
                               initialValue: _selectedCode,
-                              hint: const Text('Bitte Bundesland wählen'),
+                              hint: Text(l10n.setup_state_hint),
                               items: states
                                   .map((m) => DropdownMenuItem(
                                         value: m['code'],
@@ -104,7 +106,7 @@ class _InitialSetupScreenState extends State<InitialSetupScreen> with SingleTick
                                   child: Row(children: [
                                     const Icon(Icons.language, size: 18),
                                     const SizedBox(width: 8),
-                                    Text('Sprache:', style: theme.textTheme.bodyMedium),
+                                    Text(l10n.setup_language_label, style: theme.textTheme.bodyMedium),
                                     const SizedBox(width: 12),
                                     ChoiceChip(
                                       label: const Text('Deutsch'),
@@ -128,14 +130,14 @@ class _InitialSetupScreenState extends State<InitialSetupScreen> with SingleTick
                                   onPressed: (_selectedCode == null || _saving) ? null : _confirm,
                                   child: _saving
                                       ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
-                                      : const Text('Speichern und fortfahren'),
+                                      : Text(l10n.setup_save_continue),
                                 ),
                               )
                             ]),
                             const SizedBox(height: 8),
                             TextButton(
                               onPressed: () {},
-                              child: const Text('Später auswählen'),
+                              child: Text(l10n.setup_choose_later),
                             )
                           ],
                         ),

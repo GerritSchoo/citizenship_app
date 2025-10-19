@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
 import 'mock_exam_screen.dart';
+import '../../l10n/app_localizations.dart';
 
 class MockExamRulesScreen extends StatelessWidget {
   const MockExamRulesScreen({super.key});
 
-  // Example rules - adjust text as needed
-  static const List<String> _rules = [
-    'Dauer: 60 Minuten für den kompletten Test.',
-    'Zusammensetzung: 30 allgemeine Fragen + 3 länderspezifische Fragen.',
-    'Bestehen: Mindestens 17 richtige Antworten sind erforderlich, um die Prüfung zu bestehen.',
-    'Keine Hilfsmittel erlaubt (Bücher, Notizen, Internet).',
-    'Antworten können während der Prüfung geändert werden.',
-    'Die Prüfung wird automatisch abgegeben, wenn die Zeit abläuft.',
-    'Nach Abgabe gibt es keine Rückkehr zur Prüfung.',
-  ];
+  List<String> _rules(BuildContext context) => [
+        AppLocalizations.of(context).rule_duration,
+        AppLocalizations.of(context).rule_composition,
+        AppLocalizations.of(context).rule_pass,
+        AppLocalizations.of(context).rule_no_aids,
+        AppLocalizations.of(context).rule_change_answers,
+        AppLocalizations.of(context).rule_auto_submit,
+        AppLocalizations.of(context).rule_no_return,
+      ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Probeprüfung - Regeln'),
+        title: Text(AppLocalizations.of(context).exam_rules_title),
         // keep the default back button
       ),
       body: SafeArea(
@@ -28,10 +28,10 @@ class MockExamRulesScreen extends StatelessWidget {
             Expanded(
               child: ListView.separated(
                 padding: const EdgeInsets.all(16),
-                itemCount: _rules.length,
+                itemCount: _rules(context).length,
                 separatorBuilder: (_, __) => const SizedBox(height: 12),
                 itemBuilder: (context, index) {
-                  final rule = _rules[index];
+                  final rule = _rules(context)[index];
                   return Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -53,7 +53,7 @@ class MockExamRulesScreen extends StatelessWidget {
                     Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const MockExamScreen()));
                   },
                   style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
-                  child: const Text('Prüfung starten', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                  child: Text(AppLocalizations.of(context).exam_start, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
                 ),
               ),
             ),

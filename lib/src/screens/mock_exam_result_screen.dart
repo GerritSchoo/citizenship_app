@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/question.dart';
 import '../widgets/exam_result_indicator.dart';
+import '../../l10n/app_localizations.dart';
 
 class MockExamResultScreen extends StatelessWidget {
   final int total;
@@ -15,10 +16,11 @@ class MockExamResultScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final pass = correct >= 17;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Ergebnis'),
+        title: Text(l10n.result_title),
       ),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
@@ -31,14 +33,14 @@ class MockExamResultScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(pass ? 'Bestanden' : 'Nicht bestanden', style: Theme.of(context).textTheme.titleLarge),
+                    Text(pass ? l10n.result_passed : l10n.result_failed, style: Theme.of(context).textTheme.titleLarge),
                     const SizedBox(height: 8),
-                    Text('Richtige Antworten: $correct von $total'),
+                    Text(l10n.result_correct_of_total(correct.toString(), total.toString())),
                     const SizedBox(height: 12),
                     // Grade category, range and description
                     Builder(builder: (ctx) {
                       final cat = gradeForCorrect(correct);
-                      final label = labelForCategory(cat).toUpperCase();
+                      final label = labelForCategory(ctx, cat).toUpperCase();
                       final icon = iconForCategory(cat);
                       final color = colorForCategory(ctx, cat);
                       final bg = color.withValues(alpha: 0.12);
@@ -74,8 +76,8 @@ class MockExamResultScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const SizedBox(height: 6),
-                          Text('Deine Antwort: ${sel == null ? 'Keine' : q.answers[sel]}'),
-                          Text('Richtige Antwort: ${q.answers[q.correctIndex]}'),
+                          Text(l10n.result_your_answer(sel == null ? l10n.no_answer : q.answers[sel])),
+                          Text(l10n.result_correct_answer(q.answers[q.correctIndex])),
                         ],
                       ),
                     ),
@@ -87,7 +89,7 @@ class MockExamResultScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).popUntil((route) => route.isFirst);
               },
-              child: const Text('Zurück zur Startseite'),
+              child: Text(l10n.back_to_home),
             )
           ],
         ),

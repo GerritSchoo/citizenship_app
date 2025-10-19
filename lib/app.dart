@@ -4,6 +4,8 @@ import 'src/screens/initial_setup_screen.dart';
 import 'src/theme/app_theme.dart';
 import 'src/core/prefs.dart';
 import 'src/analytics/progress_repository.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'l10n/app_localizations.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -19,6 +21,7 @@ class AppState extends State<App> {
   bool _loading = true;
   ThemeMode _themeMode = ThemeMode.system;
   final _messengerKey = GlobalKey<ScaffoldMessengerState>();
+  Locale? _locale;
 
   @override
   void initState() {
@@ -41,7 +44,7 @@ class AppState extends State<App> {
     messenger.clearMaterialBanners();
     messenger.showMaterialBanner(
       MaterialBanner(
-        content: const Text('Analytics-Speicher nicht verfügbar. Daten werden nicht gespeichert.'),
+  content: Text(AppLocalizations.of(messenger.context).db_unavailable),
         actions: [
           if (details != null)
             TextButton(
@@ -50,11 +53,11 @@ class AppState extends State<App> {
                 print('[ProgressRepository] Init error: $details');
                 messenger.hideCurrentMaterialBanner();
               },
-              child: const Text('Details'),
+              child: Text(AppLocalizations.of(messenger.context).details),
             ),
           TextButton(
             onPressed: messenger.hideCurrentMaterialBanner,
-            child: const Text('Schließen'),
+            child: Text(AppLocalizations.of(messenger.context).close),
           ),
         ],
       ),
@@ -64,6 +67,7 @@ class AppState extends State<App> {
   Future<void> _loadPrefs() async {
     final code = await AppPrefs.getSelectedState();
     final themeStr = await AppPrefs.getThemeMode();
+    final localeCode = await AppPrefs.getLocale();
     final mode = switch (themeStr) {
       'light' => ThemeMode.light,
       'dark' => ThemeMode.dark,
@@ -74,6 +78,7 @@ class AppState extends State<App> {
       _initialStateCode = code;
       _loading = false;
       _themeMode = mode;
+      _locale = (localeCode != null && localeCode.isNotEmpty) ? Locale(localeCode) : null;
     });
   }
 
@@ -87,6 +92,11 @@ class AppState extends State<App> {
     await AppPrefs.saveThemeMode(str);
   }
 
+  Future<void> setLocale(Locale locale) async {
+    setState(() => _locale = locale);
+    await AppPrefs.saveLocale(locale.languageCode);
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_loading) {
@@ -94,12 +104,20 @@ class AppState extends State<App> {
     }
 
     return MaterialApp(
-      title: 'Citizenship Test Quiz',
+  onGenerateTitle: (ctx) => AppLocalizations.of(ctx).app_title,
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: _themeMode,
       scaffoldMessengerKey: _messengerKey,
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [Locale('de'), Locale('en')],
+      locale: _locale,
       home: _initialStateCode == null ? const InitialSetupScreen() : const HomeScreen(),
     );
   }

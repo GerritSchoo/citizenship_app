@@ -9,6 +9,7 @@ import '../widgets/image_answer_grid.dart';
 import '../analytics/progress_repository.dart';
 import '../analytics/progress_tracker.dart';
 import '../utils/asset_image_cache.dart';
+import '../../l10n/app_localizations.dart';
 
 class QuizScreen extends StatefulWidget {
   const QuizScreen({super.key});
@@ -70,6 +71,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     // Show loading until controller is initialized
     if (_controller == null || (_controller!.questions.isEmpty && _controller!.isLoading)) {
       return const Scaffold(
@@ -79,7 +81,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
     if (_controller!.error != null) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Quiz')),
+        appBar: AppBar(title: Text(l10n.quiz_title)),
         body: SafeArea(
           child: Center(
             child: Padding(
@@ -87,13 +89,13 @@ class _QuizScreenState extends State<QuizScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text('Failed to load questions', style: Theme.of(context).textTheme.bodyLarge),
+                  Text(l10n.error_loading_questions, style: Theme.of(context).textTheme.bodyLarge),
                   const SizedBox(height: 8),
                   Text(_controller!.error!, style: Theme.of(context).textTheme.bodyMedium),
                   const SizedBox(height: 12),
                   ElevatedButton(
                     onPressed: _loadData,
-                    child: const Text('Retry'),
+                    child: Text(l10n.retry),
                   ),
                 ],
               ),
@@ -107,7 +109,7 @@ class _QuizScreenState extends State<QuizScreen> {
     final bool isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Quiz")),
+      appBar: AppBar(title: Text(l10n.quiz_title)),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -214,7 +216,7 @@ class _QuizScreenState extends State<QuizScreen> {
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(double.infinity, 48),
                 ),
-                child: const Text("Next Question"),
+                child: Text(l10n.next_question),
               ),
             ],
           ),
