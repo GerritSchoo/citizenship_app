@@ -358,59 +358,74 @@ class _HomeScreenState extends State<HomeScreen> {
           return CustomScrollView(
             slivers: [
               SliverToBoxAdapter(
-                child: Container(
-                  height: headerHeight,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        colorScheme.primary,
-                        colorScheme.primaryContainer.withValues(alpha: 0.85),
-                      ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    borderRadius: const BorderRadius.vertical(bottom: Radius.circular(24)),
-                  ),
-                  child: SafeArea(
-                    bottom: false,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.vertical(bottom: Radius.circular(24)),
+                  child: SizedBox(
+                    height: headerHeight,
+                    width: double.infinity,
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        // Base blue gradient background
+                        Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                colorScheme.primary,
+                                colorScheme.primaryContainer.withValues(alpha: 0.85),
+                              ],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                          ),
+                        ),
+                        // German flag overlay on the right half, fading towards center
+                        CustomPaint(
+                          painter: _GermanFlagGradientPainter(startXFraction: 0.5),
+                        ),
+                        // Foreground content
+                        SafeArea(
+                          bottom: false,
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Text(
-                                  'Citizenship Test',
-                                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                                        color: onPrimary,
-                                        fontWeight: FontWeight.w700,
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'Citizenship Test',
+                                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                                              color: onPrimary,
+                                              fontWeight: FontWeight.w700,
+                                            ),
                                       ),
+                                      const SizedBox(height: 8),
+                                      Text(
+                                        'Learn, practice and pass the test',
+                                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: onPrimary.withValues(alpha: 0.9)),
+                                      ),
+                                      const SizedBox(height: 12),
+                                      if (_selectedStateLabel != null)
+                                        _StateChip(label: _selectedStateLabel!, code: _selectedStateCode, onPrimary: onPrimary)
+                                      else
+                                        Text('No state selected', style: Theme.of(context).textTheme.bodySmall?.copyWith(color: onPrimary.withValues(alpha: 0.9))),
+                                    ],
+                                  ),
                                 ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  'Learn, practice and pass the test',
-                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: onPrimary.withValues(alpha: 0.9)),
-                                ),
-                                const SizedBox(height: 12),
-                                if (_selectedStateLabel != null)
-                                  _StateChip(label: _selectedStateLabel!, code: _selectedStateCode, onPrimary: onPrimary)
+                                if (!isMedium && !isWide)
+                                  const SizedBox(width: 8)
                                 else
-                                  Text('No state selected', style: Theme.of(context).textTheme.bodySmall?.copyWith(color: onPrimary.withValues(alpha: 0.9))),
+                                  const SizedBox(width: 12),
+                                Icon(Icons.school, size: isWide ? 96 : 80, color: onPrimary.withValues(alpha: 0.95)),
                               ],
                             ),
                           ),
-                          if (!isMedium && !isWide)
-                            const SizedBox(width: 8)
-                          else
-                            const SizedBox(width: 12),
-                          Icon(Icons.school, size: isWide ? 96 : 80, color: onPrimary.withValues(alpha: 0.95)),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -591,6 +606,45 @@ class _ActionCardState extends State<_ActionCard> {
   }
 }
 
-/// Overlay that paints the German flag (black-red-gold) on the right side and
-/// fades it towards transparent at the halfway point.
-// (German flag overlay widget removed as requested)
+/// Custom painter for the German flag overlay (black, red, gold) on the right
+/// side of the header, fading towards transparent as it approaches the center.
+class _GermanFlagGradientPainter extends CustomPainter {
+  /// Where the flag begins horizontally as a fraction of total width.
+  /// For example, 0.5 means start at the middle and paint to the right edge.
+  final double startXFraction;
+
+  const _GermanFlagGradientPainter({this.startXFraction = 0.5});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final flagLeft = (size.width * startXFraction).clamp(0.0, size.width);
+    final flagWidth = size.width - flagLeft;
+    if (flagWidth <= 0) return;
+
+    final stripeHeight = size.height / 3.0;
+
+    void drawStripe(double top, Color color) {
+      final rect = Rect.fromLTWH(flagLeft, top, flagWidth, stripeHeight);
+      final shader = LinearGradient(
+        begin: Alignment.centerRight,
+        end: Alignment.centerLeft,
+        colors: [
+          color.withValues(alpha: 1.0),
+          color.withValues(alpha: 0.0),
+        ],
+      ).createShader(rect);
+      final paint = Paint()..shader = shader;
+      canvas.drawRect(rect, paint);
+    }
+
+    // Draw stripes: black (top), red (middle), gold (bottom)
+    drawStripe(0, Colors.black);
+    drawStripe(stripeHeight, const Color(0xFFDD0000)); // German flag red
+    drawStripe(stripeHeight * 2, const Color(0xFFD4AF37)); // metallic gold
+  }
+
+  @override
+  bool shouldRepaint(covariant _GermanFlagGradientPainter oldDelegate) {
+    return oldDelegate.startXFraction != startXFraction;
+  }
+}
