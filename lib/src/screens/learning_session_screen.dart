@@ -40,7 +40,8 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
   @override
   void initState() {
     super.initState();
-    _controller = Controller(stateCode: widget.stateCode);
+  // In learning mode, do not count skipped questions in analytics.
+  _controller = Controller(stateCode: widget.stateCode, logSkips: false);
     _controllerListener = () {
       setState(() {});
       // Also prefetch when current index changes via external calls
