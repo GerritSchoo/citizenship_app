@@ -7,6 +7,8 @@ import 'src/core/prefs.dart';
 class App extends StatefulWidget {
   const App({super.key});
 
+  static _AppState? of(BuildContext context) => context.findAncestorStateOfType<_AppState>();
+
   @override
   State<App> createState() => _AppState();
 }
@@ -14,6 +16,7 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   String? _initialStateCode;
   bool _loading = true;
+  ThemeMode _themeMode = ThemeMode.system;
 
   @override
   void initState() {
@@ -23,11 +26,28 @@ class _AppState extends State<App> {
 
   Future<void> _loadPrefs() async {
     final code = await AppPrefs.getSelectedState();
+    final themeStr = await AppPrefs.getThemeMode();
+    final mode = switch (themeStr) {
+      'light' => ThemeMode.light,
+      'dark' => ThemeMode.dark,
+      _ => ThemeMode.system,
+    };
     if (!mounted) return;
     setState(() {
       _initialStateCode = code;
       _loading = false;
+      _themeMode = mode;
     });
+  }
+
+  Future<void> setThemeMode(ThemeMode mode) async {
+    setState(() => _themeMode = mode);
+    final str = switch (mode) {
+      ThemeMode.light => 'light',
+      ThemeMode.dark => 'dark',
+      _ => 'system',
+    };
+    await AppPrefs.saveThemeMode(str);
   }
 
   @override
@@ -41,7 +61,7 @@ class _AppState extends State<App> {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      themeMode: ThemeMode.system,
+      themeMode: _themeMode,
       home: _initialStateCode == null ? const InitialSetupScreen() : const HomeScreen(),
     );
   }

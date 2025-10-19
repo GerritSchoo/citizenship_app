@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'quiz_screen.dart';
+import '../../app.dart';
 import 'learning_mode_screen.dart';
 import 'mock_exam_rules_screen.dart';
 import 'progress_screen.dart';
@@ -75,6 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
       items: [
         PopupMenuItem(value: 'language', child: SizedBox(width: _menuWidth, child: Text('Language', style: Theme.of(context).textTheme.bodySmall))),
         PopupMenuItem(value: 'state', child: SizedBox(width: _menuWidth, child: Text('State', style: Theme.of(context).textTheme.bodySmall))),
+        PopupMenuItem(value: 'theme', child: SizedBox(width: _menuWidth, child: Text('Theme', style: Theme.of(context).textTheme.bodySmall))),
         PopupMenuItem(value: 'reset', child: SizedBox(width: _menuWidth, child: Text('Reset Analyse', style: Theme.of(context).textTheme.bodySmall))),
       ],
     );
@@ -84,6 +86,9 @@ class _HomeScreenState extends State<HomeScreen> {
         break;
       case 'state':
         _showStateMenu();
+        break;
+      case 'theme':
+        _showThemeMenu();
         break;
       case 'reset':
         _showResetMenu();
@@ -244,6 +249,61 @@ class _HomeScreenState extends State<HomeScreen> {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Analyse: Prüfung zurückgesetzt')));
       _showMainMenu();
       return;
+    }
+  }
+
+  Future<void> _showThemeMenu() async {
+    final choice = await showMenu<String>(
+      context: context,
+      position: _menuPosition(),
+      items: [
+        PopupMenuItem(
+          value: 'back',
+          child: SizedBox(
+            width: _menuWidth,
+            child: Row(
+              children: [
+                const Icon(Icons.arrow_back, size: 24),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    'Theme',
+                    style: Theme.of(context).textTheme.titleSmall,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        PopupMenuItem(value: 'system', child: SizedBox(width: _menuWidth, child: Text('System', style: Theme.of(context).textTheme.bodySmall))),
+        PopupMenuItem(value: 'light', child: SizedBox(width: _menuWidth, child: Text('Light', style: Theme.of(context).textTheme.bodySmall))),
+        PopupMenuItem(value: 'dark', child: SizedBox(width: _menuWidth, child: Text('Dark', style: Theme.of(context).textTheme.bodySmall))),
+      ],
+    );
+    if (choice == null) return;
+    if (choice == 'back') {
+      _showMainMenu();
+      return;
+    }
+    // Update app theme
+    final appState = App.of(context);
+    if (appState != null) {
+      switch (choice) {
+        case 'light':
+          await appState.setThemeMode(ThemeMode.light);
+          break;
+        case 'dark':
+          await appState.setThemeMode(ThemeMode.dark);
+          break;
+        default:
+          await appState.setThemeMode(ThemeMode.system);
+      }
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Theme: ${choice[0].toUpperCase()}${choice.substring(1)}')));
+      // Do not auto-reopen the menu; reopening immediately can render with stale theme.
+      // Let the user open the menu again if needed.
     }
   }
 
@@ -504,3 +564,7 @@ class _ActionCardState extends State<_ActionCard> {
     );
   }
 }
+
+/// Overlay that paints the German flag (black-red-gold) on the right side and
+/// fades it towards transparent at the halfway point.
+// (German flag overlay widget removed as requested)
