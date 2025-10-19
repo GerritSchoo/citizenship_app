@@ -10,6 +10,7 @@ import '../data/states.dart';
 import '../core/prefs.dart';
 import '../analytics/progress_repository.dart';
 import '../../l10n/app_localizations.dart';
+import 'package:flutter_localized_locales/flutter_localized_locales.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -102,6 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> _showLanguageMenu() async {
   final messenger = ScaffoldMessenger.of(context);
   final appState = App.of(context);
+    final supported = AppLocalizations.supportedLocales;
     final choice = await showMenu<String>(
       context: context,
       position: _menuPosition(),
@@ -119,8 +121,17 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ),
-        PopupMenuItem(value: 'de', child: SizedBox(width: _menuWidth, child: Text('Deutsch', style: Theme.of(context).textTheme.bodySmall, maxLines: 1, overflow: TextOverflow.ellipsis))),
-        PopupMenuItem(value: 'en', child: SizedBox(width: _menuWidth, child: Text('English', style: Theme.of(context).textTheme.bodySmall, maxLines: 1, overflow: TextOverflow.ellipsis))),
+        ...supported.map((loc) {
+          final code = loc.languageCode;
+          final name = LocaleNames.of(context)?.nameOf(code) ?? code;
+          return PopupMenuItem(
+            value: code,
+            child: SizedBox(
+              width: _menuWidth,
+              child: Text(name, style: Theme.of(context).textTheme.bodySmall, maxLines: 1, overflow: TextOverflow.ellipsis),
+            ),
+          );
+        }),
       ],
     );
     if (choice == null) return;
@@ -135,7 +146,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
     if (!mounted) return;
     final code = choice.toLowerCase();
-    final label = code == 'de' ? 'Deutsch' : 'English';
+    final label = LocaleNames.of(context)?.nameOf(code) ?? code;
   messenger.showSnackBar(SnackBar(content: Text(AppLocalizations.of(context).snack_lang_set(label))));
     // Return to main menu for continued navigation
     _showMainMenu();
@@ -590,6 +601,8 @@ class _ActionCardState extends State<_ActionCard> {
                       Text(
                         widget.label,
                         style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),

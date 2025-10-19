@@ -293,7 +293,7 @@ abstract class AppLocalizations {
   /// No description provided for @progress_avg_time.
   ///
   /// In en, this message translates to:
-  /// **'Avg time'**
+  /// **'Ø time'**
   String get progress_avg_time;
 
   /// No description provided for @exam_rules_title.

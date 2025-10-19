@@ -200,7 +200,14 @@ class _MockExamScreenState extends State<MockExamScreen> {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           // Heading
-                          Center(child: Text(l10n.mock_exam_title, style: Theme.of(context).textTheme.titleLarge)),
+                          Center(
+                            child: Text(
+                              l10n.mock_exam_title,
+                              style: Theme.of(context).textTheme.titleLarge,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
                           const SizedBox(height: 8),
                           // Timer (left) and Abgeben button (right) on the same row
                           Row(
@@ -210,13 +217,18 @@ class _MockExamScreenState extends State<MockExamScreen> {
                               const Spacer(),
                               ElevatedButton(
                                 onPressed: _submitting ? null : _onAbgebenPressed,
-                                child: Text(l10n.exam_submit),
+                                child: Text(l10n.exam_submit, overflow: TextOverflow.ellipsis),
                               ),
                             ],
                           ),
                           const SizedBox(height: 12),
                           // position label and questions below
-                          Text(l10n.position_label((_controller!.currentIndex + 1).toString(), _controller!.questions.length.toString()), style: Theme.of(context).textTheme.titleSmall),
+                          Text(
+                            l10n.position_label((_controller!.currentIndex + 1).toString(), _controller!.questions.length.toString()),
+                            style: Theme.of(context).textTheme.titleSmall,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                           const SizedBox(height: 8),
                           Expanded(
                             child: ListView(

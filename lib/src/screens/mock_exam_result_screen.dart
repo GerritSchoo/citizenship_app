@@ -20,7 +20,7 @@ class MockExamResultScreen extends StatelessWidget {
     final pass = correct >= 17;
     return Scaffold(
       appBar: AppBar(
-        title: Text(l10n.result_title),
+        title: Text(l10n.result_title, maxLines: 1, overflow: TextOverflow.ellipsis),
       ),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
@@ -33,7 +33,12 @@ class MockExamResultScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(pass ? l10n.result_passed : l10n.result_failed, style: Theme.of(context).textTheme.titleLarge),
+                    Text(
+                      pass ? l10n.result_passed : l10n.result_failed,
+                      style: Theme.of(context).textTheme.titleLarge,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                     const SizedBox(height: 8),
                     Text(l10n.result_correct_of_total(correct.toString(), total.toString())),
                     const SizedBox(height: 12),
@@ -71,7 +76,7 @@ class MockExamResultScreen extends StatelessWidget {
                   final sel = answers[i];
                   return Card(
                     child: ListTile(
-                      title: Text(q.text),
+                      title: Text(q.text, maxLines: 3, overflow: TextOverflow.ellipsis),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [

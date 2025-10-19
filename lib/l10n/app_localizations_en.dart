@@ -109,7 +109,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get progress_worked_questions => 'Questions worked';
 
   @override
-  String get progress_avg_time => 'Avg time';
+  String get progress_avg_time => 'Ø time';
 
   @override
   String get exam_rules_title => 'Exam rules';
