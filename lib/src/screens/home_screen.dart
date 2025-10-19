@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'quiz_screen.dart';
 import '../../app.dart';
@@ -379,9 +380,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                         ),
-                        // German flag overlay on the right half, fading towards center
+                        // German flag overlay on the right, fading towards center, diagonal coverage
                         CustomPaint(
-                          painter: _GermanFlagGradientPainter(startXFraction: 0.5),
+                          painter: _GermanFlagGradientPainter(
+                            topCoverageFraction: 1 / 3,
+                            bottomCoverageFraction: 1 / 2,
+                          ),
                         ),
                         // Foreground content
                         SafeArea(
@@ -609,32 +613,83 @@ class _ActionCardState extends State<_ActionCard> {
 /// Custom painter for the German flag overlay (black, red, gold) on the right
 /// side of the header, fading towards transparent as it approaches the center.
 class _GermanFlagGradientPainter extends CustomPainter {
-  /// Where the flag begins horizontally as a fraction of total width.
-  /// For example, 0.5 means start at the middle and paint to the right edge.
-  final double startXFraction;
+  /// Fraction of total width covered by the flag at the top edge (0..1).
+  final double topCoverageFraction;
 
-  const _GermanFlagGradientPainter({this.startXFraction = 0.5});
+  /// Fraction of total width covered by the flag at the bottom edge (0..1).
+  final double bottomCoverageFraction;
+
+  const _GermanFlagGradientPainter({
+    this.topCoverageFraction = 0.5,
+    this.bottomCoverageFraction = 0.5,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
-    final flagLeft = (size.width * startXFraction).clamp(0.0, size.width);
-    final flagWidth = size.width - flagLeft;
-    if (flagWidth <= 0) return;
+    if (size.width <= 0 || size.height <= 0) return;
+
+    final topFrac = topCoverageFraction.clamp(0.0, 1.0);
+    final bottomFrac = bottomCoverageFraction.clamp(0.0, 1.0);
+
+    double leftXAtY(double y) {
+      final t = (y / size.height).clamp(0.0, 1.0);
+      final cov = topFrac + (bottomFrac - topFrac) * t; // linear interpolation
+      return size.width * (1.0 - cov);
+    }
 
     final stripeHeight = size.height / 3.0;
 
     void drawStripe(double top, Color color) {
-      final rect = Rect.fromLTWH(flagLeft, top, flagWidth, stripeHeight);
-      final shader = LinearGradient(
-        begin: Alignment.centerRight,
-        end: Alignment.centerLeft,
-        colors: [
+      final topY = top;
+      final bottomY = math.min(size.height, top + stripeHeight);
+      final leftTop = leftXAtY(topY);
+      final leftBottom = leftXAtY(bottomY);
+
+      // Build a slanted quad path for this stripe
+      final path = Path()
+        ..moveTo(leftTop, topY)
+        ..lineTo(size.width, topY)
+        ..lineTo(size.width, bottomY)
+        ..lineTo(leftBottom, bottomY)
+        ..close();
+
+      // Clip to the stripe path and paint a right-to-left fade
+      canvas.save();
+      canvas.clipPath(path);
+      // Compute a gradient that fades along the normal to the slanted left edge
+      final midY = (topY + bottomY) * 0.5;
+      final leftMidX = (leftTop + leftBottom) * 0.5;
+      final edgeDx = leftBottom - leftTop;
+      final edgeDy = bottomY - topY; // stripeHeight
+      // Perpendicular (normal) vector to the edge
+      double nx = edgeDy;
+      double ny = -edgeDx;
+      final len = math.sqrt(nx * nx + ny * ny);
+      if (len > 0) {
+        nx /= len;
+        ny /= len;
+      } else {
+        // Fallback to horizontal fade if degenerate
+        nx = 1;
+        ny = 0;
+      }
+      final leftMid = Offset(leftMidX, midY);
+      final widthToRight = size.width - leftMidX;
+      final p0 = leftMid.translate(nx * widthToRight, ny * widthToRight); // opaque at right
+      final p1 = leftMid; // transparent at left edge
+      final shader = ui.Gradient.linear(
+        p0,
+        p1,
+        [
           color.withValues(alpha: 1.0),
           color.withValues(alpha: 0.0),
         ],
-      ).createShader(rect);
+      );
       final paint = Paint()..shader = shader;
-      canvas.drawRect(rect, paint);
+      // Fill a rectangle covering the clipped stripe area
+      final fillRect = Rect.fromLTRB(math.min(p0.dx, p1.dx), topY, size.width, bottomY);
+      canvas.drawRect(fillRect, paint);
+      canvas.restore();
     }
 
     // Draw stripes: black (top), red (middle), gold (bottom)
@@ -644,7 +699,7 @@ class _GermanFlagGradientPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant _GermanFlagGradientPainter oldDelegate) {
-    return oldDelegate.startXFraction != startXFraction;
+  bool shouldRepaint(covariant _GermanFlagGradientPainter old) {
+    return old.topCoverageFraction != topCoverageFraction || old.bottomCoverageFraction != bottomCoverageFraction;
   }
 }
