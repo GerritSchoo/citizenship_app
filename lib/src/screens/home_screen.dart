@@ -97,6 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _showLanguageMenu() async {
+    final messenger = ScaffoldMessenger.of(context);
     final choice = await showMenu<String>(
       context: context,
       position: _menuPosition(),
@@ -127,12 +128,13 @@ class _HomeScreenState extends State<HomeScreen> {
     );
     if (choice == null) return;
     if (choice == 'back') {
+      if (!mounted) return;
       _showMainMenu();
       return;
     }
     await AppPrefs.saveLocale(choice);
     if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
+    messenger.showSnackBar(
       SnackBar(content: Text('Language set to ${choice.toUpperCase()}')),
     );
     // Return to main menu for continued navigation
@@ -175,14 +177,17 @@ class _HomeScreenState extends State<HomeScreen> {
     );
     if (choice == null) return;
     if (choice == 'back') {
+      if (!mounted) return;
       _showMainMenu();
       return;
     }
     _onSelectState(choice);
+    if (!mounted) return;
     _showMainMenu();
   }
 
   Future<void> _showResetMenu() async {
+    final messenger = ScaffoldMessenger.of(context);
     final choice = await showMenu<String>(
       context: context,
       position: _menuPosition(),
@@ -244,33 +249,36 @@ class _HomeScreenState extends State<HomeScreen> {
     );
     if (choice == null) return;
     if (choice == 'back') {
+      if (!mounted) return;
       _showMainMenu();
       return;
     }
     if (choice == 'reset_all') {
       await ProgressRepository.instance.clearAll();
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Analyse: Alles zurückgesetzt')));
+      messenger.showSnackBar(const SnackBar(content: Text('Analyse: Alles zurückgesetzt')));
       _showMainMenu();
       return;
     }
     if (choice == 'reset_practice') {
       await ProgressRepository.instance.clearByMode(SessionMode.practice);
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Analyse: Lernen/Quiz zurückgesetzt')));
+      messenger.showSnackBar(const SnackBar(content: Text('Analyse: Lernen/Quiz zurückgesetzt')));
       _showMainMenu();
       return;
     }
     if (choice == 'reset_exam') {
       await ProgressRepository.instance.clearByMode(SessionMode.exam);
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Analyse: Prüfung zurückgesetzt')));
+      messenger.showSnackBar(const SnackBar(content: Text('Analyse: Prüfung zurückgesetzt')));
       _showMainMenu();
       return;
     }
   }
 
   Future<void> _showThemeMenu() async {
+    final appState = App.of(context); // capture before awaiting
+    final messenger = ScaffoldMessenger.of(context);
     final choice = await showMenu<String>(
       context: context,
       position: _menuPosition(),
@@ -302,11 +310,11 @@ class _HomeScreenState extends State<HomeScreen> {
     );
     if (choice == null) return;
     if (choice == 'back') {
+      if (!mounted) return;
       _showMainMenu();
       return;
     }
     // Update app theme
-    final appState = App.of(context);
     if (appState != null) {
       switch (choice) {
         case 'light':
@@ -319,7 +327,7 @@ class _HomeScreenState extends State<HomeScreen> {
           await appState.setThemeMode(ThemeMode.system);
       }
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Theme: ${choice[0].toUpperCase()}${choice.substring(1)}')));
+      messenger.showSnackBar(SnackBar(content: Text('Theme: ${choice[0].toUpperCase()}${choice.substring(1)}')));
       // Do not auto-reopen the menu; reopening immediately can render with stale theme.
       // Let the user open the menu again if needed.
     }
