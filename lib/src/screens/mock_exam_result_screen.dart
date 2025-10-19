@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/question.dart';
-import '../theme/app_theme.dart';
+import '../widgets/exam_result_indicator.dart';
 
 class MockExamResultScreen extends StatelessWidget {
   final int total;
@@ -11,16 +11,7 @@ class MockExamResultScreen extends StatelessWidget {
 
   const MockExamResultScreen({super.key, required this.total, required this.correct, required this.questions, required this.answers});
 
-  String _gradeText(int correct) {
-    // Not used anymore; kept for compatibility but return category
-    if (correct >= 31) return 'sehr gut';
-    if (correct >= 27) return 'gut';
-    if (correct >= 23) return 'befriedigend';
-    if (correct >= 17) return 'ausreichend';
-    if (correct >= 10) return 'mangelhaft';
-    return 'ungenügend';
-  }
-  
+
 
   @override
   Widget build(BuildContext context) {
@@ -46,54 +37,20 @@ class MockExamResultScreen extends StatelessWidget {
                     const SizedBox(height: 12),
                     // Grade category, range and description
                     Builder(builder: (ctx) {
-                      final category = _gradeText(correct);
-                      final gradeColors = Theme.of(ctx).extension<GradeColors>()!;
-                      Color bg;
-                      IconData cueIcon;
-                      Color iconColor;
-                      switch (category) {
-                        case 'sehr gut':
-                          bg = gradeColors.sehrGut.withValues(alpha: 0.12);
-                          cueIcon = Icons.check_circle;
-                          iconColor = gradeColors.sehrGut;
-                          break;
-                        case 'gut':
-                          bg = gradeColors.gut.withValues(alpha: 0.12);
-                          cueIcon = Icons.check_circle;
-                          iconColor = gradeColors.gut;
-                          break;
-                        case 'befriedigend':
-                          bg = gradeColors.befriedigend.withValues(alpha: 0.12);
-                          cueIcon = Icons.warning;
-                          iconColor = gradeColors.befriedigend;
-                          break;
-                        case 'ausreichend':
-                          bg = gradeColors.ausreichend.withValues(alpha: 0.12);
-                          cueIcon = Icons.warning;
-                          iconColor = gradeColors.ausreichend;
-                          break;
-                        case 'mangelhaft':
-                          bg = gradeColors.mangelhaft.withValues(alpha: 0.12);
-                          cueIcon = Icons.cancel;
-                          iconColor = gradeColors.mangelhaft;
-                          break;
-                        case 'ungenügend':
-                        default:
-                          bg = gradeColors.ungenuegend.withValues(alpha: 0.12);
-                          cueIcon = Icons.cancel;
-                          iconColor = gradeColors.ungenuegend;
-                          break;
-                      }
-
+                      final cat = gradeForCorrect(correct);
+                      final label = labelForCategory(cat).toUpperCase();
+                      final icon = iconForCategory(cat);
+                      final color = colorForCategory(ctx, cat);
+                      final bg = color.withValues(alpha: 0.12);
                       return Card(
                         color: bg,
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
                           child: Row(
                             children: [
-                              Icon(cueIcon, color: iconColor, size: 28),
+                              Icon(icon, color: color, size: 28),
                               const SizedBox(width: 12),
-                              Expanded(child: Text(category.toUpperCase(), style: Theme.of(ctx).textTheme.titleSmall)),
+                              Expanded(child: Text(label, style: Theme.of(ctx).textTheme.titleSmall)),
                             ],
                           ),
                         ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../analytics/progress_repository.dart';
+import '../widgets/exam_result_indicator.dart';
 import '../data/question_repository.dart';
 
 class ProgressScreen extends StatefulWidget {
@@ -360,12 +361,9 @@ class _ExamList extends StatelessWidget {
         final subtitle = e.completed
             ? '${e.correct}/${e.total} • ${(e.durationMs / 60000).toStringAsFixed(1)} min'
             : 'nicht abgeschlossen';
-        final passed = e.completed && e.passed;
-        final icon = passed ? Icons.check_circle : Icons.cancel;
-        final color = passed ? Colors.green : Colors.red;
         return Card(
           child: ListTile(
-            leading: Icon(icon, color: color),
+            leading: ExamResultIcon(correct: e.correct),
             title: Text(title),
             subtitle: Text(subtitle),
           ),
