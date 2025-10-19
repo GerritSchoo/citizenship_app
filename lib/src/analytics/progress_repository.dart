@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -54,6 +55,8 @@ class ProgressRepository {
 
   Database? _db;
   bool get isAvailable => _db != null;
+  // Notifies about initialization error message (null when ok)
+  final ValueNotifier<String?> initError = ValueNotifier<String?>(null);
 
   Future<void> init() async {
     if (_db != null) return;
@@ -93,9 +96,13 @@ class ProgressRepository {
           ''');
         },
       );
-    } catch (_) {
+      initError.value = null;
+    } catch (e, st) {
       // If database init fails, leave _db as null. Callers should handle isAvailable.
       _db = null;
+      initError.value = e.toString();
+      // ignore: avoid_print
+      print('[ProgressRepository] DB init failed: $e\n$st');
     }
   }
 
@@ -315,5 +322,12 @@ class ProgressRepository {
       await txn.delete('attempts', where: 'mode = ?', whereArgs: [modeName]);
       await txn.delete('sessions', where: 'mode = ?', whereArgs: [modeName]);
     });
+  }
+
+  Future<void> close() async {
+    try {
+      await _db?.close();
+    } catch (_) {}
+    _db = null;
   }
 }
