@@ -167,6 +167,12 @@ class ProgressRepository {
     });
   }
 
+  Future<void> clearAttemptsForSession(String sessionId) async {
+    final db = _db;
+    if (db == null) return;
+    await db.delete('attempts', where: 'sessionId = ?', whereArgs: [sessionId]);
+  }
+
   Future<int> sessionCorrectCount(String sessionId) async {
     final db = _db;
     if (db == null) return 0;

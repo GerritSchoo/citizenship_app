@@ -32,7 +32,8 @@ class _QuizScreenState extends State<QuizScreen> {
 
   Future<void> _init() async {
     final code = await AppPrefs.getSelectedState();
-    final ctrl = Controller(repository: _repo, stateCode: code);
+  // Practice/quiz should not count skipped questions in analytics.
+  final ctrl = Controller(repository: _repo, stateCode: code, logSkips: false);
     ctrl.addListener(() {
       if (!mounted) return;
       setState(() {});

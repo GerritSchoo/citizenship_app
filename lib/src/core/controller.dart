@@ -14,6 +14,9 @@ import '../analytics/progress_tracker.dart';
 class Controller extends ChangeNotifier {
   final QuestionRepository _repo;
   final String? stateCode;
+  // When true, navigating past an unanswered question will be logged as a skipped attempt.
+  // Requirement: Only mock exams should count unanswered questions. Keep false for practice/learning.
+  final bool logSkips;
 
   List<Question> questions = [];
   int currentIndex = 0;
@@ -22,7 +25,7 @@ class Controller extends ChangeNotifier {
   String? error;
   ProgressTracker? tracker;
 
-  Controller({QuestionRepository? repository, this.stateCode}) : _repo = repository ?? QuestionRepository();
+  Controller({QuestionRepository? repository, this.stateCode, this.logSkips = false}) : _repo = repository ?? QuestionRepository();
 
   /// Load questions. If [shuffle] is true the list will be shuffled.
   Future<void> load({bool shuffle = false}) async {
@@ -166,7 +169,7 @@ class Controller extends ChangeNotifier {
   /// Move to the next question and clear selection.
   void next() {
     if (currentIndex < questions.length - 1) {
-      if (selectedIndex == null) {
+      if (selectedIndex == null && logSkips) {
         tracker?.onSkipped(questions[currentIndex]);
       }
       currentIndex += 1;

@@ -9,7 +9,6 @@ import '../widgets/image_answer_grid.dart';
 import '../widgets/answer_text_tile.dart';
 import '../utils/asset_image_cache.dart';
 import '../analytics/progress_repository.dart';
-import '../analytics/progress_tracker.dart';
 // question model used indirectly via controller
 import 'mock_exam_result_screen.dart';
 
@@ -29,7 +28,6 @@ class _MockExamScreenState extends State<MockExamScreen> {
   Timer? _timer;
   Duration _remaining = const Duration(minutes: 60);
   bool _submitting = false;
-  ProgressTracker? _tracker;
   late final DateTime _sessionStart = DateTime.now();
   late final String _sessionId = 'exam-${_sessionStart.millisecondsSinceEpoch}';
 
@@ -40,7 +38,8 @@ class _MockExamScreenState extends State<MockExamScreen> {
   void initState() {
     super.initState();
     AppPrefs.getSelectedState().then((stateCode) {
-      _controller = Controller(stateCode: stateCode);
+  // Do not log skips during navigation; we'll count unanswered questions once on submit.
+  _controller = Controller(stateCode: stateCode, logSkips: false);
       _startExam();
     });
   }
@@ -60,16 +59,6 @@ class _MockExamScreenState extends State<MockExamScreen> {
     _startTimer();
     await ProgressRepository.instance.init();
     await ProgressRepository.instance.startSession(sessionId: _sessionId, mode: SessionMode.exam, totalQuestions: _controller!.questions.length);
-    _tracker = ProgressTracker(
-      mode: SessionMode.exam,
-      repo: ProgressRepository.instance,
-      sessionId: _sessionId,
-      isStateResolver: (q) => _controller!.isStateQuestion(q),
-    );
-    _controller!.attachTracker(_tracker!);
-    if (_controller!.questions.isNotEmpty) {
-      _controller!.tracker?.onQuestionShown(_controller!.questions[_controller!.currentIndex]);
-    }
     // Prefetch images for current + next two
     WidgetsBinding.instance.addPostFrameCallback((_) => _prefetchAroundCurrent());
   }
@@ -109,7 +98,9 @@ class _MockExamScreenState extends State<MockExamScreen> {
     setState(() => _submitting = true);
     _timer?.cancel();
 
-    // Evaluate and log each attempt (exam mode)
+  // Ensure idempotency: clear any existing attempts for this session
+  await ProgressRepository.instance.clearAttemptsForSession(_sessionId);
+  // Evaluate and log each attempt (exam mode)
     final total = _controller!.questions.length;
     int correct = 0;
     final results = <int?>[];
