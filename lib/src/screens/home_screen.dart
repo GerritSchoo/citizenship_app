@@ -581,7 +581,17 @@ class _ActionCardState extends State<_ActionCard> {
               borderRadius: BorderRadius.circular(16),
               clipBehavior: Clip.antiAlias,
               child: InkWell(
-                onTap: widget.onTap,
+                // Remove default splash/highlight to avoid lingering highlight when returning
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                hoverColor: Colors.transparent,
+                focusColor: Colors.transparent,
+                splashFactory: NoSplash.splashFactory,
+                onTap: () {
+                  // Ensure pressed state is cleared before navigating away
+                  if (mounted) setState(() => _pressed = false);
+                  widget.onTap();
+                },
                 onHighlightChanged: (v) => setState(() => _pressed = v),
                 child: Padding(
                   padding: const EdgeInsets.all(16),
