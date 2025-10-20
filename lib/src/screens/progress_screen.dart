@@ -25,7 +25,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
   Future<_ProgressData> _load() async {
     await ProgressRepository.instance.init();
     final repo = QuestionRepository();
-    await repo.init();
+    await repo.init(languageCode: QuestionRepository.defaultLanguageCode);
   final overall = await ProgressRepository.instance.overallStats(includePractice: includePractice, includeExam: includeExam);
   final daily = await ProgressRepository.instance.dailyAccuracy(includePractice: includePractice, includeExam: includeExam);
   final state = await ProgressRepository.instance.stateStats(includePractice: includePractice, includeExam: includeExam);
