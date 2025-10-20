@@ -9,15 +9,24 @@ class QuestionRepository {
 
   QuestionRepository._internal();
 
+  static String _defaultLanguageCode = 'de';
+  static void setDefaultLanguage(String code) {
+    _defaultLanguageCode = (code.isEmpty ? 'de' : code).toLowerCase();
+  }
+  static String get defaultLanguageCode => _defaultLanguageCode;
+
   List<Question> _generalQuestions = [];
   final Map<String, List<Question>> _stateQuestions = {};
   List<Topic> _topics = [];
   bool _isLoaded = false;
+  String? _loadedLanguageCode; // 'de', 'en', ...
 
-  Future<void> init() async {
-    if (_isLoaded) return;
+  Future<void> init({String? languageCode}) async {
+    // If already loaded for the same language, skip
+    final lang = (languageCode ?? _defaultLanguageCode).toLowerCase();
+    if (_isLoaded && _loadedLanguageCode == lang) return;
 
-    final data = await QuestionLoader.loadJson();
+    final data = await QuestionLoader.loadJson(languageCode: lang);
     final quizData = QuizData.fromJson(data);
 
     _topics = quizData.topics;
@@ -27,6 +36,7 @@ class QuestionRepository {
       ..addAll(quizData.stateQuestions);
 
     _isLoaded = true;
+    _loadedLanguageCode = lang;
   }
 
   List<Question> get generalQuestions => _generalQuestions;
@@ -44,5 +54,11 @@ class QuestionRepository {
   bool hasStateQuestions(String stateCode) {
     final list = _stateQuestions[stateCode];
     return list != null && list.isNotEmpty;
+  }
+
+  /// Force a reload on language change.
+  Future<void> reloadForLanguage(String languageCode) async {
+    _isLoaded = false;
+    await init(languageCode: languageCode);
   }
 }

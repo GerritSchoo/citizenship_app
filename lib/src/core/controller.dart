@@ -34,7 +34,7 @@ class Controller extends ChangeNotifier {
     notifyListeners();
 
     try {
-      await _repo.init();
+  await _repo.init(languageCode: QuestionRepository.defaultLanguageCode);
 
       final List<Question> source;
       if (stateCode != null && _repo.hasStateQuestions(stateCode!)) {
@@ -69,7 +69,7 @@ class Controller extends ChangeNotifier {
     notifyListeners();
 
     try {
-      await _repo.init();
+  await _repo.init(languageCode: QuestionRepository.defaultLanguageCode);
 
       final general = List<Question>.from(_repo.generalQuestions);
       final stateQs = (stateCode != null && _repo.hasStateQuestions(stateCode!)) ? List<Question>.from(_repo.getStateQuestions(stateCode!)) : <Question>[];
@@ -123,7 +123,7 @@ class Controller extends ChangeNotifier {
     notifyListeners();
 
     try {
-      await _repo.init();
+  await _repo.init(languageCode: QuestionRepository.defaultLanguageCode);
       final List<Question> base = List<Question>.from(_repo.generalQuestions);
       if (stateCode != null && _repo.hasStateQuestions(stateCode!)) {
         base.addAll(_repo.getStateQuestions(stateCode!));

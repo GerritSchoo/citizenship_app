@@ -7,6 +7,7 @@ import 'src/analytics/progress_repository.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'l10n/app_localizations.dart';
 import 'package:flutter_localized_locales/flutter_localized_locales.dart';
+import 'src/data/question_repository.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -29,11 +30,11 @@ class AppState extends State<App> {
     super.initState();
     _loadPrefs();
     // Initialize analytics repository once at app start
-    final repo = ProgressRepository.instance;
-    repo.init().then((_) {
-      if (repo.initError.value != null) _showDbInitBanner(repo.initError.value);
+    final progressRepo = ProgressRepository.instance;
+    progressRepo.init().then((_) {
+      if (progressRepo.initError.value != null) _showDbInitBanner(progressRepo.initError.value);
     });
-    repo.initError.addListener(() {
+    progressRepo.initError.addListener(() {
       final msg = ProgressRepository.instance.initError.value;
       if (msg != null) _showDbInitBanner(msg);
     });
@@ -81,6 +82,10 @@ class AppState extends State<App> {
       _themeMode = mode;
       _locale = (localeCode != null && localeCode.isNotEmpty) ? Locale(localeCode) : null;
     });
+    // Initialize default language for repository so first load matches saved locale
+    if (localeCode != null && localeCode.isNotEmpty) {
+      QuestionRepository.setDefaultLanguage(localeCode);
+    }
   }
 
   Future<void> setThemeMode(ThemeMode mode) async {
@@ -95,6 +100,11 @@ class AppState extends State<App> {
 
   Future<void> setLocale(Locale locale) async {
     setState(() => _locale = locale);
+    // Update default language for data repository and reload questions in background
+    QuestionRepository.setDefaultLanguage(locale.languageCode);
+    // Trigger a background reload; consumers that call init() will get updated data
+    // ignore: unawaited_futures
+    QuestionRepository().reloadForLanguage(locale.languageCode);
     await AppPrefs.saveLocale(locale.languageCode);
   }
 
@@ -120,12 +130,26 @@ class AppState extends State<App> {
       ],
       supportedLocales: AppLocalizations.supportedLocales,
       localeResolutionCallback: (deviceLocale, supported) {
-        if (_locale != null) return _locale; // explicit choice wins
-        if (deviceLocale == null) return supported.first;
-        for (final l in supported) {
-          if (l.languageCode == deviceLocale.languageCode) return l;
+        // If user chose a locale explicitly, honor it and set repo language accordingly
+        if (_locale != null) {
+          QuestionRepository.setDefaultLanguage(_locale!.languageCode);
+          return _locale;
         }
-        return supported.first; // default fallback
+        // Otherwise, resolve from device and sync repository default language
+        if (deviceLocale == null) {
+          final resolved = supported.first;
+          QuestionRepository.setDefaultLanguage(resolved.languageCode);
+          return resolved;
+        }
+        for (final l in supported) {
+          if (l.languageCode == deviceLocale.languageCode) {
+            QuestionRepository.setDefaultLanguage(l.languageCode);
+            return l;
+          }
+        }
+        final fallback = supported.first;
+        QuestionRepository.setDefaultLanguage(fallback.languageCode);
+        return fallback; // default fallback
       },
       locale: _locale,
       home: _initialStateCode == null ? const InitialSetupScreen() : const HomeScreen(),

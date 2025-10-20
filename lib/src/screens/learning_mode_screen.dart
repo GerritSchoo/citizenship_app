@@ -29,7 +29,7 @@ class _LearningModeScreenState extends State<LearningModeScreen> {
 
   Future<void> _loadData() async {
     try {
-      await _repository.init();
+  await _repository.init(languageCode: QuestionRepository.defaultLanguageCode);
       if (!mounted) return;
       setState(() {
         _isLoading = false;
