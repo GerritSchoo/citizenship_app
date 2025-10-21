@@ -8,6 +8,9 @@ class ImageAnswerGrid extends StatelessWidget {
   final bool revealed;          // show correct/wrong cues
   final ValueChanged<int> onTap;
   final bool disableInkSplash;
+  // (Deprecated) original German captions for answers and toggle (ignored)
+  final List<String>? originalDeAnswers;
+  final bool showOriginalDe;
 
   const ImageAnswerGrid({
     super.key,
@@ -17,6 +20,8 @@ class ImageAnswerGrid extends StatelessWidget {
     required this.revealed,
     required this.onTap,
     this.disableInkSplash = false,
+    this.originalDeAnswers,
+    this.showOriginalDe = false,
   });
 
   @override
@@ -105,6 +110,7 @@ class ImageAnswerGrid extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                   child: Container(color: overlay),
                 ),
+              // No original captions for image answers; show only translated UI per requirement
               if (icon != null)
                 Positioned(right: 8, top: 8, child: Icon(icon, color: iconColor, size: 24)),
             ]),

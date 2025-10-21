@@ -10,6 +10,10 @@ class Question {
   final String? image;
   // Optional list of images corresponding to each answer option (e.g., 4)
   final List<String>? answerImages;
+  // Original German wording (available when current locale is not 'de')
+  final String? originalDeText;
+  final List<String>? originalDeAnswers;
+  final String? originalDeExplanation;
 
   Question({
     required this.id,
@@ -21,6 +25,9 @@ class Question {
     this.hasImage = false,
     this.image,
     this.answerImages,
+    this.originalDeText,
+    this.originalDeAnswers,
+    this.originalDeExplanation,
   });
 
   factory Question.fromJson(Map<String, dynamic> json) {
@@ -34,6 +41,9 @@ class Question {
       hasImage: json['hasImage'] == true,
       image: json['image'] as String?,
       answerImages: (json['answerImages'] as List?)?.map((e) => e.toString()).toList(),
+      originalDeText: json['originalDeText'] as String?,
+      originalDeAnswers: (json['originalDeAnswers'] as List?)?.map((e) => e.toString()).toList(),
+      originalDeExplanation: json['originalDeExplanation'] as String?,
     );
   }
 

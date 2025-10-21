@@ -6,6 +6,9 @@ class QuestionCard extends StatelessWidget {
   final int index;
   final String? image; // optional context image
   final String? subtitle;
+  // Optional original German question text and toggle
+  final String? originalDeText;
+  final bool showOriginalDe;
 
   const QuestionCard({
     super.key,
@@ -13,6 +16,8 @@ class QuestionCard extends StatelessWidget {
     required this.index,
     this.image,
     this.subtitle,
+    this.originalDeText,
+    this.showOriginalDe = false,
   });
 
   @override
@@ -30,6 +35,16 @@ class QuestionCard extends StatelessWidget {
               text,
               style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
             ),
+            if (showOriginalDe && originalDeText != null && originalDeText!.isNotEmpty) ...[
+              const SizedBox(height: 6),
+              Text(
+                originalDeText!,
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: theme.colorScheme.onSurface.withOpacity(0.6),
+                  fontStyle: FontStyle.italic,
+                ),
+              ),
+            ],
             if (image != null && image!.isNotEmpty) ...[
               const SizedBox(height: 12),
               _TappableProportionalAssetImage(
