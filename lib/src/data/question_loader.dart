@@ -72,6 +72,14 @@ class QuestionLoader {
     }
 
     void mergeQuestion(Map<String, dynamic> baseQ, Map<String, dynamic> ovQ) {
+      // Preserve originals from base (German) before overwriting with overlay
+      baseQ['originalDeText'] ??= baseQ['text'];
+      if (baseQ['answers'] is List && baseQ['originalDeAnswers'] == null) {
+        baseQ['originalDeAnswers'] = (baseQ['answers'] as List).map((e) => e.toString()).toList();
+      }
+      if (baseQ['originalDeExplanation'] == null && baseQ['explanation'] is String) {
+        baseQ['originalDeExplanation'] = baseQ['explanation'];
+      }
       if (ovQ['text'] is String) baseQ['text'] = ovQ['text'];
       if (ovQ['answers'] is List) baseQ['answers'] = (ovQ['answers'] as List).map((e) => e.toString()).toList();
       if (ovQ['explanation'] is String) baseQ['explanation'] = ovQ['explanation'];

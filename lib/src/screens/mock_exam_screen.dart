@@ -31,6 +31,7 @@ class _MockExamScreenState extends State<MockExamScreen> {
   bool _submitting = false;
   late final DateTime _sessionStart = DateTime.now();
   late final String _sessionId = 'exam-${_sessionStart.millisecondsSinceEpoch}';
+  bool _showOriginalDe = false; // per-screen toggle
 
   // local answers: index -> selected answer index (or null)
   List<int?> answers = [];
@@ -215,6 +216,12 @@ class _MockExamScreenState extends State<MockExamScreen> {
                               // Timer on the left
                               Text(_format(_remaining), style: Theme.of(context).textTheme.titleMedium),
                               const Spacer(),
+                              if (Localizations.localeOf(context).languageCode != 'de')
+                                IconButton(
+                                  tooltip: 'DE',
+                                  icon: Icon(_showOriginalDe ? Icons.translate : Icons.translate_outlined),
+                                  onPressed: () => setState(() => _showOriginalDe = !_showOriginalDe),
+                                ),
                               ElevatedButton(
                                 onPressed: _submitting ? null : _onAbgebenPressed,
                                 child: Text(l10n.exam_submit, overflow: TextOverflow.ellipsis),
@@ -240,6 +247,8 @@ class _MockExamScreenState extends State<MockExamScreen> {
                                   image: _controller!.questions[_controller!.currentIndex].hasContextImage
                                       ? _controller!.questions[_controller!.currentIndex].image
                                       : null,
+                                  originalDeText: _controller!.questions[_controller!.currentIndex].originalDeText,
+                                  showOriginalDe: _showOriginalDe && Localizations.localeOf(context).languageCode != 'de',
                                 ),
                                 const SizedBox(height: 12),
                                 if (_controller!.questions[_controller!.currentIndex].hasAnswerImages)
@@ -262,6 +271,13 @@ class _MockExamScreenState extends State<MockExamScreen> {
                                     // In mock exam, revealed is always false before submit
                                     return AnswerTextTile(
                                       text: a,
+                                      originalDe: (_showOriginalDe && Localizations.localeOf(context).languageCode != 'de')
+                                          ? (_controller!.questions[_controller!.currentIndex].originalDeAnswers != null &&
+                                                  _controller!.questions[_controller!.currentIndex].originalDeAnswers!.length ==
+                                                      _controller!.questions[_controller!.currentIndex].answers.length
+                                              ? _controller!.questions[_controller!.currentIndex].originalDeAnswers![i]
+                                              : null)
+                                          : null,
                                       revealed: false,
                                       isSelected: selected,
                                       isCorrect: i == _controller!.questions[_controller!.currentIndex].correctIndex,

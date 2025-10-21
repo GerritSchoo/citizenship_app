@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 import '../models/question.dart';
-import '../theme/app_colors.dart';
 import '../core/controller.dart';
 import '../widgets/question_card.dart';
 import '../widgets/image_answer_grid.dart';
+import '../widgets/answer_text_tile.dart';
 import '../utils/asset_image_cache.dart';
 import '../analytics/progress_repository.dart';
 import '../analytics/progress_tracker.dart';
@@ -27,6 +27,7 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
   late final DateTime _sessionStart = DateTime.now();
   late final String _sessionId = 'practice-${_sessionStart.millisecondsSinceEpoch}';
   late final VoidCallback _controllerListener;
+  bool _showOriginalDe = false; // per-screen toggle
 
   void _goToNext() {
     _controller.next();
@@ -90,7 +91,7 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
     final l10n = AppLocalizations.of(context);
     if (_controller.questions.isEmpty) {
       return Scaffold(
-        appBar: AppBar(title: Text(widget.title)),
+        appBar: AppBar(title: Text(widget.title), actions: _buildActions(context)),
         body: Center(child: Text(l10n.no_questions)),
       );
     }
@@ -104,7 +105,7 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
   // colors are provided by AppColors when needed
 
     return Scaffold(
-      appBar: AppBar(title: Text(widget.title)),
+      appBar: AppBar(title: Text(widget.title), actions: _buildActions(context)),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -126,6 +127,8 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
                       text: question.text,
                       index: _controller.currentIndex,
                       image: question.hasContextImage ? question.image : null,
+                      originalDeText: question.originalDeText,
+                      showOriginalDe: _showOriginalDe && Localizations.localeOf(context).languageCode != 'de',
                     ),
                     const SizedBox(height: 16),
                     if (question.hasAnswerImages)
@@ -141,61 +144,21 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
                       ),
                     if (!question.hasAnswerImages)
                       ...List.generate(question.answers.length, (index) {
-                      final isSelected = _controller.selectedIndex == index;
-                      final isCorrect = index == question.correctIndex;
-
-                      Color boxColor = theme.cardColor;
-                      IconData? icon;
-
-                      final bool isDark = theme.brightness == Brightness.dark;
-
-                      if (_controller.selectedIndex != null) {
-                        if (isSelected && isCorrect) {
-                          boxColor = isDark ? AppColors.correctDark : AppColors.correct;
-                          icon = Icons.check_circle;
-                        } else if (isSelected && !isCorrect) {
-                          boxColor = isDark ? AppColors.wrongDark : AppColors.wrong;
-                          icon = Icons.cancel;
-                        } else if (isCorrect) {
-                          boxColor = isDark
-                              ? AppColors.correctDark.withAlpha(128)
-                              : AppColors.correctLight;
-                          icon = Icons.check_circle;
-                        }
-                      }
-
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 6),
-                        child: Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            borderRadius: BorderRadius.circular(16),
-                            onTap: () => _controller.select(index),
-                            child: AnimatedContainer(
-                              duration: const Duration(milliseconds: 200),
-                              decoration: BoxDecoration(
-                                color: boxColor,
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Flexible(
-                                    child: Text(
-                                      question.answers[index],
-                    style: theme.textTheme.bodyMedium,
-                                    ),
-                                  ),
-                                  if (icon != null)
-                                    Icon(icon, color: theme.colorScheme.onPrimary, size: 24),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    }),
+                        final isSelected = _controller.selectedIndex == index;
+                        final isCorrect = index == question.correctIndex;
+                        return AnswerTextTile(
+                          text: question.answers[index],
+                          originalDe: (_showOriginalDe && Localizations.localeOf(context).languageCode != 'de')
+                              ? (question.originalDeAnswers != null && question.originalDeAnswers!.length == question.answers.length
+                                  ? question.originalDeAnswers![index]
+                                  : null)
+                              : null,
+                          revealed: _controller.selectedIndex != null,
+                          isSelected: isSelected,
+                          isCorrect: isCorrect,
+                          onTap: () => _controller.select(index),
+                        );
+                      }),
 
                     const SizedBox(height: 16),
 
@@ -203,9 +166,26 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
                       Card(
                         child: Padding(
                           padding: const EdgeInsets.all(16),
-                          child: Text(
-                            question.explanation,
-                            style: theme.textTheme.bodyMedium,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                question.explanation,
+                                style: theme.textTheme.bodyMedium,
+                              ),
+                              if (_showOriginalDe && Localizations.localeOf(context).languageCode != 'de' &&
+                                  (question.originalDeExplanation != null && question.originalDeExplanation!.isNotEmpty))
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 6),
+                                  child: Text(
+                                    question.originalDeExplanation!,
+                                    style: theme.textTheme.bodySmall?.copyWith(
+                                      color: theme.colorScheme.onSurface.withOpacity(0.6),
+                                      fontStyle: FontStyle.italic,
+                                    ),
+                                  ),
+                                ),
+                            ],
                           ),
                         ),
                       ),
@@ -265,5 +245,17 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
       }
     }
     AssetImageInfoCache.precacheAll(ctx, toPrefetch);
+  }
+
+  List<Widget>? _buildActions(BuildContext context) {
+    final isDe = Localizations.localeOf(context).languageCode == 'de';
+    if (isDe) return null;
+    return [
+      IconButton(
+        tooltip: 'DE',
+        icon: Icon(_showOriginalDe ? Icons.translate : Icons.translate_outlined),
+        onPressed: () => setState(() => _showOriginalDe = !_showOriginalDe),
+      ),
+    ];
   }
 }

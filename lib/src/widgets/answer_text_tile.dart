@@ -9,6 +9,8 @@ class AnswerTextTile extends StatelessWidget {
   final VoidCallback onTap;
   final Duration animationDuration;
   final bool disableInkSplash;
+  // Optional original German text to render subtly under the main text
+  final String? originalDe;
 
   const AnswerTextTile({
     super.key,
@@ -19,6 +21,7 @@ class AnswerTextTile extends StatelessWidget {
     required this.onTap,
     this.animationDuration = const Duration(milliseconds: 160),
     this.disableInkSplash = false,
+    this.originalDe,
   });
 
   @override
@@ -69,11 +72,30 @@ class AnswerTextTile extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
             ),
             padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Flexible(child: Text(text, style: theme.textTheme.bodyMedium)),
-                if (icon != null) Icon(icon, color: iconColor, size: 24),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Flexible(child: Text(text, style: theme.textTheme.bodyMedium)),
+                    if (icon != null) Icon(icon, color: iconColor, size: 24),
+                  ],
+                ),
+                if (originalDe != null && originalDe!.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4),
+                    child: Text(
+                      originalDe!,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: theme.colorScheme.onSurface.withOpacity(0.6),
+                        fontStyle: FontStyle.italic,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
               ],
             ),
           ),
