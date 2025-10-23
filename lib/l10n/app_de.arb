@@ -175,4 +175,24 @@
   "@ach_exam_fast_name": {"description": "Prüfung in unter 10 Minuten bestanden"},
   "ach_exam_fast_desc": "Bestehe eine Probeprüfung in unter 10 Minuten.",
   "@ach_exam_fast_desc": {"description": "Beschreibung für schnelle bestandene Prüfung"}
+  ,
+  "menu_subscribe": "Abonnement",
+  "@menu_subscribe": {"description": "Overflow-Menüeintrag zum Öffnen der Paywall/Aboseite"}
+  ,
+  "paywall_title": "Abonnement",
+  "@paywall_title": {"description": "Titel der Paywall"},
+  "paywall_subtitle": "Unbegrenzte Probeprüfungen. Du hast deine 3 kostenlosen Prüfungen genutzt.",
+  "@paywall_subtitle": {"description": "Kurzer Paywall-Text"},
+  "paywall_monthly": "Monatlich",
+  "@paywall_monthly": {"description": "Label für Monatsplan"},
+  "paywall_yearly": "Jährlich",
+  "@paywall_yearly": {"description": "Label für Jahresplan"},
+  "trial_exhausted_title": "Testphase aufgebraucht",
+  "@trial_exhausted_title": {"description": "Dialogtitel, wenn kostenlose Testphase aufgebraucht ist"},
+  "trial_exhausted_body": "Du hast 3 kostenlose Probeprüfungen abgeschlossen. Abonniere, um unbegrenzten Zugriff zu erhalten.",
+  "@trial_exhausted_body": {"description": "Dialogtext für aufgebrauchte Testphase"},
+  "trial_subscribe": "Abonnieren",
+  "@trial_subscribe": {"description": "Abo-CTA"},
+  "trial_later": "Später",
+  "@trial_later": {"description": "Abo später"}
 }

@@ -381,6 +381,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get menu_achievements => 'Erfolge';
 
   @override
+  String get menu_subscribe => 'Abonnement';
+
+  @override
   String get ach_practice_10_name => 'Los geht\'s';
 
   @override
@@ -433,4 +436,30 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get ach_exam_fast_desc =>
       'Bestehe eine Probeprüfung in unter 10 Minuten.';
+
+  @override
+  String get paywall_title => 'Abonnement';
+
+  @override
+  String get paywall_subtitle =>
+      'Unbegrenzte Probeprüfungen. Du hast deine 3 kostenlosen Prüfungen genutzt.';
+
+  @override
+  String get paywall_monthly => 'Monatlich';
+
+  @override
+  String get paywall_yearly => 'Jährlich';
+
+  @override
+  String get trial_exhausted_title => 'Testphase aufgebraucht';
+
+  @override
+  String get trial_exhausted_body =>
+      'Du hast 3 kostenlose Probeprüfungen abgeschlossen. Abonniere, um unbegrenzten Zugriff zu erhalten.';
+
+  @override
+  String get trial_subscribe => 'Abonnieren';
+
+  @override
+  String get trial_later => 'Später';
 }

@@ -4,6 +4,9 @@ import '../models/question.dart';
 import '../widgets/exam_result_indicator.dart';
 import '../../l10n/app_localizations.dart';
 import '../achievements/achievement_service.dart';
+import '../analytics/progress_repository.dart';
+import '../../app.dart';
+import 'paywall_screen.dart';
 
 class MockExamResultScreen extends StatefulWidget {
   final int total;
@@ -19,6 +22,7 @@ class MockExamResultScreen extends StatefulWidget {
 
 class _MockExamResultScreenState extends State<MockExamResultScreen> {
   bool _awarded = false;
+  bool _paywallPrompted = false;
 
   @override
   void didChangeDependencies() {
@@ -29,6 +33,33 @@ class _MockExamResultScreenState extends State<MockExamResultScreen> {
       // Post-frame to ensure Scaffold is ready for SnackBar
       WidgetsBinding.instance.addPostFrameCallback((_) {
         AchievementService.instance.onExamSubmitted(context, correct: widget.correct, total: widget.total);
+      });
+    }
+    // Show subscription prompt after the third completed exam if lock is enabled
+    if (!_paywallPrompted && AppState.subscriptionLockEnabled) {
+      _paywallPrompted = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        await ProgressRepository.instance.init();
+        final results = await ProgressRepository.instance.examResults();
+        final completed = results.where((e) => e.completed).length;
+        if (!mounted) return;
+        if (completed >= 3) {
+          final l10n = AppLocalizations.of(context);
+          final go = await showDialog<bool>(
+            context: context,
+            builder: (c) => AlertDialog(
+              title: Text(l10n.trial_exhausted_title),
+              content: Text(l10n.trial_exhausted_body),
+              actions: [
+                TextButton(onPressed: () => Navigator.of(c).pop(false), child: Text(l10n.trial_later)),
+                FilledButton(onPressed: () => Navigator.of(c).pop(true), child: Text(l10n.trial_subscribe)),
+              ],
+            ),
+          );
+          if (go == true && mounted) {
+            await Navigator.push(context, MaterialPageRoute(builder: (_) => const PaywallScreen()));
+          }
+        }
       });
     }
   }

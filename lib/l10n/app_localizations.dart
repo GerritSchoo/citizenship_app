@@ -782,6 +782,12 @@ abstract class AppLocalizations {
   /// **'Achievements'**
   String get menu_achievements;
 
+  /// Overflow menu entry to open subscription/paywall screen
+  ///
+  /// In en, this message translates to:
+  /// **'Subscribe'**
+  String get menu_subscribe;
+
   /// 10 correct answers in practice
   ///
   /// In en, this message translates to:
@@ -877,6 +883,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Pass a mock exam in under 10 minutes.'**
   String get ach_exam_fast_desc;
+
+  /// Paywall screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Subscribe'**
+  String get paywall_title;
+
+  /// Short paywall pitch
+  ///
+  /// In en, this message translates to:
+  /// **'Enjoy unlimited mock exams. You have used your 3 free exams.'**
+  String get paywall_subtitle;
+
+  /// Monthly plan label
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly'**
+  String get paywall_monthly;
+
+  /// Yearly plan label
+  ///
+  /// In en, this message translates to:
+  /// **'Yearly'**
+  String get paywall_yearly;
+
+  /// Dialog title when free trial is exhausted
+  ///
+  /// In en, this message translates to:
+  /// **'Free trial used'**
+  String get trial_exhausted_title;
+
+  /// Dialog body for exhausted trial
+  ///
+  /// In en, this message translates to:
+  /// **'You have completed 3 free mock exams. Subscribe to continue with unlimited access.'**
+  String get trial_exhausted_body;
+
+  /// Subscribe CTA
+  ///
+  /// In en, this message translates to:
+  /// **'Subscribe'**
+  String get trial_subscribe;
+
+  /// Defer subscription CTA
+  ///
+  /// In en, this message translates to:
+  /// **'Later'**
+  String get trial_later;
 }
 
 class _AppLocalizationsDelegate
