@@ -10,6 +10,7 @@ import '../analytics/progress_repository.dart';
 import '../analytics/progress_tracker.dart';
 import '../utils/asset_image_cache.dart';
 import '../../l10n/app_localizations.dart';
+import '../achievements/achievement_service.dart';
 
 class QuizScreen extends StatefulWidget {
   const QuizScreen({super.key});
@@ -136,7 +137,13 @@ class _QuizScreenState extends State<QuizScreen> {
                           correctIndex: question.correctIndex,
                           selectedIndex: ctrl.selectedIndex,
                           revealed: ctrl.selectedIndex != null,
-                          onTap: (i) => setState(() => ctrl.select(i)),
+                          onTap: (i) {
+                            final isCorrectTap = i == question.correctIndex;
+                            setState(() => ctrl.select(i));
+                            if (isCorrectTap) {
+                              AchievementService.instance.onPracticeAnswered(context, inLearn: false, isCorrect: true);
+                            }
+                          },
                         ),
                       ),
                     if (!question.hasAnswerImages)
@@ -153,7 +160,12 @@ class _QuizScreenState extends State<QuizScreen> {
                           revealed: ctrl.selectedIndex != null,
                           isSelected: isSelected,
                           isCorrect: isCorrect,
-                          onTap: () => setState(() => ctrl.select(index)),
+                          onTap: () {
+                            setState(() => ctrl.select(index));
+                            if (isCorrect) {
+                              AchievementService.instance.onPracticeAnswered(context, inLearn: false, isCorrect: true);
+                            }
+                          },
                         );
                       }),
 
@@ -176,7 +188,7 @@ class _QuizScreenState extends State<QuizScreen> {
                                   child: Text(
                                     question.originalDeExplanation!,
                                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                      color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+                                      color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
                                       fontStyle: FontStyle.italic,
                                     ),
                                   ),

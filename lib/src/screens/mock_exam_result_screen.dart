@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import '../models/question.dart';
 import '../widgets/exam_result_indicator.dart';
 import '../../l10n/app_localizations.dart';
+import '../achievements/achievement_service.dart';
 
-class MockExamResultScreen extends StatelessWidget {
+class MockExamResultScreen extends StatefulWidget {
   final int total;
   final int correct;
   final List<Question> questions;
@@ -12,12 +13,30 @@ class MockExamResultScreen extends StatelessWidget {
 
   const MockExamResultScreen({super.key, required this.total, required this.correct, required this.questions, required this.answers});
 
+  @override
+  State<MockExamResultScreen> createState() => _MockExamResultScreenState();
+}
 
+class _MockExamResultScreenState extends State<MockExamResultScreen> {
+  bool _awarded = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Award achievements once when arriving to result screen
+    if (!_awarded) {
+      _awarded = true;
+      // Post-frame to ensure Scaffold is ready for SnackBar
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        AchievementService.instance.onExamSubmitted(context, correct: widget.correct, total: widget.total);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final pass = correct >= 17;
+    final pass = widget.correct >= 17;
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.result_title, maxLines: 1, overflow: TextOverflow.ellipsis),
@@ -40,11 +59,11 @@ class MockExamResultScreen extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 8),
-                    Text(l10n.result_correct_of_total(correct.toString(), total.toString())),
+                    Text(l10n.result_correct_of_total(widget.correct.toString(), widget.total.toString())),
                     const SizedBox(height: 12),
                     // Grade category, range and description
                     Builder(builder: (ctx) {
-                      final cat = gradeForCorrect(correct);
+                      final cat = gradeForCorrect(widget.correct);
                       final label = labelForCategory(ctx, cat).toUpperCase();
                       final icon = iconForCategory(cat);
                       final color = colorForCategory(ctx, cat);
@@ -70,10 +89,10 @@ class MockExamResultScreen extends StatelessWidget {
             const SizedBox(height: 12),
             Expanded(
               child: ListView.builder(
-                itemCount: questions.length,
+                itemCount: widget.questions.length,
                 itemBuilder: (c, i) {
-                  final q = questions[i];
-                  final sel = answers[i];
+                  final q = widget.questions[i];
+                  final sel = widget.answers[i];
                   return Card(
                     child: ListTile(
                       title: Text(q.text, maxLines: 3, overflow: TextOverflow.ellipsis),

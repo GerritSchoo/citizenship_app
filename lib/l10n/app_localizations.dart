@@ -697,6 +697,186 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'insufficient'**
   String get grade_ungenuegend;
+
+  /// Bottom snackbar text when an achievement is unlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Achievement unlocked: {title}'**
+  String achievement_unlocked(String title);
+
+  /// Achievement title: first correct in learning
+  ///
+  /// In en, this message translates to:
+  /// **'First steps'**
+  String get ach_learn_first_correct_name;
+
+  /// Achievement description: first correct in learning
+  ///
+  /// In en, this message translates to:
+  /// **'Answer your first question correctly in Learning.'**
+  String get ach_learn_first_correct_desc;
+
+  /// Achievement title: first correct in quiz
+  ///
+  /// In en, this message translates to:
+  /// **'Getting warm'**
+  String get ach_quiz_first_correct_name;
+
+  /// Achievement description: first correct in quiz
+  ///
+  /// In en, this message translates to:
+  /// **'Answer your first question correctly in Quiz.'**
+  String get ach_quiz_first_correct_desc;
+
+  /// Achievement title: pass exam (>=17)
+  ///
+  /// In en, this message translates to:
+  /// **'Passed the exam'**
+  String get ach_exam_pass_name;
+
+  /// Achievement description: pass exam (>=17)
+  ///
+  /// In en, this message translates to:
+  /// **'Submit an exam with at least 17 correct answers.'**
+  String get ach_exam_pass_desc;
+
+  /// Achievement title: >=30 correct in exam
+  ///
+  /// In en, this message translates to:
+  /// **'Almost perfect'**
+  String get ach_exam_30_name;
+
+  /// Achievement description: >=30 correct in exam
+  ///
+  /// In en, this message translates to:
+  /// **'Score 30 or more correct answers in a mock exam.'**
+  String get ach_exam_30_desc;
+
+  /// Title for the Achievements screen
+  ///
+  /// In en, this message translates to:
+  /// **'Achievements'**
+  String get achievements_title;
+
+  /// Shown when no achievements have been unlocked yet
+  ///
+  /// In en, this message translates to:
+  /// **'No achievements yet'**
+  String get achievements_none;
+
+  /// Home action card label for Achievements
+  ///
+  /// In en, this message translates to:
+  /// **'Achievements'**
+  String get action_achievements;
+
+  /// Semantics label for Achievements card
+  ///
+  /// In en, this message translates to:
+  /// **'Open Achievements'**
+  String get action_achievements_sem;
+
+  /// Overflow menu entry to open Achievements screen
+  ///
+  /// In en, this message translates to:
+  /// **'Achievements'**
+  String get menu_achievements;
+
+  /// 10 correct answers in practice
+  ///
+  /// In en, this message translates to:
+  /// **'Getting started'**
+  String get ach_practice_10_name;
+
+  /// Description for 10 practice correct answers
+  ///
+  /// In en, this message translates to:
+  /// **'Reach 10 correct answers in practice.'**
+  String get ach_practice_10_desc;
+
+  /// 100 correct answers in practice
+  ///
+  /// In en, this message translates to:
+  /// **'On a roll'**
+  String get ach_practice_100_name;
+
+  /// Description for 100 practice correct answers
+  ///
+  /// In en, this message translates to:
+  /// **'Reach 100 correct answers in practice.'**
+  String get ach_practice_100_desc;
+
+  /// 1000 correct answers in practice
+  ///
+  /// In en, this message translates to:
+  /// **'Practice master'**
+  String get ach_practice_1000_name;
+
+  /// Description for 1000 practice correct answers
+  ///
+  /// In en, this message translates to:
+  /// **'Reach 1000 correct answers in practice.'**
+  String get ach_practice_1000_desc;
+
+  /// First exam submitted
+  ///
+  /// In en, this message translates to:
+  /// **'First attempt'**
+  String get ach_exam_first_name;
+
+  /// Description for first exam submitted
+  ///
+  /// In en, this message translates to:
+  /// **'Submit your first mock exam.'**
+  String get ach_exam_first_desc;
+
+  /// 25 or more correct answers in exam
+  ///
+  /// In en, this message translates to:
+  /// **'Strong score'**
+  String get ach_exam_25_name;
+
+  /// Description for 25+ correct answers in exam
+  ///
+  /// In en, this message translates to:
+  /// **'Score 25 or more correct answers in a mock exam.'**
+  String get ach_exam_25_desc;
+
+  /// All answers correct in exam
+  ///
+  /// In en, this message translates to:
+  /// **'Perfect!'**
+  String get ach_exam_perfect_name;
+
+  /// Description for perfect exam
+  ///
+  /// In en, this message translates to:
+  /// **'Score all answers correctly in a mock exam.'**
+  String get ach_exam_perfect_desc;
+
+  /// Pass 3 exams in a row
+  ///
+  /// In en, this message translates to:
+  /// **'Hat trick'**
+  String get ach_exam_streak3_name;
+
+  /// Description for 3 pass streak
+  ///
+  /// In en, this message translates to:
+  /// **'Pass three mock exams in a row.'**
+  String get ach_exam_streak3_desc;
+
+  /// Pass an exam in under 10 minutes
+  ///
+  /// In en, this message translates to:
+  /// **'Speed runner'**
+  String get ach_exam_fast_name;
+
+  /// Description for fast pass exam
+  ///
+  /// In en, this message translates to:
+  /// **'Pass a mock exam in under 10 minutes.'**
+  String get ach_exam_fast_desc;
 }
 
 class _AppLocalizationsDelegate

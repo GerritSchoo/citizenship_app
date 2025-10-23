@@ -6,6 +6,7 @@ import '../../app.dart';
 import 'learning_mode_screen.dart';
 import 'mock_exam_rules_screen.dart';
 import 'progress_screen.dart';
+import 'achievements_screen.dart';
 import '../data/states.dart';
 import '../core/prefs.dart';
 import '../analytics/progress_repository.dart';
@@ -81,6 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
   PopupMenuItem(value: 'language', child: SizedBox(width: _menuWidth, child: Text(AppLocalizations.of(context).menu_language, style: Theme.of(context).textTheme.bodySmall))),
   PopupMenuItem(value: 'state', child: SizedBox(width: _menuWidth, child: Text(AppLocalizations.of(context).menu_state, style: Theme.of(context).textTheme.bodySmall))),
   PopupMenuItem(value: 'theme', child: SizedBox(width: _menuWidth, child: Text(AppLocalizations.of(context).menu_theme, style: Theme.of(context).textTheme.bodySmall))),
+        PopupMenuItem(value: 'achievements', child: SizedBox(width: _menuWidth, child: Text(AppLocalizations.of(context).menu_achievements, style: Theme.of(context).textTheme.bodySmall))),
   PopupMenuItem(value: 'analyse', child: SizedBox(width: _menuWidth, child: Text(AppLocalizations.of(context).menu_analyse, style: Theme.of(context).textTheme.bodySmall))),
       ],
     );
@@ -93,6 +95,13 @@ class _HomeScreenState extends State<HomeScreen> {
         break;
       case 'theme':
         _showThemeMenu();
+        break;
+      case 'achievements':
+        if (!mounted) return;
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const AchievementsScreen()),
+        );
         break;
       case 'analyse':
         _showResetMenu();
@@ -418,11 +427,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                       if (_selectedStateLabel != null)
                                         _StateChip(label: _selectedStateLabel!, code: _selectedStateCode, onPrimary: onPrimary)
                                       else
-                                        Text(AppLocalizations.of(context).home_no_state, style: Theme.of(context).textTheme.bodySmall?.copyWith(color: onPrimary.withValues(alpha: 0.9))),
+                                        Text(
+                                          AppLocalizations.of(context).home_no_state,
+                                          style: Theme.of(context).textTheme.bodySmall?.copyWith(color: onPrimary.withValues(alpha: 0.9)),
+                                        ),
                                     ],
                                   ),
                                 ),
-                                // Always show the decorative icon; size adapts to layout width
                                 SizedBox(width: isWide ? 12 : 8),
                                 Icon(
                                   Icons.school,

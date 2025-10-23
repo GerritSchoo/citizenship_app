@@ -331,4 +331,106 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get grade_ungenuegend => 'ungenügend';
+
+  @override
+  String achievement_unlocked(String title) {
+    return 'Erfolg freigeschaltet: $title';
+  }
+
+  @override
+  String get ach_learn_first_correct_name => 'Erste Schritte';
+
+  @override
+  String get ach_learn_first_correct_desc =>
+      'Beantworte im Lernen deine erste Frage richtig.';
+
+  @override
+  String get ach_quiz_first_correct_name => 'Warmgelaufen';
+
+  @override
+  String get ach_quiz_first_correct_desc =>
+      'Beantworte im Quiz deine erste Frage richtig.';
+
+  @override
+  String get ach_exam_pass_name => 'Prüfung bestanden';
+
+  @override
+  String get ach_exam_pass_desc =>
+      'Gib eine Prüfung mit mindestens 17 richtigen Antworten ab.';
+
+  @override
+  String get ach_exam_30_name => 'Fast perfekt';
+
+  @override
+  String get ach_exam_30_desc =>
+      'Erreiche 30 oder mehr richtige Antworten in der Probeprüfung.';
+
+  @override
+  String get achievements_title => 'Erfolge';
+
+  @override
+  String get achievements_none => 'Noch keine Erfolge';
+
+  @override
+  String get action_achievements => 'Erfolge';
+
+  @override
+  String get action_achievements_sem => 'Erfolge öffnen';
+
+  @override
+  String get menu_achievements => 'Erfolge';
+
+  @override
+  String get ach_practice_10_name => 'Los geht\'s';
+
+  @override
+  String get ach_practice_10_desc =>
+      'Erreiche 10 richtige Antworten im Lernen/Quiz.';
+
+  @override
+  String get ach_practice_100_name => 'Gut in Fahrt';
+
+  @override
+  String get ach_practice_100_desc =>
+      'Erreiche 100 richtige Antworten im Lernen/Quiz.';
+
+  @override
+  String get ach_practice_1000_name => 'Übungsmeister';
+
+  @override
+  String get ach_practice_1000_desc =>
+      'Erreiche 1000 richtige Antworten im Lernen/Quiz.';
+
+  @override
+  String get ach_exam_first_name => 'Erste Prüfung';
+
+  @override
+  String get ach_exam_first_desc => 'Gib deine erste Probeprüfung ab.';
+
+  @override
+  String get ach_exam_25_name => 'Starke Leistung';
+
+  @override
+  String get ach_exam_25_desc =>
+      'Erreiche 25 oder mehr richtige Antworten in der Probeprüfung.';
+
+  @override
+  String get ach_exam_perfect_name => 'Perfekt!';
+
+  @override
+  String get ach_exam_perfect_desc =>
+      'Beantworte alle Fragen in der Probeprüfung richtig.';
+
+  @override
+  String get ach_exam_streak3_name => 'Hattrick';
+
+  @override
+  String get ach_exam_streak3_desc => 'Bestehe drei Probeprüfungen in Folge.';
+
+  @override
+  String get ach_exam_fast_name => 'Schnellläufer';
+
+  @override
+  String get ach_exam_fast_desc =>
+      'Bestehe eine Probeprüfung in unter 10 Minuten.';
 }
