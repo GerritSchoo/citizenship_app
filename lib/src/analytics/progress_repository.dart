@@ -94,8 +94,16 @@ class ProgressRepository {
               durationMs INTEGER NOT NULL DEFAULT 0
             );
           ''');
+          await db.execute('''
+            CREATE TABLE achievements (
+              id TEXT PRIMARY KEY,
+              unlockedAt INTEGER NOT NULL
+            );
+          ''');
         },
       );
+      // Ensure achievements table exists when upgrading from older versions
+      await _db!.execute('CREATE TABLE IF NOT EXISTS achievements (id TEXT PRIMARY KEY, unlockedAt INTEGER NOT NULL);');
       initError.value = null;
     } catch (e, st) {
       // If database init fails, leave _db as null. Callers should handle isAvailable.
@@ -329,5 +337,34 @@ class ProgressRepository {
       await _db?.close();
     } catch (_) {}
     _db = null;
+  }
+
+  // --- Achievements persistence ---
+
+  Future<bool> isAchievementUnlocked(String id) async {
+    final db = _db;
+    if (db == null) return false;
+    final rows = await db.query('achievements', columns: ['id'], where: 'id = ?', whereArgs: [id], limit: 1);
+    return rows.isNotEmpty;
+  }
+
+  Future<void> unlockAchievement(String id, {DateTime? when}) async {
+    final db = _db;
+    if (db == null) return;
+    await db.insert(
+      'achievements',
+      {
+        'id': id,
+        'unlockedAt': (when ?? DateTime.now()).millisecondsSinceEpoch,
+      },
+      conflictAlgorithm: ConflictAlgorithm.ignore,
+    );
+  }
+
+  Future<List<String>> unlockedAchievementIds() async {
+    final db = _db;
+    if (db == null) return const <String>[];
+    final rows = await db.query('achievements', columns: ['id']);
+    return rows.map((r) => r['id'] as String).toList();
   }
 }

@@ -108,6 +108,14 @@ class AppState extends State<App> {
     await AppPrefs.saveLocale(locale.languageCode);
   }
 
+  // Global bottom SnackBar helper, accessible via App.of(context)
+  void showSnack(String message) {
+    final messenger = _messengerKey.currentState;
+    if (messenger == null) return;
+    messenger.hideCurrentSnackBar();
+    messenger.showSnackBar(SnackBar(content: Text(message)));
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_loading) {
@@ -115,7 +123,7 @@ class AppState extends State<App> {
     }
 
     return MaterialApp(
-  onGenerateTitle: (ctx) => AppLocalizations.of(ctx).app_title,
+      title: 'Citizenship Test Quiz',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,

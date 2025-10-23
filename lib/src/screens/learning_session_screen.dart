@@ -9,6 +9,7 @@ import '../utils/asset_image_cache.dart';
 import '../analytics/progress_repository.dart';
 import '../analytics/progress_tracker.dart';
 import '../../l10n/app_localizations.dart';
+import '../achievements/achievement_service.dart';
 
 class LearningSessionScreen extends StatefulWidget {
   final List<Question> questions;
@@ -139,7 +140,13 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
                           correctIndex: question.correctIndex,
                           selectedIndex: _controller.selectedIndex,
                           revealed: _controller.selectedIndex != null,
-                          onTap: (i) => _controller.select(i),
+                          onTap: (i) {
+                            final isCorrectTap = i == question.correctIndex;
+                            _controller.select(i);
+                            if (isCorrectTap) {
+                              AchievementService.instance.onPracticeAnswered(context, inLearn: true, isCorrect: true);
+                            }
+                          },
                         ),
                       ),
                     if (!question.hasAnswerImages)
@@ -156,7 +163,12 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
                           revealed: _controller.selectedIndex != null,
                           isSelected: isSelected,
                           isCorrect: isCorrect,
-                          onTap: () => _controller.select(index),
+                          onTap: () {
+                            _controller.select(index);
+                            if (isCorrect) {
+                              AchievementService.instance.onPracticeAnswered(context, inLearn: true, isCorrect: true);
+                            }
+                          },
                         );
                       }),
 
@@ -180,7 +192,7 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
                                   child: Text(
                                     question.originalDeExplanation!,
                                     style: theme.textTheme.bodySmall?.copyWith(
-                                      color: theme.colorScheme.onSurface.withOpacity(0.6),
+                                      color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
                                       fontStyle: FontStyle.italic,
                                     ),
                                   ),

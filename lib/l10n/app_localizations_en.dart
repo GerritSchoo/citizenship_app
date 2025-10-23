@@ -328,4 +328,103 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get grade_ungenuegend => 'insufficient';
+
+  @override
+  String achievement_unlocked(String title) {
+    return 'Achievement unlocked: $title';
+  }
+
+  @override
+  String get ach_learn_first_correct_name => 'First steps';
+
+  @override
+  String get ach_learn_first_correct_desc =>
+      'Answer your first question correctly in Learning.';
+
+  @override
+  String get ach_quiz_first_correct_name => 'Getting warm';
+
+  @override
+  String get ach_quiz_first_correct_desc =>
+      'Answer your first question correctly in Quiz.';
+
+  @override
+  String get ach_exam_pass_name => 'Passed the exam';
+
+  @override
+  String get ach_exam_pass_desc =>
+      'Submit an exam with at least 17 correct answers.';
+
+  @override
+  String get ach_exam_30_name => 'Almost perfect';
+
+  @override
+  String get ach_exam_30_desc =>
+      'Score 30 or more correct answers in a mock exam.';
+
+  @override
+  String get achievements_title => 'Achievements';
+
+  @override
+  String get achievements_none => 'No achievements yet';
+
+  @override
+  String get action_achievements => 'Achievements';
+
+  @override
+  String get action_achievements_sem => 'Open Achievements';
+
+  @override
+  String get menu_achievements => 'Achievements';
+
+  @override
+  String get ach_practice_10_name => 'Getting started';
+
+  @override
+  String get ach_practice_10_desc => 'Reach 10 correct answers in practice.';
+
+  @override
+  String get ach_practice_100_name => 'On a roll';
+
+  @override
+  String get ach_practice_100_desc => 'Reach 100 correct answers in practice.';
+
+  @override
+  String get ach_practice_1000_name => 'Practice master';
+
+  @override
+  String get ach_practice_1000_desc =>
+      'Reach 1000 correct answers in practice.';
+
+  @override
+  String get ach_exam_first_name => 'First attempt';
+
+  @override
+  String get ach_exam_first_desc => 'Submit your first mock exam.';
+
+  @override
+  String get ach_exam_25_name => 'Strong score';
+
+  @override
+  String get ach_exam_25_desc =>
+      'Score 25 or more correct answers in a mock exam.';
+
+  @override
+  String get ach_exam_perfect_name => 'Perfect!';
+
+  @override
+  String get ach_exam_perfect_desc =>
+      'Score all answers correctly in a mock exam.';
+
+  @override
+  String get ach_exam_streak3_name => 'Hat trick';
+
+  @override
+  String get ach_exam_streak3_desc => 'Pass three mock exams in a row.';
+
+  @override
+  String get ach_exam_fast_name => 'Speed runner';
+
+  @override
+  String get ach_exam_fast_desc => 'Pass a mock exam in under 10 minutes.';
 }
