@@ -7,6 +7,7 @@ import 'learning_mode_screen.dart';
 import 'mock_exam_rules_screen.dart';
 import 'progress_screen.dart';
 import 'achievements_screen.dart';
+import 'paywall_screen.dart';
 import '../data/states.dart';
 import '../core/prefs.dart';
 import '../analytics/progress_repository.dart';
@@ -83,6 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
   PopupMenuItem(value: 'state', child: SizedBox(width: _menuWidth, child: Text(AppLocalizations.of(context).menu_state, style: Theme.of(context).textTheme.bodySmall))),
   PopupMenuItem(value: 'theme', child: SizedBox(width: _menuWidth, child: Text(AppLocalizations.of(context).menu_theme, style: Theme.of(context).textTheme.bodySmall))),
         PopupMenuItem(value: 'achievements', child: SizedBox(width: _menuWidth, child: Text(AppLocalizations.of(context).menu_achievements, style: Theme.of(context).textTheme.bodySmall))),
+        PopupMenuItem(value: 'subscribe', child: SizedBox(width: _menuWidth, child: Text(AppLocalizations.of(context).menu_subscribe, style: Theme.of(context).textTheme.bodySmall))),
   PopupMenuItem(value: 'analyse', child: SizedBox(width: _menuWidth, child: Text(AppLocalizations.of(context).menu_analyse, style: Theme.of(context).textTheme.bodySmall))),
       ],
     );
@@ -101,6 +103,13 @@ class _HomeScreenState extends State<HomeScreen> {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (_) => const AchievementsScreen()),
+        );
+        break;
+      case 'subscribe':
+        if (!mounted) return;
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const PaywallScreen()),
         );
         break;
       case 'analyse':
@@ -153,11 +162,22 @@ class _HomeScreenState extends State<HomeScreen> {
     if (appState != null) {
       await appState.setLocale(Locale(choice));
     }
-    if (!mounted) return;
-    final code = choice.toLowerCase();
-    final label = LocaleNames.of(context)?.nameOf(code) ?? code;
-    messenger.showSnackBar(SnackBar(content: Text(AppLocalizations.of(context).snack_lang_set(label))));
+    // Build the snackbar text using the NEW locale to avoid showing the old language
+    final newL10n = await AppLocalizations.delegate.load(Locale(choice));
+    final label = _nativeLanguageName(choice);
+    messenger.showSnackBar(SnackBar(content: Text(newL10n.snack_lang_set(label))));
     // Do not auto-reopen the menu; close after applying change for immediate UI refresh
+  }
+
+  String _nativeLanguageName(String code) {
+    switch (code.toLowerCase()) {
+      case 'de':
+        return 'Deutsch';
+      case 'en':
+        return 'English';
+      default:
+        return code;
+    }
   }
 
   Future<void> _showStateMenu() async {

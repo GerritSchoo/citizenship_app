@@ -143,6 +143,9 @@
   "menu_achievements": "Achievements",
   "@menu_achievements": {"description": "Overflow menu entry to open Achievements screen"}
   ,
+  "menu_subscribe": "Subscribe",
+  "@menu_subscribe": {"description": "Overflow menu entry to open subscription/paywall screen"}
+  ,
   "ach_practice_10_name": "Getting started",
   "@ach_practice_10_name": {"description": "10 correct answers in practice"},
   "ach_practice_10_desc": "Reach 10 correct answers in practice.",
@@ -175,4 +178,21 @@
   "@ach_exam_fast_name": {"description": "Pass an exam in under 10 minutes"},
   "ach_exam_fast_desc": "Pass a mock exam in under 10 minutes.",
   "@ach_exam_fast_desc": {"description": "Description for fast pass exam"}
+  ,
+  "paywall_title": "Subscribe",
+  "@paywall_title": {"description": "Paywall screen title"},
+  "paywall_subtitle": "Enjoy unlimited mock exams. You have used your 3 free exams.",
+  "@paywall_subtitle": {"description": "Short paywall pitch"},
+  "paywall_monthly": "Monthly",
+  "@paywall_monthly": {"description": "Monthly plan label"},
+  "paywall_yearly": "Yearly",
+  "@paywall_yearly": {"description": "Yearly plan label"},
+  "trial_exhausted_title": "Free trial used",
+  "@trial_exhausted_title": {"description": "Dialog title when free trial is exhausted"},
+  "trial_exhausted_body": "You have completed 3 free mock exams. Subscribe to continue with unlimited access.",
+  "@trial_exhausted_body": {"description": "Dialog body for exhausted trial"},
+  "trial_subscribe": "Subscribe",
+  "@trial_subscribe": {"description": "Subscribe CTA"},
+  "trial_later": "Later",
+  "@trial_later": {"description": "Defer subscription CTA"}
 }

@@ -24,6 +24,9 @@ class AppState extends State<App> {
   ThemeMode _themeMode = ThemeMode.system;
   final _messengerKey = GlobalKey<ScaffoldMessengerState>();
   Locale? _locale;
+  // Testing toggle: enable subscription lock after 3 trial exams
+  // Set to true to activate gating flows (menu + popup after trials)
+  static bool subscriptionLockEnabled = false;
 
   @override
   void initState() {
