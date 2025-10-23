@@ -156,9 +156,8 @@ class _HomeScreenState extends State<HomeScreen> {
     if (!mounted) return;
     final code = choice.toLowerCase();
     final label = LocaleNames.of(context)?.nameOf(code) ?? code;
-  messenger.showSnackBar(SnackBar(content: Text(AppLocalizations.of(context).snack_lang_set(label))));
-    // Return to main menu for continued navigation
-    _showMainMenu();
+    messenger.showSnackBar(SnackBar(content: Text(AppLocalizations.of(context).snack_lang_set(label))));
+    // Do not auto-reopen the menu; close after applying change for immediate UI refresh
   }
 
   Future<void> _showStateMenu() async {
@@ -195,8 +194,7 @@ class _HomeScreenState extends State<HomeScreen> {
       return;
     }
     _onSelectState(choice);
-    if (!mounted) return;
-    _showMainMenu();
+    // Do not auto-reopen the menu; close after applying change
   }
 
   Future<void> _showResetMenu() async {
@@ -262,22 +260,19 @@ class _HomeScreenState extends State<HomeScreen> {
     if (choice == 'reset_all') {
       await ProgressRepository.instance.clearAll();
       if (!mounted) return;
-  messenger.showSnackBar(SnackBar(content: Text(AppLocalizations.of(context).snack_reset_all)));
-      _showMainMenu();
+      messenger.showSnackBar(SnackBar(content: Text(AppLocalizations.of(context).snack_reset_all)));
       return;
     }
     if (choice == 'reset_practice') {
       await ProgressRepository.instance.clearByMode(SessionMode.practice);
       if (!mounted) return;
-  messenger.showSnackBar(SnackBar(content: Text(AppLocalizations.of(context).snack_reset_practice)));
-      _showMainMenu();
+      messenger.showSnackBar(SnackBar(content: Text(AppLocalizations.of(context).snack_reset_practice)));
       return;
     }
     if (choice == 'reset_exam') {
       await ProgressRepository.instance.clearByMode(SessionMode.exam);
       if (!mounted) return;
-  messenger.showSnackBar(SnackBar(content: Text(AppLocalizations.of(context).snack_reset_exam)));
-      _showMainMenu();
+      messenger.showSnackBar(SnackBar(content: Text(AppLocalizations.of(context).snack_reset_exam)));
       return;
     }
   }
