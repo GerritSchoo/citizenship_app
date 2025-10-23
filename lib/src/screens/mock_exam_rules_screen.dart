@@ -35,12 +35,24 @@ class MockExamRulesScreen extends StatelessWidget {
                 separatorBuilder: (_, __) => const SizedBox(height: 12),
                 itemBuilder: (context, index) {
                   final rule = _rules(context)[index];
+                  final theme = Theme.of(context);
+                  final cs = theme.colorScheme;
                   return Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CircleAvatar(radius: 14, backgroundColor: Colors.blue.shade100, child: Text('${index + 1}')),
+                      CircleAvatar(
+                        radius: 14,
+                        backgroundColor: cs.primaryContainer,
+                        child: Text(
+                          '${index + 1}',
+                          style: theme.textTheme.labelMedium?.copyWith(
+                            color: cs.onPrimaryContainer,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
                       const SizedBox(width: 12),
-                      Expanded(child: Text(rule, style: Theme.of(context).textTheme.bodyMedium, softWrap: true)),
+                      Expanded(child: Text(rule, style: theme.textTheme.bodyMedium, softWrap: true)),
                     ],
                   );
                 },
