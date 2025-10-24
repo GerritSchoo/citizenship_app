@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/app_theme.dart';
 import '../analytics/progress_repository.dart';
 import '../widgets/exam_result_indicator.dart';
 import '../data/question_repository.dart';
@@ -224,7 +225,7 @@ class _OverallProgressBar extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             ClipRRect(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
               child: LinearProgressIndicator(
                 value: accuracy.isNaN ? 0 : accuracy,
                 minHeight: 12,
@@ -273,7 +274,7 @@ class _TopicProgressList extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
                       child: LinearProgressIndicator(
                         value: accuracy.isNaN ? 0 : accuracy,
                         minHeight: 10,
@@ -329,7 +330,7 @@ class _PassRateBar extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             ClipRRect(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
               child: LinearProgressIndicator(
                 value: rate.isNaN ? 0 : rate.clamp(0.0, 1.0),
                 minHeight: 12,

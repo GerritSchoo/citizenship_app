@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_theme.dart';
 
 class ImageAnswerGrid extends StatelessWidget {
   final List<String> images;    // must match answers length
@@ -71,7 +72,10 @@ class ImageAnswerGrid extends StatelessWidget {
           iconColor = theme.colorScheme.primary;
         }
 
-  final shape = RoundedRectangleBorder(borderRadius: BorderRadius.circular(12), side: BorderSide(color: border, width: border == Colors.transparent ? 0.8 : 2));
+  final shape = RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
+    side: BorderSide(color: border, width: border == Colors.transparent ? 0.8 : 2),
+  );
         return Material(
           color: Colors.transparent,
           shape: shape,
@@ -88,7 +92,7 @@ class ImageAnswerGrid extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(
                   color: theme.colorScheme.surfaceContainerHighest,
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
                 ),
                 padding: const EdgeInsets.all(8),
                 child: Center(
@@ -107,7 +111,7 @@ class ImageAnswerGrid extends StatelessWidget {
               if (overlay != null)
                 // Keep rounded highlight while preserving image edges
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
                   child: Container(color: overlay),
                 ),
               // No original captions for image answers; show only translated UI per requirement

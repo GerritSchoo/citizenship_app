@@ -3,6 +3,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'quiz_screen.dart';
 import '../../app.dart';
+import '../theme/app_theme.dart';
 import 'learning_mode_screen.dart';
 import 'mock_exam_rules_screen.dart';
 import 'progress_screen.dart';
@@ -370,7 +371,7 @@ class _HomeScreenState extends State<HomeScreen> {
             slivers: [
               SliverToBoxAdapter(
                 child: ClipRRect(
-                  borderRadius: const BorderRadius.vertical(bottom: Radius.circular(24)),
+                  borderRadius: const BorderRadius.vertical(bottom: Radius.circular(AppTheme.radiusLarge)),
                   child: SizedBox(
                     height: headerHeight,
                     width: double.infinity,
@@ -567,7 +568,7 @@ class _StateChip extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
         color: onPrimary.withValues(alpha: 0.15),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
         border: Border.all(color: onPrimary.withValues(alpha: 0.25)),
       ),
       child: Row(
@@ -619,7 +620,7 @@ class _ActionCardState extends State<_ActionCard> {
             child: Material(
               color: bg,
               elevation: 2,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
               clipBehavior: Clip.antiAlias,
               child: InkWell(
                 // Remove default splash/highlight to avoid lingering highlight when returning
@@ -645,7 +646,7 @@ class _ActionCardState extends State<_ActionCard> {
                         width: 44,
                         decoration: BoxDecoration(
                           color: iconColor.withValues(alpha: 0.12),
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
                         ),
                         child: Icon(widget.icon, color: iconColor, size: 26),
                       ),

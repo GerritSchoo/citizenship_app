@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:citizenship_quiz_app/src/theme/app_theme.dart';
 import 'package:citizenship_quiz_app/src/screens/image_viewer_screen.dart';
 
 class QuestionCard extends StatelessWidget {
@@ -25,7 +26,6 @@ class QuestionCard extends StatelessWidget {
     final theme = Theme.of(context);
     return Card(
       elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -50,7 +50,7 @@ class QuestionCard extends StatelessWidget {
               _TappableProportionalAssetImage(
                 imagePath: image!,
                 backgroundColor: theme.colorScheme.surfaceContainerHighest,
-                borderRadius: 10,
+                borderRadius: AppTheme.radiusMedium - 4,
                 padding: const EdgeInsets.all(8),
                 maxHeightFraction: 0.35,
                 heroTag: 'q-img-$index-${image!}',
