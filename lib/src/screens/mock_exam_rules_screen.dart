@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/app_theme.dart';
 import 'mock_exam_screen.dart';
 import '../../l10n/app_localizations.dart';
 import '../analytics/progress_repository.dart';
@@ -95,7 +96,11 @@ class MockExamRulesScreen extends StatelessWidget {
                     if (!context.mounted) return;
                     Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const MockExamScreen()));
                   },
-                  style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
+                    ),
+                  ),
                   child: Text(AppLocalizations.of(context).exam_start, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
                 ),
               ),

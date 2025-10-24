@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/app_theme.dart';
 import '../core/prefs.dart';
 import '../data/states.dart';
 import 'home_screen.dart';
@@ -58,7 +59,7 @@ class _InitialSetupScreenState extends State<InitialSetupScreen> with SingleTick
                   child: Card(
                     elevation: 12,
                     margin: const EdgeInsets.symmetric(horizontal: 20),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppTheme.radiusMedium)),
                     child: Padding(
                       padding: const EdgeInsets.all(20),
                       child: ConstrainedBox(
@@ -70,7 +71,7 @@ class _InitialSetupScreenState extends State<InitialSetupScreen> with SingleTick
                               Container(
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(colors: [theme.colorScheme.primary, theme.colorScheme.secondary.withAlpha(230)]),
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
                                 ),
                                 padding: const EdgeInsets.all(10),
                                 child: const Icon(Icons.map, color: Colors.white, size: 28),
@@ -96,13 +97,19 @@ class _InitialSetupScreenState extends State<InitialSetupScreen> with SingleTick
                                       ))
                                   .toList(),
                               onChanged: (v) => setState(() => _selectedCode = v),
-                              decoration: const InputDecoration(border: OutlineInputBorder(), prefixIcon: Icon(Icons.location_on)),
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppTheme.radiusMedium)),
+                                prefixIcon: const Icon(Icons.location_on),
+                              ),
                             ),
                             const SizedBox(height: 12),
                             Row(children: [
                               Expanded(
                                 child: InputDecorator(
-                                  decoration: const InputDecoration(border: OutlineInputBorder(), contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 6)),
+                                  decoration: InputDecoration(
+                                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppTheme.radiusMedium)),
+                                    contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                                  ),
                                   child: Row(children: [
                                     const Icon(Icons.language, size: 18),
                                     const SizedBox(width: 8),

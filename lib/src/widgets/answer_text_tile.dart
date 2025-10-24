@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
+import '../theme/app_theme.dart';
 
 class AnswerTextTile extends StatelessWidget {
   final String text;
@@ -59,7 +60,7 @@ class AnswerTextTile extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
           splashColor: disableInkSplash ? Colors.transparent : null,
           highlightColor: disableInkSplash ? Colors.transparent : null,
           overlayColor: disableInkSplash ? const WidgetStatePropertyAll(Colors.transparent) : null,
@@ -69,7 +70,7 @@ class AnswerTextTile extends StatelessWidget {
             duration: animationDuration,
             decoration: BoxDecoration(
               color: boxColor,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
             ),
             padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
             child: Column(

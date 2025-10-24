@@ -10,6 +10,7 @@ import '../analytics/progress_repository.dart';
 import '../analytics/progress_tracker.dart';
 import '../../l10n/app_localizations.dart';
 import '../achievements/achievement_service.dart';
+import '../theme/app_theme.dart';
 
 class LearningSessionScreen extends StatefulWidget {
   final List<Question> questions;
@@ -211,7 +212,7 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size.fromHeight(48),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppTheme.radiusMedium)),
                       ),
                       onPressed: _controller.currentIndex > 0 ? _goToPrevious : null,
                       child: Text(l10n.back_btn),
@@ -222,7 +223,7 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size.fromHeight(48),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppTheme.radiusMedium)),
                       ),
                       // Allow skipping without answering in Learning mode
                       onPressed: isLastQuestion ? () => Navigator.of(context).pop() : _goToNext,

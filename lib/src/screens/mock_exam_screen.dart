@@ -12,6 +12,7 @@ import '../analytics/progress_repository.dart';
 // question model used indirectly via controller
 import 'mock_exam_result_screen.dart';
 import '../../l10n/app_localizations.dart';
+import '../theme/app_theme.dart';
 
 /// Mock exam screen: uses Controller.loadMockExam to prepare a 33-question exam.
 /// - 30 general + 3 state (if available)
@@ -296,7 +297,7 @@ class _MockExamScreenState extends State<MockExamScreen> {
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                     minimumSize: const Size.fromHeight(48),
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppTheme.radiusMedium)),
                                   ),
                                   onPressed: _controller!.currentIndex > 0
                                       ? () {
@@ -316,7 +317,7 @@ class _MockExamScreenState extends State<MockExamScreen> {
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                     minimumSize: const Size.fromHeight(48),
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppTheme.radiusMedium)),
                                   ),
                                   onPressed: _controller!.currentIndex < _controller!.questions.length - 1 ? () { setState(() { _controller!.next(); }); _prefetchAroundCurrent(); } : null,
                                   child: Text(l10n.next_btn),
