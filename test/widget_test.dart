@@ -6,24 +6,30 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import 'package:citizenship_quiz_app/app.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_localized_locales/flutter_localized_locales.dart';
+import 'package:citizenship_quiz_app/src/screens/home_screen.dart';
+import 'package:citizenship_quiz_app/l10n/app_localizations.dart';
 
 void main() {
   testWidgets('App renders HomeScreen with title', (WidgetTester tester) async {
-    // Initialize shared preferences to bypass initial setup.
-    SharedPreferences.setMockInitialValues(<String, Object>{
-      'selectedStateCode': 'BW',
-      'locale': 'de',
-    });
+    // Build a minimal app with localizations and the HomeScreen directly.
+    await tester.pumpWidget(
+      MaterialApp(
+        localizationsDelegates: const [
+          ...AppLocalizations.localizationsDelegates,
+          LocaleNamesLocalizationsDelegate(),
+        ],
+        supportedLocales: AppLocalizations.supportedLocales,
+        locale: const Locale('de'),
+        home: const HomeScreen(),
+      ),
+    );
 
-    // Build the app.
-    await tester.pumpWidget(const App());
-    // Let initial animations settle a bit without waiting for infinite spinners.
-    await tester.pump(const Duration(milliseconds: 500));
+    // Let frames settle.
+    await tester.pumpAndSettle();
 
-    // Basic smoke check: find the home title.
-    expect(find.text('Citizenship Test Quiz'), findsOneWidget);
+    // Expect the German header title.
+    expect(find.text('Einbürgerungstest'), findsOneWidget);
   });
 }

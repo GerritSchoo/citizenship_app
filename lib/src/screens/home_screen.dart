@@ -359,17 +359,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final colorScheme = Theme.of(context).colorScheme;
     final onPrimary = colorScheme.onPrimary;
     return Scaffold(
-      appBar: AppBar(
-  title: Text(AppLocalizations.of(context).app_title),
-        actions: [
-          IconButton(
-            key: _menuKey,
-            tooltip: AppLocalizations.of(context).menu,
-            icon: const Icon(Icons.more_vert),
-            onPressed: _showMainMenu,
-          ),
-        ],
-      ),
+      appBar: null,
       body: LayoutBuilder(
         builder: (context, constraints) {
           final isWide = constraints.maxWidth >= 900;
@@ -411,17 +401,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         SafeArea(
                           bottom: false,
                           child: Padding(
-                            padding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                            padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                // Text column expands to take available space next to the icon
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
+                                // Top row: Title on left, menu button on right (same height)
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Expanded(
+                                      child: Text(
                                         AppLocalizations.of(context).home_header_title,
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
@@ -430,30 +419,56 @@ class _HomeScreenState extends State<HomeScreen> {
                                               fontWeight: FontWeight.w700,
                                             ),
                                       ),
-                                      const SizedBox(height: 8),
-                                      Text(
-                                        AppLocalizations.of(context).home_header_subtitle,
-                                        maxLines: 2,
-                                        softWrap: true,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: onPrimary.withValues(alpha: 0.9)),
-                                      ),
-                                      const SizedBox(height: 12),
-                                      if (_selectedStateLabel != null)
-                                        _StateChip(label: _selectedStateLabel!, code: _selectedStateCode, onPrimary: onPrimary)
-                                      else
-                                        Text(
-                                          AppLocalizations.of(context).home_no_state,
-                                          style: Theme.of(context).textTheme.bodySmall?.copyWith(color: onPrimary.withValues(alpha: 0.9)),
+                                    ),
+                                    IconButton(
+                                      key: _menuKey,
+                                      tooltip: AppLocalizations.of(context).menu,
+                                      icon: Icon(Icons.more_vert, color: onPrimary),
+                                      onPressed: _showMainMenu,
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 8),
+                                // Remaining content and illustration
+                                Expanded(
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              AppLocalizations.of(context).home_header_subtitle,
+                                              maxLines: 2,
+                                              softWrap: true,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                                    color: onPrimary.withValues(alpha: 0.9),
+                                                  ),
+                                            ),
+                                            const SizedBox(height: 12),
+                                            if (_selectedStateLabel != null)
+                                              _StateChip(label: _selectedStateLabel!, code: _selectedStateCode, onPrimary: onPrimary)
+                                            else
+                                              Text(
+                                                AppLocalizations.of(context).home_no_state,
+                                                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                                      color: onPrimary.withValues(alpha: 0.9),
+                                                    ),
+                                              ),
+                                          ],
                                         ),
+                                      ),
+                                      SizedBox(width: isWide ? 12 : 8),
+                                      Icon(
+                                        Icons.school,
+                                        size: isWide ? 96 : (isMedium ? 80 : 64),
+                                        color: onPrimary.withValues(alpha: 0.95),
+                                      ),
                                     ],
                                   ),
-                                ),
-                                SizedBox(width: isWide ? 12 : 8),
-                                Icon(
-                                  Icons.school,
-                                  size: isWide ? 96 : (isMedium ? 80 : 64),
-                                  color: onPrimary.withValues(alpha: 0.95),
                                 ),
                               ],
                             ),
