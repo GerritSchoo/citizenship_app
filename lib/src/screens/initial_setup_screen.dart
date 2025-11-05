@@ -4,6 +4,7 @@ import '../core/prefs.dart';
 import '../data/states.dart';
 import 'home_screen.dart';
 import '../../l10n/app_localizations.dart';
+import 'package:flutter_localized_locales/flutter_localized_locales.dart';
 
 class InitialSetupScreen extends StatefulWidget {
   const InitialSetupScreen({super.key});
@@ -23,8 +24,9 @@ class _InitialSetupScreenState extends State<InitialSetupScreen> with SingleTick
   @override
   void initState() {
     super.initState();
-    _anim = AnimationController(vsync: this, duration: const Duration(milliseconds: 420));
-    _scale = CurvedAnimation(parent: _anim, curve: Curves.easeOutBack);
+  _anim = AnimationController(vsync: this, duration: const Duration(milliseconds: 360));
+  // Keep scale <= 1.0 to avoid overshoot-caused pixel overflows on small screens
+  _scale = Tween(begin: 0.94, end: 1.0).animate(CurvedAnimation(parent: _anim, curve: Curves.easeOutCubic));
     _anim.forward();
   }
 
@@ -79,9 +81,21 @@ class _InitialSetupScreenState extends State<InitialSetupScreen> with SingleTick
                               const SizedBox(width: 12),
                               Expanded(
                                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                                  Text(l10n.setup_choose_state_title, style: theme.textTheme.headlineSmall),
+                                  Text(
+                                    l10n.setup_choose_state_title,
+                                    style: theme.textTheme.headlineSmall,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    softWrap: true,
+                                  ),
                                   const SizedBox(height: 4),
-                                  Text(l10n.setup_choose_state_subtitle, style: theme.textTheme.bodyMedium),
+                                  Text(
+                                    l10n.setup_choose_state_subtitle,
+                                    style: theme.textTheme.bodyMedium,
+                                    maxLines: 3,
+                                    overflow: TextOverflow.ellipsis,
+                                    softWrap: true,
+                                  ),
                                 ]),
                               )
                             ]),
@@ -105,28 +119,25 @@ class _InitialSetupScreenState extends State<InitialSetupScreen> with SingleTick
                             const SizedBox(height: 12),
                             Row(children: [
                               Expanded(
-                                child: InputDecorator(
+                                child: DropdownButtonFormField<String>(
+                                  isExpanded: true,
+                                  value: _locale,
+                                  hint: Text(l10n.setup_language_label),
+                                  items: AppLocalizations.supportedLocales
+                                      .map((loc) {
+                                        final code = loc.languageCode;
+                                        final name = LocaleNames.of(context)?.nameOf(code) ?? code;
+                                        return DropdownMenuItem(
+                                          value: code,
+                                          child: Text('$name ($code)'),
+                                        );
+                                      })
+                                      .toList(),
+                                  onChanged: (v) => setState(() => _locale = v ?? 'de'),
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppTheme.radiusMedium)),
-                                    contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                                    prefixIcon: const Icon(Icons.language),
                                   ),
-                                  child: Row(children: [
-                                    const Icon(Icons.language, size: 18),
-                                    const SizedBox(width: 8),
-                                    Text(l10n.setup_language_label, style: theme.textTheme.bodyMedium),
-                                    const SizedBox(width: 12),
-                                    ChoiceChip(
-                                      label: const Text('Deutsch'),
-                                      selected: _locale == 'de',
-                                      onSelected: (_) => setState(() => _locale = 'de'),
-                                    ),
-                                    const SizedBox(width: 8),
-                                    ChoiceChip(
-                                      label: const Text('Englisch'),
-                                      selected: _locale == 'en',
-                                      onSelected: (_) => setState(() => _locale = 'en'),
-                                    ),
-                                  ]),
                                 ),
                               )
                             ]),

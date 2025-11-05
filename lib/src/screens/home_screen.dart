@@ -365,8 +365,23 @@ class _HomeScreenState extends State<HomeScreen> {
         builder: (context, constraints) {
           final isWide = constraints.maxWidth >= 900;
           final isMedium = constraints.maxWidth >= 600 && constraints.maxWidth < 900;
-          final crossAxisCount = isWide ? 4 : 2;
-          final headerHeight = isWide ? 220.0 : 200.0;
+      final crossAxisCount = isWide ? 4 : 2;
+      // Dynamic header height: base + cushion for text scale and very narrow widths
+      final baseHeader = isWide ? 220.0 : 200.0;
+      final textScale = MediaQuery.of(context).textScaleFactor;
+      final narrowBoost = constraints.maxWidth < 360
+        ? 32.0
+        : constraints.maxWidth < 400
+          ? 20.0
+          : constraints.maxWidth < 480
+            ? 12.0
+            : 0.0;
+      final double headerHeight = (baseHeader + narrowBoost + math.max(0, (textScale - 1.0) * 64.0))
+        .clamp(baseHeader, baseHeader + 96);
+      // Icon scales with header height to avoid bottom overflows on compact screens
+      final iconSizeFactor = isWide ? 0.56 : (isMedium ? 0.52 : 0.46);
+      final double headerIconSize = (headerHeight * iconSizeFactor).clamp(68.0, 160.0);
+      final double vGap = isWide ? 12.0 : 8.0;
           return CustomScrollView(
             slivers: [
               SliverToBoxAdapter(
@@ -430,9 +445,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ],
                                 ),
                                 const SizedBox(height: 8),
-                                // Remaining content and illustration
-                                Expanded(
-                                  child: Row(
+                                // Remaining content and illustration (no Expanded: allow header to grow instead of overflow)
+                                Row(
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
                                       Expanded(
@@ -442,14 +456,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                           children: [
                                             Text(
                                               AppLocalizations.of(context).home_header_subtitle,
-                                              maxLines: 2,
+                                              maxLines: 3,
                                               softWrap: true,
                                               overflow: TextOverflow.ellipsis,
                                               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                                     color: onPrimary.withValues(alpha: 0.9),
                                                   ),
                                             ),
-                                            const SizedBox(height: 12),
+                                            SizedBox(height: vGap),
                                             if (_selectedStateLabel != null)
                                               _StateChip(label: _selectedStateLabel!, code: _selectedStateCode, onPrimary: onPrimary)
                                             else
@@ -463,14 +477,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       ),
                                       SizedBox(width: isWide ? 12 : 8),
-                                      Icon(
-                                        Icons.school,
-                                        size: isWide ? 96 : (isMedium ? 80 : 64),
+                                      ImageIcon(
+                                        const AssetImage('assets/icons/EinbeugerungsappIcon.png'),
+                                        size: headerIconSize,
                                         color: onPrimary.withValues(alpha: 0.95),
                                       ),
                                     ],
                                   ),
-                                ),
                               ],
                             ),
                           ),
