@@ -81,6 +81,28 @@
   
   "quiz_title": "Quiz",
   "next_question": "Next question",
+  "quiz_modes_title": "Choose quiz mode",
+  "quiz_mode_mistakes": "Mistakes Quiz",
+  "quiz_mode_topics": "Topics Quiz",
+  "quiz_mode_timer": "Timer Quiz",
+  "quiz_mode_mistakes_desc": "Practice your recent mistakes.",
+  "quiz_mode_topics_desc": "Practice by topic.",
+  "quiz_mode_timer_desc": "Answer as many as you can in 2 minutes.",
+  "quiz_start": "Start quiz",
+  "quiz_pick_topics": "Pick topics",
+  "timer_results_title": "Timer result",
+  "leaderboard_title": "Leaderboard",
+  "leaderboard_correct_answers": "{count} correct answers",
+  "@leaderboard_correct_answers": {
+    "description": "Shows only the number of correct answers in leaderboard entries",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  
+  "mistakes_results_title": "Review mistakes",
+  "mistakes_retry_wrong": "Retry wrong questions",
+  "mistakes_all_correct_title": "All correct!",
   
   "mock_exam_title": "Mock exam",
   "exam_confirm_title": "Submit exam?",

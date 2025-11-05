@@ -254,6 +254,53 @@ class AppLocalizationsDe extends AppLocalizations {
   String get next_question => 'Nächste Frage';
 
   @override
+  String get quiz_modes_title => 'Quizmodus wählen';
+
+  @override
+  String get quiz_mode_mistakes => 'Fehlerquiz';
+
+  @override
+  String get quiz_mode_topics => 'Themenquiz';
+
+  @override
+  String get quiz_mode_timer => 'Timerquiz';
+
+  @override
+  String get quiz_mode_mistakes_desc => 'Übe gezielt deine Fehler.';
+
+  @override
+  String get quiz_mode_topics_desc => 'Nach Themen üben.';
+
+  @override
+  String get quiz_mode_timer_desc => 'So viele wie möglich in 2 Minuten.';
+
+  @override
+  String get quiz_start => 'Quiz starten';
+
+  @override
+  String get quiz_pick_topics => 'Themen auswählen';
+
+  @override
+  String get timer_results_title => 'Timer-Ergebnis';
+
+  @override
+  String get leaderboard_title => 'Bestenliste';
+
+  @override
+  String leaderboard_correct_answers(int count) {
+    return '$count richtige Antworten';
+  }
+
+  @override
+  String get mistakes_results_title => 'Fehler wiederholen';
+
+  @override
+  String get mistakes_retry_wrong => 'Nur falsche erneut üben';
+
+  @override
+  String get mistakes_all_correct_title => 'Alle richtig!';
+
+  @override
   String get mock_exam_title => 'Probeprüfung';
 
   @override

@@ -121,7 +121,7 @@ class _InitialSetupScreenState extends State<InitialSetupScreen> with SingleTick
                               Expanded(
                                 child: DropdownButtonFormField<String>(
                                   isExpanded: true,
-                                  value: _locale,
+                                  initialValue: _locale,
                                   hint: Text(l10n.setup_language_label),
                                   items: AppLocalizations.supportedLocales
                                       .map((loc) {

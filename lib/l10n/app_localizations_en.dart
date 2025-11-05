@@ -254,6 +254,53 @@ class AppLocalizationsEn extends AppLocalizations {
   String get next_question => 'Next question';
 
   @override
+  String get quiz_modes_title => 'Choose quiz mode';
+
+  @override
+  String get quiz_mode_mistakes => 'Mistakes Quiz';
+
+  @override
+  String get quiz_mode_topics => 'Topics Quiz';
+
+  @override
+  String get quiz_mode_timer => 'Timer Quiz';
+
+  @override
+  String get quiz_mode_mistakes_desc => 'Practice your recent mistakes.';
+
+  @override
+  String get quiz_mode_topics_desc => 'Practice by topic.';
+
+  @override
+  String get quiz_mode_timer_desc => 'Answer as many as you can in 2 minutes.';
+
+  @override
+  String get quiz_start => 'Start quiz';
+
+  @override
+  String get quiz_pick_topics => 'Pick topics';
+
+  @override
+  String get timer_results_title => 'Timer result';
+
+  @override
+  String get leaderboard_title => 'Leaderboard';
+
+  @override
+  String leaderboard_correct_answers(int count) {
+    return '$count correct answers';
+  }
+
+  @override
+  String get mistakes_results_title => 'Review mistakes';
+
+  @override
+  String get mistakes_retry_wrong => 'Retry wrong questions';
+
+  @override
+  String get mistakes_all_correct_title => 'All correct!';
+
+  @override
   String get mock_exam_title => 'Mock exam';
 
   @override

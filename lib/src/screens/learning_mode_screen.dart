@@ -5,6 +5,7 @@ import '../models/question.dart';
 import '../models/topic.dart';
 import 'learning_session_screen.dart';
 import '../../l10n/app_localizations.dart';
+import '../theme/app_theme.dart';
 
 class LearningModeScreen extends StatefulWidget {
   final String? stateCode;
@@ -77,13 +78,22 @@ class _LearningModeScreenState extends State<LearningModeScreen> {
 
   Widget _buildModeTile({
     required IconData icon,
+    required Color iconColor,
     required String title,
     String? subtitle,
     VoidCallback? onTap,
   }) {
     return Card(
       child: ListTile(
-        leading: Icon(icon),
+        leading: Container(
+          height: 44,
+          width: 44,
+          decoration: BoxDecoration(
+            color: iconColor.withValues(alpha: 0.12),
+            borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
+          ),
+          child: Icon(icon, color: iconColor, size: 26),
+        ),
         title: Text(title),
         subtitle: subtitle != null ? Text(subtitle) : null,
         trailing: onTap != null ? const Icon(Icons.chevron_right) : null,
@@ -139,7 +149,8 @@ class _LearningModeScreenState extends State<LearningModeScreen> {
       );
     }
 
-    final theme = Theme.of(context);
+  final theme = Theme.of(context);
+  final colorScheme = theme.colorScheme;
     final List<Question> generalQuestions = _repository.generalQuestions;
     final List<Topic> topics = _repository.topics;
 
@@ -159,6 +170,7 @@ class _LearningModeScreenState extends State<LearningModeScreen> {
             const SizedBox(height: 8),
             _buildModeTile(
               icon: Icons.list_alt,
+              iconColor: colorScheme.primary,
               title: AppLocalizations.of(context).learning_all_questions,
               subtitle: stateCode != null
                   ? AppLocalizations.of(context).questions_count(generalQuestions.length + stateQuestions.length)
@@ -185,10 +197,26 @@ class _LearningModeScreenState extends State<LearningModeScreen> {
             else
               ...topics.where((t) => t.id != 'state').map((topic) {
                 final questions = _repository.getQuestionsByTopic(topic.id);
+                // Assign a consistent icon color per topic
+                final Color topicColor;
+                switch (topic.id) {
+                  case 'democracy':
+                    topicColor = colorScheme.primary;
+                    break;
+                  case 'history_responsibility':
+                    topicColor = colorScheme.secondary;
+                    break;
+                  case 'people_society':
+                    topicColor = colorScheme.tertiary;
+                    break;
+                  default:
+                    topicColor = colorScheme.primary;
+                }
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 12),
                   child: _buildModeTile(
                     icon: _iconForTopicId(topic.id),
+                    iconColor: topicColor,
                     title: topic.title,
                     subtitle: AppLocalizations.of(context).questions_count(questions.length),
                     onTap: questions.isNotEmpty
@@ -223,6 +251,7 @@ class _LearningModeScreenState extends State<LearningModeScreen> {
             else
               _buildModeTile(
                 icon: Icons.flag_outlined,
+                iconColor: colorScheme.secondary,
                 title: widget.stateLabel ?? stateCode,
                 subtitle: AppLocalizations.of(context).questions_count(stateQuestions.length),
                 onTap: () => _openSession(

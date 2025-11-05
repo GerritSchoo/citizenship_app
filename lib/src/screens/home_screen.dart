@@ -1,7 +1,8 @@
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
-import 'quiz_screen.dart';
+// quiz_screen import no longer needed here; selection flows via QuizModeScreen
+import 'quiz_mode_screen.dart';
 import '../../app.dart';
 import '../theme/app_theme.dart';
 import 'learning_mode_screen.dart';
@@ -368,7 +369,7 @@ class _HomeScreenState extends State<HomeScreen> {
       final crossAxisCount = isWide ? 4 : 2;
       // Dynamic header height: base + cushion for text scale and very narrow widths
       final baseHeader = isWide ? 220.0 : 200.0;
-      final textScale = MediaQuery.of(context).textScaleFactor;
+  final textScale = MediaQuery.textScalerOf(context).scale(1.0);
       final narrowBoost = constraints.maxWidth < 360
         ? 32.0
         : constraints.maxWidth < 400
@@ -527,7 +528,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (_) => const QuizScreen()),
+                          MaterialPageRoute(builder: (_) => const QuizModeScreen()),
                         );
                       },
                       semanticsLabel: AppLocalizations.of(context).action_quiz_sem,
