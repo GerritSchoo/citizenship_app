@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 /// Normalizes ARB files so that app_en.arb and app_de.arb have identical key
-/// order and contain the union of keys. Metadata keys ("@<key>") are kept
-/// adjacent to their corresponding message key. "@@" keys are placed first.
+/// order and contain the union of keys. Metadata keys (`@<key>`) are kept
+/// adjacent to their corresponding message key. `@@` keys are placed first.
 Future<void> main(List<String> args) async {
   final root = Directory.current.path.replaceAll('\\', '/');
   final enPath = '$root/lib/l10n/app_en.arb';
@@ -74,7 +74,7 @@ Future<void> main(List<String> args) async {
   String pretty(Map<String, dynamic> m) {
     // jsonEncode preserves LinkedHashMap order from insertion in Dart.
     final encoder = const JsonEncoder.withIndent('  ');
-    return encoder.convert(m) + '\n';
+    return '${encoder.convert(m)}\n';
   }
 
   File(enPath).writeAsStringSync(pretty(enOut));
