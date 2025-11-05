@@ -198,6 +198,31 @@ class ProgressRepository {
     return (rows.first['correct'] as int?) ?? 0;
   }
 
+  Future<int> sessionAttemptCount(String sessionId) async {
+    final db = _db;
+    if (db == null) return 0;
+    final rows = await db.rawQuery(
+      'SELECT COUNT(*) as total FROM attempts WHERE sessionId = ?',
+      [sessionId],
+    );
+    return (rows.first['total'] as int?) ?? 0;
+  }
+
+  /// Returns distinct question IDs that were answered incorrectly in a given session.
+  /// Ordered by last timestamp descending (most recently attempted first).
+  Future<List<String>> sessionIncorrectQuestionIds(String sessionId) async {
+    final db = _db;
+    if (db == null) return const <String>[];
+    final rows = await db.rawQuery(
+      'SELECT questionId, MAX(timestamp) as ts FROM attempts WHERE sessionId = ? AND isCorrect = 0 GROUP BY questionId ORDER BY ts DESC',
+      [sessionId],
+    );
+    return rows
+        .map((r) => (r['questionId'] as String?) ?? '')
+        .where((id) => id.isNotEmpty)
+        .toList();
+  }
+
   Future<OverallStat> overallStats({bool includePractice = true, bool includeExam = true}) async {
     final db = _db;
     if (db == null) return const OverallStat(correct: 0, total: 0, avgTimeMs: 0);
@@ -337,6 +362,25 @@ class ProgressRepository {
       await _db?.close();
     } catch (_) {}
     _db = null;
+  }
+
+  // --- Helpers for quiz modes ---
+
+  /// Returns distinct question IDs that were answered incorrectly in practice,
+  /// ordered by most recently attempted, limited by [limit]. If storage is not
+  /// available or none found, returns an empty list.
+  Future<List<String>> recentlyIncorrectQuestionIds({int limit = 50}) async {
+    final db = _db;
+    if (db == null) return const <String>[];
+    final rows = await db.rawQuery('''
+      SELECT questionId, MAX(timestamp) as ts
+      FROM attempts
+      WHERE isCorrect = 0 AND mode = ?
+      GROUP BY questionId
+      ORDER BY ts DESC
+      LIMIT ?
+    ''', [SessionMode.practice.name, limit]);
+    return rows.map((r) => (r['questionId'] as String?) ?? '').where((id) => id.isNotEmpty).toList();
   }
 
   // --- Achievements persistence ---

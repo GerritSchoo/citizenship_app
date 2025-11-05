@@ -566,6 +566,96 @@ abstract class AppLocalizations {
   /// **'Next question'**
   String get next_question;
 
+  /// No description provided for @quiz_modes_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose quiz mode'**
+  String get quiz_modes_title;
+
+  /// No description provided for @quiz_mode_mistakes.
+  ///
+  /// In en, this message translates to:
+  /// **'Mistakes Quiz'**
+  String get quiz_mode_mistakes;
+
+  /// No description provided for @quiz_mode_topics.
+  ///
+  /// In en, this message translates to:
+  /// **'Topics Quiz'**
+  String get quiz_mode_topics;
+
+  /// No description provided for @quiz_mode_timer.
+  ///
+  /// In en, this message translates to:
+  /// **'Timer Quiz'**
+  String get quiz_mode_timer;
+
+  /// No description provided for @quiz_mode_mistakes_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Practice your recent mistakes.'**
+  String get quiz_mode_mistakes_desc;
+
+  /// No description provided for @quiz_mode_topics_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Practice by topic.'**
+  String get quiz_mode_topics_desc;
+
+  /// No description provided for @quiz_mode_timer_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Answer as many as you can in 2 minutes.'**
+  String get quiz_mode_timer_desc;
+
+  /// No description provided for @quiz_start.
+  ///
+  /// In en, this message translates to:
+  /// **'Start quiz'**
+  String get quiz_start;
+
+  /// No description provided for @quiz_pick_topics.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick topics'**
+  String get quiz_pick_topics;
+
+  /// No description provided for @timer_results_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Timer result'**
+  String get timer_results_title;
+
+  /// No description provided for @leaderboard_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Leaderboard'**
+  String get leaderboard_title;
+
+  /// Shows only the number of correct answers in leaderboard entries
+  ///
+  /// In en, this message translates to:
+  /// **'{count} correct answers'**
+  String leaderboard_correct_answers(int count);
+
+  /// No description provided for @mistakes_results_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Review mistakes'**
+  String get mistakes_results_title;
+
+  /// No description provided for @mistakes_retry_wrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry wrong questions'**
+  String get mistakes_retry_wrong;
+
+  /// No description provided for @mistakes_all_correct_title.
+  ///
+  /// In en, this message translates to:
+  /// **'All correct!'**
+  String get mistakes_all_correct_title;
+
   /// No description provided for @mock_exam_title.
   ///
   /// In en, this message translates to:

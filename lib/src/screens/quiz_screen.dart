@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 import '../data/question_repository.dart';
 import '../models/question.dart';
 import '../core/controller.dart';
@@ -11,9 +12,18 @@ import '../analytics/progress_tracker.dart';
 import '../utils/asset_image_cache.dart';
 import '../../l10n/app_localizations.dart';
 import '../achievements/achievement_service.dart';
+import '../core/quiz_mode.dart';
+import '../core/highscore_store.dart';
+import 'timer_results_screen.dart';
+import 'mistakes_results_screen.dart';
+import '../core/mistakes_selection_store.dart';
 
 class QuizScreen extends StatefulWidget {
-  const QuizScreen({super.key});
+  final QuizConfig? config;
+  // When provided, the quiz will use exactly these questions (by id), shuffled.
+  // Used for the Mistakes iterative flow to retry only incorrect questions.
+  final List<String>? fixedQuestionIds;
+  const QuizScreen({super.key, this.config, this.fixedQuestionIds});
 
   @override
   State<QuizScreen> createState() => _QuizScreenState();
@@ -26,6 +36,10 @@ class _QuizScreenState extends State<QuizScreen> {
   late final DateTime _sessionStart = DateTime.now();
   late final String _sessionId = 'practice-${_sessionStart.millisecondsSinceEpoch}';
   bool _showOriginalDe = false; // per-screen toggle
+  Timer? _timer;
+  int _remainingSeconds = 0;
+  bool _sessionFinished = false;
+  bool _mistakesFlow = false;
 
   @override
   void initState() {
@@ -35,7 +49,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
   Future<void> _init() async {
     final code = await AppPrefs.getSelectedState();
-  // Practice/quiz should not count skipped questions in analytics.
+    // Practice/quiz should not count skipped questions in analytics.
   final ctrl = Controller(repository: _repo, stateCode: code, logSkips: false);
     ctrl.addListener(() {
       if (!mounted) return;
@@ -45,8 +59,124 @@ class _QuizScreenState extends State<QuizScreen> {
     setState(() {
       _controller = ctrl;
     });
-    await ctrl.loadCombined(shuffle: true);
+    final cfg = widget.config;
+    // Ensure analytics available before any mode that reads from it
     await ProgressRepository.instance.init();
+    // Determine whether this run is part of the Mistakes flow
+    _mistakesFlow = (cfg?.mode == QuizMode.mistakes) || (widget.fixedQuestionIds != null);
+
+    if (widget.fixedQuestionIds != null && widget.fixedQuestionIds!.isNotEmpty) {
+      await _repo.init(languageCode: QuestionRepository.defaultLanguageCode);
+      final all = <Question>[];
+      all.addAll(_repo.generalQuestions);
+      final state = code;
+      if (state != null && _repo.hasStateQuestions(state)) {
+        all.addAll(_repo.getStateQuestions(state));
+      }
+      final byId = {for (final q in all) q.id: q};
+      final picked = <Question>[];
+      for (final id in widget.fixedQuestionIds!) {
+        final q = byId[id];
+        if (q != null) picked.add(q);
+      }
+      if (picked.isNotEmpty) {
+        ctrl.setQuestions(picked, shuffle: true);
+      } else {
+        await ctrl.loadCombined(shuffle: true);
+      }
+    } else if (cfg == null) {
+      await ctrl.loadCombined(shuffle: true);
+    } else {
+      await _repo.init(languageCode: QuestionRepository.defaultLanguageCode);
+      if (cfg.mode == QuizMode.topics && (cfg.topicIds?.isNotEmpty ?? false)) {
+        final items = <Question>[];
+        for (final id in cfg.topicIds!) {
+          items.addAll(_repo.getQuestionsByTopic(id));
+        }
+        ctrl.setQuestions(items, shuffle: true);
+      } else if (cfg.mode == QuizMode.mistakes) {
+        // Build selection for Mistakes mode according to new rules:
+        // - If there are recent wrong answers: 10 recent wrong (practice) + 10 random from all
+        // - If none: 20 random from all
+        // - Exclude the last used 20 from the previous Mistakes run
+        final all = <Question>[];
+        all.addAll(_repo.generalQuestions);
+        final state = code;
+        if (state != null && _repo.hasStateQuestions(state)) {
+          all.addAll(_repo.getStateQuestions(state));
+        }
+        final lastUsed = await MistakesSelectionStore.instance.getLastUsedIds();
+        // Map questions by id for quick lookup and apply exclusion set
+        final byId = {for (final q in all) q.id: q};
+
+        // Recent wrong question ids (already ordered by recency desc in repo method)
+        final recentWrongIds = await ProgressRepository.instance
+            .recentlyIncorrectQuestionIds(limit: 200);
+
+        final selected = <Question>[];
+        final selectedIds = <String>{};
+
+        // Helper to add by id if exists and not excluded or duplicate
+        void addByIdIfEligible(String id) {
+          if (selected.length >= (cfg.mistakeCount ?? 20)) return;
+          if (lastUsed.contains(id)) return; // exclude last used round
+          if (selectedIds.contains(id)) return; // no duplicates
+          final q = byId[id];
+          if (q != null) {
+            selected.add(q);
+            selectedIds.add(id);
+          }
+        }
+
+        // 1) Take up to 10 recent wrong
+        int wrongTarget = 10;
+        for (final id in recentWrongIds) {
+          if (selected.length >= wrongTarget) break;
+          addByIdIfEligible(id);
+        }
+
+        // 2) Fill the rest with random from the remaining pool
+        final remainingTarget = (cfg.mistakeCount ?? 20) - selected.length;
+        if (remainingTarget > 0) {
+          // Build a pool of eligible random candidates
+          final pool = all.where((q) => !lastUsed.contains(q.id) && !selectedIds.contains(q.id)).toList();
+          pool.shuffle();
+          for (final q in pool) {
+            if (selected.length >= (cfg.mistakeCount ?? 20)) break;
+            selected.add(q);
+            selectedIds.add(q.id);
+          }
+        }
+
+        // 3) If there were no recent wrongs, ensure we have up to 20 random
+        if (recentWrongIds.isEmpty && selected.isEmpty) {
+          final pool = all.where((q) => !lastUsed.contains(q.id)).toList();
+          pool.shuffle();
+          selected.addAll(pool.take(cfg.mistakeCount ?? 20));
+        }
+
+        if (selected.isNotEmpty) {
+          ctrl.setQuestions(selected, shuffle: true);
+        } else {
+          // Fallback: load combined shuffled
+          await ctrl.loadCombined(shuffle: true);
+        }
+      } else if (cfg.mode == QuizMode.state) {
+        // Only state-specific questions
+        final state = code;
+        if (state != null && _repo.hasStateQuestions(state)) {
+          final items = _repo.getStateQuestions(state);
+          ctrl.setQuestions(items, shuffle: true);
+        } else {
+          await ctrl.loadCombined(shuffle: true);
+        }
+      } else if (cfg.mode == QuizMode.timer) {
+        await ctrl.loadCombined(shuffle: true);
+        _startTimer(cfg.timerSeconds ?? 120);
+      } else {
+        await ctrl.loadCombined(shuffle: true);
+      }
+    }
     await ProgressRepository.instance.startSession(sessionId: _sessionId, mode: SessionMode.practice, totalQuestions: ctrl.questions.length);
     _tracker = ProgressTracker(
       mode: SessionMode.practice,
@@ -58,6 +188,48 @@ class _QuizScreenState extends State<QuizScreen> {
     _prefetchAroundCurrent();
   }
 
+  void _startTimer(int seconds) {
+    _timer?.cancel();
+    _remainingSeconds = seconds;
+    _timer = Timer.periodic(const Duration(seconds: 1), (t) async {
+      if (!mounted) return;
+      if (_remainingSeconds <= 1) {
+        t.cancel();
+        setState(() => _remainingSeconds = 0);
+        await _onTimerFinished();
+      } else {
+        setState(() => _remainingSeconds -= 1);
+      }
+    });
+  }
+
+  Future<void> _onTimerFinished() async {
+    // Compute result
+    int correct = 0;
+    int answered = 0;
+    try {
+      correct = await ProgressRepository.instance.sessionCorrectCount(_sessionId);
+      answered = await ProgressRepository.instance.sessionAttemptCount(_sessionId);
+    } catch (_) {}
+    // Persist highscore
+    try {
+      await HighscoreStore.instance.addTimerScore(correct: correct, answered: answered);
+    } catch (_) {}
+    // Finish analytics session with measured duration
+    final duration = DateTime.now().difference(_sessionStart);
+    try {
+      await ProgressRepository.instance.finishSession(sessionId: _sessionId, correctCount: correct, duration: duration);
+      _sessionFinished = true;
+    } catch (_) {}
+    if (!mounted) return;
+    // Navigate to results screen (replace quiz)
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (_) => TimerResultsScreen(correct: correct, answered: answered),
+      ),
+    );
+  }
+
   Future<void> _loadData() async {
     final ctrl = _controller;
     if (ctrl == null) return;
@@ -67,6 +239,11 @@ class _QuizScreenState extends State<QuizScreen> {
   void _nextQuestion() {
     final ctrl = _controller;
     if (ctrl == null) return;
+    // If this is the last question in a Mistakes flow and it's answered, show results
+    if (_mistakesFlow && ctrl.isLast && ctrl.selectedIndex != null) {
+      _onMistakesFinished();
+      return;
+    }
     ctrl.next();
     _prefetchAroundCurrent();
   }
@@ -109,8 +286,11 @@ class _QuizScreenState extends State<QuizScreen> {
   final ctrl = _controller!;
   final Question question = ctrl.questions[ctrl.currentIndex];
 
+    final title = widget.config?.mode == QuizMode.timer && _remainingSeconds > 0
+        ? '${l10n.quiz_title}  •  ${_formatTime(_remainingSeconds)}'
+        : l10n.quiz_title;
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.quiz_title), actions: _buildActions(context)),
+      appBar: AppBar(title: Text(title), actions: _buildActions(context)),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -217,18 +397,43 @@ class _QuizScreenState extends State<QuizScreen> {
     );
   }
 
+  Future<void> _onMistakesFinished() async {
+    // Gather incorrect question IDs for this session
+    List<String> wrongIds = const [];
+    try {
+      wrongIds = await ProgressRepository.instance.sessionIncorrectQuestionIds(_sessionId);
+    } catch (_) {}
+    // For main Mistakes runs (not retry-only flows), remember last used 20 to exclude next time
+    try {
+      if (widget.fixedQuestionIds == null && _controller != null && _controller!.questions.isNotEmpty) {
+        final ids = _controller!.questions.map((q) => q.id).toList();
+        await MistakesSelectionStore.instance.setLastUsedIds(ids);
+      }
+    } catch (_) {}
+    if (!mounted) return;
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (_) => MistakesResultsScreen(questionIds: wrongIds),
+      ),
+    );
+  }
+
   @override
   void dispose() {
+    _timer?.cancel();
     // Best-effort: compute correct answers from attempts if repository is available
     final duration = DateTime.now().difference(_sessionStart);
     Future(() async {
+      if (_sessionFinished) return;
       int correct = 0;
       try {
         if (ProgressRepository.instance.isAvailable) {
           correct = await ProgressRepository.instance.sessionCorrectCount(_sessionId);
         }
       } catch (_) {}
-      await ProgressRepository.instance.finishSession(sessionId: _sessionId, correctCount: correct, duration: duration);
+      try {
+        await ProgressRepository.instance.finishSession(sessionId: _sessionId, correctCount: correct, duration: duration);
+      } catch (_) {}
     });
     // Clear cached images for memory hygiene when leaving quiz
     AssetImageInfoCache.clear();
@@ -266,5 +471,11 @@ class _QuizScreenState extends State<QuizScreen> {
         onPressed: () => setState(() => _showOriginalDe = !_showOriginalDe),
       ),
     ];
+  }
+
+  String _formatTime(int seconds) {
+    final m = (seconds ~/ 60).toString().padLeft(1, '0');
+    final s = (seconds % 60).toString().padLeft(2, '0');
+    return '$m:$s';
   }
 }
