@@ -50,6 +50,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   csv: ^6.0.0
+  flutter_launcher_icons: ^0.13.1
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -73,6 +74,26 @@ flutter:
     - assets/questions.json
     - assets/i18n/
     - assets/images/
+    - assets/icons/
+
+# Launcher icons configuration
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: assets/icons/AppIcon.png
+  min_sdk_android: 21
+  web:
+    generate: true
+    image_path: assets/icons/AppIcon.png
+  windows:
+    generate: true
+    image_path: assets/icons/AppIcon.png
+  macos:
+    generate: true
+    image_path: assets/icons/AppIcon.png
+  linux:
+    generate: true
+    image_path: assets/icons/AppIcon.png
   
   
   # To add assets to your application, add an assets section, like this:
