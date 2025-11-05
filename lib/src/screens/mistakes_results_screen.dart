@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../achievements/achievement_service.dart';
 import '../data/question_repository.dart';
 import '../models/question.dart';
 import '../core/prefs.dart';
@@ -24,6 +25,11 @@ class _MistakesResultsScreenState extends State<MistakesResultsScreen> {
   void initState() {
     super.initState();
     _load();
+    // Unlock mistakes achievements after navigation settles
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      AchievementService.instance.onMistakesReviewed(context, wrongCount: widget.questionIds.length);
+    });
   }
 
   Future<void> _load() async {

@@ -50,7 +50,6 @@
   "details": "Details",
   "close": "Close",
   "not_completed": "not completed",
-  
   "retry": "Retry",
   "back_btn": "Back",
   "next_btn": "Next",
@@ -64,7 +63,6 @@
   "setup_language_label": "Language:",
   "setup_save_continue": "Save and continue",
   "setup_choose_later": "Choose later",
-  
   "learning_title": "Learning mode",
   "learning_intro": "Choose a mode to study.",
   "learning_general": "General",
@@ -78,7 +76,6 @@
   "questions_count": "{count} questions",
   "error_loading_questions": "Failed to load questions.",
   "position_label": "Question {index} of {total}",
-  
   "quiz_title": "Quiz",
   "next_question": "Next question",
   "quiz_modes_title": "Choose quiz mode",
@@ -96,18 +93,17 @@
   "@leaderboard_correct_answers": {
     "description": "Shows only the number of correct answers in leaderboard entries",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
-  
   "mistakes_results_title": "Review mistakes",
   "mistakes_retry_wrong": "Retry wrong questions",
   "mistakes_all_correct_title": "All correct!",
-  
   "mock_exam_title": "Mock exam",
   "exam_confirm_title": "Submit exam?",
   "exam_confirm_body": "Do you want to submit the exam now? You can't return afterward.",
-  
   "exam_start": "Start exam",
   "rule_duration": "Duration: 60 minutes for the entire test.",
   "rule_composition": "Composition: 30 general questions + 3 state-specific questions.",
@@ -116,7 +112,6 @@
   "rule_change_answers": "Answers can be changed during the exam.",
   "rule_auto_submit": "The exam will be submitted automatically when time runs out.",
   "rule_no_return": "After submission you cannot return to the exam.",
-  
   "result_correct_of_total": "Correct answers: {correct} of {total}",
   "result_your_answer": "Your answer: {answer}",
   "result_correct_answer": "Correct answer: {answer}",
@@ -127,94 +122,295 @@
   "grade_befriedigend": "satisfactory",
   "grade_ausreichend": "sufficient",
   "grade_mangelhaft": "poor",
-  "grade_ungenuegend": "insufficient"
-  ,
+  "grade_ungenuegend": "insufficient",
   "achievement_unlocked": "Achievement unlocked: {title}",
   "@achievement_unlocked": {
     "description": "Bottom snackbar text when an achievement is unlocked.",
     "placeholders": {
-      "title": { "type": "String", "description": "Localized achievement title" }
+      "title": {
+        "type": "String",
+        "description": "Localized achievement title"
+      }
     }
   },
   "ach_learn_first_correct_name": "First steps",
-  "@ach_learn_first_correct_name": {"description": "Achievement title: first correct in learning"},
+  "@ach_learn_first_correct_name": {
+    "description": "Achievement title: first correct in learning"
+  },
   "ach_learn_first_correct_desc": "Answer your first question correctly in Learning.",
-  "@ach_learn_first_correct_desc": {"description": "Achievement description: first correct in learning"},
+  "@ach_learn_first_correct_desc": {
+    "description": "Achievement description: first correct in learning"
+  },
   "ach_quiz_first_correct_name": "Getting warm",
-  "@ach_quiz_first_correct_name": {"description": "Achievement title: first correct in quiz"},
+  "@ach_quiz_first_correct_name": {
+    "description": "Achievement title: first correct in quiz"
+  },
   "ach_quiz_first_correct_desc": "Answer your first question correctly in Quiz.",
-  "@ach_quiz_first_correct_desc": {"description": "Achievement description: first correct in quiz"},
+  "@ach_quiz_first_correct_desc": {
+    "description": "Achievement description: first correct in quiz"
+  },
   "ach_exam_pass_name": "Passed the exam",
-  "@ach_exam_pass_name": {"description": "Achievement title: pass exam (>=17)"},
+  "@ach_exam_pass_name": {
+    "description": "Achievement title: pass exam (>=17)"
+  },
   "ach_exam_pass_desc": "Submit an exam with at least 17 correct answers.",
-  "@ach_exam_pass_desc": {"description": "Achievement description: pass exam (>=17)"},
+  "@ach_exam_pass_desc": {
+    "description": "Achievement description: pass exam (>=17)"
+  },
   "ach_exam_30_name": "Almost perfect",
-  "@ach_exam_30_name": {"description": "Achievement title: >=30 correct in exam"},
+  "@ach_exam_30_name": {
+    "description": "Achievement title: >=30 correct in exam"
+  },
   "ach_exam_30_desc": "Score 30 or more correct answers in a mock exam.",
-  "@ach_exam_30_desc": {"description": "Achievement description: >=30 correct in exam"}
-  ,
+  "@ach_exam_30_desc": {
+    "description": "Achievement description: >=30 correct in exam"
+  },
   "achievements_title": "Achievements",
-  "@achievements_title": {"description": "Title for the Achievements screen"},
+  "@achievements_title": {
+    "description": "Title for the Achievements screen"
+  },
   "achievements_none": "No achievements yet",
-  "@achievements_none": {"description": "Shown when no achievements have been unlocked yet"},
+  "@achievements_none": {
+    "description": "Shown when no achievements have been unlocked yet"
+  },
   "action_achievements": "Achievements",
-  "@action_achievements": {"description": "Home action card label for Achievements"},
+  "@action_achievements": {
+    "description": "Home action card label for Achievements"
+  },
   "action_achievements_sem": "Open Achievements",
-  "@action_achievements_sem": {"description": "Semantics label for Achievements card"}
-  ,
+  "@action_achievements_sem": {
+    "description": "Semantics label for Achievements card"
+  },
   "menu_achievements": "Achievements",
-  "@menu_achievements": {"description": "Overflow menu entry to open Achievements screen"}
-  ,
+  "@menu_achievements": {
+    "description": "Overflow menu entry to open Achievements screen"
+  },
   "menu_subscribe": "Subscribe",
-  "@menu_subscribe": {"description": "Overflow menu entry to open subscription/paywall screen"}
-  ,
+  "@menu_subscribe": {
+    "description": "Overflow menu entry to open subscription/paywall screen"
+  },
   "ach_practice_10_name": "Getting started",
-  "@ach_practice_10_name": {"description": "10 correct answers in practice"},
+  "@ach_practice_10_name": {
+    "description": "10 correct answers in practice"
+  },
   "ach_practice_10_desc": "Reach 10 correct answers in practice.",
-  "@ach_practice_10_desc": {"description": "Description for 10 practice correct answers"},
+  "@ach_practice_10_desc": {
+    "description": "Description for 10 practice correct answers"
+  },
   "ach_practice_100_name": "On a roll",
-  "@ach_practice_100_name": {"description": "100 correct answers in practice"},
+  "@ach_practice_100_name": {
+    "description": "100 correct answers in practice"
+  },
   "ach_practice_100_desc": "Reach 100 correct answers in practice.",
-  "@ach_practice_100_desc": {"description": "Description for 100 practice correct answers"},
+  "@ach_practice_100_desc": {
+    "description": "Description for 100 practice correct answers"
+  },
   "ach_practice_1000_name": "Practice master",
-  "@ach_practice_1000_name": {"description": "1000 correct answers in practice"},
+  "@ach_practice_1000_name": {
+    "description": "1000 correct answers in practice"
+  },
   "ach_practice_1000_desc": "Reach 1000 correct answers in practice.",
-  "@ach_practice_1000_desc": {"description": "Description for 1000 practice correct answers"},
+  "@ach_practice_1000_desc": {
+    "description": "Description for 1000 practice correct answers"
+  },
   "ach_exam_first_name": "First attempt",
-  "@ach_exam_first_name": {"description": "First exam submitted"},
+  "@ach_exam_first_name": {
+    "description": "First exam submitted"
+  },
   "ach_exam_first_desc": "Submit your first mock exam.",
-  "@ach_exam_first_desc": {"description": "Description for first exam submitted"},
+  "@ach_exam_first_desc": {
+    "description": "Description for first exam submitted"
+  },
   "ach_exam_25_name": "Strong score",
-  "@ach_exam_25_name": {"description": "25 or more correct answers in exam"},
+  "@ach_exam_25_name": {
+    "description": "25 or more correct answers in exam"
+  },
   "ach_exam_25_desc": "Score 25 or more correct answers in a mock exam.",
-  "@ach_exam_25_desc": {"description": "Description for 25+ correct answers in exam"},
+  "@ach_exam_25_desc": {
+    "description": "Description for 25+ correct answers in exam"
+  },
   "ach_exam_perfect_name": "Perfect!",
-  "@ach_exam_perfect_name": {"description": "All answers correct in exam"},
+  "@ach_exam_perfect_name": {
+    "description": "All answers correct in exam"
+  },
   "ach_exam_perfect_desc": "Score all answers correctly in a mock exam.",
-  "@ach_exam_perfect_desc": {"description": "Description for perfect exam"},
+  "@ach_exam_perfect_desc": {
+    "description": "Description for perfect exam"
+  },
   "ach_exam_streak3_name": "Hat trick",
-  "@ach_exam_streak3_name": {"description": "Pass 3 exams in a row"},
+  "@ach_exam_streak3_name": {
+    "description": "Pass 3 exams in a row"
+  },
   "ach_exam_streak3_desc": "Pass three mock exams in a row.",
-  "@ach_exam_streak3_desc": {"description": "Description for 3 pass streak"},
+  "@ach_exam_streak3_desc": {
+    "description": "Description for 3 pass streak"
+  },
   "ach_exam_fast_name": "Speed runner",
-  "@ach_exam_fast_name": {"description": "Pass an exam in under 10 minutes"},
+  "@ach_exam_fast_name": {
+    "description": "Pass an exam in under 10 minutes"
+  },
   "ach_exam_fast_desc": "Pass a mock exam in under 10 minutes.",
-  "@ach_exam_fast_desc": {"description": "Description for fast pass exam"}
-  ,
+  "@ach_exam_fast_desc": {
+    "description": "Description for fast pass exam"
+  },
+  "ach_exam_fast5_name": "Lightning fast",
+  "@ach_exam_fast5_name": {
+    "description": "Pass an exam in under 5 minutes - title"
+  },
+  "ach_exam_fast5_desc": "Pass a mock exam in under 5 minutes.",
+  "@ach_exam_fast5_desc": {
+    "description": "Pass in under 5 minutes"
+  },
+  "ach_exam_pass10_name": "Seasoned examinee",
+  "@ach_exam_pass10_name": {
+    "description": "Pass 10 exams - title"
+  },
+  "ach_exam_pass10_desc": "Pass 10 mock exams in total.",
+  "@ach_exam_pass10_desc": {
+    "description": "Pass 10 exams - description"
+  },
+  "ach_exam_perfect3_name": "Triple perfection",
+  "@ach_exam_perfect3_name": {
+    "description": "3 perfect exams - title"
+  },
+  "ach_exam_perfect3_desc": "Achieve 3 perfect mock exams.",
+  "@ach_exam_perfect3_desc": {
+    "description": "3 perfect exams - description"
+  },
+  "ach_exam_streak5_name": "On fire (5x)",
+  "@ach_exam_streak5_name": {
+    "description": "Pass 5 in a row - title"
+  },
+  "ach_exam_streak5_desc": "Pass 5 mock exams in a row.",
+  "@ach_exam_streak5_desc": {
+    "description": "Pass 5 in a row - description"
+  },
+  "ach_timer_first_name": "Timer rookie",
+  "@ach_timer_first_name": {
+    "description": "First timer run - title"
+  },
+  "ach_timer_first_desc": "Complete a timer run.",
+  "@ach_timer_first_desc": {
+    "description": "First timer run - description"
+  },
+  "ach_timer_10_name": "Timer 10",
+  "@ach_timer_10_name": {
+    "description": "10 correct in timer - title"
+  },
+  "ach_timer_10_desc": "Reach 10 correct in a timer run.",
+  "@ach_timer_10_desc": {
+    "description": "10 correct in timer - description"
+  },
+  "ach_timer_20_name": "Timer 20",
+  "@ach_timer_20_name": {
+    "description": "20 correct in timer - title"
+  },
+  "ach_timer_20_desc": "Reach 20 correct in a timer run.",
+  "@ach_timer_20_desc": {
+    "description": "20 correct in timer - description"
+  },
+  "ach_timer_30_name": "Timer 30",
+  "@ach_timer_30_name": {
+    "description": "30 correct in timer - title"
+  },
+  "ach_timer_30_desc": "Reach 30 correct in a timer run.",
+  "@ach_timer_30_desc": {
+    "description": "30 correct in timer - description"
+  },
+  "ach_mistakes_review_name": "Reviewed mistakes",
+  "@ach_mistakes_review_name": {
+    "description": "Mistakes review - title"
+  },
+  "ach_mistakes_review_desc": "Complete a Mistakes review.",
+  "@ach_mistakes_review_desc": {
+    "description": "Mistakes review - description"
+  },
+  "ach_mistakes_clean_name": "Clean sweep",
+  "@ach_mistakes_clean_name": {
+    "description": "Mistakes clean - title"
+  },
+  "ach_mistakes_clean_desc": "Finish a Mistakes review with 0 wrong.",
+  "@ach_mistakes_clean_desc": {
+    "description": "Mistakes clean - description"
+  },
+  "ach_topics_first_name": "Topic explorer",
+  "@ach_topics_first_name": {
+    "description": "First correct in Topics - title"
+  },
+  "ach_topics_first_desc": "Answer your first question correctly in Topics.",
+  "@ach_topics_first_desc": {
+    "description": "First correct in Topics - description"
+  },
+  "ach_practice_2500_name": "Practice veteran",
+  "@ach_practice_2500_name": {
+    "description": "2500 correct in practice - title"
+  },
+  "ach_practice_2500_desc": "Reach 2,500 correct answers in practice.",
+  "@ach_practice_2500_desc": {
+    "description": "2500 correct in practice - description"
+  },
+  "ach_practice_5000_name": "Practice expert",
+  "@ach_practice_5000_name": {
+    "description": "5000 correct in practice - title"
+  },
+  "ach_practice_5000_desc": "Reach 5,000 correct answers in practice.",
+  "@ach_practice_5000_desc": {
+    "description": "5000 correct in practice - description"
+  },
+  "ach_practice_10000_name": "Practice legend",
+  "@ach_practice_10000_name": {
+    "description": "10000 correct in practice - title"
+  },
+  "ach_practice_10000_desc": "Reach 10,000 correct answers in practice.",
+  "@ach_practice_10000_desc": {
+    "description": "10000 correct in practice - description"
+  },
+  "ach_streak7_name": "7-day streak",
+  "@ach_streak7_name": {
+    "description": "7 day streak - title"
+  },
+  "ach_streak7_desc": "Stay active 7 days in a row.",
+  "@ach_streak7_desc": {
+    "description": "7 day streak - description"
+  },
+  "ach_streak30_name": "30-day streak",
+  "@ach_streak30_name": {
+    "description": "30 day streak - title"
+  },
+  "ach_streak30_desc": "Stay active 30 days in a row.",
+  "@ach_streak30_desc": {
+    "description": "30 day streak - description"
+  },
   "paywall_title": "Subscribe",
-  "@paywall_title": {"description": "Paywall screen title"},
+  "@paywall_title": {
+    "description": "Paywall screen title"
+  },
   "paywall_subtitle": "Enjoy unlimited mock exams. You have used your 3 free exams.",
-  "@paywall_subtitle": {"description": "Short paywall pitch"},
+  "@paywall_subtitle": {
+    "description": "Short paywall pitch"
+  },
   "paywall_monthly": "Monthly",
-  "@paywall_monthly": {"description": "Monthly plan label"},
+  "@paywall_monthly": {
+    "description": "Monthly plan label"
+  },
   "paywall_yearly": "Yearly",
-  "@paywall_yearly": {"description": "Yearly plan label"},
+  "@paywall_yearly": {
+    "description": "Yearly plan label"
+  },
   "trial_exhausted_title": "Free trial used",
-  "@trial_exhausted_title": {"description": "Dialog title when free trial is exhausted"},
+  "@trial_exhausted_title": {
+    "description": "Dialog title when free trial is exhausted"
+  },
   "trial_exhausted_body": "You have completed 3 free mock exams. Subscribe to continue with unlimited access.",
-  "@trial_exhausted_body": {"description": "Dialog body for exhausted trial"},
+  "@trial_exhausted_body": {
+    "description": "Dialog body for exhausted trial"
+  },
   "trial_subscribe": "Subscribe",
-  "@trial_subscribe": {"description": "Subscribe CTA"},
+  "@trial_subscribe": {
+    "description": "Subscribe CTA"
+  },
   "trial_later": "Later",
-  "@trial_later": {"description": "Defer subscription CTA"}
+  "@trial_later": {
+    "description": "Defer subscription CTA"
+  }
 }

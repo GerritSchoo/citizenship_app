@@ -485,6 +485,112 @@ class AppLocalizationsDe extends AppLocalizations {
       'Bestehe eine Probeprüfung in unter 10 Minuten.';
 
   @override
+  String get ach_exam_fast5_name => 'Blitzschnell';
+
+  @override
+  String get ach_exam_fast5_desc =>
+      'Bestehe eine Probeprüfung in unter 5 Minuten.';
+
+  @override
+  String get ach_exam_pass10_name => 'Erfahrener Prüfling';
+
+  @override
+  String get ach_exam_pass10_desc => 'Bestehe insgesamt 10 Probeprüfungen.';
+
+  @override
+  String get ach_exam_perfect3_name => 'Dreifache Perfektion';
+
+  @override
+  String get ach_exam_perfect3_desc => 'Erreiche 3 perfekte Probeprüfungen.';
+
+  @override
+  String get ach_exam_streak5_name => 'Läuft (5x)';
+
+  @override
+  String get ach_exam_streak5_desc =>
+      'Bestehe 5 Probeprüfungen hintereinander.';
+
+  @override
+  String get ach_timer_first_name => 'Timer-Einsteiger';
+
+  @override
+  String get ach_timer_first_desc => 'Schließe einen Timer-Lauf ab.';
+
+  @override
+  String get ach_timer_10_name => 'Timer 10';
+
+  @override
+  String get ach_timer_10_desc =>
+      'Erreiche 10 richtige Antworten in einem Timer-Lauf.';
+
+  @override
+  String get ach_timer_20_name => 'Timer 20';
+
+  @override
+  String get ach_timer_20_desc =>
+      'Erreiche 20 richtige Antworten in einem Timer-Lauf.';
+
+  @override
+  String get ach_timer_30_name => 'Timer 30';
+
+  @override
+  String get ach_timer_30_desc =>
+      'Erreiche 30 richtige Antworten in einem Timer-Lauf.';
+
+  @override
+  String get ach_mistakes_review_name => 'Fehler überprüft';
+
+  @override
+  String get ach_mistakes_review_desc => 'Schließe eine Fehler-Überprüfung ab.';
+
+  @override
+  String get ach_mistakes_clean_name => 'Ohne Fehler';
+
+  @override
+  String get ach_mistakes_clean_desc =>
+      'Beende eine Fehler-Überprüfung mit 0 falschen Antworten.';
+
+  @override
+  String get ach_topics_first_name => 'Themen-Entdecker';
+
+  @override
+  String get ach_topics_first_desc =>
+      'Beantworte deine erste Frage im Themen-Quiz richtig.';
+
+  @override
+  String get ach_practice_2500_name => 'Übungs‑Veteran';
+
+  @override
+  String get ach_practice_2500_desc =>
+      'Erreiche 2.500 richtige Antworten im Üben.';
+
+  @override
+  String get ach_practice_5000_name => 'Übungs‑Profi';
+
+  @override
+  String get ach_practice_5000_desc =>
+      'Erreiche 5.000 richtige Antworten im Üben.';
+
+  @override
+  String get ach_practice_10000_name => 'Übungs‑Legende';
+
+  @override
+  String get ach_practice_10000_desc =>
+      'Erreiche 10.000 richtige Antworten im Üben.';
+
+  @override
+  String get ach_streak7_name => '7‑Tage‑Serie';
+
+  @override
+  String get ach_streak7_desc => 'Bleibe 7 Tage hintereinander aktiv.';
+
+  @override
+  String get ach_streak30_name => '30‑Tage‑Serie';
+
+  @override
+  String get ach_streak30_desc => 'Bleibe 30 Tage hintereinander aktiv.';
+
+  @override
   String get paywall_title => 'Abonnement';
 
   @override

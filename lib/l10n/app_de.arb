@@ -50,7 +50,6 @@
   "details": "Details",
   "close": "Schließen",
   "not_completed": "nicht abgeschlossen",
-  
   "retry": "Erneut versuchen",
   "back_btn": "Zurück",
   "next_btn": "Weiter",
@@ -64,7 +63,6 @@
   "setup_language_label": "Sprache:",
   "setup_save_continue": "Speichern und fortfahren",
   "setup_choose_later": "Später auswählen",
-  
   "learning_title": "Lernmodus",
   "learning_intro": "Wähle einen Modus zum Lernen.",
   "learning_general": "Allgemein",
@@ -78,7 +76,6 @@
   "questions_count": "{count} Fragen",
   "error_loading_questions": "Fehler beim Laden der Fragen.",
   "position_label": "Frage {index} von {total}",
-  
   "quiz_title": "Quiz",
   "next_question": "Nächste Frage",
   "quiz_modes_title": "Quizmodus wählen",
@@ -96,14 +93,17 @@
   "@leaderboard_correct_answers": {
     "description": "Zeigt nur die Anzahl richtiger Antworten in der Bestenliste",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
-  
   "mistakes_results_title": "Fehler wiederholen",
   "mistakes_retry_wrong": "Nur falsche erneut üben",
   "mistakes_all_correct_title": "Alle richtig!",
-  
+  "mock_exam_title": "Probeprüfung",
+  "exam_confirm_title": "Prüfung abgeben?",
+  "exam_confirm_body": "Möchtest du die Prüfung jetzt abgeben? Du kannst danach nicht zurück.",
   "exam_start": "Prüfung starten",
   "rule_duration": "Dauer: 60 Minuten für den kompletten Test.",
   "rule_composition": "Zusammensetzung: 30 allgemeine Fragen + 3 länderspezifische Fragen.",
@@ -112,11 +112,6 @@
   "rule_change_answers": "Antworten können während der Prüfung geändert werden.",
   "rule_auto_submit": "Die Prüfung wird automatisch abgegeben, wenn die Zeit abläuft.",
   "rule_no_return": "Nach Abgabe gibt es keine Rückkehr zur Prüfung.",
-  
-  "mock_exam_title": "Probeprüfung",
-  "exam_confirm_title": "Prüfung abgeben?",
-  "exam_confirm_body": "Möchtest du die Prüfung jetzt abgeben? Du kannst danach nicht zurück.",
-  
   "result_correct_of_total": "Richtige Antworten: {correct} von {total}",
   "result_your_answer": "Deine Antwort: {answer}",
   "result_correct_answer": "Richtige Antwort: {answer}",
@@ -127,94 +122,295 @@
   "grade_befriedigend": "befriedigend",
   "grade_ausreichend": "ausreichend",
   "grade_mangelhaft": "mangelhaft",
-  "grade_ungenuegend": "ungenügend"
-  ,
+  "grade_ungenuegend": "ungenügend",
   "achievement_unlocked": "Erfolg freigeschaltet: {title}",
   "@achievement_unlocked": {
     "description": "Unterer Snackbar-Text, wenn ein Erfolg freigeschaltet wurde.",
     "placeholders": {
-      "title": { "type": "String", "description": "Lokalisierter Erfolgstitel" }
+      "title": {
+        "type": "String",
+        "description": "Lokalisierter Erfolgstitel"
+      }
     }
   },
   "ach_learn_first_correct_name": "Erste Schritte",
-  "@ach_learn_first_correct_name": {"description": "Erfolgstitel: erste richtige Antwort im Lernen"},
+  "@ach_learn_first_correct_name": {
+    "description": "Erfolgstitel: erste richtige Antwort im Lernen"
+  },
   "ach_learn_first_correct_desc": "Beantworte im Lernen deine erste Frage richtig.",
-  "@ach_learn_first_correct_desc": {"description": "Erfolgsbeschreibung: erste richtige Antwort im Lernen"},
+  "@ach_learn_first_correct_desc": {
+    "description": "Erfolgsbeschreibung: erste richtige Antwort im Lernen"
+  },
   "ach_quiz_first_correct_name": "Warmgelaufen",
-  "@ach_quiz_first_correct_name": {"description": "Erfolgstitel: erste richtige Antwort im Quiz"},
+  "@ach_quiz_first_correct_name": {
+    "description": "Erfolgstitel: erste richtige Antwort im Quiz"
+  },
   "ach_quiz_first_correct_desc": "Beantworte im Quiz deine erste Frage richtig.",
-  "@ach_quiz_first_correct_desc": {"description": "Erfolgsbeschreibung: erste richtige Antwort im Quiz"},
+  "@ach_quiz_first_correct_desc": {
+    "description": "Erfolgsbeschreibung: erste richtige Antwort im Quiz"
+  },
   "ach_exam_pass_name": "Prüfung bestanden",
-  "@ach_exam_pass_name": {"description": "Erfolgstitel: Prüfung bestanden (>=17)"},
+  "@ach_exam_pass_name": {
+    "description": "Erfolgstitel: Prüfung bestanden (>=17)"
+  },
   "ach_exam_pass_desc": "Gib eine Prüfung mit mindestens 17 richtigen Antworten ab.",
-  "@ach_exam_pass_desc": {"description": "Erfolgsbeschreibung: Prüfung bestanden (>=17)"},
+  "@ach_exam_pass_desc": {
+    "description": "Erfolgsbeschreibung: Prüfung bestanden (>=17)"
+  },
   "ach_exam_30_name": "Fast perfekt",
-  "@ach_exam_30_name": {"description": "Erfolgstitel: >=30 richtige Antworten in der Prüfung"},
+  "@ach_exam_30_name": {
+    "description": "Erfolgstitel: >=30 richtige Antworten in der Prüfung"
+  },
   "ach_exam_30_desc": "Erreiche 30 oder mehr richtige Antworten in der Probeprüfung.",
-  "@ach_exam_30_desc": {"description": "Erfolgsbeschreibung: >=30 richtige Antworten in der Prüfung"}
-  ,
+  "@ach_exam_30_desc": {
+    "description": "Erfolgsbeschreibung: >=30 richtige Antworten in der Prüfung"
+  },
   "achievements_title": "Erfolge",
-  "@achievements_title": {"description": "Titel für den Erfolge-Bildschirm"},
+  "@achievements_title": {
+    "description": "Titel für den Erfolge-Bildschirm"
+  },
   "achievements_none": "Noch keine Erfolge",
-  "@achievements_none": {"description": "Wird angezeigt, wenn noch keine Erfolge freigeschaltet sind"},
+  "@achievements_none": {
+    "description": "Wird angezeigt, wenn noch keine Erfolge freigeschaltet sind"
+  },
   "action_achievements": "Erfolge",
-  "@action_achievements": {"description": "Kachel-Beschriftung auf dem Home Screen für Erfolge"},
+  "@action_achievements": {
+    "description": "Kachel-Beschriftung auf dem Home Screen für Erfolge"
+  },
   "action_achievements_sem": "Erfolge öffnen",
-  "@action_achievements_sem": {"description": "Semantik-Label für Erfolge-Kachel"},
+  "@action_achievements_sem": {
+    "description": "Semantik-Label für Erfolge-Kachel"
+  },
   "menu_achievements": "Erfolge",
-  "@menu_achievements": {"description": "Eintrag im Overflow-Menü zum Öffnen des Erfolge-Bildschirms"}
-  
-  ,
-  "ach_practice_10_name": "Los geht's",
-  "@ach_practice_10_name": {"description": "10 richtige Antworten im Lernen/Quiz"},
-  "ach_practice_10_desc": "Erreiche 10 richtige Antworten im Lernen/Quiz.",
-  "@ach_practice_10_desc": {"description": "Beschreibung für 10 richtige Antworten im Üben"},
-  "ach_practice_100_name": "Gut in Fahrt",
-  "@ach_practice_100_name": {"description": "100 richtige Antworten im Lernen/Quiz"},
-  "ach_practice_100_desc": "Erreiche 100 richtige Antworten im Lernen/Quiz.",
-  "@ach_practice_100_desc": {"description": "Beschreibung für 100 richtige Antworten im Üben"},
-  "ach_practice_1000_name": "Übungsmeister",
-  "@ach_practice_1000_name": {"description": "1000 richtige Antworten im Lernen/Quiz"},
-  "ach_practice_1000_desc": "Erreiche 1000 richtige Antworten im Lernen/Quiz.",
-  "@ach_practice_1000_desc": {"description": "Beschreibung für 1000 richtige Antworten im Üben"},
-  "ach_exam_first_name": "Erste Prüfung",
-  "@ach_exam_first_name": {"description": "Erste Probeprüfung abgegeben"},
-  "ach_exam_first_desc": "Gib deine erste Probeprüfung ab.",
-  "@ach_exam_first_desc": {"description": "Beschreibung für erste abgegebene Prüfung"},
-  "ach_exam_25_name": "Starke Leistung",
-  "@ach_exam_25_name": {"description": "25 oder mehr richtige Antworten in der Prüfung"},
-  "ach_exam_25_desc": "Erreiche 25 oder mehr richtige Antworten in der Probeprüfung.",
-  "@ach_exam_25_desc": {"description": "Beschreibung für 25+ richtige Antworten in der Prüfung"},
-  "ach_exam_perfect_name": "Perfekt!",
-  "@ach_exam_perfect_name": {"description": "Alle Antworten in der Prüfung richtig"},
-  "ach_exam_perfect_desc": "Beantworte alle Fragen in der Probeprüfung richtig.",
-  "@ach_exam_perfect_desc": {"description": "Beschreibung für perfekte Prüfung"},
-  "ach_exam_streak3_name": "Hattrick",
-  "@ach_exam_streak3_name": {"description": "Drei Prüfungen in Folge bestanden"},
-  "ach_exam_streak3_desc": "Bestehe drei Probeprüfungen in Folge.",
-  "@ach_exam_streak3_desc": {"description": "Beschreibung für 3x bestanden in Folge"},
-  "ach_exam_fast_name": "Schnellläufer",
-  "@ach_exam_fast_name": {"description": "Prüfung in unter 10 Minuten bestanden"},
-  "ach_exam_fast_desc": "Bestehe eine Probeprüfung in unter 10 Minuten.",
-  "@ach_exam_fast_desc": {"description": "Beschreibung für schnelle bestandene Prüfung"}
-  ,
+  "@menu_achievements": {
+    "description": "Eintrag im Overflow-Menü zum Öffnen des Erfolge-Bildschirms"
+  },
   "menu_subscribe": "Abonnement",
-  "@menu_subscribe": {"description": "Overflow-Menüeintrag zum Öffnen der Paywall/Aboseite"}
-  ,
+  "@menu_subscribe": {
+    "description": "Overflow-Menüeintrag zum Öffnen der Paywall/Aboseite"
+  },
+  "ach_practice_10_name": "Los geht's",
+  "@ach_practice_10_name": {
+    "description": "10 richtige Antworten im Lernen/Quiz"
+  },
+  "ach_practice_10_desc": "Erreiche 10 richtige Antworten im Lernen/Quiz.",
+  "@ach_practice_10_desc": {
+    "description": "Beschreibung für 10 richtige Antworten im Üben"
+  },
+  "ach_practice_100_name": "Gut in Fahrt",
+  "@ach_practice_100_name": {
+    "description": "100 richtige Antworten im Lernen/Quiz"
+  },
+  "ach_practice_100_desc": "Erreiche 100 richtige Antworten im Lernen/Quiz.",
+  "@ach_practice_100_desc": {
+    "description": "Beschreibung für 100 richtige Antworten im Üben"
+  },
+  "ach_practice_1000_name": "Übungsmeister",
+  "@ach_practice_1000_name": {
+    "description": "1000 richtige Antworten im Lernen/Quiz"
+  },
+  "ach_practice_1000_desc": "Erreiche 1000 richtige Antworten im Lernen/Quiz.",
+  "@ach_practice_1000_desc": {
+    "description": "Beschreibung für 1000 richtige Antworten im Üben"
+  },
+  "ach_exam_first_name": "Erste Prüfung",
+  "@ach_exam_first_name": {
+    "description": "Erste Probeprüfung abgegeben"
+  },
+  "ach_exam_first_desc": "Gib deine erste Probeprüfung ab.",
+  "@ach_exam_first_desc": {
+    "description": "Beschreibung für erste abgegebene Prüfung"
+  },
+  "ach_exam_25_name": "Starke Leistung",
+  "@ach_exam_25_name": {
+    "description": "25 oder mehr richtige Antworten in der Prüfung"
+  },
+  "ach_exam_25_desc": "Erreiche 25 oder mehr richtige Antworten in der Probeprüfung.",
+  "@ach_exam_25_desc": {
+    "description": "Beschreibung für 25+ richtige Antworten in der Prüfung"
+  },
+  "ach_exam_perfect_name": "Perfekt!",
+  "@ach_exam_perfect_name": {
+    "description": "Alle Antworten in der Prüfung richtig"
+  },
+  "ach_exam_perfect_desc": "Beantworte alle Fragen in der Probeprüfung richtig.",
+  "@ach_exam_perfect_desc": {
+    "description": "Beschreibung für perfekte Prüfung"
+  },
+  "ach_exam_streak3_name": "Hattrick",
+  "@ach_exam_streak3_name": {
+    "description": "Drei Prüfungen in Folge bestanden"
+  },
+  "ach_exam_streak3_desc": "Bestehe drei Probeprüfungen in Folge.",
+  "@ach_exam_streak3_desc": {
+    "description": "Beschreibung für 3x bestanden in Folge"
+  },
+  "ach_exam_fast_name": "Schnellläufer",
+  "@ach_exam_fast_name": {
+    "description": "Prüfung in unter 10 Minuten bestanden"
+  },
+  "ach_exam_fast_desc": "Bestehe eine Probeprüfung in unter 10 Minuten.",
+  "@ach_exam_fast_desc": {
+    "description": "Beschreibung für schnelle bestandene Prüfung"
+  },
+  "ach_exam_fast5_name": "Blitzschnell",
+  "@ach_exam_fast5_name": {
+    "description": "Prüfung in unter 5 Minuten – Titel"
+  },
+  "ach_exam_fast5_desc": "Bestehe eine Probeprüfung in unter 5 Minuten.",
+  "@ach_exam_fast5_desc": {
+    "description": "Prüfung in unter 5 Minuten – Beschreibung"
+  },
+  "ach_exam_pass10_name": "Erfahrener Prüfling",
+  "@ach_exam_pass10_name": {
+    "description": "10 Prüfungen bestanden – Titel"
+  },
+  "ach_exam_pass10_desc": "Bestehe insgesamt 10 Probeprüfungen.",
+  "@ach_exam_pass10_desc": {
+    "description": "10 Prüfungen bestanden – Beschreibung"
+  },
+  "ach_exam_perfect3_name": "Dreifache Perfektion",
+  "@ach_exam_perfect3_name": {
+    "description": "3 perfekte Prüfungen – Titel"
+  },
+  "ach_exam_perfect3_desc": "Erreiche 3 perfekte Probeprüfungen.",
+  "@ach_exam_perfect3_desc": {
+    "description": "3 perfekte Prüfungen – Beschreibung"
+  },
+  "ach_exam_streak5_name": "Läuft (5x)",
+  "@ach_exam_streak5_name": {
+    "description": "5 in Folge bestanden – Titel"
+  },
+  "ach_exam_streak5_desc": "Bestehe 5 Probeprüfungen hintereinander.",
+  "@ach_exam_streak5_desc": {
+    "description": "5 in Folge bestanden – Beschreibung"
+  },
+  "ach_timer_first_name": "Timer-Einsteiger",
+  "@ach_timer_first_name": {
+    "description": "Erster Timer-Lauf – Titel"
+  },
+  "ach_timer_first_desc": "Schließe einen Timer-Lauf ab.",
+  "@ach_timer_first_desc": {
+    "description": "Erster Timer-Lauf – Beschreibung"
+  },
+  "ach_timer_10_name": "Timer 10",
+  "@ach_timer_10_name": {
+    "description": "10 richtige im Timer – Titel"
+  },
+  "ach_timer_10_desc": "Erreiche 10 richtige Antworten in einem Timer-Lauf.",
+  "@ach_timer_10_desc": {
+    "description": "10 richtige im Timer – Beschreibung"
+  },
+  "ach_timer_20_name": "Timer 20",
+  "@ach_timer_20_name": {
+    "description": "20 richtige im Timer – Titel"
+  },
+  "ach_timer_20_desc": "Erreiche 20 richtige Antworten in einem Timer-Lauf.",
+  "@ach_timer_20_desc": {
+    "description": "20 richtige im Timer – Beschreibung"
+  },
+  "ach_timer_30_name": "Timer 30",
+  "@ach_timer_30_name": {
+    "description": "30 richtige im Timer – Titel"
+  },
+  "ach_timer_30_desc": "Erreiche 30 richtige Antworten in einem Timer-Lauf.",
+  "@ach_timer_30_desc": {
+    "description": "30 richtige im Timer – Beschreibung"
+  },
+  "ach_mistakes_review_name": "Fehler überprüft",
+  "@ach_mistakes_review_name": {
+    "description": "Fehler-Review – Titel"
+  },
+  "ach_mistakes_review_desc": "Schließe eine Fehler-Überprüfung ab.",
+  "@ach_mistakes_review_desc": {
+    "description": "Fehler-Review – Beschreibung"
+  },
+  "ach_mistakes_clean_name": "Ohne Fehler",
+  "@ach_mistakes_clean_name": {
+    "description": "Fehlerfrei – Titel"
+  },
+  "ach_mistakes_clean_desc": "Beende eine Fehler-Überprüfung mit 0 falschen Antworten.",
+  "@ach_mistakes_clean_desc": {
+    "description": "Fehlerfrei – Beschreibung"
+  },
+  "ach_topics_first_name": "Themen-Entdecker",
+  "@ach_topics_first_name": {
+    "description": "Erste richtige in Themen – Titel"
+  },
+  "ach_topics_first_desc": "Beantworte deine erste Frage im Themen-Quiz richtig.",
+  "@ach_topics_first_desc": {
+    "description": "Erste richtige in Themen – Beschreibung"
+  },
+  "ach_practice_2500_name": "Übungs‑Veteran",
+  "@ach_practice_2500_name": {
+    "description": "2500 richtige in Übung – Titel"
+  },
+  "ach_practice_2500_desc": "Erreiche 2.500 richtige Antworten im Üben.",
+  "@ach_practice_2500_desc": {
+    "description": "2500 richtige in Übung – Beschreibung"
+  },
+  "ach_practice_5000_name": "Übungs‑Profi",
+  "@ach_practice_5000_name": {
+    "description": "5000 richtige in Übung – Titel"
+  },
+  "ach_practice_5000_desc": "Erreiche 5.000 richtige Antworten im Üben.",
+  "@ach_practice_5000_desc": {
+    "description": "5000 richtige in Übung – Beschreibung"
+  },
+  "ach_practice_10000_name": "Übungs‑Legende",
+  "@ach_practice_10000_name": {
+    "description": "10000 richtige in Übung – Titel"
+  },
+  "ach_practice_10000_desc": "Erreiche 10.000 richtige Antworten im Üben.",
+  "@ach_practice_10000_desc": {
+    "description": "10000 richtige in Übung – Beschreibung"
+  },
+  "ach_streak7_name": "7‑Tage‑Serie",
+  "@ach_streak7_name": {
+    "description": "7‑Tage‑Serie – Titel"
+  },
+  "ach_streak7_desc": "Bleibe 7 Tage hintereinander aktiv.",
+  "@ach_streak7_desc": {
+    "description": "7‑Tage‑Serie – Beschreibung"
+  },
+  "ach_streak30_name": "30‑Tage‑Serie",
+  "@ach_streak30_name": {
+    "description": "30‑Tage‑Serie – Titel"
+  },
+  "ach_streak30_desc": "Bleibe 30 Tage hintereinander aktiv.",
+  "@ach_streak30_desc": {
+    "description": "30‑Tage‑Serie – Beschreibung"
+  },
   "paywall_title": "Abonnement",
-  "@paywall_title": {"description": "Titel der Paywall"},
+  "@paywall_title": {
+    "description": "Titel der Paywall"
+  },
   "paywall_subtitle": "Unbegrenzte Probeprüfungen. Du hast deine 3 kostenlosen Prüfungen genutzt.",
-  "@paywall_subtitle": {"description": "Kurzer Paywall-Text"},
+  "@paywall_subtitle": {
+    "description": "Kurzer Paywall-Text"
+  },
   "paywall_monthly": "Monatlich",
-  "@paywall_monthly": {"description": "Label für Monatsplan"},
+  "@paywall_monthly": {
+    "description": "Label für Monatsplan"
+  },
   "paywall_yearly": "Jährlich",
-  "@paywall_yearly": {"description": "Label für Jahresplan"},
+  "@paywall_yearly": {
+    "description": "Label für Jahresplan"
+  },
   "trial_exhausted_title": "Testphase aufgebraucht",
-  "@trial_exhausted_title": {"description": "Dialogtitel, wenn kostenlose Testphase aufgebraucht ist"},
+  "@trial_exhausted_title": {
+    "description": "Dialogtitel, wenn kostenlose Testphase aufgebraucht ist"
+  },
   "trial_exhausted_body": "Du hast 3 kostenlose Probeprüfungen abgeschlossen. Abonniere, um unbegrenzten Zugriff zu erhalten.",
-  "@trial_exhausted_body": {"description": "Dialogtext für aufgebrauchte Testphase"},
+  "@trial_exhausted_body": {
+    "description": "Dialogtext für aufgebrauchte Testphase"
+  },
   "trial_subscribe": "Abonnieren",
-  "@trial_subscribe": {"description": "Abo-CTA"},
+  "@trial_subscribe": {
+    "description": "Abo-CTA"
+  },
   "trial_later": "Später",
-  "@trial_later": {"description": "Abo später"}
+  "@trial_later": {
+    "description": "Abo später"
+  }
 }
