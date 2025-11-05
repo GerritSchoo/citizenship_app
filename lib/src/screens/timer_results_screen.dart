@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 
 import '../../l10n/app_localizations.dart';
+import '../achievements/achievement_service.dart';
 import '../core/highscore_store.dart';
 import '../theme/app_theme.dart';
 
@@ -22,6 +23,11 @@ class _TimerResultsScreenState extends State<TimerResultsScreen> {
   void initState() {
     super.initState();
     _load();
+    // Award timer achievements once when arriving on this screen
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      AchievementService.instance.onTimerCompleted(context, correct: widget.correct, answered: widget.answered);
+    });
   }
 
   Future<void> _load() async {

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../analytics/progress_repository.dart';
 import '../../app.dart';
 import '../../l10n/app_localizations.dart';
+import '../core/quiz_mode.dart';
 import 'achievement_model.dart';
 
 class AchievementService {
@@ -115,6 +116,140 @@ class AchievementService {
       descKey: 'ach_exam_fast_desc',
       icon: Icons.flash_on_outlined,
     ),
+    // Harder exam achievements
+    AchievementDef(
+      id: 'exam.fast_pass_5min',
+      category: AchievementCategory.exam,
+      difficulty: AchievementDifficulty.hard,
+      nameKey: 'ach_exam_fast5_name',
+      descKey: 'ach_exam_fast5_desc',
+      icon: Icons.flash_on_outlined,
+    ),
+    AchievementDef(
+      id: 'exam.pass_10',
+      category: AchievementCategory.exam,
+      difficulty: AchievementDifficulty.hard,
+      nameKey: 'ach_exam_pass10_name',
+      descKey: 'ach_exam_pass10_desc',
+      icon: Icons.verified_user_outlined,
+    ),
+    AchievementDef(
+      id: 'exam.perfect_3',
+      category: AchievementCategory.exam,
+      difficulty: AchievementDifficulty.hard,
+      nameKey: 'ach_exam_perfect3_name',
+      descKey: 'ach_exam_perfect3_desc',
+      icon: Icons.star_half_outlined,
+    ),
+    AchievementDef(
+      id: 'exam.pass_streak5',
+      category: AchievementCategory.exam,
+      difficulty: AchievementDifficulty.hard,
+      nameKey: 'ach_exam_streak5_name',
+      descKey: 'ach_exam_streak5_desc',
+      icon: Icons.auto_awesome_outlined,
+    ),
+    // --- Timer mode achievements ---
+    AchievementDef(
+      id: 'timer.first',
+      category: AchievementCategory.quiz,
+      difficulty: AchievementDifficulty.easy,
+      nameKey: 'ach_timer_first_name',
+      descKey: 'ach_timer_first_desc',
+      icon: Icons.timer_outlined,
+    ),
+    AchievementDef(
+      id: 'timer.10_correct',
+      category: AchievementCategory.quiz,
+      difficulty: AchievementDifficulty.easy,
+      nameKey: 'ach_timer_10_name',
+      descKey: 'ach_timer_10_desc',
+      icon: Icons.timer_outlined,
+    ),
+    AchievementDef(
+      id: 'timer.20_correct',
+      category: AchievementCategory.quiz,
+      difficulty: AchievementDifficulty.medium,
+      nameKey: 'ach_timer_20_name',
+      descKey: 'ach_timer_20_desc',
+      icon: Icons.timer_outlined,
+    ),
+    AchievementDef(
+      id: 'timer.30_correct',
+      category: AchievementCategory.quiz,
+      difficulty: AchievementDifficulty.hard,
+      nameKey: 'ach_timer_30_name',
+      descKey: 'ach_timer_30_desc',
+      icon: Icons.timer_outlined,
+    ),
+    // --- Mistakes mode achievements ---
+    AchievementDef(
+      id: 'mistakes.reviewed',
+      category: AchievementCategory.quiz,
+      difficulty: AchievementDifficulty.easy,
+      nameKey: 'ach_mistakes_review_name',
+      descKey: 'ach_mistakes_review_desc',
+      icon: Icons.rule_folder_outlined,
+    ),
+    AchievementDef(
+      id: 'mistakes.clean',
+      category: AchievementCategory.quiz,
+      difficulty: AchievementDifficulty.medium,
+      nameKey: 'ach_mistakes_clean_name',
+      descKey: 'ach_mistakes_clean_desc',
+      icon: Icons.emoji_events_outlined,
+    ),
+    // --- Topics mode achievements ---
+    AchievementDef(
+      id: 'topics.first',
+      category: AchievementCategory.quiz,
+      difficulty: AchievementDifficulty.easy,
+      nameKey: 'ach_topics_first_name',
+      descKey: 'ach_topics_first_desc',
+      icon: Icons.category_outlined,
+    ),
+    // Long-term practice milestones
+    AchievementDef(
+      id: 'practice.2500_correct',
+      category: AchievementCategory.learn,
+      difficulty: AchievementDifficulty.hard,
+      nameKey: 'ach_practice_2500_name',
+      descKey: 'ach_practice_2500_desc',
+      icon: Icons.filter_9_plus_outlined,
+    ),
+    AchievementDef(
+      id: 'practice.5000_correct',
+      category: AchievementCategory.learn,
+      difficulty: AchievementDifficulty.hard,
+      nameKey: 'ach_practice_5000_name',
+      descKey: 'ach_practice_5000_desc',
+      icon: Icons.filter_9_plus_outlined,
+    ),
+    AchievementDef(
+      id: 'practice.10000_correct',
+      category: AchievementCategory.learn,
+      difficulty: AchievementDifficulty.hard,
+      nameKey: 'ach_practice_10000_name',
+      descKey: 'ach_practice_10000_desc',
+      icon: Icons.all_inclusive,
+    ),
+    // Activity streaks
+    AchievementDef(
+      id: 'streak.7_days',
+      category: AchievementCategory.quiz,
+      difficulty: AchievementDifficulty.medium,
+      nameKey: 'ach_streak7_name',
+      descKey: 'ach_streak7_desc',
+      icon: Icons.calendar_today_outlined,
+    ),
+    AchievementDef(
+      id: 'streak.30_days',
+      category: AchievementCategory.quiz,
+      difficulty: AchievementDifficulty.hard,
+      nameKey: 'ach_streak30_name',
+      descKey: 'ach_streak30_desc',
+      icon: Icons.calendar_month_outlined,
+    ),
   ];
 
   final StreamController<AchievementDef> _unlocked = StreamController.broadcast();
@@ -132,7 +267,7 @@ class AchievementService {
         ),
       );
 
-  Future<void> onPracticeAnswered(BuildContext context, {required bool inLearn, required bool isCorrect}) async {
+  Future<void> onPracticeAnswered(BuildContext context, {required bool inLearn, required bool isCorrect, QuizMode? quizMode}) async {
     if (!isCorrect) return;
     // Capture dependencies before async gaps to avoid using BuildContext afterwards
     final app = App.of(context);
@@ -142,13 +277,24 @@ class AchievementService {
     if (await ProgressRepository.instance.isAchievementUnlocked(id)) return;
     await ProgressRepository.instance.unlockAchievement(id);
     _notifyCaptured(app, l10n, byId(id)!);
-    // Check cumulative practice thresholds
+    // Topics mode: first correct in Topics quiz
+    if (!inLearn && quizMode == QuizMode.topics) {
+      const topicsId = 'topics.first';
+      if (!await ProgressRepository.instance.isAchievementUnlocked(topicsId)) {
+        await ProgressRepository.instance.unlockAchievement(topicsId);
+        _notifyCaptured(app, l10n, byId(topicsId)!);
+      }
+    }
+    // Check cumulative practice thresholds (including long-term)
     try {
       final stats = await ProgressRepository.instance.overallStats(includePractice: true, includeExam: false);
       final milestones = <int, String>{
         10: 'practice.10_correct',
         100: 'practice.100_correct',
         1000: 'practice.1000_correct',
+        2500: 'practice.2500_correct',
+        5000: 'practice.5000_correct',
+        10000: 'practice.10000_correct',
       };
       for (final entry in milestones.entries) {
         if (stats.correct >= entry.key && !(await ProgressRepository.instance.isAchievementUnlocked(entry.value))) {
@@ -157,6 +303,7 @@ class AchievementService {
         }
       }
     } catch (_) {}
+    await _checkDailyStreaks(app, l10n);
   }
 
   Future<void> onExamSubmitted(BuildContext context, {required int correct, required int total}) async {
@@ -212,6 +359,13 @@ class AchievementService {
           _notifyCaptured(app, l10n, byId(idFast)!);
         }
       }
+      if (latest != null && latest.completed && latest.passed && latest.durationMs <= 5 * 60 * 1000) {
+        const idFast5 = 'exam.fast_pass_5min';
+        if (!await ProgressRepository.instance.isAchievementUnlocked(idFast5)) {
+          await ProgressRepository.instance.unlockAchievement(idFast5);
+          _notifyCaptured(app, l10n, byId(idFast5)!);
+        }
+      }
     } catch (_) {}
     // Pass streak 3
     try {
@@ -224,6 +378,29 @@ class AchievementService {
         }
       }
     } catch (_) {}
+    // Pass streak 5, total passes, and perfects count
+    try {
+      final last5 = await ProgressRepository.instance.examResults(limit: 5);
+      if (last5.length == 5 && last5.every((e) => e.completed && e.passed)) {
+        const idStreak5 = 'exam.pass_streak5';
+        if (!await ProgressRepository.instance.isAchievementUnlocked(idStreak5)) {
+          await ProgressRepository.instance.unlockAchievement(idStreak5);
+          _notifyCaptured(app, l10n, byId(idStreak5)!);
+        }
+      }
+      final all = await ProgressRepository.instance.examResults(limit: 1000);
+      final passed = all.where((e) => e.completed && e.passed).length;
+      if (passed >= 10 && !await ProgressRepository.instance.isAchievementUnlocked('exam.pass_10')) {
+        await ProgressRepository.instance.unlockAchievement('exam.pass_10');
+        _notifyCaptured(app, l10n, byId('exam.pass_10')!);
+      }
+      final perfects = all.where((e) => e.completed && e.correct >= e.total).length;
+      if (perfects >= 3 && !await ProgressRepository.instance.isAchievementUnlocked('exam.perfect_3')) {
+        await ProgressRepository.instance.unlockAchievement('exam.perfect_3');
+        _notifyCaptured(app, l10n, byId('exam.perfect_3')!);
+      }
+    } catch (_) {}
+    await _checkDailyStreaks(app, l10n);
   }
 
   // Notify using captured references (no BuildContext after awaits)
@@ -262,6 +439,39 @@ class AchievementService {
         return l10n.ach_exam_streak3_name;
       case 'ach_exam_fast_name':
         return l10n.ach_exam_fast_name;
+      case 'ach_exam_fast5_name':
+        return l10n.ach_exam_fast5_name;
+      case 'ach_exam_pass10_name':
+        return l10n.ach_exam_pass10_name;
+      case 'ach_exam_perfect3_name':
+        return l10n.ach_exam_perfect3_name;
+      case 'ach_exam_streak5_name':
+        return l10n.ach_exam_streak5_name;
+      // New keys: guard with fallbacks until gen_l10n updated
+      case 'ach_timer_first_name':
+        return l10n.ach_timer_first_name;
+      case 'ach_timer_10_name':
+        return l10n.ach_timer_10_name;
+      case 'ach_timer_20_name':
+        return l10n.ach_timer_20_name;
+      case 'ach_timer_30_name':
+        return l10n.ach_timer_30_name;
+      case 'ach_mistakes_review_name':
+        return l10n.ach_mistakes_review_name;
+      case 'ach_mistakes_clean_name':
+        return l10n.ach_mistakes_clean_name;
+      case 'ach_topics_first_name':
+        return l10n.ach_topics_first_name;
+      case 'ach_practice_2500_name':
+        return l10n.ach_practice_2500_name;
+      case 'ach_practice_5000_name':
+        return l10n.ach_practice_5000_name;
+      case 'ach_practice_10000_name':
+        return l10n.ach_practice_10000_name;
+      case 'ach_streak7_name':
+        return l10n.ach_streak7_name;
+      case 'ach_streak30_name':
+        return l10n.ach_streak30_name;
       default:
         return def.id; // Fallback: show id if a new key is missing
     }
@@ -293,8 +503,120 @@ class AchievementService {
         return l10n.ach_exam_streak3_desc;
       case 'ach_exam_fast_desc':
         return l10n.ach_exam_fast_desc;
+      case 'ach_exam_fast5_desc':
+        return l10n.ach_exam_fast5_desc;
+      case 'ach_exam_pass10_desc':
+        return l10n.ach_exam_pass10_desc;
+      case 'ach_exam_perfect3_desc':
+        return l10n.ach_exam_perfect3_desc;
+      case 'ach_exam_streak5_desc':
+        return l10n.ach_exam_streak5_desc;
+      // New keys: guard with fallbacks until gen_l10n updated
+      case 'ach_timer_first_desc':
+        return l10n.ach_timer_first_desc;
+      case 'ach_timer_10_desc':
+        return l10n.ach_timer_10_desc;
+      case 'ach_timer_20_desc':
+        return l10n.ach_timer_20_desc;
+      case 'ach_timer_30_desc':
+        return l10n.ach_timer_30_desc;
+      case 'ach_mistakes_review_desc':
+        return l10n.ach_mistakes_review_desc;
+      case 'ach_mistakes_clean_desc':
+        return l10n.ach_mistakes_clean_desc;
+      case 'ach_topics_first_desc':
+        return l10n.ach_topics_first_desc;
+      case 'ach_practice_2500_desc':
+        return l10n.ach_practice_2500_desc;
+      case 'ach_practice_5000_desc':
+        return l10n.ach_practice_5000_desc;
+      case 'ach_practice_10000_desc':
+        return l10n.ach_practice_10000_desc;
+      case 'ach_streak7_desc':
+        return l10n.ach_streak7_desc;
+      case 'ach_streak30_desc':
+        return l10n.ach_streak30_desc;
       default:
         return '';
     }
   }
+
+  // Timer mode completion handler
+  Future<void> onTimerCompleted(BuildContext context, {required int correct, required int answered}) async {
+    final app = App.of(context);
+    final l10n = AppLocalizations.of(context);
+    await ProgressRepository.instance.init();
+    const firstId = 'timer.first';
+    if (!await ProgressRepository.instance.isAchievementUnlocked(firstId)) {
+      await ProgressRepository.instance.unlockAchievement(firstId);
+      _notifyCaptured(app, l10n, byId(firstId)!);
+    }
+    const thresholds = <int, String>{
+      10: 'timer.10_correct',
+      20: 'timer.20_correct',
+      30: 'timer.30_correct',
+    };
+    for (final e in thresholds.entries) {
+      if (correct >= e.key && !await ProgressRepository.instance.isAchievementUnlocked(e.value)) {
+        await ProgressRepository.instance.unlockAchievement(e.value);
+        _notifyCaptured(app, l10n, byId(e.value)!);
+      }
+    }
+    await _checkDailyStreaks(app, l10n);
+  }
+
+  // Mistakes mode result handler
+  Future<void> onMistakesReviewed(BuildContext context, {required int wrongCount}) async {
+    final app = App.of(context);
+    final l10n = AppLocalizations.of(context);
+    await ProgressRepository.instance.init();
+    const reviewedId = 'mistakes.reviewed';
+    if (!await ProgressRepository.instance.isAchievementUnlocked(reviewedId)) {
+      await ProgressRepository.instance.unlockAchievement(reviewedId);
+      _notifyCaptured(app, l10n, byId(reviewedId)!);
+    }
+    if (wrongCount == 0) {
+      const cleanId = 'mistakes.clean';
+      if (!await ProgressRepository.instance.isAchievementUnlocked(cleanId)) {
+        await ProgressRepository.instance.unlockAchievement(cleanId);
+        _notifyCaptured(app, l10n, byId(cleanId)!);
+      }
+    }
+    await _checkDailyStreaks(app, l10n);
+  }
+
+  // Compute 7-day and 30-day activity streaks (any attempts on each consecutive day)
+  Future<void> _checkDailyStreaks(AppState? app, AppLocalizations l10n) async {
+    try {
+      final stats = await ProgressRepository.instance.dailyAccuracy(days: 60, includePractice: true, includeExam: true);
+      if (stats.isEmpty) return;
+      String dayKey(DateTime d) => DateTime(d.year, d.month, d.day).toIso8601String();
+      final set = <String>{for (final s in stats) dayKey(s.date)};
+      bool hasConsecutive(int n) {
+        final today = DateTime.now();
+        // Check streak ending today going backwards
+        for (int start = 0; start <= 60 - n; start++) {
+          bool ok = true;
+          for (int i = 0; i < n; i++) {
+            final d = DateTime(today.year, today.month, today.day).subtract(Duration(days: start + i));
+            if (!set.contains(dayKey(d))) {
+              ok = false;
+              break;
+            }
+          }
+          if (ok) return true;
+        }
+        return false;
+      }
+      if (hasConsecutive(7) && !await ProgressRepository.instance.isAchievementUnlocked('streak.7_days')) {
+        await ProgressRepository.instance.unlockAchievement('streak.7_days');
+        _notifyCaptured(app, l10n, byId('streak.7_days')!);
+      }
+      if (hasConsecutive(30) && !await ProgressRepository.instance.isAchievementUnlocked('streak.30_days')) {
+        await ProgressRepository.instance.unlockAchievement('streak.30_days');
+        _notifyCaptured(app, l10n, byId('streak.30_days')!);
+      }
+    } catch (_) {}
+  }
+
 }

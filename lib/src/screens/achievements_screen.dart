@@ -62,7 +62,12 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                 return Card(
                   child: ListTile(
                     leading: Icon(def.icon, color: color),
-                    title: Text(name, maxLines: 1, overflow: TextOverflow.ellipsis),
+                    title: Text(
+                      name,
+                      maxLines: 2,
+                      softWrap: true,
+                      overflow: TextOverflow.clip, // avoid showing (...)
+                    ),
                     subtitle: desc.isEmpty ? null : Text(desc),
                     trailing: isUnlocked
                         ? Icon(Icons.check_circle, color: Theme.of(ctx).colorScheme.primary)

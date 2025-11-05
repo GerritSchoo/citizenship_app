@@ -479,6 +479,107 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ach_exam_fast_desc => 'Pass a mock exam in under 10 minutes.';
 
   @override
+  String get ach_exam_fast5_name => 'Lightning fast';
+
+  @override
+  String get ach_exam_fast5_desc => 'Pass a mock exam in under 5 minutes.';
+
+  @override
+  String get ach_exam_pass10_name => 'Seasoned examinee';
+
+  @override
+  String get ach_exam_pass10_desc => 'Pass 10 mock exams in total.';
+
+  @override
+  String get ach_exam_perfect3_name => 'Triple perfection';
+
+  @override
+  String get ach_exam_perfect3_desc => 'Achieve 3 perfect mock exams.';
+
+  @override
+  String get ach_exam_streak5_name => 'On fire (5x)';
+
+  @override
+  String get ach_exam_streak5_desc => 'Pass 5 mock exams in a row.';
+
+  @override
+  String get ach_timer_first_name => 'Timer rookie';
+
+  @override
+  String get ach_timer_first_desc => 'Complete a timer run.';
+
+  @override
+  String get ach_timer_10_name => 'Timer 10';
+
+  @override
+  String get ach_timer_10_desc => 'Reach 10 correct in a timer run.';
+
+  @override
+  String get ach_timer_20_name => 'Timer 20';
+
+  @override
+  String get ach_timer_20_desc => 'Reach 20 correct in a timer run.';
+
+  @override
+  String get ach_timer_30_name => 'Timer 30';
+
+  @override
+  String get ach_timer_30_desc => 'Reach 30 correct in a timer run.';
+
+  @override
+  String get ach_mistakes_review_name => 'Reviewed mistakes';
+
+  @override
+  String get ach_mistakes_review_desc => 'Complete a Mistakes review.';
+
+  @override
+  String get ach_mistakes_clean_name => 'Clean sweep';
+
+  @override
+  String get ach_mistakes_clean_desc =>
+      'Finish a Mistakes review with 0 wrong.';
+
+  @override
+  String get ach_topics_first_name => 'Topic explorer';
+
+  @override
+  String get ach_topics_first_desc =>
+      'Answer your first question correctly in Topics.';
+
+  @override
+  String get ach_practice_2500_name => 'Practice veteran';
+
+  @override
+  String get ach_practice_2500_desc =>
+      'Reach 2,500 correct answers in practice.';
+
+  @override
+  String get ach_practice_5000_name => 'Practice expert';
+
+  @override
+  String get ach_practice_5000_desc =>
+      'Reach 5,000 correct answers in practice.';
+
+  @override
+  String get ach_practice_10000_name => 'Practice legend';
+
+  @override
+  String get ach_practice_10000_desc =>
+      'Reach 10,000 correct answers in practice.';
+
+  @override
+  String get ach_streak7_name => '7-day streak';
+
+  @override
+  String get ach_streak7_desc => 'Stay active 7 days in a row.';
+
+  @override
+  String get ach_streak30_name => '30-day streak';
+
+  @override
+  String get ach_streak30_desc => 'Stay active 30 days in a row.';
+
+  @override
   String get paywall_title => 'Subscribe';
 
   @override

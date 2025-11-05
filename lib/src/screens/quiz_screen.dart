@@ -321,7 +321,12 @@ class _QuizScreenState extends State<QuizScreen> {
                             final isCorrectTap = i == question.correctIndex;
                             setState(() => ctrl.select(i));
                             if (isCorrectTap) {
-                              AchievementService.instance.onPracticeAnswered(context, inLearn: false, isCorrect: true);
+                              AchievementService.instance.onPracticeAnswered(
+                                context,
+                                inLearn: false,
+                                isCorrect: true,
+                                quizMode: widget.config?.mode,
+                              );
                             }
                           },
                         ),
@@ -343,7 +348,12 @@ class _QuizScreenState extends State<QuizScreen> {
                           onTap: () {
                             setState(() => ctrl.select(index));
                             if (isCorrect) {
-                              AchievementService.instance.onPracticeAnswered(context, inLearn: false, isCorrect: true);
+                              AchievementService.instance.onPracticeAnswered(
+                                context,
+                                inLearn: false,
+                                isCorrect: true,
+                                quizMode: widget.config?.mode,
+                              );
                             }
                           },
                         );
