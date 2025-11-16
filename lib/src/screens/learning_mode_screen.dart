@@ -83,22 +83,62 @@ class _LearningModeScreenState extends State<LearningModeScreen> {
     String? subtitle,
     VoidCallback? onTap,
   }) {
-    return Card(
-      child: ListTile(
-        leading: Container(
-          height: 44,
-          width: 44,
-          decoration: BoxDecoration(
-            color: iconColor.withValues(alpha: 0.12),
-            borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
-          ),
-          child: Icon(icon, color: iconColor, size: 26),
-        ),
-        title: Text(title),
-        subtitle: subtitle != null ? Text(subtitle) : null,
-        trailing: onTap != null ? const Icon(Icons.chevron_right) : null,
+    final theme = Theme.of(context);
+    final bg = theme.brightness == Brightness.dark
+        ? theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.4)
+        : Colors.white;
+    return Material(
+      color: bg,
+      elevation: 2,
+      borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        hoverColor: Colors.transparent,
+        focusColor: Colors.transparent,
+        splashFactory: NoSplash.splashFactory,
         onTap: onTap,
-        enabled: onTap != null,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: [
+              Container(
+                height: 44,
+                width: 44,
+                decoration: BoxDecoration(
+                  color: iconColor.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
+                ),
+                child: Icon(icon, color: iconColor, size: 26),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    if (subtitle != null && subtitle.isNotEmpty) ...[
+                      const SizedBox(height: 4),
+                      Text(
+                        subtitle,
+                        style: theme.textTheme.bodySmall,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+              if (onTap != null) const Icon(Icons.chevron_right),
+            ],
+          ),
+        ),
       ),
     );
   }
