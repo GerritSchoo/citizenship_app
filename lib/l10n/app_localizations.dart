@@ -608,6 +608,18 @@ abstract class AppLocalizations {
   /// **'Answer as many as you can in 2 minutes.'**
   String get quiz_mode_timer_desc;
 
+  /// Swipe-based true/false practice mode title
+  ///
+  /// In en, this message translates to:
+  /// **'Swipe Quiz'**
+  String get quiz_mode_swipe_tf;
+
+  /// Short description for swipe true/false mode
+  ///
+  /// In en, this message translates to:
+  /// **'Swipe right if it fits, left if not.'**
+  String get quiz_mode_swipe_tf_desc;
+
   /// No description provided for @quiz_start.
   ///
   /// In en, this message translates to:
@@ -1213,6 +1225,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Later'**
   String get trial_later;
+
+  /// Title shown at the end of swipe session
+  ///
+  /// In en, this message translates to:
+  /// **'Great job!'**
+  String get swipe_results_title;
+
+  /// Summary line for swipe results
+  ///
+  /// In en, this message translates to:
+  /// **'You got {correct} of {total} correct.'**
+  String swipe_results_summary(int correct, int total);
 }
 
 class _AppLocalizationsDelegate

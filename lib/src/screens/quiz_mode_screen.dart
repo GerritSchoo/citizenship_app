@@ -4,6 +4,7 @@ import '../theme/app_theme.dart';
 import '../core/quiz_mode.dart';
 import 'quiz_screen.dart';
 import 'quiz_topics_screen.dart';
+import 'swipe_quiz_screen.dart';
 
 class QuizModeScreen extends StatefulWidget {
   const QuizModeScreen({super.key});
@@ -37,6 +38,13 @@ class _QuizModeScreenState extends State<QuizModeScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (_) => const QuizTopicsScreen()),
+    );
+  }
+
+  void _startSwipeTF() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const SwipeQuizScreen()),
     );
   }
 
@@ -74,6 +82,15 @@ class _QuizModeScreenState extends State<QuizModeScreen> {
               subtitle: '',
               description: l10n.quiz_mode_timer_desc,
               onTap: _startTimer,
+            ),
+            const SizedBox(height: 12),
+            _ModeCard(
+              icon: Icons.swap_horiz,
+              color: Theme.of(context).colorScheme.secondary,
+              title: l10n.quiz_mode_swipe_tf,
+              subtitle: '',
+              description: l10n.quiz_mode_swipe_tf_desc,
+              onTap: _startSwipeTF,
             ),
           ],
         ),
