@@ -366,6 +366,8 @@ class _HomeScreenState extends State<HomeScreen> {
         builder: (context, constraints) {
           final isWide = constraints.maxWidth >= 900;
           final isMedium = constraints.maxWidth >= 600 && constraints.maxWidth < 900;
+          // Treat very short viewports (typical in landscape on phones) specially
+          final isShortHeight = constraints.maxHeight < 480;
       final crossAxisCount = isWide ? 4 : 2;
       // Dynamic header height: base + cushion for text scale and very narrow widths
       final baseHeader = isWide ? 220.0 : 200.0;
@@ -382,7 +384,9 @@ class _HomeScreenState extends State<HomeScreen> {
       // Icon scales with header height to avoid bottom overflows on compact screens
       final iconSizeFactor = isWide ? 0.56 : (isMedium ? 0.52 : 0.46);
       final double headerIconSize = (headerHeight * iconSizeFactor).clamp(68.0, 160.0);
-      final double vGap = isWide ? 12.0 : 8.0;
+      final double vGap = isShortHeight ? 6.0 : (isWide ? 12.0 : 8.0);
+      // Subtitle can use fewer lines on very short heights to avoid overflow
+      final int subtitleMaxLines = isShortHeight ? 2 : 3;
           return CustomScrollView(
             slivers: [
               SliverToBoxAdapter(
@@ -446,23 +450,28 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ],
                                 ),
                                 const SizedBox(height: 8),
-                                // Remaining content and illustration (no Expanded: allow header to grow instead of overflow)
-                                Row(
+                                // Remaining content and illustration: occupy remaining header height to avoid overflows
+                                Expanded(
+                                  child: Row(
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
+                                      // Text block adapts to available height
                                       Expanded(
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
-                                            Text(
-                                              AppLocalizations.of(context).home_header_subtitle,
-                                              maxLines: 3,
-                                              softWrap: true,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                                    color: onPrimary.withValues(alpha: 0.9),
-                                                  ),
+                                            // Let subtitle flex to fit tight heights, with fewer lines on short viewports
+                                            Flexible(
+                                              child: Text(
+                                                AppLocalizations.of(context).home_header_subtitle,
+                                                maxLines: subtitleMaxLines,
+                                                softWrap: true,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                                      color: onPrimary.withValues(alpha: 0.9),
+                                                    ),
+                                              ),
                                             ),
                                             SizedBox(height: vGap),
                                             if (_selectedStateLabel != null)
@@ -478,6 +487,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       ),
                                       SizedBox(width: isWide ? 12 : 8),
+                                      // Icon shrinks/grows with header but won't force overflow
                                       ImageIcon(
                                         const AssetImage('assets/icons/EinbeugerungsappIcon.png'),
                                         size: headerIconSize,
@@ -485,6 +495,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ),
                                     ],
                                   ),
+                                ),
                               ],
                             ),
                           ),
