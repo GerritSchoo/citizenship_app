@@ -45,10 +45,9 @@ class _QuizModeScreenState extends State<QuizModeScreen> {
     final l10n = AppLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(title: Text(l10n.quiz_modes_title)),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+      body: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.all(16),
           children: [
             _ModeCard(
               icon: Icons.rule_folder_outlined,
