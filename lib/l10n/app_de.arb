@@ -85,6 +85,14 @@
   "quiz_mode_mistakes_desc": "Übe gezielt deine Fehler.",
   "quiz_mode_topics_desc": "Nach Themen üben.",
   "quiz_mode_timer_desc": "So viele wie möglich in 2 Minuten.",
+  "quiz_mode_swipe_tf": "Swipe-Quiz",
+  "@quiz_mode_swipe_tf": {
+    "description": "Titel für wischbasierten Richtig/Falsch-Modus"
+  },
+  "quiz_mode_swipe_tf_desc": "Wische rechts wenn es richig ist, links wenn nicht.",
+  "@quiz_mode_swipe_tf_desc": {
+    "description": "Kurzbeschreibung für Wischmodus Richtig/Falsch"
+  },
   "quiz_start": "Quiz starten",
   "quiz_pick_topics": "Themen auswählen",
   "timer_results_title": "Timer-Ergebnis",
@@ -412,5 +420,17 @@
   "trial_later": "Später",
   "@trial_later": {
     "description": "Abo später"
+  },
+  "swipe_results_title": "Gut gemacht!",
+  "@swipe_results_title": {
+    "description": "Titel am Ende der Wisch‑Session"
+  },
+  "swipe_results_summary": "Du hast {correct} von {total} richtig.",
+  "@swipe_results_summary": {
+    "description": "Zusammenfassung für Wisch‑Ergebnis",
+    "placeholders": {
+      "correct": {"type": "int"},
+      "total": {"type": "int"}
+    }
   }
 }

@@ -85,6 +85,14 @@
   "quiz_mode_mistakes_desc": "Practice your recent mistakes.",
   "quiz_mode_topics_desc": "Practice by topic.",
   "quiz_mode_timer_desc": "Answer as many as you can in 2 minutes.",
+  "quiz_mode_swipe_tf": "Swipe Quiz",
+  "@quiz_mode_swipe_tf": {
+    "description": "Swipe-based true/false practice mode title"
+  },
+  "quiz_mode_swipe_tf_desc": "Swipe right if it fits, left if not.",
+  "@quiz_mode_swipe_tf_desc": {
+    "description": "Short description for swipe true/false mode"
+  },
   "quiz_start": "Start quiz",
   "quiz_pick_topics": "Pick topics",
   "timer_results_title": "Timer result",
@@ -412,5 +420,17 @@
   "trial_later": "Later",
   "@trial_later": {
     "description": "Defer subscription CTA"
+  },
+  "swipe_results_title": "Great job!",
+  "@swipe_results_title": {
+    "description": "Title shown at the end of swipe session"
+  },
+  "swipe_results_summary": "You got {correct} of {total} correct.",
+  "@swipe_results_summary": {
+    "description": "Summary line for swipe results",
+    "placeholders": {
+      "correct": {"type": "int"},
+      "total": {"type": "int"}
+    }
   }
 }

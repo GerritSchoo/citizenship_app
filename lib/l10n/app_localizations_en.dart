@@ -275,6 +275,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quiz_mode_timer_desc => 'Answer as many as you can in 2 minutes.';
 
   @override
+  String get quiz_mode_swipe_tf => 'Swipe Quiz';
+
+  @override
+  String get quiz_mode_swipe_tf_desc => 'Swipe right if it fits, left if not.';
+
+  @override
   String get quiz_start => 'Start quiz';
 
   @override
@@ -604,4 +610,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get trial_later => 'Later';
+
+  @override
+  String get swipe_results_title => 'Great job!';
+
+  @override
+  String swipe_results_summary(int correct, int total) {
+    return 'You got $correct of $total correct.';
+  }
 }
