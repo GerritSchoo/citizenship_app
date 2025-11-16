@@ -467,24 +467,6 @@ class _SwipeCardState extends State<_SwipeCard> with SingleTickerProviderStateMi
         padding: const EdgeInsets.all(16),
         child: Stack(
           children: [
-            if (_drag > 0)
-              Positioned(
-                top: 8,
-                left: 8,
-                child: Opacity(
-                  opacity: _drag.clamp(0, 1),
-                  child: const Icon(Icons.check_circle, color: Colors.green, size: 140),
-                ),
-              ),
-            if (_drag < 0)
-              Positioned(
-                top: 8,
-                right: 8,
-                child: Opacity(
-                  opacity: (-_drag).clamp(0, 1),
-                  child: const Icon(Icons.cancel, color: Colors.red, size: 140),
-                ),
-              ),
             Positioned.fill(
               child: LayoutBuilder(
                 builder: (context, dims) {
@@ -577,6 +559,25 @@ class _SwipeCardState extends State<_SwipeCard> with SingleTickerProviderStateMi
                 },
               ),
             ),
+            // Overlay decision icons must render ABOVE content (after Positioned.fill)
+            if (_drag > 0)
+              Positioned(
+                top: 8,
+                left: 8,
+                child: Opacity(
+                  opacity: _drag.clamp(0, 1),
+                  child: const Icon(Icons.check_circle, color: Colors.green, size: 140),
+                ),
+              ),
+            if (_drag < 0)
+              Positioned(
+                top: 8,
+                right: 8,
+                child: Opacity(
+                  opacity: (-_drag).clamp(0, 1),
+                  child: const Icon(Icons.cancel, color: Colors.red, size: 140),
+                ),
+              ),
           ],
         ),
       ),
