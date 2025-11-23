@@ -470,12 +470,6 @@ abstract class AppLocalizations {
   /// **'Save and continue'**
   String get setup_save_continue;
 
-  /// No description provided for @setup_choose_later.
-  ///
-  /// In en, this message translates to:
-  /// **'Choose later'**
-  String get setup_choose_later;
-
   /// No description provided for @learning_title.
   ///
   /// In en, this message translates to:

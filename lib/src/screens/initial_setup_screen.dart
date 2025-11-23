@@ -152,11 +152,6 @@ class _InitialSetupScreenState extends State<InitialSetupScreen> with SingleTick
                                 ),
                               )
                             ]),
-                            const SizedBox(height: 8),
-                            TextButton(
-                              onPressed: () {},
-                              child: Text(l10n.setup_choose_later),
-                            )
                           ],
                         ),
                       ),

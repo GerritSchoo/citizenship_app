@@ -62,7 +62,6 @@
   "setup_state_hint": "Bitte Bundesland wählen",
   "setup_language_label": "Sprache:",
   "setup_save_continue": "Speichern und fortfahren",
-  "setup_choose_later": "Später auswählen",
   "learning_title": "Lernmodus",
   "learning_intro": "Wähle einen Modus zum Lernen.",
   "learning_general": "Allgemein",

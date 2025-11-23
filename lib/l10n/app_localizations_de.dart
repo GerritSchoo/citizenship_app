@@ -201,9 +201,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String get setup_save_continue => 'Speichern und fortfahren';
 
   @override
-  String get setup_choose_later => 'Später auswählen';
-
-  @override
   String get learning_title => 'Lernmodus';
 
   @override

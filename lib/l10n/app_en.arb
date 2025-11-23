@@ -62,7 +62,6 @@
   "setup_state_hint": "Please select a state",
   "setup_language_label": "Language:",
   "setup_save_continue": "Save and continue",
-  "setup_choose_later": "Choose later",
   "learning_title": "Learning mode",
   "learning_intro": "Choose a mode to study.",
   "learning_general": "General",
