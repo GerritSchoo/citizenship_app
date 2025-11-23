@@ -400,9 +400,61 @@
   "@paywall_monthly": {
     "description": "Label für Monatsplan"
   },
+  "paywall_half_yearly": "Halbjährlich",
+  "@paywall_half_yearly": {
+    "description": "Label für Halbjahresplan"
+  },
   "paywall_yearly": "Jährlich",
   "@paywall_yearly": {
     "description": "Label für Jahresplan"
+  },
+  "paywall_plan_monthly_price": "6,99 € / Monat",
+  "@paywall_plan_monthly_price": {
+    "description": "Preisanzeige für Monatsabo"
+  },
+  "paywall_plan_monthly_total": "Gesamt: 6,99 €",
+  "@paywall_plan_monthly_total": {
+    "description": "Gesamtpreis für Monatsabo"
+  },
+  "paywall_plan_monthly_flexible": "Flexibel kündbar",
+  "@paywall_plan_monthly_flexible": {
+    "description": "Hinweis auf flexible Kündigung für Monatsabo"
+  },
+  "paywall_plan_half_yearly_price": "6,49 € / Monat",
+  "@paywall_plan_half_yearly_price": {
+    "description": "Preisanzeige für Halbjahresabo"
+  },
+  "paywall_plan_half_yearly_total": "Gesamt: 38,94 € alle 6 Monate",
+  "@paywall_plan_half_yearly_total": {
+    "description": "Gesamtpreis für Halbjahresabo"
+  },
+  "paywall_plan_half_yearly_save": "Spare ca. 3 € vs. monatlich",
+  "@paywall_plan_half_yearly_save": {
+    "description": "Ersparnis-Hinweis für Halbjahresabo"
+  },
+  "paywall_plan_yearly_price": "5,99 € / Monat",
+  "@paywall_plan_yearly_price": {
+    "description": "Preisanzeige für Jahresabo"
+  },
+  "paywall_plan_yearly_total": "Gesamt: 71,88 € pro Jahr",
+  "@paywall_plan_yearly_total": {
+    "description": "Gesamtpreis für Jahresabo"
+  },
+  "paywall_plan_yearly_save": "Spare ca. 12 € vs. monatlich",
+  "@paywall_plan_yearly_save": {
+    "description": "Ersparnis-Hinweis für Jahresabo"
+  },
+  "paywall_popular_badge": "Beliebt",
+  "@paywall_popular_badge": {
+    "description": "Badge-Text für beliebtesten Plan"
+  },
+  "paywall_choose_button": "Wählen",
+  "@paywall_choose_button": {
+    "description": "Button-Beschriftung zum Auswählen eines Plans"
+  },
+  "paywall_unavailable": "In-App-Käufe derzeit nicht verfügbar",
+  "@paywall_unavailable": {
+    "description": "Fehlermeldung, wenn In-App-Käufe nicht verfügbar sind"
   },
   "trial_exhausted_title": "Testphase aufgebraucht",
   "@trial_exhausted_title": {

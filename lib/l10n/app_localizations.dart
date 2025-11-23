@@ -1190,11 +1190,89 @@ abstract class AppLocalizations {
   /// **'Monthly'**
   String get paywall_monthly;
 
+  /// Half-yearly plan label
+  ///
+  /// In en, this message translates to:
+  /// **'Half-yearly'**
+  String get paywall_half_yearly;
+
   /// Yearly plan label
   ///
   /// In en, this message translates to:
   /// **'Yearly'**
   String get paywall_yearly;
+
+  /// Price label for monthly plan
+  ///
+  /// In en, this message translates to:
+  /// **'€6.99 / month'**
+  String get paywall_plan_monthly_price;
+
+  /// Total cost label for monthly plan
+  ///
+  /// In en, this message translates to:
+  /// **'Total: €6.99'**
+  String get paywall_plan_monthly_total;
+
+  /// Flexible cancellation hint for monthly plan
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel anytime'**
+  String get paywall_plan_monthly_flexible;
+
+  /// Price label for half-yearly plan
+  ///
+  /// In en, this message translates to:
+  /// **'€6.49 / month'**
+  String get paywall_plan_half_yearly_price;
+
+  /// Total cost label for half-yearly plan
+  ///
+  /// In en, this message translates to:
+  /// **'Total: €38.94 every 6 months'**
+  String get paywall_plan_half_yearly_total;
+
+  /// Saving hint for half-yearly plan
+  ///
+  /// In en, this message translates to:
+  /// **'Save about €3 vs. monthly'**
+  String get paywall_plan_half_yearly_save;
+
+  /// Price label for yearly plan
+  ///
+  /// In en, this message translates to:
+  /// **'€5.99 / month'**
+  String get paywall_plan_yearly_price;
+
+  /// Total cost label for yearly plan
+  ///
+  /// In en, this message translates to:
+  /// **'Total: €71.88 per year'**
+  String get paywall_plan_yearly_total;
+
+  /// Saving hint for yearly plan
+  ///
+  /// In en, this message translates to:
+  /// **'Save about €12 vs. monthly'**
+  String get paywall_plan_yearly_save;
+
+  /// Badge text for the most popular plan
+  ///
+  /// In en, this message translates to:
+  /// **'Popular'**
+  String get paywall_popular_badge;
+
+  /// Button label to choose a subscription plan
+  ///
+  /// In en, this message translates to:
+  /// **'Choose'**
+  String get paywall_choose_button;
+
+  /// Error shown when IAP is not available
+  ///
+  /// In en, this message translates to:
+  /// **'In-app purchases are currently not available.'**
+  String get paywall_unavailable;
 
   /// Dialog title when free trial is exhausted
   ///

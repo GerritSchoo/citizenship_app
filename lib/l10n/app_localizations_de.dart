@@ -605,7 +605,46 @@ class AppLocalizationsDe extends AppLocalizations {
   String get paywall_monthly => 'Monatlich';
 
   @override
+  String get paywall_half_yearly => 'Halbjährlich';
+
+  @override
   String get paywall_yearly => 'Jährlich';
+
+  @override
+  String get paywall_plan_monthly_price => '6,99 € / Monat';
+
+  @override
+  String get paywall_plan_monthly_total => 'Gesamt: 6,99 €';
+
+  @override
+  String get paywall_plan_monthly_flexible => 'Flexibel kündbar';
+
+  @override
+  String get paywall_plan_half_yearly_price => '6,49 € / Monat';
+
+  @override
+  String get paywall_plan_half_yearly_total => 'Gesamt: 38,94 € alle 6 Monate';
+
+  @override
+  String get paywall_plan_half_yearly_save => 'Spare ca. 3 € vs. monatlich';
+
+  @override
+  String get paywall_plan_yearly_price => '5,99 € / Monat';
+
+  @override
+  String get paywall_plan_yearly_total => 'Gesamt: 71,88 € pro Jahr';
+
+  @override
+  String get paywall_plan_yearly_save => 'Spare ca. 12 € vs. monatlich';
+
+  @override
+  String get paywall_popular_badge => 'Beliebt';
+
+  @override
+  String get paywall_choose_button => 'Wählen';
+
+  @override
+  String get paywall_unavailable => 'In-App-Käufe derzeit nicht verfügbar';
 
   @override
   String get trial_exhausted_title => 'Testphase aufgebraucht';
