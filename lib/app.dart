@@ -48,10 +48,17 @@ class AppState extends State<App> {
   void _showDbInitBanner(String? details) {
     final messenger = _messengerKey.currentState;
     if (messenger == null) return;
+    final ctx = messenger.context;
+    AppLocalizations? l10n;
+    try {
+      l10n = AppLocalizations.of(ctx);
+    } catch (_) {
+      l10n = null;
+    }
     messenger.clearMaterialBanners();
     messenger.showMaterialBanner(
       MaterialBanner(
-  content: Text(AppLocalizations.of(messenger.context).db_unavailable),
+        content: Text(l10n?.db_unavailable ?? 'Datenbank nicht verfügbar'),
         actions: [
           if (details != null)
             TextButton(
@@ -60,11 +67,11 @@ class AppState extends State<App> {
                 print('[ProgressRepository] Init error: $details');
                 messenger.hideCurrentMaterialBanner();
               },
-              child: Text(AppLocalizations.of(messenger.context).details),
+              child: Text(l10n?.details ?? 'Details'),
             ),
           TextButton(
             onPressed: messenger.hideCurrentMaterialBanner,
-            child: Text(AppLocalizations.of(messenger.context).close),
+            child: Text(l10n?.close ?? 'Schließen'),
           ),
         ],
       ),

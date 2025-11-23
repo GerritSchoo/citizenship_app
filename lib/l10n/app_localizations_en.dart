@@ -201,9 +201,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get setup_save_continue => 'Save and continue';
 
   @override
-  String get setup_choose_later => 'Choose later';
-
-  @override
   String get learning_title => 'Learning mode';
 
   @override
