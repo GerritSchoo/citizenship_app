@@ -3,7 +3,6 @@ import '../theme/app_theme.dart';
 import '../core/prefs.dart';
 import '../data/states.dart';
 import 'home_screen.dart';
-import '../../l10n/app_localizations.dart';
 import '../../app.dart';
 import 'package:flutter_localized_locales/flutter_localized_locales.dart';
 
@@ -57,7 +56,6 @@ class _InitialSetupScreenState extends State<InitialSetupScreen> with SingleTick
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final l10n = AppLocalizations.of(context);
     return Scaffold(
       body: SafeArea(
         child: LayoutBuilder(
@@ -95,12 +93,12 @@ class _InitialSetupScreenState extends State<InitialSetupScreen> with SingleTick
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    l10n.setup_choose_state_title,
+                                    'Wähle dein Bundesland',
                                     style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w700),
                                   ),
                                   const SizedBox(height: 6),
                                   Text(
-                                    l10n.setup_choose_state_subtitle,
+                                    'Dieses Bundesland wird für landesspezifische Fragen genutzt.',
                                     style: theme.textTheme.bodyMedium?.copyWith(
                                       color: theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.8),
                                     ),
@@ -113,7 +111,7 @@ class _InitialSetupScreenState extends State<InitialSetupScreen> with SingleTick
                       ),
                       const SizedBox(height: 28),
                       Text(
-                        l10n.setup_state_hint,
+                        'Bitte Bundesland wählen',
                         style: theme.textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.w600,
                           color: theme.colorScheme.primary,
@@ -123,7 +121,7 @@ class _InitialSetupScreenState extends State<InitialSetupScreen> with SingleTick
                       _SetupSelector(
                         icon: Icons.location_on,
                         value: _selectedCode,
-                        labelBuilder: (context) => l10n.setup_state_hint,
+                        labelBuilder: (context) => 'Bitte Bundesland wählen',
                         items: states
                             .map((m) => _SelectorItem(
                                   value: m['code'] as String,
@@ -135,7 +133,7 @@ class _InitialSetupScreenState extends State<InitialSetupScreen> with SingleTick
                       ),
                       const SizedBox(height: 20),
                       Text(
-                        l10n.setup_language_label,
+                        'Sprache:',
                         style: theme.textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.w600,
                         ),
@@ -144,10 +142,9 @@ class _InitialSetupScreenState extends State<InitialSetupScreen> with SingleTick
                       _SetupSelector(
                         icon: Icons.language,
                         value: _locale,
-                        labelBuilder: (context) => l10n.setup_language_label,
-                        items: AppLocalizations.supportedLocales
-                            .map((loc) {
-                              final code = loc.languageCode;
+                        labelBuilder: (context) => 'Sprache:',
+                        items: ['de', 'en']
+                            .map((code) {
                               final name = LocaleNames.of(context)?.nameOf(code) ?? code;
                               return _SelectorItem(value: code, label: '$name ($code)');
                             })
@@ -166,7 +163,7 @@ class _InitialSetupScreenState extends State<InitialSetupScreen> with SingleTick
                                   height: 18,
                                   child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
                                 )
-                              : Text(l10n.setup_save_continue),
+                              : const Text('Speichern und fortfahren'),
                         ),
                       ),
                       const SizedBox(height: 12),
@@ -208,9 +205,9 @@ class _SetupSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final label = value == null
-        ? labelBuilder(context)
-        : items.firstWhere((e) => e.value == value, orElse: () => items.first).label;
+    final label = (value == null || items.isEmpty)
+      ? labelBuilder(context)
+      : items.firstWhere((e) => e.value == value, orElse: () => items.first).label;
 
     return InkWell(
       borderRadius: BorderRadius.circular(AppTheme.radiusMedium),

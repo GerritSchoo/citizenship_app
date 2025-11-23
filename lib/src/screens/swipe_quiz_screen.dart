@@ -189,6 +189,7 @@ class _SwipeQuizScreenState extends State<SwipeQuizScreen> {
                                   // Top interactive card
                                   Positioned.fill(
                                     child: _SwipeCard(
+                                      key: _cardKey,
                                       item: current!,
                                       width: width,
                                       showTranslation: _showTranslation && locale.languageCode != 'de',
@@ -394,7 +395,7 @@ class _SwipeCard extends StatefulWidget {
   final double width;
   final bool showTranslation;
   final void Function(bool guessIsMatch, int timeMs) onDecision;
-  const _SwipeCard({required this.item, required this.width, required this.showTranslation, required this.onDecision});
+  const _SwipeCard({super.key, required this.item, required this.width, required this.showTranslation, required this.onDecision});
 
   @override
   State<_SwipeCard> createState() => _SwipeCardState();
