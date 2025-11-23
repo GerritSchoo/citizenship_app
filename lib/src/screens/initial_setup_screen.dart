@@ -4,6 +4,7 @@ import '../core/prefs.dart';
 import '../data/states.dart';
 import 'home_screen.dart';
 import '../../l10n/app_localizations.dart';
+import '../../app.dart';
 import 'package:flutter_localized_locales/flutter_localized_locales.dart';
 
 class InitialSetupScreen extends StatefulWidget {
@@ -42,6 +43,14 @@ class _InitialSetupScreenState extends State<InitialSetupScreen> with SingleTick
     await AppPrefs.saveSelectedState(_selectedCode!);
     await AppPrefs.saveLocale(_locale);
     if (!mounted) return;
+
+    // Also update the running app's locale so the language switches immediately
+    final appState = App.of(context);
+    if (appState != null) {
+      await appState.setLocale(Locale(_locale));
+    }
+
+    if (!mounted) return;
     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => const HomeScreen()));
   }
 
@@ -54,113 +63,214 @@ class _InitialSetupScreenState extends State<InitialSetupScreen> with SingleTick
         child: LayoutBuilder(
           builder: (context, constraints) {
             return SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(vertical: 24),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
               child: Center(
-                child: ScaleTransition(
-                  scale: _scale,
-                  child: Card(
-                    elevation: 12,
-                    margin: const EdgeInsets.symmetric(horizontal: 20),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppTheme.radiusMedium)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints(maxWidth: 640, minHeight: constraints.maxHeight * 0.75),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 640),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 12),
+                      ScaleTransition(
+                        scale: _scale,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(colors: [theme.colorScheme.primary, theme.colorScheme.secondary.withAlpha(230)]),
-                                  borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
+                            Container(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    theme.colorScheme.primary,
+                                    theme.colorScheme.secondary.withAlpha(220),
+                                  ],
                                 ),
-                                padding: const EdgeInsets.all(10),
-                                child: const Icon(Icons.map, color: Colors.white, size: 28),
+                                borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
                               ),
-                              const SizedBox(width: 12),
-                              Expanded(
-                                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                              padding: const EdgeInsets.all(12),
+                              child: const Icon(Icons.map, color: Colors.white, size: 28),
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
                                   Text(
                                     l10n.setup_choose_state_title,
-                                    style: theme.textTheme.headlineSmall,
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    softWrap: true,
+                                    style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w700),
                                   ),
-                                  const SizedBox(height: 4),
+                                  const SizedBox(height: 6),
                                   Text(
                                     l10n.setup_choose_state_subtitle,
-                                    style: theme.textTheme.bodyMedium,
-                                    maxLines: 3,
-                                    overflow: TextOverflow.ellipsis,
-                                    softWrap: true,
+                                    style: theme.textTheme.bodyMedium?.copyWith(
+                                      color: theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.8),
+                                    ),
                                   ),
-                                ]),
-                              )
-                            ]),
-                            const SizedBox(height: 18),
-                            DropdownButtonFormField<String>(
-                              isExpanded: true,
-                              initialValue: _selectedCode,
-                              hint: Text(l10n.setup_state_hint),
-                              items: states
-                                  .map((m) => DropdownMenuItem(
-                                        value: m['code'],
-                                        child: Text('${m['label']} (${m['code']})'),
-                                      ))
-                                  .toList(),
-                              onChanged: (v) => setState(() => _selectedCode = v),
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppTheme.radiusMedium)),
-                                prefixIcon: const Icon(Icons.location_on),
+                                ],
                               ),
                             ),
-                            const SizedBox(height: 12),
-                            Row(children: [
-                              Expanded(
-                                child: DropdownButtonFormField<String>(
-                                  isExpanded: true,
-                                  initialValue: _locale,
-                                  hint: Text(l10n.setup_language_label),
-                                  items: AppLocalizations.supportedLocales
-                                      .map((loc) {
-                                        final code = loc.languageCode;
-                                        final name = LocaleNames.of(context)?.nameOf(code) ?? code;
-                                        return DropdownMenuItem(
-                                          value: code,
-                                          child: Text('$name ($code)'),
-                                        );
-                                      })
-                                      .toList(),
-                                  onChanged: (v) => setState(() => _locale = v ?? 'de'),
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppTheme.radiusMedium)),
-                                    prefixIcon: const Icon(Icons.language),
-                                  ),
-                                ),
-                              )
-                            ]),
-                            const SizedBox(height: 16),
-                            Row(children: [
-                              Expanded(
-                                child: ElevatedButton(
-                                  onPressed: (_selectedCode == null || _saving) ? null : _confirm,
-                                  child: _saving
-                                      ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
-                                      : Text(l10n.setup_save_continue),
-                                ),
-                              )
-                            ]),
                           ],
                         ),
                       ),
-                    ),
+                      const SizedBox(height: 28),
+                      Text(
+                        l10n.setup_state_hint,
+                        style: theme.textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: theme.colorScheme.primary,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      _SetupSelector(
+                        icon: Icons.location_on,
+                        value: _selectedCode,
+                        labelBuilder: (context) => l10n.setup_state_hint,
+                        items: states
+                            .map((m) => _SelectorItem(
+                                  value: m['code'] as String,
+                                  label: '${m['label']} (${m['code']})',
+                                ))
+                            .toList(),
+                        onChanged: (v) => setState(() => _selectedCode = v),
+                        filledStyle: true,
+                      ),
+                      const SizedBox(height: 20),
+                      Text(
+                        l10n.setup_language_label,
+                        style: theme.textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      _SetupSelector(
+                        icon: Icons.language,
+                        value: _locale,
+                        labelBuilder: (context) => l10n.setup_language_label,
+                        items: AppLocalizations.supportedLocales
+                            .map((loc) {
+                              final code = loc.languageCode;
+                              final name = LocaleNames.of(context)?.nameOf(code) ?? code;
+                              return _SelectorItem(value: code, label: '$name ($code)');
+                            })
+                            .toList(),
+                        onChanged: (v) => setState(() => _locale = v ?? 'de'),
+                        filledStyle: true,
+                      ),
+                      const SizedBox(height: 32),
+                      SizedBox(
+                        width: double.infinity,
+                        child: FilledButton(
+                          onPressed: (_selectedCode == null || _saving) ? null : _confirm,
+                          child: _saving
+                              ? const SizedBox(
+                                  width: 18,
+                                  height: 18,
+                                  child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                                )
+                              : Text(l10n.setup_save_continue),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                    ],
                   ),
                 ),
               ),
             );
           },
+        ),
+      ),
+    );
+  }
+}
+
+class _SelectorItem {
+  final String value;
+  final String label;
+  const _SelectorItem({required this.value, required this.label});
+}
+
+class _SetupSelector extends StatelessWidget {
+  final IconData icon;
+  final String? value;
+  final List<_SelectorItem> items;
+  final ValueChanged<String?> onChanged;
+  final String Function(BuildContext) labelBuilder;
+  final bool filledStyle;
+
+  const _SetupSelector({
+    required this.icon,
+    required this.value,
+    required this.items,
+    required this.onChanged,
+    required this.labelBuilder,
+    this.filledStyle = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final label = value == null
+        ? labelBuilder(context)
+        : items.firstWhere((e) => e.value == value, orElse: () => items.first).label;
+
+    return InkWell(
+      borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
+      onTap: () async {
+        final selected = await showModalBottomSheet<String>(
+          context: context,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(AppTheme.radiusLarge)),
+          ),
+          builder: (ctx) {
+            return SafeArea(
+              child: ListView.separated(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                itemCount: items.length,
+                separatorBuilder: (_, __) => const Divider(height: 1),
+                itemBuilder: (ctx, index) {
+                  final item = items[index];
+                  final isSelected = item.value == value;
+                  return ListTile(
+                    leading: isSelected
+                        ? Icon(Icons.check_circle, color: theme.colorScheme.primary)
+                        : const Icon(Icons.circle_outlined),
+                    title: Text(item.label),
+                    onTap: () => Navigator.of(ctx).pop(item.value),
+                  );
+                },
+              ),
+            );
+          },
+        );
+        if (selected != null) onChanged(selected);
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
+          color: filledStyle ? theme.colorScheme.primary : theme.colorScheme.surface,
+        ),
+        child: Row(
+          children: [
+            Icon(
+              icon,
+              color: filledStyle ? theme.colorScheme.onPrimary : theme.colorScheme.primary,
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                label,
+                style: (filledStyle
+                        ? theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onPrimary)
+                        : theme.textTheme.bodyMedium)
+                    ?.copyWith(fontWeight: FontWeight.w500),
+              ),
+            ),
+            const SizedBox(width: 8),
+            Icon(
+              Icons.keyboard_arrow_down_rounded,
+              color: filledStyle ? theme.colorScheme.onPrimary : theme.iconTheme.color,
+            ),
+          ],
         ),
       ),
     );
