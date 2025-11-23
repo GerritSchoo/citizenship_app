@@ -27,6 +27,8 @@ class AppState extends State<App> {
   // Testing toggle: enable subscription lock after 3 trial exams
   // Set to true to activate gating flows (menu + popup after trials)
   static bool subscriptionLockEnabled = false;
+  // Testing toggle: always show initial setup screen (for development)
+  static bool alwaysShowInitialSetup = true;
 
   @override
   void initState() {
@@ -163,7 +165,9 @@ class AppState extends State<App> {
         return fallback; // default fallback
       },
       locale: _locale,
-      home: _initialStateCode == null ? const InitialSetupScreen() : const HomeScreen(),
+      home: AppState.alwaysShowInitialSetup
+          ? const InitialSetupScreen()
+          : (_initialStateCode == null ? const InitialSetupScreen() : const HomeScreen()),
     );
   }
 }
