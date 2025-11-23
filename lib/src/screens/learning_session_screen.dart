@@ -126,10 +126,13 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
                   padding: EdgeInsets.zero,
                   children: [
                     QuestionCard(
-                      text: question.text,
+                      // Always show German as base text
+                      text: question.originalDeText ?? question.text,
                       index: _controller.currentIndex,
                       image: question.hasContextImage ? question.image : null,
-                      originalDeText: question.originalDeText,
+                      // When translate-toggle is active and locale != de, show overlay in selected language
+                      originalDeText:
+                          _showOriginalDe && Localizations.localeOf(context).languageCode != 'de' ? question.text : null,
                       showOriginalDe: _showOriginalDe && Localizations.localeOf(context).languageCode != 'de',
                     ),
                     const SizedBox(height: 16),
@@ -154,13 +157,16 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
                       ...List.generate(question.answers.length, (index) {
                         final isSelected = _controller.selectedIndex == index;
                         final isCorrect = index == question.correctIndex;
+                        final bool showOverlay = _showOriginalDe && Localizations.localeOf(context).languageCode != 'de';
+                        final String baseAnswer =
+                            question.originalDeAnswers != null && question.originalDeAnswers!.length == question.answers.length
+                                ? question.originalDeAnswers![index]
+                                : question.answers[index];
                         return AnswerTextTile(
-                          text: question.answers[index],
-                          originalDe: (_showOriginalDe && Localizations.localeOf(context).languageCode != 'de')
-                              ? (question.originalDeAnswers != null && question.originalDeAnswers!.length == question.answers.length
-                                  ? question.originalDeAnswers![index]
-                                  : null)
-                              : null,
+                          // Always show German as base answer
+                          text: baseAnswer,
+                          // Overlay: translated answer from current locale
+                          originalDe: showOverlay ? question.answers[index] : null,
                           revealed: _controller.selectedIndex != null,
                           isSelected: isSelected,
                           isCorrect: isCorrect,
@@ -182,16 +188,19 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              // Base explanation in German
                               Text(
-                                question.explanation,
+                                question.originalDeExplanation?.isNotEmpty == true
+                                    ? question.originalDeExplanation!
+                                    : question.explanation,
                                 style: theme.textTheme.bodyMedium,
                               ),
-                              if (_showOriginalDe && Localizations.localeOf(context).languageCode != 'de' &&
-                                  (question.originalDeExplanation != null && question.originalDeExplanation!.isNotEmpty))
+                              // Optional overlay: explanation in selected locale
+                              if (_showOriginalDe && Localizations.localeOf(context).languageCode != 'de')
                                 Padding(
                                   padding: const EdgeInsets.only(top: 6),
                                   child: Text(
-                                    question.originalDeExplanation!,
+                                    question.explanation,
                                     style: theme.textTheme.bodySmall?.copyWith(
                                       color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
                                       fontStyle: FontStyle.italic,

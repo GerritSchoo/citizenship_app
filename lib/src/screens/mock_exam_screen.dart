@@ -243,12 +243,17 @@ class _MockExamScreenState extends State<MockExamScreen> {
                               padding: EdgeInsets.zero,
                               children: [
                                 QuestionCard(
-                                  text: _controller!.questions[_controller!.currentIndex].text,
+                                  // Always show German as base text
+                                  text: _controller!.questions[_controller!.currentIndex].originalDeText ??
+                                      _controller!.questions[_controller!.currentIndex].text,
                                   index: _controller!.currentIndex,
                                   image: _controller!.questions[_controller!.currentIndex].hasContextImage
                                       ? _controller!.questions[_controller!.currentIndex].image
                                       : null,
-                                  originalDeText: _controller!.questions[_controller!.currentIndex].originalDeText,
+                                  // Overlay: translated text when toggle active and locale != de
+                                  originalDeText: _showOriginalDe && Localizations.localeOf(context).languageCode != 'de'
+                                      ? _controller!.questions[_controller!.currentIndex].text
+                                      : null,
                                   showOriginalDe: _showOriginalDe && Localizations.localeOf(context).languageCode != 'de',
                                 ),
                                 const SizedBox(height: 12),
@@ -265,20 +270,22 @@ class _MockExamScreenState extends State<MockExamScreen> {
                                     ),
                                   )
                                 else
-                                  ...List.generate(_controller!.questions[_controller!.currentIndex].answers.length, (i) {
-                                    final a = _controller!.questions[_controller!.currentIndex].answers[i];
+                                    ...List.generate(_controller!.questions[_controller!.currentIndex].answers.length, (i) {
+                                    final q = _controller!.questions[_controller!.currentIndex];
+                                    final bool showOverlay =
+                                      _showOriginalDe && Localizations.localeOf(context).languageCode != 'de';
+                                    final String baseAnswer =
+                                      q.originalDeAnswers != null && q.originalDeAnswers!.length == q.answers.length
+                                        ? q.originalDeAnswers![i]
+                                        : q.answers[i];
                                     final sel = answers[_controller!.currentIndex];
                                     final selected = sel == i;
                                     // In mock exam, revealed is always false before submit
                                     return AnswerTextTile(
-                                      text: a,
-                                      originalDe: (_showOriginalDe && Localizations.localeOf(context).languageCode != 'de')
-                                          ? (_controller!.questions[_controller!.currentIndex].originalDeAnswers != null &&
-                                                  _controller!.questions[_controller!.currentIndex].originalDeAnswers!.length ==
-                                                      _controller!.questions[_controller!.currentIndex].answers.length
-                                              ? _controller!.questions[_controller!.currentIndex].originalDeAnswers![i]
-                                              : null)
-                                          : null,
+                                      // Base = German answer
+                                      text: baseAnswer,
+                                      // Overlay = translated answer for current locale
+                                      originalDe: showOverlay ? q.answers[i] : null,
                                       revealed: false,
                                       isSelected: selected,
                                       isCorrect: i == _controller!.questions[_controller!.currentIndex].correctIndex,

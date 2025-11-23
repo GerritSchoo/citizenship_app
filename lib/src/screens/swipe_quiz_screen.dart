@@ -25,6 +25,7 @@ class _SwipeQuizScreenState extends State<SwipeQuizScreen> {
   int _index = 0;
   int _correct = 0;
   final GlobalKey<_SwipeCardState> _cardKey = GlobalKey<_SwipeCardState>();
+  bool _showTranslation = false;
 
   @override
   void initState() {
@@ -134,11 +135,22 @@ class _SwipeQuizScreenState extends State<SwipeQuizScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final locale = Localizations.localeOf(context);
     if (_loading) {
       return const Scaffold(body: SafeArea(child: Center(child: CircularProgressIndicator())));
     }
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.quiz_mode_swipe_tf)),
+      appBar: AppBar(
+        title: Text(l10n.quiz_mode_swipe_tf),
+        actions: [
+          if (locale.languageCode != 'de')
+            IconButton(
+              tooltip: 'DE',
+              icon: Icon(_showTranslation ? Icons.translate : Icons.translate_outlined),
+              onPressed: () => setState(() => _showTranslation = !_showTranslation),
+            ),
+        ],
+      ),
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -169,6 +181,7 @@ class _SwipeQuizScreenState extends State<SwipeQuizScreen> {
                                           child: _StaticCard(
                                             item: _items[_index + 1],
                                             width: width,
+                                            showTranslation: _showTranslation && locale.languageCode != 'de',
                                           ),
                                         ),
                                       ),
@@ -176,9 +189,9 @@ class _SwipeQuizScreenState extends State<SwipeQuizScreen> {
                                   // Top interactive card
                                   Positioned.fill(
                                     child: _SwipeCard(
-                                      key: _cardKey,
                                       item: current!,
                                       width: width,
+                                      showTranslation: _showTranslation && locale.languageCode != 'de',
                                       onDecision: (guess, timeMs) => _onDecision(guess, timeMs: timeMs),
                                     ),
                                   ),
@@ -225,7 +238,8 @@ class _SwipeItem {
 class _StaticCard extends StatelessWidget {
   final _SwipeItem item;
   final double width;
-  const _StaticCard({required this.item, required this.width});
+  final bool showTranslation;
+  const _StaticCard({required this.item, required this.width, required this.showTranslation});
 
   @override
   Widget build(BuildContext context) {
@@ -247,6 +261,11 @@ class _StaticCard extends StatelessWidget {
         child: LayoutBuilder(
           builder: (context, dims) {
             final theme = Theme.of(context);
+            // Always use German as base text where available
+            final String baseQuestionText = q.originalDeText ?? q.text;
+            final bool showOverlay = showTranslation && Localizations.localeOf(context).languageCode != 'de';
+            final String translatedQuestionText = q.text;
+            final overlayGap = showOverlay ? 8.0 : 0.0;
             final double gap = 12;
             // Dynamically size the question and answer regions so the question text is always fully visible
     return Builder(builder: (context) {
@@ -254,18 +273,34 @@ class _StaticCard extends StatelessWidget {
       final dir = Directionality.of(context);
                   final questionStyle = theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700);
                   final tp = TextPainter(
-                    text: TextSpan(text: q.text, style: questionStyle),
+                    text: TextSpan(text: baseQuestionText, style: questionStyle),
                     textAlign: TextAlign.left,
                     textDirection: dir,
                     maxLines: null,
                   )..layout(maxWidth: dims.maxWidth);
                   final qH = tp.height;
 
+                  double overlayH = 0;
+                  if (showOverlay) {
+                    final overlayStyle = theme.textTheme.bodySmall?.copyWith(
+                      fontStyle: FontStyle.italic,
+                      color: theme.textTheme.bodySmall?.color?.withValues(alpha: 0.7),
+                    );
+                    final overlayTp = TextPainter(
+                      text: TextSpan(text: translatedQuestionText, style: overlayStyle),
+                      textAlign: TextAlign.left,
+                      textDirection: dir,
+                      maxLines: null,
+                    )..layout(maxWidth: dims.maxWidth);
+                    overlayH = overlayTp.height + overlayGap;
+                  }
+
                   const double dividerH = 1;
-                  // Gaps: after image (if any), after question, before and after divider
+                  // Gaps: after image (if any), after question (+ optional overlay), before and after divider
                   double gaps = 0;
                   if (q.hasContextImage) gaps += gap;
                   gaps += gap; // after question
+                  gaps += overlayH; // space for overlay if needed
                   gaps += gap; // before divider already counted; keep spacing symmetry
                   // Base context image height as before
                   double imgH = q.hasContextImage ? (maxH * 0.28).clamp(140, 260) : 0;
@@ -303,11 +338,22 @@ class _StaticCard extends StatelessWidget {
                       SizedBox(
                         height: qH,
                         child: Text(
-                          q.text,
+                          baseQuestionText,
                           softWrap: true,
                           style: questionStyle,
                         ),
                       ),
+                      if (showOverlay) ...[
+                        const SizedBox(height: 8),
+                        Text(
+                          translatedQuestionText,
+                          softWrap: true,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            fontStyle: FontStyle.italic,
+                            color: theme.textTheme.bodySmall?.color?.withValues(alpha: 0.7),
+                          ),
+                        ),
+                      ],
                       SizedBox(height: gap),
                       Divider(color: theme.dividerColor.withValues(alpha: 0.3), height: dividerH),
                       SizedBox(height: gap),
@@ -346,8 +392,9 @@ class _StaticCard extends StatelessWidget {
 class _SwipeCard extends StatefulWidget {
   final _SwipeItem item;
   final double width;
+  final bool showTranslation;
   final void Function(bool guessIsMatch, int timeMs) onDecision;
-  const _SwipeCard({super.key, required this.item, required this.width, required this.onDecision});
+  const _SwipeCard({required this.item, required this.width, required this.showTranslation, required this.onDecision});
 
   @override
   State<_SwipeCard> createState() => _SwipeCardState();
@@ -457,6 +504,16 @@ class _SwipeCardState extends State<_SwipeCard> with SingleTickerProviderStateMi
   }
 
   Widget _buildCardBody(BuildContext context, Color bg, Question q, int idx, String? answerImage) {
+    // Base texts: always prefer German originals when available
+    final String baseQuestionText = q.originalDeText ?? q.text;
+    final String baseAnswerText =
+        q.originalDeAnswers != null && q.originalDeAnswers!.length == q.answers.length
+            ? q.originalDeAnswers![idx]
+            : q.answers[idx];
+    final bool showOverlay = widget.showTranslation && Localizations.localeOf(context).languageCode != 'de';
+    final String translatedQuestionText = q.text;
+    final String translatedAnswerText = q.answers[idx];
+
     return Material(
       color: bg,
       elevation: 6,
@@ -470,92 +527,108 @@ class _SwipeCardState extends State<_SwipeCard> with SingleTickerProviderStateMi
             Positioned.fill(
               child: LayoutBuilder(
                 builder: (context, dims) {
-      final theme = Theme.of(context);
+                  final theme = Theme.of(context);
                   final double gap = 12;
-                  // Dynamically size the question and answer regions so the question text is always fully visible
-                  return Builder(builder: (context) {
-        final maxH = dims.maxHeight;
-                        final dir = Directionality.of(context);
-                        final questionStyle = theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700);
-                        final tp = TextPainter(
-                          text: TextSpan(text: q.text, style: questionStyle),
-                          textAlign: TextAlign.left,
-                          textDirection: dir,
-                          maxLines: null,
-                        )..layout(maxWidth: dims.maxWidth);
-                        final qH = tp.height;
+                  return LayoutBuilder(
+                    builder: (context, innerDims) {
+                      final maxH = innerDims.maxHeight;
+                      final dir = Directionality.of(context);
+                      final questionStyle = theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700);
 
-                        const double dividerH = 1;
-                        double gaps = 0;
-                        if (q.hasContextImage) gaps += gap;
-                        gaps += gap;
-                        gaps += gap;
-                        double imgH = q.hasContextImage ? (maxH * 0.28).clamp(140, 260) : 0;
+                      // Measure question + optional overlay to size image nicely, but allow scrolling overall.
+                      final tp = TextPainter(
+                        text: TextSpan(text: baseQuestionText, style: questionStyle),
+                        textAlign: TextAlign.left,
+                        textDirection: dir,
+                        maxLines: null,
+                      )..layout(maxWidth: innerDims.maxWidth);
+                      final qH = tp.height;
 
-                        double usedTop = imgH + qH + gaps + dividerH;
-                        double answerH = maxH - usedTop;
-                        if (answerH < 0) {
-                          final canReduce = imgH;
-                          final need = -answerH;
-                          final reduceBy = need.clamp(0, canReduce);
-                          imgH -= reduceBy;
-                          usedTop = imgH + qH + gaps + dividerH;
-                          answerH = maxH - usedTop;
-                          if (answerH < 0) {
-                            answerH = 0;
-                          }
-                        }
+                      // If needed later, we could also pre-measure the overlay text.
 
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            if (q.hasContextImage && imgH > 0) ...[
+                      // Use a bit more space for the context image now that content can scroll.
+                      double imgH = q.hasContextImage ? (maxH * 0.35).clamp(160, 280) : 0;
+
+                      return Scrollbar(
+                        thumbVisibility: true,
+                        child: SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              if (q.hasContextImage && imgH > 0) ...[
+                                SizedBox(
+                                  height: imgH,
+                                  width: double.infinity,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
+                                    child: Image.asset(q.image!, fit: BoxFit.contain),
+                                  ),
+                                ),
+                                SizedBox(height: gap),
+                              ],
                               SizedBox(
-                                height: imgH,
-                                width: double.infinity,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
-                                  child: Image.asset(q.image!, fit: BoxFit.contain),
+                                height: qH,
+                                child: Text(
+                                  baseQuestionText,
+                                  softWrap: true,
+                                  style: questionStyle,
                                 ),
                               ),
+                              if (showOverlay) ...[
+                                const SizedBox(height: 8),
+                                Text(
+                                  translatedQuestionText,
+                                  softWrap: true,
+                                  style: theme.textTheme.bodySmall?.copyWith(
+                                    fontStyle: FontStyle.italic,
+                                    color: theme.textTheme.bodySmall?.color?.withValues(alpha: 0.7),
+                                  ),
+                                ),
+                              ],
                               SizedBox(height: gap),
-                            ],
-                            SizedBox(
-                              height: qH,
-                              child: Text(
-                                q.text,
-                                softWrap: true,
-                                style: questionStyle,
-                              ),
-                            ),
-                            SizedBox(height: gap),
-                            Divider(color: theme.dividerColor.withValues(alpha: 0.3), height: dividerH),
-                            SizedBox(height: gap),
-                            SizedBox(
-                              height: answerH,
-                              child: Center(
+                              Divider(color: theme.dividerColor.withValues(alpha: 0.3), height: 1),
+                              SizedBox(height: gap),
+                              Center(
                                 child: answerImage != null
                                     ? ClipRRect(
                                         borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
                                         child: Image.asset(
                                           answerImage,
                                           fit: BoxFit.contain,
-                                          width: dims.maxWidth,
-                                          height: double.infinity,
+                                          width: innerDims.maxWidth,
                                         ),
                                       )
-                                    : Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                                        child: _AutoSizeAnswer(
-                                          text: q.answers[idx],
-                                          style: theme.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w800),
-                                        ),
+                                    : Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                                            child: _AutoSizeAnswer(
+                                              text: baseAnswerText,
+                                              style: theme.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w800),
+                                            ),
+                                          ),
+                                          if (showOverlay) ...[
+                                            const SizedBox(height: 4),
+                                            Text(
+                                              translatedAnswerText,
+                                              textAlign: TextAlign.center,
+                                              style: theme.textTheme.bodySmall?.copyWith(
+                                                fontStyle: FontStyle.italic,
+                                                color: theme.textTheme.bodySmall?.color?.withValues(alpha: 0.7),
+                                              ),
+                                            ),
+                                          ],
+                                        ],
                                       ),
                               ),
-                            ),
-                          ],
-                        );
-                  });
+                              const SizedBox(height: 8),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
                 },
               ),
             ),
