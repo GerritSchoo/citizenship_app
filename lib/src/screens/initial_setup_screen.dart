@@ -58,121 +58,142 @@ class _InitialSetupScreenState extends State<InitialSetupScreen> with SingleTick
     final theme = Theme.of(context);
     return Scaffold(
       body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return SingleChildScrollView(
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 640),
+            child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
-              child: Center(
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 640),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 12),
-                      ScaleTransition(
-                        scale: _scale,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: [
-                                    theme.colorScheme.primary,
-                                    theme.colorScheme.secondary.withAlpha(220),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 12),
+                  // Main content scrolls, button stays pinned at bottom
+                  Expanded(
+                    child: LayoutBuilder(
+                      builder: (context, constraints) {
+                        return SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ScaleTransition(
+                                scale: _scale,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            theme.colorScheme.primary,
+                                            theme.colorScheme.secondary.withAlpha(220),
+                                          ],
+                                        ),
+                                        borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
+                                      ),
+                                      padding: const EdgeInsets.all(12),
+                                      child: const Icon(Icons.map, color: Colors.white, size: 28),
+                                    ),
+                                    const SizedBox(width: 16),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Wähle dein Bundesland',
+                                            style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w700),
+                                          ),
+                                          const SizedBox(height: 6),
+                                          Text(
+                                            'Dieses Bundesland wird für landesspezifische Fragen genutzt.',
+                                            style: theme.textTheme.bodyMedium?.copyWith(
+                                              color:
+                                                  theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.8),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ],
                                 ),
-                                borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
                               ),
-                              padding: const EdgeInsets.all(12),
-                              child: const Icon(Icons.map, color: Colors.white, size: 28),
-                            ),
-                            const SizedBox(width: 16),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Wähle dein Bundesland',
-                                    style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w700),
-                                  ),
-                                  const SizedBox(height: 6),
-                                  Text(
-                                    'Dieses Bundesland wird für landesspezifische Fragen genutzt.',
-                                    style: theme.textTheme.bodyMedium?.copyWith(
-                                      color: theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.8),
-                                    ),
-                                  ),
-                                ],
+                              const SizedBox(height: 28),
+                              Text(
+                                'Bitte Bundesland wählen',
+                                style: theme.textTheme.titleSmall?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  color: theme.colorScheme.primary,
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 28),
-                      Text(
-                        'Bitte Bundesland wählen',
-                        style: theme.textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: theme.colorScheme.primary,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      _SetupSelector(
-                        icon: Icons.location_on,
-                        value: _selectedCode,
-                        labelBuilder: (context) => 'Bitte Bundesland wählen',
-                        items: states
-                            .map((m) => _SelectorItem(
-                                  value: m['code'] as String,
-                                  label: '${m['label']} (${m['code']})',
-                                ))
-                            .toList(),
-                        onChanged: (v) => setState(() => _selectedCode = v),
-                        filledStyle: true,
-                      ),
-                      const SizedBox(height: 20),
-                      Text(
-                        'Sprache:',
-                        style: theme.textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      _SetupSelector(
-                        icon: Icons.language,
-                        value: _locale,
-                        labelBuilder: (context) => 'Sprache:',
-                        items: ['de', 'en']
-                            .map((code) {
-                              final name = LocaleNames.of(context)?.nameOf(code) ?? code;
-                              return _SelectorItem(value: code, label: '$name ($code)');
-                            })
-                            .toList(),
-                        onChanged: (v) => setState(() => _locale = v ?? 'de'),
-                        filledStyle: true,
-                      ),
-                      const SizedBox(height: 32),
-                      SizedBox(
-                        width: double.infinity,
-                        child: FilledButton(
-                          onPressed: (_selectedCode == null || _saving) ? null : _confirm,
-                          child: _saving
-                              ? const SizedBox(
-                                  width: 18,
-                                  height: 18,
-                                  child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
-                                )
-                              : const Text('Speichern und fortfahren'),
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                    ],
+                              const SizedBox(height: 8),
+                              _SetupSelector(
+                                icon: Icons.location_on,
+                                value: _selectedCode,
+                                labelBuilder: (context) => 'Bitte Bundesland wählen',
+                                items: states
+                                    .map((m) => _SelectorItem(
+                                          value: m['code'] as String,
+                                          label: '${m['label']} (${m['code']})',
+                                        ))
+                                    .toList(),
+                                onChanged: (v) => setState(() => _selectedCode = v),
+                                filledStyle: true,
+                              ),
+                              const SizedBox(height: 20),
+                              Text(
+                                'Sprache:',
+                                style: theme.textTheme.titleSmall?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              _SetupSelector(
+                                icon: Icons.language,
+                                value: _locale,
+                                labelBuilder: (context) => 'Sprache:',
+                                items: ['de', 'en']
+                                    .map((code) {
+                                      final name = LocaleNames.of(context)?.nameOf(code) ?? code;
+                                      return _SelectorItem(value: code, label: '$name ($code)');
+                                    })
+                                    .toList(),
+                                onChanged: (v) => setState(() => _locale = v ?? 'de'),
+                                filledStyle: true,
+                              ),
+                              const SizedBox(height: 32),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
                   ),
-                ),
+                  const SizedBox(height: 16),
+                  // Bottom primary action, visually more prominent
+                  SizedBox(
+                    width: double.infinity,
+                    child: SizedBox(
+                      height: 56,
+                      child: FilledButton(
+                        style: FilledButton.styleFrom(
+                          textStyle: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
+                          ),
+                        ),
+                        onPressed: (_selectedCode == null || _saving) ? null : _confirm,
+                        child: _saving
+                            ? const SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                              )
+                            : const Text('Speichern und fortfahren'),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            );
-          },
+            ),
+          ),
         ),
       ),
     );
