@@ -264,8 +264,13 @@ class _StaticCard extends StatelessWidget {
             final theme = Theme.of(context);
             // Always use German as base text where available
             final String baseQuestionText = q.originalDeText ?? q.text;
+            final String baseAnswerText =
+                q.originalDeAnswers != null && q.originalDeAnswers!.length == q.answers.length
+                    ? q.originalDeAnswers![idx]
+                    : q.answers[idx];
             final bool showOverlay = showTranslation && Localizations.localeOf(context).languageCode != 'de';
             final String translatedQuestionText = q.text;
+            final String translatedAnswerText = q.answers[idx];
             final overlayGap = showOverlay ? 8.0 : 0.0;
             final double gap = 12;
             // Dynamically size the question and answer regions so the question text is always fully visible
@@ -273,6 +278,10 @@ class _StaticCard extends StatelessWidget {
       final maxH = dims.maxHeight;
       final dir = Directionality.of(context);
                   final questionStyle = theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700);
+                  const minAnswerFontSize = 14.0;
+                  final baseAnswerStyle =
+                      theme.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w800) ??
+                          const TextStyle(fontSize: 20, fontWeight: FontWeight.w800);
                   final tp = TextPainter(
                     text: TextSpan(text: baseQuestionText, style: questionStyle),
                     textAlign: TextAlign.left,
@@ -320,6 +329,123 @@ class _StaticCard extends StatelessWidget {
                       // If still negative, allow answer area to shrink to zero
                       answerH = 0;
                     }
+                  }
+
+                  // Reserve space for translated answer (text-only) so the main answer can auto-size correctly.
+                  final overlayAnswerStyle = theme.textTheme.bodySmall?.copyWith(
+                    fontStyle: FontStyle.italic,
+                    color: theme.textTheme.bodySmall?.color?.withValues(alpha: 0.7),
+                  );
+                  double overlayAnswerH = 0;
+                  const double overlayAnswerGap = 4;
+                  double baseAnswerH = answerH;
+
+                  if (showOverlay && answerImage == null) {
+                    final overlayAnswerTp = TextPainter(
+                      text: TextSpan(text: translatedAnswerText, style: overlayAnswerStyle),
+                      textAlign: TextAlign.center,
+                      textDirection: dir,
+                      maxLines: null,
+                    )..layout(maxWidth: (dims.maxWidth - 16).clamp(0, dims.maxWidth));
+                    overlayAnswerH = overlayAnswerTp.height;
+                    baseAnswerH = math.max(0.0, answerH - (overlayAnswerGap + overlayAnswerH));
+                  }
+
+                  bool singleWordTooWide(String text, TextStyle style, double maxW) {
+                    for (final w in text.split(RegExp(r"\s+"))) {
+                      if (w.isEmpty) continue;
+                      final wp = TextPainter(
+                        text: TextSpan(text: w, style: style),
+                        textDirection: dir,
+                        maxLines: 1,
+                      )..layout();
+                      if (wp.width > maxW) return true;
+                    }
+                    return false;
+                  }
+
+                  final answerMaxW = (dims.maxWidth - 16).clamp(0, dims.maxWidth).toDouble();
+                  final minAnswerStyle = baseAnswerStyle.copyWith(fontSize: minAnswerFontSize);
+                  final bool needsScroll = (answerImage == null) && (() {
+                    if (baseAnswerH <= 0) return true;
+                    final minTp = TextPainter(
+                      text: TextSpan(text: baseAnswerText, style: minAnswerStyle),
+                      textAlign: TextAlign.center,
+                      textDirection: dir,
+                      maxLines: null,
+                    )..layout(maxWidth: answerMaxW);
+                    if (minTp.height > baseAnswerH) return true;
+                    if (singleWordTooWide(baseAnswerText, minAnswerStyle, answerMaxW)) return true;
+                    return false;
+                  })();
+
+                  if (needsScroll) {
+                    return Scrollbar(
+                      thumbVisibility: true,
+                      child: SingleChildScrollView(
+                        physics: const ClampingScrollPhysics(),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            if (q.hasContextImage && imgH > 0) ...[
+                              SizedBox(
+                                height: imgH,
+                                width: double.infinity,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
+                                  child: Image.asset(q.image!, fit: BoxFit.contain),
+                                ),
+                              ),
+                              SizedBox(height: gap),
+                            ],
+                            Text(
+                              baseQuestionText,
+                              softWrap: true,
+                              style: questionStyle,
+                            ),
+                            if (showOverlay) ...[
+                              const SizedBox(height: 8),
+                              Text(
+                                translatedQuestionText,
+                                softWrap: true,
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                  fontStyle: FontStyle.italic,
+                                  color: theme.textTheme.bodySmall?.color?.withValues(alpha: 0.7),
+                                ),
+                              ),
+                            ],
+                            SizedBox(height: gap),
+                            Divider(color: theme.dividerColor.withValues(alpha: 0.3), height: dividerH),
+                            SizedBox(height: gap),
+                            Center(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 8),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      baseAnswerText,
+                                      textAlign: TextAlign.center,
+                                      softWrap: true,
+                                      style: baseAnswerStyle,
+                                    ),
+                                    if (showOverlay) ...[
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        translatedAnswerText,
+                                        textAlign: TextAlign.center,
+                                        softWrap: true,
+                                        style: overlayAnswerStyle,
+                                      ),
+                                    ],
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
                   }
 
                   return Column(
@@ -373,9 +499,31 @@ class _StaticCard extends StatelessWidget {
                                 )
                               : Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 8),
-                                  child: _AutoSizeAnswer(
-                                    text: q.answers[idx],
-                                    style: theme.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w800),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      SizedBox(
+                                        height: baseAnswerH,
+                                        child: Center(
+                                          child: _AutoSizeAnswer(
+                                            text: baseAnswerText,
+                                            style: baseAnswerStyle,
+                                          ),
+                                        ),
+                                      ),
+                                      if (showOverlay) ...[
+                                        const SizedBox(height: overlayAnswerGap),
+                                        SizedBox(
+                                          height: overlayAnswerH,
+                                          child: Text(
+                                            translatedAnswerText,
+                                            textAlign: TextAlign.center,
+                                            softWrap: true,
+                                            style: overlayAnswerStyle,
+                                          ),
+                                        ),
+                                      ],
+                                    ],
                                   ),
                                 ),
                         ),
@@ -536,6 +684,10 @@ class _SwipeCardState extends State<_SwipeCard> with SingleTickerProviderStateMi
                   final maxH = dims.maxHeight;
                   final dir = Directionality.of(context);
                   final questionStyle = theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700);
+                  const minAnswerFontSize = 14.0;
+                  final baseAnswerStyle =
+                      theme.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w800) ??
+                          const TextStyle(fontSize: 20, fontWeight: FontWeight.w800);
 
                   // Measure question text height
                   final tp = TextPainter(
@@ -585,6 +737,124 @@ class _SwipeCardState extends State<_SwipeCard> with SingleTickerProviderStateMi
                     if (answerH < 0) {
                       answerH = 0;
                     }
+                  }
+
+                  // Reserve space for the translated answer so the main answer can auto-size correctly.
+                  // This prevents the bottom overflow when both are shown.
+                  final overlayAnswerStyle = theme.textTheme.bodySmall?.copyWith(
+                    fontStyle: FontStyle.italic,
+                    color: theme.textTheme.bodySmall?.color?.withValues(alpha: 0.7),
+                  );
+                  double overlayAnswerH = 0;
+                  if (showOverlay) {
+                    final overlayAnswerTp = TextPainter(
+                      text: TextSpan(text: translatedAnswerText, style: overlayAnswerStyle),
+                      textAlign: TextAlign.center,
+                      textDirection: dir,
+                      maxLines: null,
+                    )..layout(maxWidth: (dims.maxWidth - 16).clamp(0, dims.maxWidth));
+                    overlayAnswerH = overlayAnswerTp.height;
+                  }
+                  const double overlayAnswerGap = 4;
+                  final reservedForOverlayAnswer =
+                      showOverlay ? (overlayAnswerGap + overlayAnswerH) : 0.0;
+                  final baseAnswerH = math.max(0.0, answerH - reservedForOverlayAnswer);
+
+                  bool singleWordTooWide(String text, TextStyle style, double maxW) {
+                    for (final w in text.split(RegExp(r"\s+"))) {
+                      if (w.isEmpty) continue;
+                      final wp = TextPainter(
+                        text: TextSpan(text: w, style: style),
+                        textDirection: dir,
+                        maxLines: 1,
+                      )..layout();
+                      if (wp.width > maxW) return true;
+                    }
+                    return false;
+                  }
+
+                  final answerMaxW = (dims.maxWidth - 16).clamp(0, dims.maxWidth).toDouble();
+                  final minAnswerStyle = baseAnswerStyle.copyWith(fontSize: minAnswerFontSize);
+                  final bool needsScroll = (answerImage == null) && (() {
+                    if (baseAnswerH <= 0) return true;
+                    final minTp = TextPainter(
+                      text: TextSpan(text: baseAnswerText, style: minAnswerStyle),
+                      textAlign: TextAlign.center,
+                      textDirection: dir,
+                      maxLines: null,
+                    )..layout(maxWidth: answerMaxW);
+                    if (minTp.height > baseAnswerH) return true;
+                    if (singleWordTooWide(baseAnswerText, minAnswerStyle, answerMaxW)) return true;
+                    return false;
+                  })();
+
+                  if (needsScroll) {
+                    return Scrollbar(
+                      thumbVisibility: true,
+                      child: SingleChildScrollView(
+                        physics: const ClampingScrollPhysics(),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            if (q.hasContextImage && imgH > 0) ...[
+                              SizedBox(
+                                height: imgH,
+                                width: double.infinity,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
+                                  child: Image.asset(q.image!, fit: BoxFit.contain),
+                                ),
+                              ),
+                              SizedBox(height: gap),
+                            ],
+                            Text(
+                              baseQuestionText,
+                              softWrap: true,
+                              style: questionStyle,
+                            ),
+                            if (showOverlay) ...[
+                              const SizedBox(height: 8),
+                              Text(
+                                translatedQuestionText,
+                                softWrap: true,
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                  fontStyle: FontStyle.italic,
+                                  color: theme.textTheme.bodySmall?.color?.withValues(alpha: 0.7),
+                                ),
+                              ),
+                            ],
+                            SizedBox(height: gap),
+                            Divider(color: theme.dividerColor.withValues(alpha: 0.3), height: dividerH),
+                            SizedBox(height: gap),
+                            Center(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 8),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      baseAnswerText,
+                                      textAlign: TextAlign.center,
+                                      softWrap: true,
+                                      style: baseAnswerStyle,
+                                    ),
+                                    if (showOverlay) ...[
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        translatedAnswerText,
+                                        textAlign: TextAlign.center,
+                                        softWrap: true,
+                                        style: overlayAnswerStyle,
+                                      ),
+                                    ],
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
                   }
 
                   return Column(
@@ -641,18 +911,26 @@ class _SwipeCardState extends State<_SwipeCard> with SingleTickerProviderStateMi
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      _AutoSizeAnswer(
-                                        text: baseAnswerText,
-                                        style: theme.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w800),
+                                      // Give AutoSize a tight height constraint so it can actually downsize
+                                      // instead of measuring against an unbounded height.
+                                      SizedBox(
+                                        height: baseAnswerH,
+                                        child: Center(
+                                          child: _AutoSizeAnswer(
+                                            text: baseAnswerText,
+                                            style: baseAnswerStyle,
+                                          ),
+                                        ),
                                       ),
                                       if (showOverlay) ...[
-                                        const SizedBox(height: 4),
-                                        Text(
-                                          translatedAnswerText,
-                                          textAlign: TextAlign.center,
-                                          style: theme.textTheme.bodySmall?.copyWith(
-                                            fontStyle: FontStyle.italic,
-                                            color: theme.textTheme.bodySmall?.color?.withValues(alpha: 0.7),
+                                        const SizedBox(height: overlayAnswerGap),
+                                        SizedBox(
+                                          height: overlayAnswerH,
+                                          child: Text(
+                                            translatedAnswerText,
+                                            textAlign: TextAlign.center,
+                                            softWrap: true,
+                                            style: overlayAnswerStyle,
                                           ),
                                         ),
                                       ],
@@ -780,8 +1058,9 @@ class _AutoSizeAnswer extends StatelessWidget {
         final maxH = constraints.maxHeight;
         final dir = Directionality.of(context);
 
-  // Reasonable bounds to avoid overly large text
-  double low = 12;
+  // Reasonable bounds to avoid overly large text.
+  // Keep a readable minimum; if it still doesn't fit, the card becomes scrollable.
+  double low = 14;
   double high = 32; // tighter cap so short answers don't appear oversized
         double best = low;
         final baseStyle = (style ?? const TextStyle());
