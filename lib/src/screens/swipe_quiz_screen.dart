@@ -244,9 +244,10 @@ class _StaticCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bg = Theme.of(context).brightness == Brightness.dark
-        ? Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.25)
-        : Colors.white;
+    final theme = Theme.of(context);
+    final bg = theme.brightness == Brightness.dark
+      ? theme.colorScheme.surface // slightly darker in dark mode
+      : Colors.white;
     final q = item.question;
     final idx = item.answerIndex;
     final hasAnswerImage = q.hasAnswerImages;
@@ -611,11 +612,11 @@ class _SwipeCardState extends State<_SwipeCard> with SingleTickerProviderStateMi
 
   @override
   Widget build(BuildContext context) {
-    // Match the static preview card background to avoid color jumps
+    // Use an opaque, slightly darker background in dark mode so the top card is solid
     final theme = Theme.of(context);
     final bg = theme.brightness == Brightness.dark
-        ? theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.25)
-        : Colors.white;
+      ? theme.colorScheme.surface
+      : Colors.white;
 
     final q = widget.item.question;
     final idx = widget.item.answerIndex;
