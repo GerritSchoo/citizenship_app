@@ -463,8 +463,11 @@ class _SwipeCardState extends State<_SwipeCard> with SingleTickerProviderStateMi
 
   @override
   Widget build(BuildContext context) {
-    // Use an opaque surface color so the bottom card is only visible where the top card has moved away
-    final bg = Theme.of(context).colorScheme.surface;
+    // Match the static preview card background to avoid color jumps
+    final theme = Theme.of(context);
+    final bg = theme.brightness == Brightness.dark
+        ? theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.25)
+        : Colors.white;
 
     final q = widget.item.question;
     final idx = widget.item.answerIndex;
@@ -530,105 +533,135 @@ class _SwipeCardState extends State<_SwipeCard> with SingleTickerProviderStateMi
                 builder: (context, dims) {
                   final theme = Theme.of(context);
                   final double gap = 12;
-                  return LayoutBuilder(
-                    builder: (context, innerDims) {
-                      final maxH = innerDims.maxHeight;
-                      final dir = Directionality.of(context);
-                      final questionStyle = theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700);
+                  final maxH = dims.maxHeight;
+                  final dir = Directionality.of(context);
+                  final questionStyle = theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700);
 
-                      // Measure question + optional overlay to size image nicely, but allow scrolling overall.
-                      final tp = TextPainter(
-                        text: TextSpan(text: baseQuestionText, style: questionStyle),
-                        textAlign: TextAlign.left,
-                        textDirection: dir,
-                        maxLines: null,
-                      )..layout(maxWidth: innerDims.maxWidth);
-                      final qH = tp.height;
+                  // Measure question text height
+                  final tp = TextPainter(
+                    text: TextSpan(text: baseQuestionText, style: questionStyle),
+                    textAlign: TextAlign.left,
+                    textDirection: dir,
+                    maxLines: null,
+                  )..layout(maxWidth: dims.maxWidth);
+                  final qH = tp.height;
 
-                      // If needed later, we could also pre-measure the overlay text.
+                  // Measure overlay/question translation height (if shown)
+                  double overlayH = 0;
+                  if (showOverlay) {
+                    final overlayStyle = theme.textTheme.bodySmall?.copyWith(
+                      fontStyle: FontStyle.italic,
+                      color: theme.textTheme.bodySmall?.color?.withValues(alpha: 0.7),
+                    );
+                    final overlayTp = TextPainter(
+                      text: TextSpan(text: translatedQuestionText, style: overlayStyle),
+                      textAlign: TextAlign.left,
+                      textDirection: dir,
+                      maxLines: null,
+                    )..layout(maxWidth: dims.maxWidth);
+                    overlayH = overlayTp.height + 8;
+                  }
 
-                      // Use a bit more space for the context image now that content can scroll.
-                      double imgH = q.hasContextImage ? (maxH * 0.35).clamp(160, 280) : 0;
+                  const double dividerH = 1;
+                  double gaps = 0;
+                  if (q.hasContextImage) gaps += gap;
+                  gaps += gap; // after question
+                  gaps += overlayH; // overlay spacing if present
+                  gaps += gap; // before divider / symmetry
 
-                      return Scrollbar(
-                        thumbVisibility: true,
-                        child: SingleChildScrollView(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              if (q.hasContextImage && imgH > 0) ...[
-                                SizedBox(
-                                  height: imgH,
-                                  width: double.infinity,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
-                                    child: Image.asset(q.image!, fit: BoxFit.contain),
-                                  ),
-                                ),
-                                SizedBox(height: gap),
-                              ],
-                              SizedBox(
-                                height: qH,
-                                child: Text(
-                                  baseQuestionText,
-                                  softWrap: true,
-                                  style: questionStyle,
-                                ),
-                              ),
-                              if (showOverlay) ...[
-                                const SizedBox(height: 8),
-                                Text(
-                                  translatedQuestionText,
-                                  softWrap: true,
-                                  style: theme.textTheme.bodySmall?.copyWith(
-                                    fontStyle: FontStyle.italic,
-                                    color: theme.textTheme.bodySmall?.color?.withValues(alpha: 0.7),
-                                  ),
-                                ),
-                              ],
-                              SizedBox(height: gap),
-                              Divider(color: theme.dividerColor.withValues(alpha: 0.3), height: 1),
-                              SizedBox(height: gap),
-                              Center(
-                                child: answerImage != null
-                                    ? ClipRRect(
-                                        borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
-                                        child: Image.asset(
-                                          answerImage,
-                                          fit: BoxFit.contain,
-                                          width: innerDims.maxWidth,
-                                        ),
-                                      )
-                                    : Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                                            child: _AutoSizeAnswer(
-                                              text: baseAnswerText,
-                                              style: theme.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w800),
-                                            ),
-                                          ),
-                                          if (showOverlay) ...[
-                                            const SizedBox(height: 4),
-                                            Text(
-                                              translatedAnswerText,
-                                              textAlign: TextAlign.center,
-                                              style: theme.textTheme.bodySmall?.copyWith(
-                                                fontStyle: FontStyle.italic,
-                                                color: theme.textTheme.bodySmall?.color?.withValues(alpha: 0.7),
-                                              ),
-                                            ),
-                                          ],
-                                        ],
-                                      ),
-                              ),
-                              const SizedBox(height: 8),
-                            ],
+                  // Base context image height similar to static card
+                  double imgH = q.hasContextImage ? (maxH * 0.35).clamp(160, 280) : 0;
+
+                  double usedTop = imgH + qH + gaps + dividerH;
+                  double answerH = maxH - usedTop;
+                  if (answerH < 0) {
+                    // Prefer shrinking image to keep question fully visible
+                    final canReduce = imgH;
+                    final need = -answerH;
+                    final reduceBy = need.clamp(0, canReduce);
+                    imgH -= reduceBy;
+                    usedTop = imgH + qH + gaps + dividerH;
+                    answerH = maxH - usedTop;
+                    if (answerH < 0) {
+                      answerH = 0;
+                    }
+                  }
+
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (q.hasContextImage && imgH > 0) ...[
+                        SizedBox(
+                          height: imgH,
+                          width: double.infinity,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
+                            child: Image.asset(q.image!, fit: BoxFit.contain),
                           ),
                         ),
-                      );
-                    },
+                        SizedBox(height: gap),
+                      ],
+                      SizedBox(
+                        height: qH,
+                        child: Text(
+                          baseQuestionText,
+                          softWrap: true,
+                          style: questionStyle,
+                        ),
+                      ),
+                      if (showOverlay) ...[
+                        const SizedBox(height: 8),
+                        Text(
+                          translatedQuestionText,
+                          softWrap: true,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            fontStyle: FontStyle.italic,
+                            color: theme.textTheme.bodySmall?.color?.withValues(alpha: 0.7),
+                          ),
+                        ),
+                      ],
+                      SizedBox(height: gap),
+                      Divider(color: theme.dividerColor.withValues(alpha: 0.3), height: dividerH),
+                      SizedBox(height: gap),
+                      SizedBox(
+                        height: answerH,
+                        child: Center(
+                          child: answerImage != null
+                              ? ClipRRect(
+                                  borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
+                                  child: Image.asset(
+                                    answerImage,
+                                    fit: BoxFit.contain,
+                                    width: dims.maxWidth,
+                                    height: double.infinity,
+                                  ),
+                                )
+                              : Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      _AutoSizeAnswer(
+                                        text: baseAnswerText,
+                                        style: theme.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w800),
+                                      ),
+                                      if (showOverlay) ...[
+                                        const SizedBox(height: 4),
+                                        Text(
+                                          translatedAnswerText,
+                                          textAlign: TextAlign.center,
+                                          style: theme.textTheme.bodySmall?.copyWith(
+                                            fontStyle: FontStyle.italic,
+                                            color: theme.textTheme.bodySmall?.color?.withValues(alpha: 0.7),
+                                          ),
+                                        ),
+                                      ],
+                                    ],
+                                  ),
+                                ),
+                        ),
+                      ),
+                    ],
                   );
                 },
               ),
