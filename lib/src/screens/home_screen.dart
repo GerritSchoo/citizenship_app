@@ -177,8 +177,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _showContentLanguageMenu() async {
     final appState = App.of(context);
-    // Hardcoded supported content languages: DE, EN, TR, RU, UK, AR
-    final supported = ['de', 'en', 'tr', 'ru', 'uk', 'ar'];
+    // Hardcoded supported content languages: DE, EN, FR, ES, TR, RU, UK, AR
+    final supported = ['de', 'en', 'fr', 'es', 'tr', 'ru', 'uk', 'ar'];
     final choice = await showMenu<String>(
       context: context,
       position: _menuPosition(),
