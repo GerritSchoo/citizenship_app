@@ -7,6 +7,7 @@ import '../data/question_repository.dart';
 import '../models/question.dart';
 import '../core/prefs.dart';
 import '../analytics/progress_repository.dart';
+import '../../app.dart';
 
 class SwipeQuizScreen extends StatefulWidget {
   const SwipeQuizScreen({super.key});
@@ -136,6 +137,7 @@ class _SwipeQuizScreenState extends State<SwipeQuizScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final locale = Localizations.localeOf(context);
+    final contentLang = App.of(context)?.contentLocale ?? locale.languageCode;
     if (_loading) {
       return const Scaffold(body: SafeArea(child: Center(child: CircularProgressIndicator())));
     }
@@ -143,7 +145,7 @@ class _SwipeQuizScreenState extends State<SwipeQuizScreen> {
       appBar: AppBar(
         title: Text(l10n.quiz_mode_swipe_tf),
         actions: [
-          if (locale.languageCode != 'de')
+          if (contentLang != 'de')
             IconButton(
               tooltip: 'DE',
               icon: Icon(_showTranslation ? Icons.translate : Icons.translate_outlined),
@@ -181,7 +183,7 @@ class _SwipeQuizScreenState extends State<SwipeQuizScreen> {
                                           child: _StaticCard(
                                             item: _items[_index + 1],
                                             width: width,
-                                            showTranslation: _showTranslation && locale.languageCode != 'de',
+                                            showTranslation: _showTranslation && contentLang != 'de',
                                           ),
                                         ),
                                       ),
@@ -192,7 +194,7 @@ class _SwipeQuizScreenState extends State<SwipeQuizScreen> {
                                       key: _cardKey,
                                       item: current!,
                                       width: width,
-                                      showTranslation: _showTranslation && locale.languageCode != 'de',
+                                      showTranslation: _showTranslation && contentLang != 'de',
                                       onDecision: (guess, timeMs) => _onDecision(guess, timeMs: timeMs),
                                     ),
                                   ),
@@ -269,7 +271,7 @@ class _StaticCard extends StatelessWidget {
                 q.originalDeAnswers != null && q.originalDeAnswers!.length == q.answers.length
                     ? q.originalDeAnswers![idx]
                     : q.answers[idx];
-            final bool showOverlay = showTranslation && Localizations.localeOf(context).languageCode != 'de';
+            final bool showOverlay = showTranslation;
             final String translatedQuestionText = q.text;
             final String translatedAnswerText = q.answers[idx];
             final overlayGap = showOverlay ? 8.0 : 0.0;
@@ -663,7 +665,7 @@ class _SwipeCardState extends State<_SwipeCard> with SingleTickerProviderStateMi
         q.originalDeAnswers != null && q.originalDeAnswers!.length == q.answers.length
             ? q.originalDeAnswers![idx]
             : q.answers[idx];
-    final bool showOverlay = widget.showTranslation && Localizations.localeOf(context).languageCode != 'de';
+    final bool showOverlay = widget.showTranslation;
     final String translatedQuestionText = q.text;
     final String translatedAnswerText = q.answers[idx];
 

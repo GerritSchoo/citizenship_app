@@ -51,7 +51,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get action_analytics_sem => 'Open Analytics';
 
   @override
-  String get menu_language => 'Language';
+  String get menu_language => 'App Language';
+
+  @override
+  String get menu_content_language => 'Question Language';
 
   @override
   String get menu_state => 'State';
@@ -70,6 +73,16 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String snack_lang_set(Object lang) {
     return 'Language set to $lang';
+  }
+
+  @override
+  String snack_app_lang_set(Object lang) {
+    return 'App language set to $lang';
+  }
+
+  @override
+  String snack_content_lang_set(Object lang) {
+    return 'Question language set to $lang';
   }
 
   @override
@@ -655,4 +668,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String swipe_results_summary(int correct, int total) {
     return 'You got $correct of $total correct.';
   }
+
+  @override
+  String get topic_democracy => 'Living in a democracy';
+
+  @override
+  String get topic_history_responsibility => 'History and Responsibility';
+
+  @override
+  String get topic_people_society => 'People and Society';
+
+  @override
+  String get topic_state => 'Federal State Questions';
 }

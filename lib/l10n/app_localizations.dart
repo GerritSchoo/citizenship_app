@@ -185,8 +185,14 @@ abstract class AppLocalizations {
   /// No description provided for @menu_language.
   ///
   /// In en, this message translates to:
-  /// **'Language'**
+  /// **'App Language'**
   String get menu_language;
+
+  /// No description provided for @menu_content_language.
+  ///
+  /// In en, this message translates to:
+  /// **'Question Language'**
+  String get menu_content_language;
 
   /// No description provided for @menu_state.
   ///
@@ -217,6 +223,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Language set to {lang}'**
   String snack_lang_set(Object lang);
+
+  /// No description provided for @snack_app_lang_set.
+  ///
+  /// In en, this message translates to:
+  /// **'App language set to {lang}'**
+  String snack_app_lang_set(Object lang);
+
+  /// No description provided for @snack_content_lang_set.
+  ///
+  /// In en, this message translates to:
+  /// **'Question language set to {lang}'**
+  String snack_content_lang_set(Object lang);
 
   /// No description provided for @theme_system.
   ///
@@ -1309,6 +1327,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You got {correct} of {total} correct.'**
   String swipe_results_summary(int correct, int total);
+
+  /// No description provided for @topic_democracy.
+  ///
+  /// In en, this message translates to:
+  /// **'Living in a democracy'**
+  String get topic_democracy;
+
+  /// No description provided for @topic_history_responsibility.
+  ///
+  /// In en, this message translates to:
+  /// **'History and Responsibility'**
+  String get topic_history_responsibility;
+
+  /// No description provided for @topic_people_society.
+  ///
+  /// In en, this message translates to:
+  /// **'People and Society'**
+  String get topic_people_society;
+
+  /// No description provided for @topic_state.
+  ///
+  /// In en, this message translates to:
+  /// **'Federal State Questions'**
+  String get topic_state;
 }
 
 class _AppLocalizationsDelegate

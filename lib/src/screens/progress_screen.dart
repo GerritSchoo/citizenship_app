@@ -242,6 +242,24 @@ class _TopicProgressList extends StatelessWidget {
   final List<TopicStat> stats;
   final Map<String, String> titles;
   const _TopicProgressList({required this.stats, required this.titles});
+
+  String _getTopicTitle(BuildContext context, String id) {
+    final l10n = AppLocalizations.of(context);
+    switch (id) {
+      case 'democracy':
+        return l10n.topic_democracy;
+      case 'history_responsibility':
+        return l10n.topic_history_responsibility;
+      case 'people_society':
+        return l10n.topic_people_society;
+      case 'state':
+        return l10n.topic_state;
+      default:
+        // Fallback: try to finding it in the passed titles map (old behavior) or just ID
+        return titles[id] ?? id;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     if (stats.isEmpty) {
@@ -257,7 +275,7 @@ class _TopicProgressList extends StatelessWidget {
         ...stats.map((s) {
           final accuracy = s.accuracy.clamp(0.0, 1.0);
           final pct = (accuracy * 100).toStringAsFixed(0);
-          final title = titles[s.topicId] ?? s.topicId;
+          final title = _getTopicTitle(context, s.topicId);
           return Padding(
             padding: const EdgeInsets.only(bottom: 12),
             child: Card(

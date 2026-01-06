@@ -24,9 +24,11 @@ class QuestionLoader {
         final String overlayStr = await rootBundle.loadString(overlayPath);
         final dynamic overlayDecoded = json.decode(overlayStr);
         if (overlayDecoded is Map<String, dynamic>) overlay = overlayDecoded;
-      } on FlutterError {
-        // Missing overlay -> return base
-        return decoded;
+      } catch (e) {
+        // Log error to console so checking logs reveals why translation failed
+        // ignore: avoid_print
+        print('Error loading overlay for $lang from $overlayPath: $e');
+        return decoded; 
       }
 
       if (overlay == null) return decoded;

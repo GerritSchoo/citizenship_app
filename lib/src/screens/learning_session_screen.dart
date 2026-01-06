@@ -11,6 +11,7 @@ import '../analytics/progress_tracker.dart';
 import '../../l10n/app_localizations.dart';
 import '../achievements/achievement_service.dart';
 import '../theme/app_theme.dart';
+import '../../app.dart';
 
 class LearningSessionScreen extends StatefulWidget {
   final List<Question> questions;
@@ -91,6 +92,7 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final contentLang = App.of(context)?.contentLocale ?? Localizations.localeOf(context).languageCode;
     if (_controller.questions.isEmpty) {
       return Scaffold(
         appBar: AppBar(title: Text(widget.title), actions: _buildActions(context)),
@@ -132,8 +134,8 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
                       image: question.hasContextImage ? question.image : null,
                       // When translate-toggle is active and locale != de, show overlay in selected language
                       originalDeText:
-                          _showOriginalDe && Localizations.localeOf(context).languageCode != 'de' ? question.text : null,
-                      showOriginalDe: _showOriginalDe && Localizations.localeOf(context).languageCode != 'de',
+                          _showOriginalDe && contentLang != 'de' ? question.text : null,
+                      showOriginalDe: _showOriginalDe && contentLang != 'de',
                     ),
                     const SizedBox(height: 16),
                     if (question.hasAnswerImages)
@@ -157,7 +159,7 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
                       ...List.generate(question.answers.length, (index) {
                         final isSelected = _controller.selectedIndex == index;
                         final isCorrect = index == question.correctIndex;
-                        final bool showOverlay = _showOriginalDe && Localizations.localeOf(context).languageCode != 'de';
+                        final bool showOverlay = _showOriginalDe && contentLang != 'de';
                         final String baseAnswer =
                             question.originalDeAnswers != null && question.originalDeAnswers!.length == question.answers.length
                                 ? question.originalDeAnswers![index]
@@ -196,7 +198,7 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
                                 style: theme.textTheme.bodyMedium,
                               ),
                               // Optional overlay: explanation in selected locale
-                              if (_showOriginalDe && Localizations.localeOf(context).languageCode != 'de')
+                              if (_showOriginalDe && contentLang != 'de')
                                 Padding(
                                   padding: const EdgeInsets.only(top: 6),
                                   child: Text(
@@ -270,8 +272,9 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
   }
 
   List<Widget>? _buildActions(BuildContext context) {
-    final isDe = Localizations.localeOf(context).languageCode == 'de';
-    if (isDe) return null;
+    final contentLang = App.of(context)?.contentLocale ?? Localizations.localeOf(context).languageCode;
+    // Hide button if content is German (no translation needed)
+    if (contentLang == 'de') return null;
     return [
       IconButton(
         tooltip: 'DE',

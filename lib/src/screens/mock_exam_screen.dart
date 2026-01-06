@@ -13,6 +13,7 @@ import '../analytics/progress_repository.dart';
 import 'mock_exam_result_screen.dart';
 import '../../l10n/app_localizations.dart';
 import '../theme/app_theme.dart';
+import '../../app.dart';
 
 /// Mock exam screen: uses Controller.loadMockExam to prepare a 33-question exam.
 /// - 30 general + 3 state (if available)
@@ -187,6 +188,7 @@ class _MockExamScreenState extends State<MockExamScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final contentLang = App.of(context)?.contentLocale ?? Localizations.localeOf(context).languageCode;
     return PopScope(
       canPop: false,
       child: Scaffold(
@@ -217,7 +219,7 @@ class _MockExamScreenState extends State<MockExamScreen> {
                               // Timer on the left
                               Text(_format(_remaining), style: Theme.of(context).textTheme.titleMedium),
                               const Spacer(),
-                              if (Localizations.localeOf(context).languageCode != 'de')
+                              if (contentLang != 'de')
                                 IconButton(
                                   tooltip: 'DE',
                                   icon: Icon(_showOriginalDe ? Icons.translate : Icons.translate_outlined),
@@ -251,10 +253,10 @@ class _MockExamScreenState extends State<MockExamScreen> {
                                       ? _controller!.questions[_controller!.currentIndex].image
                                       : null,
                                   // Overlay: translated text when toggle active and locale != de
-                                  originalDeText: _showOriginalDe && Localizations.localeOf(context).languageCode != 'de'
+                                  originalDeText: _showOriginalDe && contentLang != 'de'
                                       ? _controller!.questions[_controller!.currentIndex].text
                                       : null,
-                                  showOriginalDe: _showOriginalDe && Localizations.localeOf(context).languageCode != 'de',
+                                  showOriginalDe: _showOriginalDe && contentLang != 'de',
                                 ),
                                 const SizedBox(height: 12),
                                 if (_controller!.questions[_controller!.currentIndex].hasAnswerImages)
@@ -273,7 +275,7 @@ class _MockExamScreenState extends State<MockExamScreen> {
                                     ...List.generate(_controller!.questions[_controller!.currentIndex].answers.length, (i) {
                                     final q = _controller!.questions[_controller!.currentIndex];
                                     final bool showOverlay =
-                                      _showOriginalDe && Localizations.localeOf(context).languageCode != 'de';
+                                      _showOriginalDe && contentLang != 'de';
                                     final String baseAnswer =
                                       q.originalDeAnswers != null && q.originalDeAnswers!.length == q.answers.length
                                         ? q.originalDeAnswers![i]

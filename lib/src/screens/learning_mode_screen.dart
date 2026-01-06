@@ -76,6 +76,22 @@ class _LearningModeScreenState extends State<LearningModeScreen> {
     }
   }
 
+  String _getTopicTitle(BuildContext context, String id) {
+    final l10n = AppLocalizations.of(context);
+    switch (id) {
+      case 'democracy':
+        return l10n.topic_democracy;
+      case 'history_responsibility':
+        return l10n.topic_history_responsibility;
+      case 'people_society':
+        return l10n.topic_people_society;
+      case 'state':
+        return l10n.topic_state;
+      default:
+        return id;
+    }
+  }
+
   Widget _buildModeTile({
     required IconData icon,
     required Color iconColor,
@@ -257,12 +273,12 @@ class _LearningModeScreenState extends State<LearningModeScreen> {
                   child: _buildModeTile(
                     icon: _iconForTopicId(topic.id),
                     iconColor: topicColor,
-                    title: topic.title,
+                    title: _getTopicTitle(context, topic.id),
                     subtitle: AppLocalizations.of(context).questions_count(questions.length),
                     onTap: questions.isNotEmpty
                             ? () => _openSession(
                                   questions: questions,
-                                  title: topic.title,
+                                  title: _getTopicTitle(context, topic.id),
                                   stateCode: null,
                                 )
                         : null,

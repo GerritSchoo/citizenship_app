@@ -83,6 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
       position: _menuPosition(),
       items: [
   PopupMenuItem(value: 'language', child: SizedBox(width: _menuWidth, child: Text(AppLocalizations.of(context).menu_language, style: Theme.of(context).textTheme.bodySmall))),
+  PopupMenuItem(value: 'content_language', child: SizedBox(width: _menuWidth, child: Text(AppLocalizations.of(context).menu_content_language, style: Theme.of(context).textTheme.bodySmall))),
   PopupMenuItem(value: 'state', child: SizedBox(width: _menuWidth, child: Text(AppLocalizations.of(context).menu_state, style: Theme.of(context).textTheme.bodySmall))),
   PopupMenuItem(value: 'theme', child: SizedBox(width: _menuWidth, child: Text(AppLocalizations.of(context).menu_theme, style: Theme.of(context).textTheme.bodySmall))),
         PopupMenuItem(value: 'achievements', child: SizedBox(width: _menuWidth, child: Text(AppLocalizations.of(context).menu_achievements, style: Theme.of(context).textTheme.bodySmall))),
@@ -93,6 +94,9 @@ class _HomeScreenState extends State<HomeScreen> {
     switch (selected) {
       case 'language':
         _showLanguageMenu();
+        break;
+      case 'content_language':
+        _showContentLanguageMenu();
         break;
       case 'state':
         _showStateMenu();
@@ -167,8 +171,59 @@ class _HomeScreenState extends State<HomeScreen> {
     // Build the snackbar text using the NEW locale to avoid showing the old language
     final newL10n = await AppLocalizations.delegate.load(Locale(choice));
     final label = _nativeLanguageName(choice);
-    messenger.showSnackBar(SnackBar(content: Text(newL10n.snack_lang_set(label))));
+    messenger.showSnackBar(SnackBar(content: Text(newL10n.snack_app_lang_set(label))));
     // Do not auto-reopen the menu; close after applying change for immediate UI refresh
+  }
+
+  Future<void> _showContentLanguageMenu() async {
+    final appState = App.of(context);
+    // Hardcoded supported content languages: DE, EN, TR, RU, UK, AR
+    final supported = ['de', 'en', 'tr', 'ru', 'uk', 'ar'];
+    final choice = await showMenu<String>(
+      context: context,
+      position: _menuPosition(),
+      items: [
+        PopupMenuItem(
+          value: 'back',
+          child: SizedBox(
+            width: _menuWidth,
+            child: Row(
+              children: [
+                const Icon(Icons.arrow_back, size: 24),
+                const SizedBox(width: 10),
+                Expanded(child: Text(AppLocalizations.of(context).menu_content_language, style: Theme.of(context).textTheme.titleSmall, maxLines: 1, overflow: TextOverflow.ellipsis)),
+              ],
+            ),
+          ),
+        ),
+        ...supported.map((code) {
+          final name = LocaleNames.of(context)?.nameOf(code) ?? code;
+          return PopupMenuItem(
+            value: code,
+            child: SizedBox(
+              width: _menuWidth,
+              child: Text(name, style: Theme.of(context).textTheme.bodySmall, maxLines: 1, overflow: TextOverflow.ellipsis),
+            ),
+          );
+        }),
+      ],
+    );
+    if (choice == null) return;
+    if (choice == 'back') {
+      if (!mounted) return;
+      _showMainMenu();
+      return;
+    }
+    
+    if (appState != null) {
+      await appState.setContentLocale(choice);
+    }
+
+    if (!mounted) return;
+
+    final label = LocaleNames.of(context)?.nameOf(choice) ?? choice;
+    // We can reuse the "Language set to {lang}" snackbar or create a new one
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context).snack_content_lang_set(label))));
   }
 
   String _nativeLanguageName(String code) {
@@ -601,9 +656,13 @@ class _StateChip extends StatelessWidget {
         children: [
           Icon(Icons.location_on_outlined, size: 16, color: onPrimary),
           const SizedBox(width: 6),
-          Text(
-            code == null ? label : label,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(color: onPrimary),
+          Flexible(
+            child: Text(
+              code == null ? label : label,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(color: onPrimary),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+            ),
           ),
         ],
       ),

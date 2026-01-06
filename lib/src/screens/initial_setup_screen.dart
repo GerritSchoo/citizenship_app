@@ -16,7 +16,8 @@ class InitialSetupScreen extends StatefulWidget {
 class _InitialSetupScreenState extends State<InitialSetupScreen> with SingleTickerProviderStateMixin {
   String? _selectedCode;
   bool _saving = false;
-  String _locale = 'de';
+  String _uiLocale = 'de';
+  String _contentLocale = 'de';
 
   late final AnimationController _anim;
   late final Animation<double> _scale;
@@ -40,13 +41,15 @@ class _InitialSetupScreenState extends State<InitialSetupScreen> with SingleTick
     if (_selectedCode == null) return;
     setState(() => _saving = true);
     await AppPrefs.saveSelectedState(_selectedCode!);
-    await AppPrefs.saveLocale(_locale);
+    await AppPrefs.saveLocale(_uiLocale);
+    await AppPrefs.saveContentLocale(_contentLocale);
     if (!mounted) return;
 
     // Also update the running app's locale so the language switches immediately
     final appState = App.of(context);
     if (appState != null) {
-      await appState.setLocale(Locale(_locale));
+      await appState.setLocale(Locale(_uiLocale));
+      await appState.setContentLocale(_contentLocale);
     }
 
     if (!mounted) return;
@@ -56,6 +59,19 @@ class _InitialSetupScreenState extends State<InitialSetupScreen> with SingleTick
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isDe = _uiLocale == 'de';
+
+    // Localized strings based on CURRENT selection in this screen
+    final titleState = isDe ? 'Wähle dein Bundesland' : 'Choose your state';
+    final subTitleState = isDe
+        ? 'Dieses Bundesland wird für landesspezifische Fragen genutzt.'
+        : 'This will be used for state-specific questions.';
+    final labelState = isDe ? 'Bitte Bundesland wählen' : 'Please select a state';
+    
+    final labelAppLang = isDe ? 'App-Sprache' : 'App Language';
+    final labelContentLang = isDe ? 'Fragen-Sprache' : 'Question Language';
+    final labelSave = isDe ? 'Speichern und fortfahren' : 'Save and continue';
+
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -99,12 +115,12 @@ class _InitialSetupScreenState extends State<InitialSetupScreen> with SingleTick
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            'Wähle dein Bundesland',
+                                            titleState,
                                             style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w700),
                                           ),
                                           const SizedBox(height: 6),
                                           Text(
-                                            'Dieses Bundesland wird für landesspezifische Fragen genutzt.',
+                                            subTitleState,
                                             style: theme.textTheme.bodyMedium?.copyWith(
                                               color:
                                                   theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.8),
@@ -118,7 +134,7 @@ class _InitialSetupScreenState extends State<InitialSetupScreen> with SingleTick
                               ),
                               const SizedBox(height: 28),
                               Text(
-                                'Bitte Bundesland wählen',
+                                labelState,
                                 style: theme.textTheme.titleSmall?.copyWith(
                                   fontWeight: FontWeight.w600,
                                   color: theme.colorScheme.primary,
@@ -128,7 +144,7 @@ class _InitialSetupScreenState extends State<InitialSetupScreen> with SingleTick
                               _SetupSelector(
                                 icon: Icons.location_on,
                                 value: _selectedCode,
-                                labelBuilder: (context) => 'Bitte Bundesland wählen',
+                                labelBuilder: (context) => labelState,
                                 items: states
                                     .map((m) => _SelectorItem(
                                           value: m['code'] as String,
@@ -140,23 +156,46 @@ class _InitialSetupScreenState extends State<InitialSetupScreen> with SingleTick
                               ),
                               const SizedBox(height: 20),
                               Text(
-                                'Sprache:',
+                                labelAppLang,
                                 style: theme.textTheme.titleSmall?.copyWith(
                                   fontWeight: FontWeight.w600,
+                                  color: theme.colorScheme.primary,
                                 ),
                               ),
                               const SizedBox(height: 8),
                               _SetupSelector(
                                 icon: Icons.language,
-                                value: _locale,
-                                labelBuilder: (context) => 'Sprache:',
+                                value: _uiLocale,
+                                labelBuilder: (context) => labelAppLang,
                                 items: ['de', 'en']
                                     .map((code) {
                                       final name = LocaleNames.of(context)?.nameOf(code) ?? code;
                                       return _SelectorItem(value: code, label: '$name ($code)');
                                     })
                                     .toList(),
-                                onChanged: (v) => setState(() => _locale = v ?? 'de'),
+                                onChanged: (v) => setState(() => _uiLocale = v ?? 'de'),
+                                filledStyle: true,
+                              ),
+                              const SizedBox(height: 20),
+                              Text(
+                                labelContentLang,
+                                style: theme.textTheme.titleSmall?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  color: theme.colorScheme.primary,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              _SetupSelector(
+                                icon: Icons.translate,
+                                value: _contentLocale,
+                                labelBuilder: (context) => labelContentLang,
+                                items: ['de', 'en', 'tr', 'ru', 'uk', 'ar']
+                                    .map((code) {
+                                      final name = LocaleNames.of(context)?.nameOf(code) ?? code;
+                                      return _SelectorItem(value: code, label: '$name ($code)');
+                                    })
+                                    .toList(),
+                                onChanged: (v) => setState(() => _contentLocale = v ?? 'de'),
                                 filledStyle: true,
                               ),
                               const SizedBox(height: 32),
@@ -186,7 +225,7 @@ class _InitialSetupScreenState extends State<InitialSetupScreen> with SingleTick
                                 height: 20,
                                 child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
                               )
-                            : const Text('Speichern und fortfahren'),
+                            : Text(labelSave),
                       ),
                     ),
                   ),

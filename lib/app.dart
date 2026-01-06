@@ -24,6 +24,10 @@ class AppState extends State<App> {
   ThemeMode _themeMode = ThemeMode.system;
   final _messengerKey = GlobalKey<ScaffoldMessengerState>();
   Locale? _locale;
+  String? _contentLocaleCode;
+  
+  String? get contentLocale => _contentLocaleCode;
+  Locale? get uiLocale => _locale;
   // Testing toggle: enable subscription lock after 3 trial exams
   // Set to true to activate gating flows (menu + popup after trials)
   static bool subscriptionLockEnabled = false;
@@ -82,6 +86,7 @@ class AppState extends State<App> {
     final code = await AppPrefs.getSelectedState();
     final themeStr = await AppPrefs.getThemeMode();
     final localeCode = await AppPrefs.getLocale();
+    final contentLocaleCode = await AppPrefs.getContentLocale();
     final mode = switch (themeStr) {
       'light' => ThemeMode.light,
       'dark' => ThemeMode.dark,
@@ -93,11 +98,12 @@ class AppState extends State<App> {
       _loading = false;
       _themeMode = mode;
       _locale = (localeCode != null && localeCode.isNotEmpty) ? Locale(localeCode) : null;
+      _contentLocaleCode = contentLocaleCode;
     });
     // Initialize default language for repository so first load matches saved locale
-    if (localeCode != null && localeCode.isNotEmpty) {
-      QuestionRepository.setDefaultLanguage(localeCode);
-    }
+    // Use content locale if set, otherwise fallback to UI locale
+    final targetLang = contentLocaleCode ?? localeCode ?? 'de';
+    QuestionRepository.setDefaultLanguage(targetLang);
   }
 
   Future<void> setThemeMode(ThemeMode mode) async {
@@ -112,12 +118,22 @@ class AppState extends State<App> {
 
   Future<void> setLocale(Locale locale) async {
     setState(() => _locale = locale);
-    // Update default language for data repository and reload questions in background
-    QuestionRepository.setDefaultLanguage(locale.languageCode);
-    // Trigger a background reload; consumers that call init() will get updated data
-    // ignore: unawaited_futures
-    QuestionRepository().reloadForLanguage(locale.languageCode);
     await AppPrefs.saveLocale(locale.languageCode);
+    
+    // If content locale is NOT set, we sync content to UI locale
+    if (_contentLocaleCode == null) {
+      QuestionRepository.setDefaultLanguage(locale.languageCode);
+      // ignore: unawaited_futures
+      QuestionRepository().reloadForLanguage(locale.languageCode);
+    }
+  }
+
+  Future<void> setContentLocale(String localeCode) async {
+    setState(() => _contentLocaleCode = localeCode);
+    await AppPrefs.saveContentLocale(localeCode);
+    
+    QuestionRepository.setDefaultLanguage(localeCode);
+    await QuestionRepository().reloadForLanguage(localeCode);
   }
 
   // Global bottom SnackBar helper, accessible via App.of(context)
@@ -150,25 +166,32 @@ class AppState extends State<App> {
       ],
       supportedLocales: AppLocalizations.supportedLocales,
       localeResolutionCallback: (deviceLocale, supported) {
-        // If user chose a locale explicitly, honor it and set repo language accordingly
+        // Helper to sync content language only if user hasn't strictly set a content locale
+        void syncContent(String code) {
+          if (_contentLocaleCode == null) {
+            QuestionRepository.setDefaultLanguage(code);
+          }
+        }
+
+        // If user chose a locale explicitly, honor it
         if (_locale != null) {
-          QuestionRepository.setDefaultLanguage(_locale!.languageCode);
+          syncContent(_locale!.languageCode);
           return _locale;
         }
-        // Otherwise, resolve from device and sync repository default language
+        // Otherwise, resolve from device
         if (deviceLocale == null) {
           final resolved = supported.first;
-          QuestionRepository.setDefaultLanguage(resolved.languageCode);
+          syncContent(resolved.languageCode);
           return resolved;
         }
         for (final l in supported) {
           if (l.languageCode == deviceLocale.languageCode) {
-            QuestionRepository.setDefaultLanguage(l.languageCode);
+            syncContent(l.languageCode);
             return l;
           }
         }
         final fallback = supported.first;
-        QuestionRepository.setDefaultLanguage(fallback.languageCode);
+        syncContent(fallback.languageCode);
         return fallback; // default fallback
       },
       locale: _locale,

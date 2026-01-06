@@ -14,12 +14,15 @@
   "action_exam_sem": "Prüfung öffnen",
   "action_analytics": "Analyse",
   "action_analytics_sem": "Analyse öffnen",
-  "menu_language": "Sprache",
+  "menu_language": "App-Sprache",
+  "menu_content_language": "Fragen-Sprache",
   "menu_state": "Bundesland",
   "menu_theme": "Design",
   "menu_analyse": "Analyse",
   "snack_state_selected": "Bundesland gewählt: {state}",
   "snack_lang_set": "Sprache gesetzt: {lang}",
+  "snack_app_lang_set": "App-Sprache gesetzt: {lang}",
+  "snack_content_lang_set": "Fragen-Sprache gesetzt: {lang}",
   "theme_system": "System",
   "theme_light": "Hell",
   "theme_dark": "Dunkel",
@@ -483,5 +486,9 @@
       "correct": {"type": "int"},
       "total": {"type": "int"}
     }
-  }
+  },
+  "topic_democracy": "Leben in der Demokratie",
+  "topic_history_responsibility": "Geschichte und Verantwortung",
+  "topic_people_society": "Mensch und Gesellschaft",
+  "topic_state": "Bundesland-Fragen"
 }
