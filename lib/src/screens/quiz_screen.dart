@@ -17,6 +17,7 @@ import '../core/highscore_store.dart';
 import 'timer_results_screen.dart';
 import 'mistakes_results_screen.dart';
 import '../core/mistakes_selection_store.dart';
+import '../../app.dart';
 
 class QuizScreen extends StatefulWidget {
   final QuizConfig? config;
@@ -251,6 +252,7 @@ class _QuizScreenState extends State<QuizScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final contentLang = App.of(context)?.contentLocale ?? Localizations.localeOf(context).languageCode;
     // Show loading until controller is initialized
     if (_controller == null || (_controller!.questions.isEmpty && _controller!.isLoading)) {
       return const Scaffold(
@@ -308,8 +310,8 @@ class _QuizScreenState extends State<QuizScreen> {
                       image: question.hasContextImage ? question.image : null,
                       // Overlay: translated text in selected locale when toggle is active
                       originalDeText:
-                          _showOriginalDe && Localizations.localeOf(context).languageCode != 'de' ? question.text : null,
-                      showOriginalDe: _showOriginalDe && Localizations.localeOf(context).languageCode != 'de',
+                          _showOriginalDe && contentLang != 'de' ? question.text : null,
+                      showOriginalDe: _showOriginalDe && contentLang != 'de',
                     ),
                     const SizedBox(height: 16),
                     if (question.hasAnswerImages)
@@ -338,7 +340,7 @@ class _QuizScreenState extends State<QuizScreen> {
                       ...List.generate(question.answers.length, (index) {
                         final isSelected = ctrl.selectedIndex == index;
                         final isCorrect = index == question.correctIndex;
-                        final bool showOverlay = _showOriginalDe && Localizations.localeOf(context).languageCode != 'de';
+                        final bool showOverlay = _showOriginalDe && contentLang != 'de';
                         final String baseAnswer =
                             question.originalDeAnswers != null && question.originalDeAnswers!.length == question.answers.length
                                 ? question.originalDeAnswers![index]
@@ -381,7 +383,7 @@ class _QuizScreenState extends State<QuizScreen> {
                                 style: Theme.of(context).textTheme.bodyMedium,
                               ),
                               // Optional overlay: explanation in selected locale
-                              if (_showOriginalDe && Localizations.localeOf(context).languageCode != 'de')
+                              if (_showOriginalDe && contentLang != 'de')
                                 Padding(
                                   padding: const EdgeInsets.only(top: 6),
                                   child: Text(
@@ -481,8 +483,10 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   List<Widget>? _buildActions(BuildContext context) {
-    final isDe = Localizations.localeOf(context).languageCode == 'de';
-    if (isDe) return null;
+    // Determine content language to decide if "Show Original" toggle is needed
+    // If content is German, we don't need a translation button (German -> German)
+    final contentLang = App.of(context)?.contentLocale ?? Localizations.localeOf(context).languageCode;
+    if (contentLang == 'de') return null;
     return [
       IconButton(
         tooltip: 'DE',

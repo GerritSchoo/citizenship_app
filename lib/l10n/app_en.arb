@@ -14,12 +14,15 @@
   "action_exam_sem": "Open Exam",
   "action_analytics": "Analytics",
   "action_analytics_sem": "Open Analytics",
-  "menu_language": "Language",
+  "menu_language": "App Language",
+  "menu_content_language": "Question Language",
   "menu_state": "State",
   "menu_theme": "Theme",
   "menu_analyse": "Analyse",
   "snack_state_selected": "Selected state: {state}",
   "snack_lang_set": "Language set to {lang}",
+  "snack_app_lang_set": "App language set to {lang}",
+  "snack_content_lang_set": "Question language set to {lang}",
   "theme_system": "System",
   "theme_light": "Light",
   "theme_dark": "Dark",
@@ -483,5 +486,9 @@
       "correct": {"type": "int"},
       "total": {"type": "int"}
     }
-  }
+  },
+  "topic_democracy": "Living in a democracy",
+  "topic_history_responsibility": "History and Responsibility",
+  "topic_people_society": "People and Society",
+  "topic_state": "Federal State Questions"
 }

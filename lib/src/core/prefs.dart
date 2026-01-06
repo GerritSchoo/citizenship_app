@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AppPrefs {
   static const _keySelectedState = 'selectedStateCode';
   static const _keyLocale = 'locale';
+  static const _keyContentLocale = 'contentLocale';
   static const _keyThemeMode = 'themeMode'; // 'system' | 'light' | 'dark'
 
   static Future<void> saveSelectedState(String code) async {
@@ -25,10 +26,21 @@ class AppPrefs {
     return p.getString(_keyLocale);
   }
 
+  static Future<void> saveContentLocale(String localeCode) async {
+    final p = await SharedPreferences.getInstance();
+    await p.setString(_keyContentLocale, localeCode);
+  }
+
+  static Future<String?> getContentLocale() async {
+    final p = await SharedPreferences.getInstance();
+    return p.getString(_keyContentLocale);
+  }
+
   static Future<void> clearAll() async {
     final p = await SharedPreferences.getInstance();
     await p.remove(_keySelectedState);
     await p.remove(_keyLocale);
+    await p.remove(_keyContentLocale);
     await p.remove(_keyThemeMode);
   }
 

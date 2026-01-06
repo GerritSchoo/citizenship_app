@@ -51,7 +51,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get action_analytics_sem => 'Analyse öffnen';
 
   @override
-  String get menu_language => 'Sprache';
+  String get menu_language => 'App-Sprache';
+
+  @override
+  String get menu_content_language => 'Fragen-Sprache';
 
   @override
   String get menu_state => 'Bundesland';
@@ -70,6 +73,16 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String snack_lang_set(Object lang) {
     return 'Sprache gesetzt: $lang';
+  }
+
+  @override
+  String snack_app_lang_set(Object lang) {
+    return 'App-Sprache gesetzt: $lang';
+  }
+
+  @override
+  String snack_content_lang_set(Object lang) {
+    return 'Fragen-Sprache gesetzt: $lang';
   }
 
   @override
@@ -666,4 +679,16 @@ class AppLocalizationsDe extends AppLocalizations {
   String swipe_results_summary(int correct, int total) {
     return 'Du hast $correct von $total richtig.';
   }
+
+  @override
+  String get topic_democracy => 'Leben in der Demokratie';
+
+  @override
+  String get topic_history_responsibility => 'Geschichte und Verantwortung';
+
+  @override
+  String get topic_people_society => 'Mensch und Gesellschaft';
+
+  @override
+  String get topic_state => 'Bundesland-Fragen';
 }

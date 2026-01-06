@@ -68,6 +68,22 @@ class _QuizTopicsScreenState extends State<QuizTopicsScreen> {
     }
   }
 
+  String _getTopicTitle(BuildContext context, String id) {
+    final l10n = AppLocalizations.of(context);
+    switch (id) {
+      case 'democracy':
+        return l10n.topic_democracy;
+      case 'history_responsibility':
+        return l10n.topic_history_responsibility;
+      case 'people_society':
+        return l10n.topic_people_society;
+      case 'state':
+        return l10n.topic_state;
+      default:
+        return id;
+    }
+  }
+
   Widget _buildTile({
     required IconData icon,
     required Color iconColor,
@@ -250,7 +266,7 @@ class _QuizTopicsScreenState extends State<QuizTopicsScreen> {
                 child: _buildTile(
                   icon: _iconForTopicId(topic.id),
                   iconColor: topicColor,
-                  title: topic.title,
+                  title: _getTopicTitle(context, topic.id),
                   subtitle: l10n.questions_count(count),
                   onTap: count > 0 ? () => _startTopics([topic.id]) : null,
                 ),
