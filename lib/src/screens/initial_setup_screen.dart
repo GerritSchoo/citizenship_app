@@ -189,7 +189,7 @@ class _InitialSetupScreenState extends State<InitialSetupScreen> with SingleTick
                                 icon: Icons.translate,
                                 value: _contentLocale,
                                 labelBuilder: (context) => labelContentLang,
-                                items: ['de', 'en', 'tr', 'ru', 'uk', 'ar']
+                                items: ['de', 'en', 'fr', 'es', 'tr', 'ru', 'uk', 'ar']
                                     .map((code) {
                                       final name = LocaleNames.of(context)?.nameOf(code) ?? code;
                                       return _SelectorItem(value: code, label: '$name ($code)');
