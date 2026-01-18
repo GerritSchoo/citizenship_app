@@ -18,18 +18,30 @@ class _PaywallScreenState extends State<PaywallScreen> {
   @override
   void initState() {
     super.initState();
-    PurchaseService.instance.startListening(_onPurchaseUpdate);
+    PurchaseService.instance.isProNotifier.addListener(_onProStatusChanged);
     _initPurchases();
   }
 
   @override
   void dispose() {
-    PurchaseService.instance.stopListening();
+    PurchaseService.instance.isProNotifier.removeListener(_onProStatusChanged);
     super.dispose();
   }
 
+  void _onProStatusChanged() {
+    if (PurchaseService.instance.isPro) {
+      if (mounted) {
+        Navigator.of(context).maybePop();
+      }
+    }
+  }
+
   Future<void> _initPurchases() async {
-    await PurchaseService.instance.init();
+    // Ensure service is ready (should be already, but just in case)
+    if (!PurchaseService.instance.isAvailable) {
+       await PurchaseService.instance.init();
+    }
+    
     if (!mounted) return;
     setState(() {
       _initializing = false;
@@ -37,25 +49,21 @@ class _PaywallScreenState extends State<PaywallScreen> {
     });
   }
 
-  Future<void> _onPurchaseUpdate(PurchaseDetails purchase) async {
-    // Für Tests: Einfach bei erfolgreichem Kauf abschließen und Paywall schließen.
-    if (purchase.status == PurchaseStatus.purchased ||
-        purchase.status == PurchaseStatus.restored) {
-      await PurchaseService.instance.completeIfPending(purchase);
-      if (!mounted) return;
-      Navigator.of(context).maybePop();
-    } else if (purchase.status == PurchaseStatus.error) {
-      if (!mounted) return;
-      setState(() => _error = purchase.error?.message ?? 'Purchase error');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.paywall_title)),
+      appBar: AppBar(
+        title: Text(l10n.paywall_title),
+        actions: [
+          TextButton(
+            onPressed: () => PurchaseService.instance.restorePurchases(),
+            style: TextButton.styleFrom(foregroundColor: theme.colorScheme.onSurface),
+            child: const Text('Wiederherstellen'), 
+          ),
+        ],
+      ),
       body: LayoutBuilder(
         builder: (context, constraints) {
           final isCompactHeight = constraints.maxHeight < 550;

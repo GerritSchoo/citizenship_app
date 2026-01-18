@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import '../payments/purchase_service.dart';
 import '../theme/app_theme.dart';
 import 'mock_exam_screen.dart';
 import '../../l10n/app_localizations.dart';
 import '../analytics/progress_repository.dart';
-import '../../app.dart';
 import 'paywall_screen.dart';
 
 class MockExamRulesScreen extends StatelessWidget {
@@ -68,8 +68,8 @@ class MockExamRulesScreen extends StatelessWidget {
                   onPressed: () async {
                     // Gate starting the exam if subscription lock is enabled and 3 trials are used
                     final l10n = AppLocalizations.of(context);
-                    final appLock = AppState.subscriptionLockEnabled;
-                    if (appLock) {
+                    final isPro = PurchaseService.instance.isPro;
+                    if (!isPro) {
                       await ProgressRepository.instance.init();
                       final results = await ProgressRepository.instance.examResults();
                       final completed = results.where((e) => e.completed).length;
