@@ -5,7 +5,7 @@ import '../widgets/exam_result_indicator.dart';
 import '../../l10n/app_localizations.dart';
 import '../achievements/achievement_service.dart';
 import '../analytics/progress_repository.dart';
-import '../../app.dart';
+import '../payments/purchase_service.dart';
 import 'paywall_screen.dart';
 
 class MockExamResultScreen extends StatefulWidget {
@@ -36,7 +36,7 @@ class _MockExamResultScreenState extends State<MockExamResultScreen> {
       });
     }
     // Show subscription prompt after the third completed exam if lock is enabled
-    if (!_paywallPrompted && AppState.subscriptionLockEnabled) {
+    if (!_paywallPrompted && !PurchaseService.instance.isPro) {
       _paywallPrompted = true;
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         await ProgressRepository.instance.init();

@@ -1,12 +1,11 @@
 import 'dart:async';
-
+import 'package:flutter/foundation.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../app.dart';
 
 /// Wrapper around in_app_purchase for Play Store billing.
-///
-/// This does not perform server-side verification. For a production app,
-/// you should verify purchases on a backend.
-class PurchaseService {
+class PurchaseService extends ChangeNotifier {
   PurchaseService._();
 
   static final PurchaseService instance = PurchaseService._();
@@ -14,7 +13,6 @@ class PurchaseService {
   final InAppPurchase _iap = InAppPurchase.instance;
 
   // Product IDs you will create in the Play Console.
-  // Make sure these match exactly the IDs in the Play Console.
   static const Set<String> productIds = {
     'citizenship_premium_monthly',
     'citizenship_premium_semiannual',
@@ -28,33 +26,81 @@ class PurchaseService {
   List<ProductDetails> get products => _products;
 
   StreamSubscription<List<PurchaseDetails>>? _subscription;
-
-  void startListening(void Function(PurchaseDetails) onPurchaseUpdate) {
-    _subscription?.cancel();
-    _subscription = _iap.purchaseStream.listen((purchases) {
-      for (final p in purchases) {
-        onPurchaseUpdate(p);
-      }
-    }, onDone: () => _subscription = null);
-  }
-
-  Future<void> stopListening() async {
-    await _subscription?.cancel();
-    _subscription = null;
+  
+  // Reactive state for UI
+  final ValueNotifier<bool> isProNotifier = ValueNotifier<bool>(false);
+  
+  bool get isPro {
+    // Check global testing/gating flag. 
+    // If lock is disabled (false), everyone gets pro access.
+    if (!AppState.subscriptionLockEnabled) return true;
+    return isProNotifier.value;
   }
 
   Future<void> init() async {
+    // 1. Load local state immediately
+    final prefs = await SharedPreferences.getInstance();
+    isProNotifier.value = prefs.getBool('is_premium_user') ?? false;
+
+    // 2. Check store availability
     _available = await _iap.isAvailable();
-    if (!_available) {
-      _products = [];
-      return;
+    
+    // 3. Start listening to the global stream
+    _startListening();
+
+    if (_available) {
+      // 4. Load products
+      final response = await _iap.queryProductDetails(productIds);
+      if (response.error == null) {
+        _products = response.productDetails.toList();
+        notifyListeners(); // Notify UI that products are loaded
+      }
+      
+      // 5. Build robust restoration check
+      await _iap.restorePurchases();
     }
-    final response = await _iap.queryProductDetails(productIds);
-    if (response.error != null) {
-      _products = [];
-      return;
+  }
+
+  void _startListening() {
+    _subscription = _iap.purchaseStream.listen((purchases) {
+      _handlePurchaseUpdates(purchases);
+    }, onDone: () {
+      _subscription?.cancel();
+    }, onError: (error) {
+      // Handle error
+    });
+  }
+
+  Future<void> _handlePurchaseUpdates(List<PurchaseDetails> purchases) async {
+    bool isPremiumNow = isPro;
+
+    for (final purchase in purchases) {
+      if (purchase.status == PurchaseStatus.purchased ||
+          purchase.status == PurchaseStatus.restored) {
+        
+        // Deliver the content
+        isPremiumNow = true;
+        
+        if (purchase.pendingCompletePurchase) {
+          await _iap.completePurchase(purchase);
+        }
+      } else if (purchase.status == PurchaseStatus.error) {
+        // Handle error if needed
+      }
     }
-    _products = response.productDetails.toList();
+
+    if (isPremiumNow != isPro) {
+      isProNotifier.value = isPremiumNow;
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('is_premium_user', isPremiumNow);
+      notifyListeners();
+    }
+  }
+
+  @override
+  void dispose() {
+    _subscription?.cancel();
+    super.dispose();
   }
 
   ProductDetails? getProductById(String id) {
@@ -69,11 +115,9 @@ class PurchaseService {
     final param = PurchaseParam(productDetails: product);
     await _iap.buyNonConsumable(purchaseParam: param);
   }
-
-  Future<void> completeIfPending(PurchaseDetails purchase) async {
-    if (purchase.pendingCompletePurchase) {
-      await _iap.completePurchase(purchase);
-    }
+  
+  Future<void> restorePurchases() async {
+    await _iap.restorePurchases();
   }
 }
 

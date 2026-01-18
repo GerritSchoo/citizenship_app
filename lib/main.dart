@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart' show kIsWeb, defaultTargetPlatform, Tar
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
 import 'app.dart';
+import 'src/payments/purchase_service.dart';
 
 /// Entry point of the application.
 Future<void> main() async {
@@ -23,5 +24,9 @@ Future<void> main() async {
         break;
     }
   }
+  
+  // Initialize PurchaseService to check for active subscriptions
+  await PurchaseService.instance.init();
+
   runApp(const App());
 }
