@@ -43,6 +43,7 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+/android/key.properties
 
 # Optional VS Code settings (nur, wenn du sie nicht teilen willst)
 .vscode/
