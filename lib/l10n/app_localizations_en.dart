@@ -606,43 +606,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get paywall_monthly => 'Monthly';
 
   @override
-  String get paywall_half_yearly => 'Half-yearly';
+  String get paywall_subscribe_action => 'Subscribe';
 
   @override
-  String get paywall_yearly => 'Yearly';
-
-  @override
-  String get paywall_plan_monthly_price => '€6.99 / month';
-
-  @override
-  String get paywall_plan_monthly_total => 'Total: €6.99';
-
-  @override
-  String get paywall_plan_monthly_flexible => 'Cancel anytime';
-
-  @override
-  String get paywall_plan_half_yearly_price => '€6.49 / month';
-
-  @override
-  String get paywall_plan_half_yearly_total => 'Total: €38.94 every 6 months';
-
-  @override
-  String get paywall_plan_half_yearly_save => 'Save about €3 vs. monthly';
-
-  @override
-  String get paywall_plan_yearly_price => '€5.99 / month';
-
-  @override
-  String get paywall_plan_yearly_total => 'Total: €71.88 per year';
-
-  @override
-  String get paywall_plan_yearly_save => 'Save about €12 vs. monthly';
+  String get paywall_cancel_anytime => 'Cancel anytime';
 
   @override
   String get paywall_popular_badge => 'Popular';
-
-  @override
-  String get paywall_choose_button => 'Choose';
 
   @override
   String get paywall_unavailable =>
@@ -680,4 +650,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get topic_state => 'Federal State Questions';
+
+  @override
+  String get paywall_lifetime => 'One-time';
+
+  @override
+  String get paywall_lifetime_description => 'Pay once, full access';
+
+  @override
+  String get paywall_buy_action => 'Buy';
 }
