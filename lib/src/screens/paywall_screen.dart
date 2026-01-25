@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:in_app_purchase/in_app_purchase.dart';
 import '../../l10n/app_localizations.dart';
 import '../payments/purchase_service.dart';
 
@@ -19,13 +18,19 @@ class _PaywallScreenState extends State<PaywallScreen> {
   void initState() {
     super.initState();
     PurchaseService.instance.isProNotifier.addListener(_onProStatusChanged);
+    PurchaseService.instance.addListener(_onServiceUpdate);
     _initPurchases();
   }
 
   @override
   void dispose() {
     PurchaseService.instance.isProNotifier.removeListener(_onProStatusChanged);
+    PurchaseService.instance.removeListener(_onServiceUpdate);
     super.dispose();
+  }
+
+  void _onServiceUpdate() {
+    if (mounted) setState(() {});
   }
 
   void _onProStatusChanged() {
@@ -37,8 +42,8 @@ class _PaywallScreenState extends State<PaywallScreen> {
   }
 
   Future<void> _initPurchases() async {
-    // Ensure service is ready (should be already, but just in case)
-    if (!PurchaseService.instance.isAvailable) {
+    // Try to initialize if not available or if products haven't been loaded yet
+    if (!PurchaseService.instance.isAvailable || PurchaseService.instance.products.isEmpty) {
        await PurchaseService.instance.init();
     }
     
@@ -56,114 +61,101 @@ class _PaywallScreenState extends State<PaywallScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.paywall_title),
-        actions: [
-          TextButton(
-            onPressed: () => PurchaseService.instance.restorePurchases(),
-            style: TextButton.styleFrom(foregroundColor: theme.colorScheme.onSurface),
-            child: const Text('Wiederherstellen'), 
-          ),
-        ],
       ),
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          final isCompactHeight = constraints.maxHeight < 550;
-          return SafeArea(
-            child: Center(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 600),
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Text(l10n.paywall_subtitle, style: theme.textTheme.titleMedium),
-                      const SizedBox(height: 8),
-                      if (_initializing)
-                        const LinearProgressIndicator()
-                      else if (!_isAvailable)
-                        Text(l10n.paywall_unavailable,
-                            style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.error)),
-                      if (_error != null) ...[
-                        const SizedBox(height: 8),
-                        Text(_error!, style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.error)),
-                      ],
-                      const SizedBox(height: 16),
-                      // Bereich für Pläne; bleibt scrollbar als Fallback,
-                      // ist aber durch kompaktere Karten meist voll sichtbar.
-                      Expanded(
-                        child: SingleChildScrollView(
-                          padding: const EdgeInsets.only(bottom: 8),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              _PlanCard(
-                                title: l10n.paywall_monthly,
-                                highlight: false,
-                                pricePerMonth: l10n.paywall_plan_monthly_price,
-                                totalLabel: l10n.paywall_plan_monthly_total,
-                                saveLabel: l10n.paywall_plan_monthly_flexible,
-                                onPressed: (!_initializing && _isAvailable)
-                                    ? () async {
-                                        final product = PurchaseService.instance
-                                            .getProductById('citizenship_premium_monthly');
-                                        if (product != null) {
-                                          await PurchaseService.instance.buy(product);
-                                        }
-                                      }
-                                    : null,
+body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 600),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(l10n.paywall_subtitle, style: theme.textTheme.titleMedium),
+                          const SizedBox(height: 8),
+                          if (_initializing) const LinearProgressIndicator(),
+                          if (!_isAvailable && !_initializing)
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 8.0),
+                              child: Text(
+                                l10n.paywall_unavailable,
+                                style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.error),
                               ),
-                              const SizedBox(height: 12),
-                              _PlanCard(
-                                title: l10n.paywall_half_yearly,
-                                highlight: true,
-                                pricePerMonth: l10n.paywall_plan_half_yearly_price,
-                                totalLabel: l10n.paywall_plan_half_yearly_total,
-                                saveLabel: l10n.paywall_plan_half_yearly_save,
-                                onPressed: (!_initializing && _isAvailable)
-                                    ? () async {
-                                        final product = PurchaseService.instance
-                                            .getProductById('citizenship_premium_semiannual');
-                                        if (product != null) {
-                                          await PurchaseService.instance.buy(product);
-                                        }
-                                      }
-                                    : null,
-                              ),
-                              const SizedBox(height: 12),
-                              _PlanCard(
-                                title: l10n.paywall_yearly,
-                                highlight: false,
-                                pricePerMonth: l10n.paywall_plan_yearly_price,
-                                totalLabel: l10n.paywall_plan_yearly_total,
-                                saveLabel: l10n.paywall_plan_yearly_save,
-                                onPressed: (!_initializing && _isAvailable)
-                                    ? () async {
-                                        final product = PurchaseService.instance
-                                            .getProductById('citizenship_premium_yearly');
-                                        if (product != null) {
-                                          await PurchaseService.instance.buy(product);
-                                        }
-                                      }
-                                    : null,
-                              ),
-                              if (isCompactHeight) const SizedBox(height: 8),
-                            ],
+                            ),
+                          if (_error != null) ...[
+                            const SizedBox(height: 8),
+                            Text(_error!, style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.error)),
+                          ],
+                          const SizedBox(height: 16),
+                          
+                          // Two cards: Monthly & Lifetime
+                          Builder(
+                            builder: (context) {
+                              final monthlyProduct = PurchaseService.instance
+                                          .getProductById('citizenship_premium_monthly');
+                              final lifetimeProduct = PurchaseService.instance
+                                          .getProductById('citizenship_premium_lifetime');
+                              
+                              // Placeholder prices for visualization
+                              final displayPriceMonthly = monthlyProduct?.price ?? '6.99 €';
+                              final displayPriceLifetime = lifetimeProduct?.price ?? '14.99 €';
+
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  // 1. Monthly Card
+                                  _PlanCard(
+                                    title: l10n.paywall_monthly,
+                                    price: displayPriceMonthly, 
+                                    description: l10n.paywall_cancel_anytime,
+                                    buttonText: l10n.paywall_subscribe_action,
+                                    onPressed: (_isAvailable && monthlyProduct != null)
+                                        ? () async {
+                                            await PurchaseService.instance.buy(monthlyProduct);
+                                          }
+                                        : null,
+                                  ),
+                                  
+                                  const SizedBox(height: 12),
+                                  
+                                  // 2. Lifetime Card
+                                  _PlanCard(
+                                    title: l10n.paywall_lifetime,
+                                    price: displayPriceLifetime,
+                                    description: l10n.paywall_lifetime_description,
+                                    buttonText: l10n.paywall_buy_action,
+                                    isPopular: true, 
+                                    onPressed: (_isAvailable && lifetimeProduct != null)
+                                        ? () async {
+                                            await PurchaseService.instance.buy(lifetimeProduct);
+                                          }
+                                        : null,
+                                  ),
+                                ],
+                              );
+                            },
                           ),
-                        ),
+                        ],
                       ),
-                      Center(
-                        child: TextButton(
-                          onPressed: () => Navigator.of(context).maybePop(),
-                          child: Text(l10n.close),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
               ),
             ),
-          );
-        },
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: TextButton(
+                onPressed: () => Navigator.of(context).maybePop(),
+                child: Text(l10n.close),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -171,116 +163,114 @@ class _PaywallScreenState extends State<PaywallScreen> {
 
 class _PlanCard extends StatelessWidget {
   final String title;
-  final String pricePerMonth;
-  final String totalLabel;
-  final String saveLabel;
-  final bool highlight;
+  final String price;
+  final String description;
+  final String buttonText;
   final VoidCallback? onPressed;
+  final bool isPopular;
 
   const _PlanCard({
     required this.title,
-    required this.pricePerMonth,
-    required this.totalLabel,
-    required this.saveLabel,
-    required this.highlight,
+    required this.price,
+    required this.description,
+    required this.buttonText,
     required this.onPressed,
+    this.isPopular = false,
   });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final bg = highlight
-        ? colorScheme.primaryContainer
-        : theme.brightness == Brightness.dark
-            ? colorScheme.surfaceContainerHighest
-            : Colors.white;
-
-    return Material(
-      color: bg,
-      elevation: highlight ? 2 : 0,
-      borderRadius: BorderRadius.circular(12),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(12),
-        onTap: onPressed,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-          child: Row(
-            children: [
-              Icon(
-                Icons.workspace_premium_outlined,
-                color: highlight ? colorScheme.primary : colorScheme.secondary,
-                size: 24,
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          title,
-                          style: theme.textTheme.titleSmall?.copyWith(
-                            fontWeight: FontWeight.w700,
+    final l10n = AppLocalizations.of(context);
+    
+    return Stack(
+      children: [
+        Material(
+          color: isPopular ? colorScheme.primaryContainer : colorScheme.surfaceContainerHigh,
+          elevation: isPopular ? 4 : 1,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+              side: isPopular 
+                  ? BorderSide(color: colorScheme.primary, width: 2) 
+                  : BorderSide.none
+          ),
+          child: InkWell(
+            borderRadius: BorderRadius.circular(16),
+            onTap: onPressed,
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    title,
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: isPopular ? colorScheme.onPrimaryContainer : colorScheme.onSurface,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          description,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                             color: (isPopular ? colorScheme.onPrimaryContainer : colorScheme.onSurface).withValues(alpha: 0.8),
                           ),
                         ),
-                        if (highlight) ...[
-                          const SizedBox(width: 6),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 6, vertical: 2),
-                            decoration: BoxDecoration(
-                              color: colorScheme.primary,
-                              borderRadius: BorderRadius.circular(999),
-                            ),
-                            child: Text(
-                              'Beliebt',
-                              style: theme.textTheme.labelSmall
-                                  ?.copyWith(color: colorScheme.onPrimary),
-                            ),
-                          ),
-                        ],
-                      ],
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      pricePerMonth,
-                      style: theme.textTheme.bodySmall
-                          ?.copyWith(fontWeight: FontWeight.w600),
-                    ),
-                    const SizedBox(height: 1),
-                    Text(
-                      totalLabel,
-                      style: theme.textTheme.bodySmall,
-                    ),
-                    const SizedBox(height: 1),
-                    Text(
-                      saveLabel,
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: colorScheme.primary,
-                        fontWeight: FontWeight.w600,
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 8),
-              SizedBox(
-                height: 32,
-                child: FilledButton(
-                  onPressed: onPressed,
-                  style: FilledButton.styleFrom(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
+                      const SizedBox(width: 8),
+                      Text(
+                        price,
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: isPopular ? colorScheme.primary : colorScheme.onSurface,
+                        ),
+                      ),
+                    ],
                   ),
-                  child: const Text('Wählen'),
-                ),
+                  const SizedBox(height: 12),
+                  FilledButton(
+                    onPressed: onPressed,
+                    style: FilledButton.styleFrom(
+                      backgroundColor: isPopular ? colorScheme.primary : colorScheme.secondaryContainer,
+                      foregroundColor: isPopular ? colorScheme.onPrimary : colorScheme.onSecondaryContainer,
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                    ),
+                    child: Text(buttonText),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
-      ),
+        if (isPopular)
+          Positioned(
+            top: 0,
+            right: 0,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              decoration: BoxDecoration(
+                color: colorScheme.secondary,
+                borderRadius: const BorderRadius.only(
+                  topRight: Radius.circular(16),
+                  bottomLeft: Radius.circular(16),
+                ),
+              ),
+              child: Text(
+                l10n.paywall_popular_badge,
+                style: theme.textTheme.labelSmall?.copyWith(
+                  color: colorScheme.onSecondary,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+      ],
     );
   }
 }

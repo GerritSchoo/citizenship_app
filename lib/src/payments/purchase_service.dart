@@ -15,8 +15,9 @@ class PurchaseService extends ChangeNotifier {
   // Product IDs you will create in the Play Console.
   static const Set<String> productIds = {
     'citizenship_premium_monthly',
-    'citizenship_premium_semiannual',
-    'citizenship_premium_yearly',
+    'citizenship_premium_lifetime',
+    // 'citizenship_premium_semiannual', // Future use
+    // 'citizenship_premium_yearly', // Future use
   };
 
   bool _available = false;

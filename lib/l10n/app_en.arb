@@ -403,57 +403,17 @@
   "@paywall_monthly": {
     "description": "Monthly plan label"
   },
-  "paywall_half_yearly": "Half-yearly",
-  "@paywall_half_yearly": {
-    "description": "Half-yearly plan label"
+  "paywall_subscribe_action": "Subscribe",
+  "@paywall_subscribe_action": {
+    "description": "Button text for subscription"
   },
-  "paywall_yearly": "Yearly",
-  "@paywall_yearly": {
-    "description": "Yearly plan label"
-  },
-  "paywall_plan_monthly_price": "€6.99 / month",
-  "@paywall_plan_monthly_price": {
-    "description": "Price label for monthly plan"
-  },
-  "paywall_plan_monthly_total": "Total: €6.99",
-  "@paywall_plan_monthly_total": {
-    "description": "Total cost label for monthly plan"
-  },
-  "paywall_plan_monthly_flexible": "Cancel anytime",
-  "@paywall_plan_monthly_flexible": {
-    "description": "Flexible cancellation hint for monthly plan"
-  },
-  "paywall_plan_half_yearly_price": "€6.49 / month",
-  "@paywall_plan_half_yearly_price": {
-    "description": "Price label for half-yearly plan"
-  },
-  "paywall_plan_half_yearly_total": "Total: €38.94 every 6 months",
-  "@paywall_plan_half_yearly_total": {
-    "description": "Total cost label for half-yearly plan"
-  },
-  "paywall_plan_half_yearly_save": "Save about €3 vs. monthly",
-  "@paywall_plan_half_yearly_save": {
-    "description": "Saving hint for half-yearly plan"
-  },
-  "paywall_plan_yearly_price": "€5.99 / month",
-  "@paywall_plan_yearly_price": {
-    "description": "Price label for yearly plan"
-  },
-  "paywall_plan_yearly_total": "Total: €71.88 per year",
-  "@paywall_plan_yearly_total": {
-    "description": "Total cost label for yearly plan"
-  },
-  "paywall_plan_yearly_save": "Save about €12 vs. monthly",
-  "@paywall_plan_yearly_save": {
-    "description": "Saving hint for yearly plan"
+  "paywall_cancel_anytime": "Cancel anytime",
+  "@paywall_cancel_anytime": {
+    "description": "Flexible cancellation hint"
   },
   "paywall_popular_badge": "Popular",
   "@paywall_popular_badge": {
     "description": "Badge text for the most popular plan"
-  },
-  "paywall_choose_button": "Choose",
-  "@paywall_choose_button": {
-    "description": "Button label to choose a subscription plan"
   },
   "paywall_unavailable": "In-app purchases are currently not available.",
   "@paywall_unavailable": {
@@ -490,5 +450,17 @@
   "topic_democracy": "Living in a democracy",
   "topic_history_responsibility": "History and Responsibility",
   "topic_people_society": "People and Society",
-  "topic_state": "Federal State Questions"
+  "topic_state": "Federal State Questions",
+  "paywall_lifetime": "One-time",
+  "@paywall_lifetime": {
+    "description": "Lifetime plan label"
+  },
+  "paywall_lifetime_description": "Pay once, full access",
+  "@paywall_lifetime_description": {
+    "description": "Description for lifetime plan"
+  },
+  "paywall_buy_action": "Buy",
+  "@paywall_buy_action": {
+    "description": "Button text for one-time purchase"
+  }
 }
