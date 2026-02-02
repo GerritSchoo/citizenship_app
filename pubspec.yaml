@@ -50,6 +50,7 @@ dependencies:
   country_flags: ^4.1.1
   flutter_markdown: ^0.7.7+1
   url_launcher: ^6.3.2
+  package_info_plus: ^9.0.0
 
 dev_dependencies:
   flutter_test:

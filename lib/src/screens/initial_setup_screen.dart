@@ -40,16 +40,21 @@ class _InitialSetupScreenState extends State<InitialSetupScreen> with SingleTick
   Future<void> _confirm() async {
     if (_selectedCode == null) return;
     setState(() => _saving = true);
-    await AppPrefs.saveSelectedState(_selectedCode!);
-    await AppPrefs.saveLocale(_uiLocale);
-    await AppPrefs.saveContentLocale(_contentLocale);
-    if (!mounted) return;
-
-    // Also update the running app's locale so the language switches immediately
+    
+    // Use App state to save and sync memory
     final appState = App.of(context);
     if (appState != null) {
+      await appState.setSelectedState(_selectedCode!);
+      await AppPrefs.saveLocale(_uiLocale); // Can be moved to AppState too, but this is fine
+      await AppPrefs.saveContentLocale(_contentLocale);
+    
       await appState.setLocale(Locale(_uiLocale));
       await appState.setContentLocale(_contentLocale);
+    } else {
+      // Fallback if AppState not found (unlikely)
+      await AppPrefs.saveSelectedState(_selectedCode!);
+      await AppPrefs.saveLocale(_uiLocale);
+      await AppPrefs.saveContentLocale(_contentLocale);
     }
 
     if (!mounted) return;

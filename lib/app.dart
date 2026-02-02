@@ -146,6 +146,11 @@ class AppState extends State<App> {
     await QuestionRepository().reloadForLanguage(localeCode);
   }
 
+  Future<void> setSelectedState(String stateCode) async {
+    setState(() => _initialStateCode = stateCode);
+    await AppPrefs.saveSelectedState(stateCode);
+  }
+
   // Global bottom SnackBar helper, accessible via App.of(context)
   void showSnack(String message) {
     final messenger = _messengerKey.currentState;
