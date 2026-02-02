@@ -10,6 +10,8 @@ import 'mock_exam_rules_screen.dart';
 import 'progress_screen.dart';
 import 'achievements_screen.dart';
 import 'paywall_screen.dart';
+import 'legal_text_screen.dart';
+import '../data/legal_texts.dart';
 import '../data/states.dart';
 import '../core/prefs.dart';
 import '../analytics/progress_repository.dart';
@@ -89,6 +91,9 @@ class _HomeScreenState extends State<HomeScreen> {
         PopupMenuItem(value: 'achievements', child: SizedBox(width: _menuWidth, child: Text(AppLocalizations.of(context).menu_achievements, style: Theme.of(context).textTheme.bodySmall))),
         PopupMenuItem(value: 'subscribe', child: SizedBox(width: _menuWidth, child: Text(AppLocalizations.of(context).menu_subscribe, style: Theme.of(context).textTheme.bodySmall))),
   PopupMenuItem(value: 'analyse', child: SizedBox(width: _menuWidth, child: Text(AppLocalizations.of(context).menu_analyse, style: Theme.of(context).textTheme.bodySmall))),
+        const PopupMenuDivider(),
+        PopupMenuItem(value: 'privacy', child: SizedBox(width: _menuWidth, child: Text(AppLocalizations.of(context).menu_privacy, style: Theme.of(context).textTheme.bodySmall))),
+        PopupMenuItem(value: 'imprint', child: SizedBox(width: _menuWidth, child: Text(AppLocalizations.of(context).menu_imprint, style: Theme.of(context).textTheme.bodySmall))),
       ],
     );
     switch (selected) {
@@ -116,6 +121,30 @@ class _HomeScreenState extends State<HomeScreen> {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (_) => const PaywallScreen()),
+        );
+        break;
+      case 'privacy':
+        if (!mounted) return;
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => LegalTextScreen(
+              title: AppLocalizations.of(context).menu_privacy,
+              content: LegalTexts.getPrivacyPolicy(context),
+            ),
+          ),
+        );
+        break;
+      case 'imprint':
+        if (!mounted) return;
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => LegalTextScreen(
+              title: AppLocalizations.of(context).menu_imprint,
+              content: LegalTexts.getImprint(context),
+            ),
+          ),
         );
         break;
       case 'analyse':

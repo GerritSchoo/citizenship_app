@@ -1,9 +1,9 @@
 {
   "@@locale": "en",
-  "app_title": "Citizenship Test Quiz",
+  "app_title": "Citizenship Helper",
   "loading": "Loading…",
   "menu": "Menu",
-  "home_header_title": "Citizenship Test",
+  "home_header_title": "Citizenship Helper",
   "home_header_subtitle": "Learn, practice and pass the test",
   "home_no_state": "No state selected",
   "action_learn": "Learn",
@@ -19,6 +19,8 @@
   "menu_state": "State",
   "menu_theme": "Theme",
   "menu_analyse": "Analyse",
+  "menu_privacy": "Privacy Policy",
+  "menu_imprint": "Legal Notice",
   "snack_state_selected": "Selected state: {state}",
   "snack_lang_set": "Language set to {lang}",
   "snack_app_lang_set": "App language set to {lang}",
@@ -462,5 +464,7 @@
   "paywall_buy_action": "Buy",
   "@paywall_buy_action": {
     "description": "Button text for one-time purchase"
-  }
+  },
+  "disclaimer_title": "Disclaimer",
+  "disclaimer_accept_button": "Understand & Accept"
 }

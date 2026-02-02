@@ -1,9 +1,9 @@
 {
   "@@locale": "de",
-  "app_title": "Einbürgerungstest",
+  "app_title": "Einbürgerungshelfer",
   "loading": "Lädt…",
   "menu": "Menü",
-  "home_header_title": "Einbürgerungstest",
+  "home_header_title": "Einbürgerungshelfer",
   "home_header_subtitle": "Lernen, üben und die Prüfung bestehen",
   "home_no_state": "Kein Bundesland ausgewählt",
   "action_learn": "Lernen",
@@ -18,6 +18,8 @@
   "menu_content_language": "Fragen-Sprache",
   "menu_state": "Bundesland",
   "menu_theme": "Design",
+  "menu_privacy": "Datenschutzerklärung",
+  "menu_imprint": "Impressum",
   "menu_analyse": "Analyse",
   "snack_state_selected": "Bundesland gewählt: {state}",
   "snack_lang_set": "Sprache gesetzt: {lang}",
@@ -462,5 +464,7 @@
   "paywall_buy_action": "Kaufen",
   "@paywall_buy_action": {
     "description": "Button Text für Einmalkauf"
-  }
+  },
+  "disclaimer_title": "Hinweis",
+  "disclaimer_accept_button": "Verstanden & Akzeptieren"
 }

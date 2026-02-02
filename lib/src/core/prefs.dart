@@ -5,6 +5,19 @@ class AppPrefs {
   static const _keyLocale = 'locale';
   static const _keyContentLocale = 'contentLocale';
   static const _keyThemeMode = 'themeMode'; // 'system' | 'light' | 'dark'
+  static const _keyDisclaimerAccepted = 'disclaimerAccepted';
+
+  static Future<void> saveDisclaimerAccepted(bool accepted) async {
+    final p = await SharedPreferences.getInstance();
+    await p.setBool(_keyDisclaimerAccepted, accepted);
+  }
+
+  static Future<bool> getDisclaimerAccepted() async {
+    final p = await SharedPreferences.getInstance();
+    // Default to false if not set
+    return p.getBool(_keyDisclaimerAccepted) ?? false;
+  }
+
 
   static Future<void> saveSelectedState(String code) async {
     final p = await SharedPreferences.getInstance();

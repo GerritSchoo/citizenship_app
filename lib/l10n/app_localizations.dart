@@ -101,7 +101,7 @@ abstract class AppLocalizations {
   /// No description provided for @app_title.
   ///
   /// In en, this message translates to:
-  /// **'Citizenship Test Quiz'**
+  /// **'Citizenship Helper'**
   String get app_title;
 
   /// No description provided for @loading.
@@ -119,7 +119,7 @@ abstract class AppLocalizations {
   /// No description provided for @home_header_title.
   ///
   /// In en, this message translates to:
-  /// **'Citizenship Test'**
+  /// **'Citizenship Helper'**
   String get home_header_title;
 
   /// No description provided for @home_header_subtitle.
@@ -211,6 +211,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Analyse'**
   String get menu_analyse;
+
+  /// No description provided for @menu_privacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get menu_privacy;
+
+  /// No description provided for @menu_imprint.
+  ///
+  /// In en, this message translates to:
+  /// **'Legal Notice'**
+  String get menu_imprint;
 
   /// No description provided for @snack_state_selected.
   ///
@@ -1309,6 +1321,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Buy'**
   String get paywall_buy_action;
+
+  /// No description provided for @disclaimer_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Disclaimer'**
+  String get disclaimer_title;
+
+  /// No description provided for @disclaimer_accept_button.
+  ///
+  /// In en, this message translates to:
+  /// **'Understand & Accept'**
+  String get disclaimer_accept_button;
 }
 
 class _AppLocalizationsDelegate

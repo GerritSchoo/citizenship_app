@@ -9,7 +9,7 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get app_title => 'Citizenship Test Quiz';
+  String get app_title => 'Citizenship Helper';
 
   @override
   String get loading => 'Loading…';
@@ -18,7 +18,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get menu => 'Menu';
 
   @override
-  String get home_header_title => 'Citizenship Test';
+  String get home_header_title => 'Citizenship Helper';
 
   @override
   String get home_header_subtitle => 'Learn, practice and pass the test';
@@ -64,6 +64,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get menu_analyse => 'Analyse';
+
+  @override
+  String get menu_privacy => 'Privacy Policy';
+
+  @override
+  String get menu_imprint => 'Legal Notice';
 
   @override
   String snack_state_selected(Object state) {
@@ -659,4 +665,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get paywall_buy_action => 'Buy';
+
+  @override
+  String get disclaimer_title => 'Disclaimer';
+
+  @override
+  String get disclaimer_accept_button => 'Understand & Accept';
 }
