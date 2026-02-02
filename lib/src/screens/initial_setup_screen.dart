@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 import '../core/prefs.dart';
 import '../data/states.dart';
-import 'home_screen.dart';
+import 'disclaimer_screen.dart';
 import '../../app.dart';
 import 'package:flutter_localized_locales/flutter_localized_locales.dart';
 
@@ -53,7 +53,7 @@ class _InitialSetupScreenState extends State<InitialSetupScreen> with SingleTick
     }
 
     if (!mounted) return;
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => const HomeScreen()));
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => const DisclaimerScreen()));
   }
 
   @override

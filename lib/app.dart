@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'src/screens/home_screen.dart';
 import 'src/screens/initial_setup_screen.dart';
+import 'src/screens/disclaimer_screen.dart';
 import 'src/theme/app_theme.dart';
 import 'src/core/prefs.dart';
 import 'src/analytics/progress_repository.dart';
@@ -21,6 +22,7 @@ class App extends StatefulWidget {
 class AppState extends State<App> {
   String? _initialStateCode;
   bool _loading = true;
+  bool _disclaimerAccepted = false;
   ThemeMode _themeMode = ThemeMode.system;
   final _messengerKey = GlobalKey<ScaffoldMessengerState>();
   Locale? _locale;
@@ -87,6 +89,13 @@ class AppState extends State<App> {
     final themeStr = await AppPrefs.getThemeMode();
     final localeCode = await AppPrefs.getLocale();
     final contentLocaleCode = await AppPrefs.getContentLocale();
+    bool disclaimerDone = await AppPrefs.getDisclaimerAccepted();
+
+    // Debug override: If alwaysShowInitialSetup is true, force disclaimer flow to re-run
+    if (AppState.alwaysShowInitialSetup) {
+      disclaimerDone = false;
+    }
+
     final mode = switch (themeStr) {
       'light' => ThemeMode.light,
       'dark' => ThemeMode.dark,
@@ -97,6 +106,7 @@ class AppState extends State<App> {
       _initialStateCode = code;
       _loading = false;
       _themeMode = mode;
+      _disclaimerAccepted = disclaimerDone;
       _locale = (localeCode != null && localeCode.isNotEmpty) ? Locale(localeCode) : null;
       _contentLocaleCode = contentLocaleCode;
     });
@@ -197,7 +207,9 @@ class AppState extends State<App> {
       locale: _locale,
       home: AppState.alwaysShowInitialSetup
           ? const InitialSetupScreen()
-          : (_initialStateCode == null ? const InitialSetupScreen() : const HomeScreen()),
+          : (_initialStateCode == null 
+              ? const InitialSetupScreen() 
+              : (_disclaimerAccepted ? const HomeScreen() : const DisclaimerScreen())),
     );
   }
 }
