@@ -671,4 +671,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get disclaimer_accept_button => 'Understand & Accept';
+
+  @override
+  String get restore_purchases => 'Restore Purchases';
+
+  @override
+  String get purchased => 'Purchased';
 }

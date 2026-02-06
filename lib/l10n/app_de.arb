@@ -466,5 +466,13 @@
     "description": "Button Text für Einmalkauf"
   },
   "disclaimer_title": "Hinweis",
-  "disclaimer_accept_button": "Verstanden & Akzeptieren"
+  "disclaimer_accept_button": "Verstanden & Akzeptieren",
+  "restore_purchases": "Käufe wiederherstellen",
+  "@restore_purchases": {
+    "description": "Button zum Wiederherstellen von Käufen"
+  },
+  "purchased": "Gekauft",
+  "@purchased": {
+    "description": "Label für gekauften Plan"
+  }
 }

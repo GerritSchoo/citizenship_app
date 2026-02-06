@@ -1333,6 +1333,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Understand & Accept'**
   String get disclaimer_accept_button;
+
+  /// Button to restore purchases
+  ///
+  /// In en, this message translates to:
+  /// **'Restore Purchases'**
+  String get restore_purchases;
+
+  /// Label for purchased plan
+  ///
+  /// In en, this message translates to:
+  /// **'Purchased'**
+  String get purchased;
 }
 
 class _AppLocalizationsDelegate

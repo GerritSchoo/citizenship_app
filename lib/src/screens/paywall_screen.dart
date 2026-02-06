@@ -62,7 +62,7 @@ class _PaywallScreenState extends State<PaywallScreen> {
       appBar: AppBar(
         title: Text(l10n.paywall_title),
       ),
-body: SafeArea(
+      body: SafeArea(
         child: Column(
           children: [
             Expanded(
@@ -96,11 +96,14 @@ body: SafeArea(
                           // Two cards: Monthly & Lifetime
                           Builder(
                             builder: (context) {
-                              final monthlyProduct = PurchaseService.instance
-                                          .getProductById('citizenship_premium_monthly');
-                              final lifetimeProduct = PurchaseService.instance
-                                          .getProductById('citizenship_premium_lifetime');
+                              final instance = PurchaseService.instance;
+                              final monthlyProduct = instance.getProductById('citizenship_premium_monthly');
+                              final lifetimeProduct = instance.getProductById('citizenship_premium_lifetime');
                               
+                              final isMonthlyActive = instance.isProductActive('citizenship_premium_monthly');
+                              final isLifetimeActive = instance.isProductActive('citizenship_premium_lifetime');
+                              final anyActive = instance.isPro;
+
                               // Placeholder prices for visualization
                               final displayPriceMonthly = monthlyProduct?.price ?? '6.99 €';
                               final displayPriceLifetime = lifetimeProduct?.price ?? '14.99 €';
@@ -113,10 +116,11 @@ body: SafeArea(
                                     title: l10n.paywall_monthly,
                                     price: displayPriceMonthly, 
                                     description: l10n.paywall_cancel_anytime,
-                                    buttonText: l10n.paywall_subscribe_action,
-                                    onPressed: (_isAvailable && monthlyProduct != null)
+                                    buttonText: isMonthlyActive ? (l10n.purchased ?? 'Active') : l10n.paywall_subscribe_action,
+                                    isActive: isMonthlyActive,
+                                    onPressed: (_isAvailable && monthlyProduct != null && !anyActive)
                                         ? () async {
-                                            await PurchaseService.instance.buy(monthlyProduct);
+                                            await instance.buy(monthlyProduct);
                                           }
                                         : null,
                                   ),
@@ -128,11 +132,12 @@ body: SafeArea(
                                     title: l10n.paywall_lifetime,
                                     price: displayPriceLifetime,
                                     description: l10n.paywall_lifetime_description,
-                                    buttonText: l10n.paywall_buy_action,
-                                    isPopular: true, 
-                                    onPressed: (_isAvailable && lifetimeProduct != null)
+                                    buttonText: isLifetimeActive ? (l10n.purchased ?? 'Active') : l10n.paywall_buy_action,
+                                    isPopular: true,
+                                    isActive: isLifetimeActive,
+                                    onPressed: (_isAvailable && lifetimeProduct != null && !anyActive)
                                         ? () async {
-                                            await PurchaseService.instance.buy(lifetimeProduct);
+                                            await instance.buy(lifetimeProduct);
                                           }
                                         : null,
                                   ),
@@ -140,18 +145,18 @@ body: SafeArea(
                               );
                             },
                           ),
+                          const SizedBox(height: 16),
+                          TextButton(
+                            onPressed: () async {
+                              await PurchaseService.instance.restorePurchases();
+                            },
+                            child: Text(l10n.restore_purchases ?? 'Restore Purchases'),
+                          ),
                         ],
                       ),
                     ),
                   ),
                 ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: TextButton(
-                onPressed: () => Navigator.of(context).maybePop(),
-                child: Text(l10n.close),
               ),
             ),
           ],
@@ -168,6 +173,7 @@ class _PlanCard extends StatelessWidget {
   final String buttonText;
   final VoidCallback? onPressed;
   final bool isPopular;
+  final bool isActive;
 
   const _PlanCard({
     required this.title,
@@ -176,6 +182,7 @@ class _PlanCard extends StatelessWidget {
     required this.buttonText,
     required this.onPressed,
     this.isPopular = false,
+    this.isActive = false,
   });
 
   @override
@@ -183,6 +190,13 @@ class _PlanCard extends StatelessWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final l10n = AppLocalizations.of(context);
+
+    // Determine colors based on active/popular state
+    final borderColor = isActive 
+        ? Colors.green 
+        : (isPopular ? colorScheme.primary : Colors.transparent);
+    
+    final borderWidth = (isActive || isPopular) ? 2.0 : 0.0;
     
     return Stack(
       children: [
@@ -191,8 +205,8 @@ class _PlanCard extends StatelessWidget {
           elevation: isPopular ? 4 : 1,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
-              side: isPopular 
-                  ? BorderSide(color: colorScheme.primary, width: 2) 
+              side: isActive || isPopular 
+                  ? BorderSide(color: borderColor, width: borderWidth) 
                   : BorderSide.none
           ),
           child: InkWell(
@@ -236,19 +250,23 @@ class _PlanCard extends StatelessWidget {
                   FilledButton(
                     onPressed: onPressed,
                     style: FilledButton.styleFrom(
-                      backgroundColor: isPopular ? colorScheme.primary : colorScheme.secondaryContainer,
-                      foregroundColor: isPopular ? colorScheme.onPrimary : colorScheme.onSecondaryContainer,
+                      backgroundColor: isActive 
+                          ? Colors.green 
+                          : (isPopular ? colorScheme.primary : colorScheme.secondaryContainer),
+                      foregroundColor: isActive
+                          ? Colors.white
+                          : (isPopular ? colorScheme.onPrimary : colorScheme.onSecondaryContainer),
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                     ),
-                    child: Text(buttonText),
+                    child: Text(isActive ? (l10n.purchased ?? 'Purchased') : buttonText),
                   ),
                 ],
               ),
             ),
           ),
         ),
-        if (isPopular)
+        if (isPopular && !isActive)
           Positioned(
             top: 0,
             right: 0,
@@ -268,6 +286,22 @@ class _PlanCard extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
+            ),
+          ),
+        if (isActive)
+          Positioned(
+            top: 0,
+            right: 0,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              decoration: const BoxDecoration(
+                color: Colors.green,
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(16),
+                  bottomLeft: Radius.circular(16),
+                ),
+              ),
+              child: const Icon(Icons.check, size: 16, color: Colors.white),
             ),
           ),
       ],

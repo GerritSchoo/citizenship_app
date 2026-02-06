@@ -18,6 +18,8 @@ import '../analytics/progress_repository.dart';
 import '../../l10n/app_localizations.dart';
 import 'package:flutter_localized_locales/flutter_localized_locales.dart';
 
+import 'package:package_info_plus/package_info_plus.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -27,6 +29,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String? _selectedStateCode;
+  String _appVersion = '';
   final GlobalKey _menuKey = GlobalKey();
   double get _menuWidth {
     // Keep it compact: at most 200px wide and at most 40% of screen width
@@ -38,6 +41,15 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _loadSavedState();
+    _loadAppVersion();
+  }
+
+  Future<void> _loadAppVersion() async {
+    final info = await PackageInfo.fromPlatform();
+    if (!mounted) return;
+    setState(() {
+      _appVersion = 'v${info.version} (${info.buildNumber})';
+    });
   }
 
   Future<void> _loadSavedState() async {
@@ -656,6 +668,21 @@ class _HomeScreenState extends State<HomeScreen> {
                   ]),
                 ),
               ),
+              if (_appVersion.isNotEmpty)
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 24),
+                    child: Center(
+                      child: Opacity(
+                        opacity: 0.3,
+                        child: Text(
+                          _appVersion,
+                          style: Theme.of(context).textTheme.labelSmall,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
             ],
           );
         },

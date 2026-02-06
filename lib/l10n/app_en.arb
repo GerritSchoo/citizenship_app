@@ -466,5 +466,13 @@
     "description": "Button text for one-time purchase"
   },
   "disclaimer_title": "Disclaimer",
-  "disclaimer_accept_button": "Understand & Accept"
+  "disclaimer_accept_button": "Understand & Accept",
+  "restore_purchases": "Restore Purchases",
+  "@restore_purchases": {
+    "description": "Button to restore purchases"
+  },
+  "purchased": "Purchased",
+  "@purchased": {
+    "description": "Label for purchased plan"
+  }
 }

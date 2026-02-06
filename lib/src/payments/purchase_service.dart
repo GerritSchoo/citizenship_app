@@ -26,6 +26,8 @@ class PurchaseService extends ChangeNotifier {
   List<ProductDetails> _products = [];
   List<ProductDetails> get products => _products;
 
+  Set<String> _activeProductIds = {};
+
   StreamSubscription<List<PurchaseDetails>>? _subscription;
   
   // Reactive state for UI
@@ -35,13 +37,17 @@ class PurchaseService extends ChangeNotifier {
     // Check global testing/gating flag. 
     // If lock is disabled (false), everyone gets pro access.
     if (!AppState.subscriptionLockEnabled) return true;
-    return isProNotifier.value;
+    return _activeProductIds.isNotEmpty;
   }
+
+  bool isProductActive(String id) => _activeProductIds.contains(id);
 
   Future<void> init() async {
     // 1. Load local state immediately
     final prefs = await SharedPreferences.getInstance();
-    isProNotifier.value = prefs.getBool('is_premium_user') ?? false;
+    final activeList = prefs.getStringList('active_products') ?? [];
+    _activeProductIds = activeList.toSet();
+    isProNotifier.value = isPro;
 
     // 2. Check store availability
     _available = await _iap.isAvailable();
@@ -73,14 +79,16 @@ class PurchaseService extends ChangeNotifier {
   }
 
   Future<void> _handlePurchaseUpdates(List<PurchaseDetails> purchases) async {
-    bool isPremiumNow = isPro;
+    bool changed = false;
 
     for (final purchase in purchases) {
       if (purchase.status == PurchaseStatus.purchased ||
           purchase.status == PurchaseStatus.restored) {
         
         // Deliver the content
-        isPremiumNow = true;
+        if (_activeProductIds.add(purchase.productID)) {
+          changed = true;
+        }
         
         if (purchase.pendingCompletePurchase) {
           await _iap.completePurchase(purchase);
@@ -90,10 +98,10 @@ class PurchaseService extends ChangeNotifier {
       }
     }
 
-    if (isPremiumNow != isPro) {
-      isProNotifier.value = isPremiumNow;
+    if (changed) {
       final prefs = await SharedPreferences.getInstance();
-      await prefs.setBool('is_premium_user', isPremiumNow);
+      await prefs.setStringList('active_products', _activeProductIds.toList());
+      isProNotifier.value = isPro;
       notifyListeners();
     }
   }
