@@ -682,4 +682,10 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get disclaimer_accept_button => 'Verstanden & Akzeptieren';
+
+  @override
+  String get restore_purchases => 'Käufe wiederherstellen';
+
+  @override
+  String get purchased => 'Gekauft';
 }

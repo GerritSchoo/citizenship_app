@@ -32,7 +32,7 @@ class LegalTextScreen extends StatelessWidget {
           onTapLink: (text, href, title) {
             // Implement URL launching here if needed
             // e.g. launchUrl(Uri.parse(href!));
-          },
+          },  
         ),
       ),
     );
