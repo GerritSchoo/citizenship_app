@@ -116,7 +116,7 @@ class _PaywallScreenState extends State<PaywallScreen> {
                                     title: l10n.paywall_monthly,
                                     price: displayPriceMonthly, 
                                     description: l10n.paywall_cancel_anytime,
-                                    buttonText: isMonthlyActive ? (l10n.purchased ?? 'Active') : l10n.paywall_subscribe_action,
+                                    buttonText: isMonthlyActive ? l10n.purchased : l10n.paywall_subscribe_action,
                                     isActive: isMonthlyActive,
                                     onPressed: (_isAvailable && monthlyProduct != null && !anyActive)
                                         ? () async {
@@ -132,7 +132,7 @@ class _PaywallScreenState extends State<PaywallScreen> {
                                     title: l10n.paywall_lifetime,
                                     price: displayPriceLifetime,
                                     description: l10n.paywall_lifetime_description,
-                                    buttonText: isLifetimeActive ? (l10n.purchased ?? 'Active') : l10n.paywall_buy_action,
+                                    buttonText: isLifetimeActive ? l10n.purchased : l10n.paywall_buy_action,
                                     isPopular: true,
                                     isActive: isLifetimeActive,
                                     onPressed: (_isAvailable && lifetimeProduct != null && !anyActive)
@@ -150,7 +150,7 @@ class _PaywallScreenState extends State<PaywallScreen> {
                             onPressed: () async {
                               await PurchaseService.instance.restorePurchases();
                             },
-                            child: Text(l10n.restore_purchases ?? 'Restore Purchases'),
+                            child: Text(l10n.restore_purchases),
                           ),
                         ],
                       ),
@@ -259,7 +259,7 @@ class _PlanCard extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                     ),
-                    child: Text(isActive ? (l10n.purchased ?? 'Purchased') : buttonText),
+                    child: Text(isActive ? l10n.purchased : buttonText),
                   ),
                 ],
               ),

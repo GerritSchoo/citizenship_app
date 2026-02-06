@@ -34,7 +34,7 @@ class AppState extends State<App> {
   // Set to true to activate gating flows (menu + popup after trials)
   static bool subscriptionLockEnabled = true;
   // Testing toggle: always show initial setup screen (for development)
-  static bool alwaysShowInitialSetup = true;
+  static bool alwaysShowInitialSetup = false;
 
   @override
   void initState() {
