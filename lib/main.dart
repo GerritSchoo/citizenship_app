@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart' show kIsWeb, defaultTargetPlatform, TargetPlatform;
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
@@ -8,6 +9,9 @@ import 'src/payments/purchase_service.dart';
 /// Entry point of the application.
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // Set edge-to-edge system UI mode
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+
   // Configure cross-platform database backends so analytics persist on all targets
   if (kIsWeb) {
     databaseFactory = databaseFactoryFfiWeb; // IndexedDB backend via sqflite API
