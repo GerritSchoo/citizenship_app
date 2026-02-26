@@ -101,13 +101,19 @@ class AppState extends State<App> {
       'dark' => ThemeMode.dark,
       _ => ThemeMode.system,
     };
+
+    final supportedLocales =
+        AppLocalizations.supportedLocales.map((loc) => loc.languageCode).toSet();
+    final sanitizedLocaleCode =
+        (localeCode != null && supportedLocales.contains(localeCode)) ? localeCode : null;
+
     if (!mounted) return;
     setState(() {
       _initialStateCode = code;
       _loading = false;
       _themeMode = mode;
       _disclaimerAccepted = disclaimerDone;
-      _locale = (localeCode != null && localeCode.isNotEmpty) ? Locale(localeCode) : null;
+      _locale = sanitizedLocaleCode != null ? Locale(sanitizedLocaleCode) : null;
       _contentLocaleCode = contentLocaleCode;
     });
     // Initialize default language for repository so first load matches saved locale
@@ -161,9 +167,15 @@ class AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    if (_loading) {
-      return MaterialApp(home: const Scaffold(body: Center(child: CircularProgressIndicator())));
-    }
+    final Widget homeWidget = _loading
+        ? const Scaffold(body: Center(child: CircularProgressIndicator()))
+        : (AppState.alwaysShowInitialSetup
+            ? const InitialSetupScreen()
+            : (_initialStateCode == null
+                ? const InitialSetupScreen()
+                : (_disclaimerAccepted
+                    ? const HomeScreen()
+                    : const DisclaimerScreen())));
 
     return MaterialApp(
       title: 'Citizenship Test Quiz',
@@ -181,40 +193,35 @@ class AppState extends State<App> {
       ],
       supportedLocales: AppLocalizations.supportedLocales,
       localeResolutionCallback: (deviceLocale, supported) {
-        // Helper to sync content language only if user hasn't strictly set a content locale
         void syncContent(String code) {
           if (_contentLocaleCode == null) {
             QuestionRepository.setDefaultLanguage(code);
           }
         }
 
-        // If user chose a locale explicitly, honor it
-        if (_locale != null) {
+        bool isSupported(Locale locale) =>
+            supported.any((candidate) => candidate.languageCode == locale.languageCode);
+
+        if (_locale != null && isSupported(_locale!)) {
           syncContent(_locale!.languageCode);
           return _locale;
         }
-        // Otherwise, resolve from device
-        if (deviceLocale == null) {
-          final resolved = supported.first;
-          syncContent(resolved.languageCode);
-          return resolved;
-        }
-        for (final l in supported) {
-          if (l.languageCode == deviceLocale.languageCode) {
-            syncContent(l.languageCode);
-            return l;
+
+        if (deviceLocale != null) {
+          for (final locale in supported) {
+            if (locale.languageCode == deviceLocale.languageCode) {
+              syncContent(locale.languageCode);
+              return locale;
+            }
           }
         }
+
         final fallback = supported.first;
         syncContent(fallback.languageCode);
-        return fallback; // default fallback
+        return fallback;
       },
       locale: _locale,
-      home: AppState.alwaysShowInitialSetup
-          ? const InitialSetupScreen()
-          : (_initialStateCode == null 
-              ? const InitialSetupScreen() 
-              : (_disclaimerAccepted ? const HomeScreen() : const DisclaimerScreen())),
+      home: homeWidget,
     );
   }
 }
