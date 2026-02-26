@@ -99,7 +99,7 @@ class _TimerResultsScreenState extends State<TimerResultsScreen> {
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: _scores.length,
-                      separatorBuilder: (_, __) => const Divider(height: 1),
+                      separatorBuilder: (context, _) => const Divider(height: 1),
                       itemBuilder: (context, index) {
                         final s = _scores[index];
                         final rank = index + 1;

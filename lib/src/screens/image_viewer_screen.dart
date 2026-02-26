@@ -16,7 +16,7 @@ class ImageViewerScreen extends StatelessWidget {
     final imageWidget = Image.asset(
       imagePath,
       gaplessPlayback: true,
-      errorBuilder: (_, __, ___) => Center(
+      errorBuilder: (context, error, stackTrace) => Center(
         child: Text('Bild nicht gefunden', style: theme.textTheme.bodyMedium),
       ),
       filterQuality: FilterQuality.high,

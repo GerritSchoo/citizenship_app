@@ -101,7 +101,7 @@ class ImageAnswerGrid extends StatelessWidget {
                     gaplessPlayback: true,
                     fit: BoxFit.contain,
                     filterQuality: FilterQuality.medium,
-                    errorBuilder: (_, __, ___) => Container(
+                    errorBuilder: (context, error, stackTrace) => Container(
                       alignment: Alignment.center,
                       child: const Text('Bild nicht gefunden'),
                     ),

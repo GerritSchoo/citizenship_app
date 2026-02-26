@@ -33,7 +33,7 @@ class MockExamRulesScreen extends StatelessWidget {
               child: ListView.separated(
                 padding: const EdgeInsets.all(16),
                 itemCount: _rules(context).length,
-                separatorBuilder: (_, __) => const SizedBox(height: 12),
+                separatorBuilder: (context, _) => const SizedBox(height: 12),
                 itemBuilder: (context, index) {
                   final rule = _rules(context)[index];
                   final theme = Theme.of(context);

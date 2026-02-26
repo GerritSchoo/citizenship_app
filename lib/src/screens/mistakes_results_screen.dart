@@ -116,7 +116,7 @@ class _MistakesResultsScreenState extends State<MistakesResultsScreen> {
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: _questions.length,
-                        separatorBuilder: (_, __) => const Divider(height: 1),
+                        separatorBuilder: (context, _) => const Divider(height: 1),
                         itemBuilder: (context, index) {
                           final q = _questions[index];
                           return ListTile(

@@ -50,7 +50,7 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
           : ListView.separated(
               padding: const EdgeInsets.all(12),
               itemCount: items.length,
-              separatorBuilder: (_, __) => const SizedBox(height: 8),
+              separatorBuilder: (context, _) => const SizedBox(height: 8),
               itemBuilder: (ctx, i) {
                 final def = items[i];
                 final isUnlocked = _unlocked.contains(def.id);

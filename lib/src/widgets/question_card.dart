@@ -108,7 +108,7 @@ class _ProportionalAssetImage extends StatelessWidget {
                     cacheHeight: targetH,
                     filterQuality: FilterQuality.medium,
                     gaplessPlayback: true,
-                    errorBuilder: (_, __, ___) => const SizedBox(
+                    errorBuilder: (context, error, stackTrace) => const SizedBox(
                       height: 140,
                       child: Center(child: Text('Bild nicht gefunden')),
                     ),
@@ -148,7 +148,8 @@ class _TappableProportionalAssetImage extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(
           PageRouteBuilder(
-            pageBuilder: (_, __, ___) => ImageViewerScreen(imagePath: imagePath, heroTag: heroTag),
+            pageBuilder: (context, animation, secondaryAnimation) =>
+              ImageViewerScreen(imagePath: imagePath, heroTag: heroTag),
             transitionsBuilder: (context, animation, secondaryAnimation, child) {
               return FadeTransition(opacity: animation, child: child);
             },

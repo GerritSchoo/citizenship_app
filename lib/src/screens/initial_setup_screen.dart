@@ -287,7 +287,7 @@ class _SetupSelector extends StatelessWidget {
               child: ListView.separated(
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 itemCount: items.length,
-                separatorBuilder: (_, __) => const Divider(height: 1),
+                separatorBuilder: (context, _) => const Divider(height: 1),
                 itemBuilder: (ctx, index) {
                   final item = items[index];
                   final isSelected = item.value == value;
