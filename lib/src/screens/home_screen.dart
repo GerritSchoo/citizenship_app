@@ -12,6 +12,7 @@ import 'achievements_screen.dart';
 import 'paywall_screen.dart';
 import 'legal_text_screen.dart';
 import '../data/legal_texts.dart';
+import '../payments/purchase_service.dart';
 import '../data/states.dart';
 import '../core/prefs.dart';
 import '../analytics/progress_repository.dart';
@@ -30,6 +31,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   String? _selectedStateCode;
   String _appVersion = '';
+  bool _isPro = false;
   final GlobalKey _menuKey = GlobalKey();
   double get _menuWidth {
     // Keep it compact: at most 200px wide and at most 40% of screen width
@@ -42,6 +44,18 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _loadSavedState();
     _loadAppVersion();
+    _isPro = PurchaseService.instance.isPro;
+    PurchaseService.instance.isProNotifier.addListener(_onProChanged);
+  }
+
+  void _onProChanged() {
+    setState(() => _isPro = PurchaseService.instance.isPro);
+  }
+
+  @override
+  void dispose() {
+    PurchaseService.instance.isProNotifier.removeListener(_onProChanged);
+    super.dispose();
   }
 
   Future<void> _loadAppVersion() async {
@@ -100,8 +114,6 @@ class _HomeScreenState extends State<HomeScreen> {
   PopupMenuItem(value: 'content_language', child: SizedBox(width: _menuWidth, child: Text(AppLocalizations.of(context).menu_content_language, style: Theme.of(context).textTheme.bodySmall))),
   PopupMenuItem(value: 'state', child: SizedBox(width: _menuWidth, child: Text(AppLocalizations.of(context).menu_state, style: Theme.of(context).textTheme.bodySmall))),
   PopupMenuItem(value: 'theme', child: SizedBox(width: _menuWidth, child: Text(AppLocalizations.of(context).menu_theme, style: Theme.of(context).textTheme.bodySmall))),
-        PopupMenuItem(value: 'achievements', child: SizedBox(width: _menuWidth, child: Text(AppLocalizations.of(context).menu_achievements, style: Theme.of(context).textTheme.bodySmall))),
-        PopupMenuItem(value: 'subscribe', child: SizedBox(width: _menuWidth, child: Text(AppLocalizations.of(context).menu_subscribe, style: Theme.of(context).textTheme.bodySmall))),
   PopupMenuItem(value: 'analyse', child: SizedBox(width: _menuWidth, child: Text(AppLocalizations.of(context).menu_analyse, style: Theme.of(context).textTheme.bodySmall))),
         const PopupMenuDivider(),
         PopupMenuItem(value: 'privacy', child: SizedBox(width: _menuWidth, child: Text(AppLocalizations.of(context).menu_privacy, style: Theme.of(context).textTheme.bodySmall))),
@@ -120,20 +132,6 @@ class _HomeScreenState extends State<HomeScreen> {
         break;
       case 'theme':
         _showThemeMenu();
-        break;
-      case 'achievements':
-        if (!mounted) return;
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => const AchievementsScreen()),
-        );
-        break;
-      case 'subscribe':
-        if (!mounted) return;
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => const PaywallScreen()),
-        );
         break;
       case 'privacy':
         if (!mounted) return;
@@ -512,7 +510,7 @@ class _HomeScreenState extends State<HomeScreen> {
           final isMedium = constraints.maxWidth >= 600 && constraints.maxWidth < 900;
           // Treat very short viewports (typical in landscape on phones) specially
           final isShortHeight = constraints.maxHeight < 480;
-      final crossAxisCount = isWide ? 4 : 2;
+      final crossAxisCount = isWide ? 3 : 2;
       // Dynamic header height: base + cushion for text scale and very narrow widths
       final baseHeader = isWide ? 220.0 : 200.0;
   final textScale = MediaQuery.textScalerOf(context).scale(1.0);
@@ -700,7 +698,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                       semanticsLabel: AppLocalizations.of(context).action_exam_sem,
                     ),
-                    // Analyse must remain last
                     _ActionCard(
                       icon: Icons.insights_outlined,
                       label: AppLocalizations.of(context).action_analytics,
@@ -712,6 +709,32 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                       },
                       semanticsLabel: AppLocalizations.of(context).action_analytics_sem,
+                    ),
+                    _ActionCard(
+                      icon: Icons.emoji_events_outlined,
+                      label: AppLocalizations.of(context).action_achievements,
+                      color: colorScheme.secondary,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => const AchievementsScreen()),
+                        );
+                      },
+                      semanticsLabel: AppLocalizations.of(context).action_achievements_sem,
+                    ),
+                    _ActionCard(
+                      icon: _isPro ? Icons.workspace_premium : Icons.star_outline,
+                      label: _isPro
+                          ? AppLocalizations.of(context).purchased
+                          : AppLocalizations.of(context).menu_subscribe,
+                      color: _isPro ? Colors.green : colorScheme.error,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => const PaywallScreen()),
+                        );
+                      },
+                      semanticsLabel: AppLocalizations.of(context).menu_subscribe,
                     ),
                   ]),
                 ),
@@ -838,11 +861,16 @@ class _ActionCardState extends State<_ActionCard> {
                         ),
                         child: Icon(widget.icon, color: iconColor, size: 26),
                       ),
-                      Text(
-                        widget.label,
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
+                      Flexible(
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            widget.label,
+                            style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
+                            maxLines: 1,
+                          ),
+                        ),
                       ),
                     ],
                   ),
