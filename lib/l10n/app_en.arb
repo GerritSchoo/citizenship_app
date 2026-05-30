@@ -201,14 +201,6 @@
   "@menu_subscribe": {
     "description": "Overflow menu entry to open subscription/paywall screen"
   },
-  "ach_practice_10_name": "Getting started",
-  "@ach_practice_10_name": {
-    "description": "10 correct answers in practice"
-  },
-  "ach_practice_10_desc": "Reach 10 correct answers in practice.",
-  "@ach_practice_10_desc": {
-    "description": "Description for 10 practice correct answers"
-  },
   "ach_practice_100_name": "On a roll",
   "@ach_practice_100_name": {
     "description": "100 correct answers in practice"
@@ -232,14 +224,6 @@
   "ach_exam_first_desc": "Submit your first mock exam.",
   "@ach_exam_first_desc": {
     "description": "Description for first exam submitted"
-  },
-  "ach_exam_25_name": "Strong score",
-  "@ach_exam_25_name": {
-    "description": "25 or more correct answers in exam"
-  },
-  "ach_exam_25_desc": "Score 25 or more correct answers in a mock exam.",
-  "@ach_exam_25_desc": {
-    "description": "Description for 25+ correct answers in exam"
   },
   "ach_exam_perfect_name": "Perfect!",
   "@ach_exam_perfect_name": {
@@ -265,38 +249,6 @@
   "@ach_exam_fast_desc": {
     "description": "Description for fast pass exam"
   },
-  "ach_exam_fast5_name": "Lightning fast",
-  "@ach_exam_fast5_name": {
-    "description": "Pass an exam in under 5 minutes - title"
-  },
-  "ach_exam_fast5_desc": "Pass a mock exam in under 5 minutes.",
-  "@ach_exam_fast5_desc": {
-    "description": "Pass in under 5 minutes"
-  },
-  "ach_exam_pass10_name": "Seasoned examinee",
-  "@ach_exam_pass10_name": {
-    "description": "Pass 10 exams - title"
-  },
-  "ach_exam_pass10_desc": "Pass 10 mock exams in total.",
-  "@ach_exam_pass10_desc": {
-    "description": "Pass 10 exams - description"
-  },
-  "ach_exam_perfect3_name": "Triple perfection",
-  "@ach_exam_perfect3_name": {
-    "description": "3 perfect exams - title"
-  },
-  "ach_exam_perfect3_desc": "Achieve 3 perfect mock exams.",
-  "@ach_exam_perfect3_desc": {
-    "description": "3 perfect exams - description"
-  },
-  "ach_exam_streak5_name": "On fire (5x)",
-  "@ach_exam_streak5_name": {
-    "description": "Pass 5 in a row - title"
-  },
-  "ach_exam_streak5_desc": "Pass 5 mock exams in a row.",
-  "@ach_exam_streak5_desc": {
-    "description": "Pass 5 in a row - description"
-  },
   "ach_timer_first_name": "Timer rookie",
   "@ach_timer_first_name": {
     "description": "First timer run - title"
@@ -304,30 +256,6 @@
   "ach_timer_first_desc": "Complete a timer run.",
   "@ach_timer_first_desc": {
     "description": "First timer run - description"
-  },
-  "ach_timer_10_name": "Timer 10",
-  "@ach_timer_10_name": {
-    "description": "10 correct in timer - title"
-  },
-  "ach_timer_10_desc": "Reach 10 correct in a timer run.",
-  "@ach_timer_10_desc": {
-    "description": "10 correct in timer - description"
-  },
-  "ach_timer_20_name": "Timer 20",
-  "@ach_timer_20_name": {
-    "description": "20 correct in timer - title"
-  },
-  "ach_timer_20_desc": "Reach 20 correct in a timer run.",
-  "@ach_timer_20_desc": {
-    "description": "20 correct in timer - description"
-  },
-  "ach_timer_30_name": "Timer 30",
-  "@ach_timer_30_name": {
-    "description": "30 correct in timer - title"
-  },
-  "ach_timer_30_desc": "Reach 30 correct in a timer run.",
-  "@ach_timer_30_desc": {
-    "description": "30 correct in timer - description"
   },
   "ach_mistakes_review_name": "Reviewed mistakes",
   "@ach_mistakes_review_name": {
@@ -353,30 +281,6 @@
   "@ach_topics_first_desc": {
     "description": "First correct in Topics - description"
   },
-  "ach_practice_2500_name": "Practice veteran",
-  "@ach_practice_2500_name": {
-    "description": "2500 correct in practice - title"
-  },
-  "ach_practice_2500_desc": "Reach 2,500 correct answers in practice.",
-  "@ach_practice_2500_desc": {
-    "description": "2500 correct in practice - description"
-  },
-  "ach_practice_5000_name": "Practice expert",
-  "@ach_practice_5000_name": {
-    "description": "5000 correct in practice - title"
-  },
-  "ach_practice_5000_desc": "Reach 5,000 correct answers in practice.",
-  "@ach_practice_5000_desc": {
-    "description": "5000 correct in practice - description"
-  },
-  "ach_practice_10000_name": "Practice legend",
-  "@ach_practice_10000_name": {
-    "description": "10000 correct in practice - title"
-  },
-  "ach_practice_10000_desc": "Reach 10,000 correct answers in practice.",
-  "@ach_practice_10000_desc": {
-    "description": "10000 correct in practice - description"
-  },
   "ach_streak7_name": "7-day streak",
   "@ach_streak7_name": {
     "description": "7 day streak - title"
@@ -384,14 +288,6 @@
   "ach_streak7_desc": "Stay active 7 days in a row.",
   "@ach_streak7_desc": {
     "description": "7 day streak - description"
-  },
-  "ach_streak30_name": "30-day streak",
-  "@ach_streak30_name": {
-    "description": "30 day streak - title"
-  },
-  "ach_streak30_desc": "Stay active 30 days in a row.",
-  "@ach_streak30_desc": {
-    "description": "30 day streak - description"
   },
   "paywall_title": "Subscribe",
   "@paywall_title": {
@@ -474,5 +370,16 @@
   "purchased": "Purchased",
   "@purchased": {
     "description": "Label for purchased plan"
+  },
+  "confirm_reset_title": "Confirm Reset",
+  "confirm_reset_body": "This will permanently delete your progress data and cannot be undone.",
+  "restore_checking": "Checking purchases…",
+  "restore_no_purchases": "No purchases found",
+  "finish_quiz": "Finish",
+  "exam_trials_remaining": "{count} free trial(s) remaining",
+  "@exam_trials_remaining": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
   }
 }

@@ -123,7 +123,7 @@ class _TimerResultsScreenState extends State<TimerResultsScreen> {
       bottomNavigationBar: SafeArea(
         minimum: const EdgeInsets.fromLTRB(16, 8, 16, 16),
         child: FilledButton.tonal(
-          onPressed: () => Navigator.of(context).maybePop(),
+          onPressed: () => Navigator.of(context).popUntil((route) => route.isFirst),
           child: Text(l10n.back_to_home),
         ),
       ),

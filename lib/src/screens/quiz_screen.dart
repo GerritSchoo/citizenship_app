@@ -240,9 +240,12 @@ class _QuizScreenState extends State<QuizScreen> {
   void _nextQuestion() {
     final ctrl = _controller;
     if (ctrl == null) return;
-    // If this is the last question in a Mistakes flow and it's answered, show results
     if (_mistakesFlow && ctrl.isLast && ctrl.selectedIndex != null) {
       _onMistakesFinished();
+      return;
+    }
+    if (!_mistakesFlow && ctrl.isLast && widget.config?.mode != QuizMode.timer) {
+      Navigator.of(context).pop();
       return;
     }
     ctrl.next();
@@ -409,7 +412,11 @@ class _QuizScreenState extends State<QuizScreen> {
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(double.infinity, 48),
                 ),
-                child: Text(l10n.next_question),
+                child: Text(
+                  ctrl.isLast && !_mistakesFlow && widget.config?.mode != QuizMode.timer
+                      ? l10n.finish_quiz
+                      : l10n.next_question,
+                ),
               ),
             ],
           ),

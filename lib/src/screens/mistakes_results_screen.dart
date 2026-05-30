@@ -154,7 +154,7 @@ class _MistakesResultsScreenState extends State<MistakesResultsScreen> {
                 child: Text(l10n.mistakes_retry_wrong),
               )
             : FilledButton.tonal(
-                onPressed: () => Navigator.of(context).maybePop(),
+                onPressed: () => Navigator.of(context).popUntil((route) => route.isFirst),
                 child: Text(l10n.back_to_home),
               ),
       ),

@@ -7,6 +7,7 @@ import '../data/question_repository.dart';
 import '../models/question.dart';
 import '../core/prefs.dart';
 import '../analytics/progress_repository.dart';
+import '../../app.dart';
 
 class SwipeQuizScreen extends StatefulWidget {
   const SwipeQuizScreen({super.key});
@@ -135,7 +136,7 @@ class _SwipeQuizScreenState extends State<SwipeQuizScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final locale = Localizations.localeOf(context);
+    final contentLang = App.of(context)?.contentLocale ?? Localizations.localeOf(context).languageCode;
     if (_loading) {
       return const Scaffold(body: SafeArea(child: Center(child: CircularProgressIndicator())));
     }
@@ -143,7 +144,7 @@ class _SwipeQuizScreenState extends State<SwipeQuizScreen> {
       appBar: AppBar(
         title: Text(l10n.quiz_mode_swipe_tf),
         actions: [
-          if (locale.languageCode != 'de')
+          if (contentLang != 'de')
             IconButton(
               tooltip: 'DE',
               icon: Icon(_showTranslation ? Icons.translate : Icons.translate_outlined),
@@ -181,7 +182,7 @@ class _SwipeQuizScreenState extends State<SwipeQuizScreen> {
                                           child: _StaticCard(
                                             item: _items[_index + 1],
                                             width: width,
-                                            showTranslation: _showTranslation && locale.languageCode != 'de',
+                                            showTranslation: _showTranslation && contentLang != 'de',
                                           ),
                                         ),
                                       ),
@@ -192,7 +193,7 @@ class _SwipeQuizScreenState extends State<SwipeQuizScreen> {
                                       key: _cardKey,
                                       item: current!,
                                       width: width,
-                                      showTranslation: _showTranslation && locale.languageCode != 'de',
+                                      showTranslation: _showTranslation && contentLang != 'de',
                                       onDecision: (guess, timeMs) => _onDecision(guess, timeMs: timeMs),
                                     ),
                                   ),

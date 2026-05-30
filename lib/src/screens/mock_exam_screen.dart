@@ -130,6 +130,7 @@ class _MockExamScreenState extends State<MockExamScreen> {
       );
     }
     await ProgressRepository.instance.finishSession(sessionId: _sessionId, correctCount: correct, duration: DateTime.now().difference(_sessionStart));
+    await AppPrefs.incrementExamTrialCount();
 
     // Navigate to results; remove this route (so user lands back on home later)
     if (!mounted) return;

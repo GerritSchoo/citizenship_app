@@ -3,7 +3,7 @@ import '../payments/purchase_service.dart';
 import '../theme/app_theme.dart';
 import 'mock_exam_screen.dart';
 import '../../l10n/app_localizations.dart';
-import '../analytics/progress_repository.dart';
+import '../core/prefs.dart';
 import 'paywall_screen.dart';
 
 class MockExamRulesScreen extends StatelessWidget {
@@ -70,10 +70,8 @@ class MockExamRulesScreen extends StatelessWidget {
                     final l10n = AppLocalizations.of(context);
                     final isPro = PurchaseService.instance.isPro;
                     if (!isPro) {
-                      await ProgressRepository.instance.init();
-                      final results = await ProgressRepository.instance.examResults();
-                      final completed = results.where((e) => e.completed).length;
-                      if (completed >= 3) {
+                      final trialCount = await AppPrefs.getExamTrialCount();
+                      if (trialCount >= 3) {
                         if (!context.mounted) return;
                         final goSub = await showDialog<bool>(
                           context: context,

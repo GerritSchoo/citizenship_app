@@ -4,7 +4,7 @@ import '../models/question.dart';
 import '../widgets/exam_result_indicator.dart';
 import '../../l10n/app_localizations.dart';
 import '../achievements/achievement_service.dart';
-import '../analytics/progress_repository.dart';
+import '../core/prefs.dart';
 import '../payments/purchase_service.dart';
 import 'paywall_screen.dart';
 
@@ -39,11 +39,9 @@ class _MockExamResultScreenState extends State<MockExamResultScreen> {
     if (!_paywallPrompted && !PurchaseService.instance.isPro) {
       _paywallPrompted = true;
       WidgetsBinding.instance.addPostFrameCallback((_) async {
-        await ProgressRepository.instance.init();
-        final results = await ProgressRepository.instance.examResults();
-        final completed = results.where((e) => e.completed).length;
+        final trialCount = await AppPrefs.getExamTrialCount();
         if (!mounted) return;
-        if (completed >= 3) {
+        if (trialCount >= 3) {
           final l10n = AppLocalizations.of(context);
           final go = await showDialog<bool>(
             context: context,

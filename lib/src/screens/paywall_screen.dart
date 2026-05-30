@@ -12,6 +12,7 @@ class PaywallScreen extends StatefulWidget {
 class _PaywallScreenState extends State<PaywallScreen> {
   bool _initializing = true;
   bool _isAvailable = false;
+  bool _restoring = false;
   String? _error;
 
   @override
@@ -147,10 +148,24 @@ class _PaywallScreenState extends State<PaywallScreen> {
                           ),
                           const SizedBox(height: 16),
                           TextButton(
-                            onPressed: () async {
-                              await PurchaseService.instance.restorePurchases();
+                            onPressed: _restoring ? null : () async {
+                              setState(() => _restoring = true);
+                              final messenger = ScaffoldMessenger.of(context);
+                              try {
+                                await PurchaseService.instance.restorePurchases();
+                                if (!mounted) return;
+                                if (!PurchaseService.instance.isPro) {
+                                  messenger.showSnackBar(
+                                    SnackBar(content: Text(l10n.restore_no_purchases)),
+                                  );
+                                }
+                              } finally {
+                                if (mounted) setState(() => _restoring = false);
+                              }
                             },
-                            child: Text(l10n.restore_purchases),
+                            child: _restoring
+                                ? const SizedBox(height: 16, width: 16, child: CircularProgressIndicator(strokeWidth: 2))
+                                : Text(l10n.restore_purchases),
                           ),
                         ],
                       ),

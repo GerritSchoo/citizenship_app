@@ -201,14 +201,6 @@
   "@menu_subscribe": {
     "description": "Overflow-Menüeintrag zum Öffnen der Paywall/Aboseite"
   },
-  "ach_practice_10_name": "Los geht's",
-  "@ach_practice_10_name": {
-    "description": "10 richtige Antworten im Lernen/Quiz"
-  },
-  "ach_practice_10_desc": "Erreiche 10 richtige Antworten im Lernen/Quiz.",
-  "@ach_practice_10_desc": {
-    "description": "Beschreibung für 10 richtige Antworten im Üben"
-  },
   "ach_practice_100_name": "Gut in Fahrt",
   "@ach_practice_100_name": {
     "description": "100 richtige Antworten im Lernen/Quiz"
@@ -232,14 +224,6 @@
   "ach_exam_first_desc": "Gib deine erste Probeprüfung ab.",
   "@ach_exam_first_desc": {
     "description": "Beschreibung für erste abgegebene Prüfung"
-  },
-  "ach_exam_25_name": "Starke Leistung",
-  "@ach_exam_25_name": {
-    "description": "25 oder mehr richtige Antworten in der Prüfung"
-  },
-  "ach_exam_25_desc": "Erreiche 25 oder mehr richtige Antworten in der Probeprüfung.",
-  "@ach_exam_25_desc": {
-    "description": "Beschreibung für 25+ richtige Antworten in der Prüfung"
   },
   "ach_exam_perfect_name": "Perfekt!",
   "@ach_exam_perfect_name": {
@@ -265,38 +249,6 @@
   "@ach_exam_fast_desc": {
     "description": "Beschreibung für schnelle bestandene Prüfung"
   },
-  "ach_exam_fast5_name": "Blitzschnell",
-  "@ach_exam_fast5_name": {
-    "description": "Prüfung in unter 5 Minuten – Titel"
-  },
-  "ach_exam_fast5_desc": "Bestehe eine Probeprüfung in unter 5 Minuten.",
-  "@ach_exam_fast5_desc": {
-    "description": "Prüfung in unter 5 Minuten – Beschreibung"
-  },
-  "ach_exam_pass10_name": "Erfahrener Prüfling",
-  "@ach_exam_pass10_name": {
-    "description": "10 Prüfungen bestanden – Titel"
-  },
-  "ach_exam_pass10_desc": "Bestehe insgesamt 10 Probeprüfungen.",
-  "@ach_exam_pass10_desc": {
-    "description": "10 Prüfungen bestanden – Beschreibung"
-  },
-  "ach_exam_perfect3_name": "Dreifache Perfektion",
-  "@ach_exam_perfect3_name": {
-    "description": "3 perfekte Prüfungen – Titel"
-  },
-  "ach_exam_perfect3_desc": "Erreiche 3 perfekte Probeprüfungen.",
-  "@ach_exam_perfect3_desc": {
-    "description": "3 perfekte Prüfungen – Beschreibung"
-  },
-  "ach_exam_streak5_name": "Läuft (5x)",
-  "@ach_exam_streak5_name": {
-    "description": "5 in Folge bestanden – Titel"
-  },
-  "ach_exam_streak5_desc": "Bestehe 5 Probeprüfungen hintereinander.",
-  "@ach_exam_streak5_desc": {
-    "description": "5 in Folge bestanden – Beschreibung"
-  },
   "ach_timer_first_name": "Timer-Einsteiger",
   "@ach_timer_first_name": {
     "description": "Erster Timer-Lauf – Titel"
@@ -304,30 +256,6 @@
   "ach_timer_first_desc": "Schließe einen Timer-Lauf ab.",
   "@ach_timer_first_desc": {
     "description": "Erster Timer-Lauf – Beschreibung"
-  },
-  "ach_timer_10_name": "Timer 10",
-  "@ach_timer_10_name": {
-    "description": "10 richtige im Timer – Titel"
-  },
-  "ach_timer_10_desc": "Erreiche 10 richtige Antworten in einem Timer-Lauf.",
-  "@ach_timer_10_desc": {
-    "description": "10 richtige im Timer – Beschreibung"
-  },
-  "ach_timer_20_name": "Timer 20",
-  "@ach_timer_20_name": {
-    "description": "20 richtige im Timer – Titel"
-  },
-  "ach_timer_20_desc": "Erreiche 20 richtige Antworten in einem Timer-Lauf.",
-  "@ach_timer_20_desc": {
-    "description": "20 richtige im Timer – Beschreibung"
-  },
-  "ach_timer_30_name": "Timer 30",
-  "@ach_timer_30_name": {
-    "description": "30 richtige im Timer – Titel"
-  },
-  "ach_timer_30_desc": "Erreiche 30 richtige Antworten in einem Timer-Lauf.",
-  "@ach_timer_30_desc": {
-    "description": "30 richtige im Timer – Beschreibung"
   },
   "ach_mistakes_review_name": "Fehler überprüft",
   "@ach_mistakes_review_name": {
@@ -353,30 +281,6 @@
   "@ach_topics_first_desc": {
     "description": "Erste richtige in Themen – Beschreibung"
   },
-  "ach_practice_2500_name": "Übungs‑Veteran",
-  "@ach_practice_2500_name": {
-    "description": "2500 richtige in Übung – Titel"
-  },
-  "ach_practice_2500_desc": "Erreiche 2.500 richtige Antworten im Üben.",
-  "@ach_practice_2500_desc": {
-    "description": "2500 richtige in Übung – Beschreibung"
-  },
-  "ach_practice_5000_name": "Übungs‑Profi",
-  "@ach_practice_5000_name": {
-    "description": "5000 richtige in Übung – Titel"
-  },
-  "ach_practice_5000_desc": "Erreiche 5.000 richtige Antworten im Üben.",
-  "@ach_practice_5000_desc": {
-    "description": "5000 richtige in Übung – Beschreibung"
-  },
-  "ach_practice_10000_name": "Übungs‑Legende",
-  "@ach_practice_10000_name": {
-    "description": "10000 richtige in Übung – Titel"
-  },
-  "ach_practice_10000_desc": "Erreiche 10.000 richtige Antworten im Üben.",
-  "@ach_practice_10000_desc": {
-    "description": "10000 richtige in Übung – Beschreibung"
-  },
   "ach_streak7_name": "7‑Tage‑Serie",
   "@ach_streak7_name": {
     "description": "7‑Tage‑Serie – Titel"
@@ -384,14 +288,6 @@
   "ach_streak7_desc": "Bleibe 7 Tage hintereinander aktiv.",
   "@ach_streak7_desc": {
     "description": "7‑Tage‑Serie – Beschreibung"
-  },
-  "ach_streak30_name": "30‑Tage‑Serie",
-  "@ach_streak30_name": {
-    "description": "30‑Tage‑Serie – Titel"
-  },
-  "ach_streak30_desc": "Bleibe 30 Tage hintereinander aktiv.",
-  "@ach_streak30_desc": {
-    "description": "30‑Tage‑Serie – Beschreibung"
   },
   "paywall_title": "Abonnement",
   "@paywall_title": {
@@ -474,5 +370,16 @@
   "purchased": "Gekauft",
   "@purchased": {
     "description": "Label für gekauften Plan"
+  },
+  "confirm_reset_title": "Zurücksetzen bestätigen",
+  "confirm_reset_body": "Deine Fortschrittsdaten werden dauerhaft gelöscht. Das kann nicht rückgängig gemacht werden.",
+  "restore_checking": "Käufe werden geprüft…",
+  "restore_no_purchases": "Kein Kauf gefunden",
+  "finish_quiz": "Beenden",
+  "exam_trials_remaining": "Noch {count} kostenloser Versuch(e)",
+  "@exam_trials_remaining": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
   }
 }

@@ -376,18 +376,66 @@ class _HomeScreenState extends State<HomeScreen> {
       return;
     }
     if (choice == 'reset_all') {
+      if (!mounted) return;
+      final confirmed = await showDialog<bool>(
+        context: context,
+        builder: (c) {
+          final l10n = AppLocalizations.of(c);
+          return AlertDialog(
+            title: Text(l10n.confirm_reset_title),
+            content: Text(l10n.confirm_reset_body),
+            actions: [
+              TextButton(onPressed: () => Navigator.of(c).pop(false), child: Text(l10n.no_btn)),
+              FilledButton(onPressed: () => Navigator.of(c).pop(true), child: Text(l10n.yes_btn)),
+            ],
+          );
+        },
+      );
+      if (confirmed != true || !mounted) return;
       await ProgressRepository.instance.clearAll();
       if (!mounted) return;
       messenger.showSnackBar(SnackBar(content: Text(AppLocalizations.of(context).snack_reset_all)));
       return;
     }
     if (choice == 'reset_practice') {
+      if (!mounted) return;
+      final confirmed = await showDialog<bool>(
+        context: context,
+        builder: (c) {
+          final l10n = AppLocalizations.of(c);
+          return AlertDialog(
+            title: Text(l10n.confirm_reset_title),
+            content: Text(l10n.confirm_reset_body),
+            actions: [
+              TextButton(onPressed: () => Navigator.of(c).pop(false), child: Text(l10n.no_btn)),
+              FilledButton(onPressed: () => Navigator.of(c).pop(true), child: Text(l10n.yes_btn)),
+            ],
+          );
+        },
+      );
+      if (confirmed != true || !mounted) return;
       await ProgressRepository.instance.clearByMode(SessionMode.practice);
       if (!mounted) return;
       messenger.showSnackBar(SnackBar(content: Text(AppLocalizations.of(context).snack_reset_practice)));
       return;
     }
     if (choice == 'reset_exam') {
+      if (!mounted) return;
+      final confirmed = await showDialog<bool>(
+        context: context,
+        builder: (c) {
+          final l10n = AppLocalizations.of(c);
+          return AlertDialog(
+            title: Text(l10n.confirm_reset_title),
+            content: Text(l10n.confirm_reset_body),
+            actions: [
+              TextButton(onPressed: () => Navigator.of(c).pop(false), child: Text(l10n.no_btn)),
+              FilledButton(onPressed: () => Navigator.of(c).pop(true), child: Text(l10n.yes_btn)),
+            ],
+          );
+        },
+      );
+      if (confirmed != true || !mounted) return;
       await ProgressRepository.instance.clearByMode(SessionMode.exam);
       if (!mounted) return;
       messenger.showSnackBar(SnackBar(content: Text(AppLocalizations.of(context).snack_reset_exam)));

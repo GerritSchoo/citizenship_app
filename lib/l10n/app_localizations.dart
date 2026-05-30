@@ -914,18 +914,6 @@ abstract class AppLocalizations {
   /// **'Subscribe'**
   String get menu_subscribe;
 
-  /// 10 correct answers in practice
-  ///
-  /// In en, this message translates to:
-  /// **'Getting started'**
-  String get ach_practice_10_name;
-
-  /// Description for 10 practice correct answers
-  ///
-  /// In en, this message translates to:
-  /// **'Reach 10 correct answers in practice.'**
-  String get ach_practice_10_desc;
-
   /// 100 correct answers in practice
   ///
   /// In en, this message translates to:
@@ -961,18 +949,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Submit your first mock exam.'**
   String get ach_exam_first_desc;
-
-  /// 25 or more correct answers in exam
-  ///
-  /// In en, this message translates to:
-  /// **'Strong score'**
-  String get ach_exam_25_name;
-
-  /// Description for 25+ correct answers in exam
-  ///
-  /// In en, this message translates to:
-  /// **'Score 25 or more correct answers in a mock exam.'**
-  String get ach_exam_25_desc;
 
   /// All answers correct in exam
   ///
@@ -1010,54 +986,6 @@ abstract class AppLocalizations {
   /// **'Pass a mock exam in under 10 minutes.'**
   String get ach_exam_fast_desc;
 
-  /// Pass an exam in under 5 minutes - title
-  ///
-  /// In en, this message translates to:
-  /// **'Lightning fast'**
-  String get ach_exam_fast5_name;
-
-  /// Pass in under 5 minutes
-  ///
-  /// In en, this message translates to:
-  /// **'Pass a mock exam in under 5 minutes.'**
-  String get ach_exam_fast5_desc;
-
-  /// Pass 10 exams - title
-  ///
-  /// In en, this message translates to:
-  /// **'Seasoned examinee'**
-  String get ach_exam_pass10_name;
-
-  /// Pass 10 exams - description
-  ///
-  /// In en, this message translates to:
-  /// **'Pass 10 mock exams in total.'**
-  String get ach_exam_pass10_desc;
-
-  /// 3 perfect exams - title
-  ///
-  /// In en, this message translates to:
-  /// **'Triple perfection'**
-  String get ach_exam_perfect3_name;
-
-  /// 3 perfect exams - description
-  ///
-  /// In en, this message translates to:
-  /// **'Achieve 3 perfect mock exams.'**
-  String get ach_exam_perfect3_desc;
-
-  /// Pass 5 in a row - title
-  ///
-  /// In en, this message translates to:
-  /// **'On fire (5x)'**
-  String get ach_exam_streak5_name;
-
-  /// Pass 5 in a row - description
-  ///
-  /// In en, this message translates to:
-  /// **'Pass 5 mock exams in a row.'**
-  String get ach_exam_streak5_desc;
-
   /// First timer run - title
   ///
   /// In en, this message translates to:
@@ -1069,42 +997,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Complete a timer run.'**
   String get ach_timer_first_desc;
-
-  /// 10 correct in timer - title
-  ///
-  /// In en, this message translates to:
-  /// **'Timer 10'**
-  String get ach_timer_10_name;
-
-  /// 10 correct in timer - description
-  ///
-  /// In en, this message translates to:
-  /// **'Reach 10 correct in a timer run.'**
-  String get ach_timer_10_desc;
-
-  /// 20 correct in timer - title
-  ///
-  /// In en, this message translates to:
-  /// **'Timer 20'**
-  String get ach_timer_20_name;
-
-  /// 20 correct in timer - description
-  ///
-  /// In en, this message translates to:
-  /// **'Reach 20 correct in a timer run.'**
-  String get ach_timer_20_desc;
-
-  /// 30 correct in timer - title
-  ///
-  /// In en, this message translates to:
-  /// **'Timer 30'**
-  String get ach_timer_30_name;
-
-  /// 30 correct in timer - description
-  ///
-  /// In en, this message translates to:
-  /// **'Reach 30 correct in a timer run.'**
-  String get ach_timer_30_desc;
 
   /// Mistakes review - title
   ///
@@ -1142,42 +1034,6 @@ abstract class AppLocalizations {
   /// **'Answer your first question correctly in Topics.'**
   String get ach_topics_first_desc;
 
-  /// 2500 correct in practice - title
-  ///
-  /// In en, this message translates to:
-  /// **'Practice veteran'**
-  String get ach_practice_2500_name;
-
-  /// 2500 correct in practice - description
-  ///
-  /// In en, this message translates to:
-  /// **'Reach 2,500 correct answers in practice.'**
-  String get ach_practice_2500_desc;
-
-  /// 5000 correct in practice - title
-  ///
-  /// In en, this message translates to:
-  /// **'Practice expert'**
-  String get ach_practice_5000_name;
-
-  /// 5000 correct in practice - description
-  ///
-  /// In en, this message translates to:
-  /// **'Reach 5,000 correct answers in practice.'**
-  String get ach_practice_5000_desc;
-
-  /// 10000 correct in practice - title
-  ///
-  /// In en, this message translates to:
-  /// **'Practice legend'**
-  String get ach_practice_10000_name;
-
-  /// 10000 correct in practice - description
-  ///
-  /// In en, this message translates to:
-  /// **'Reach 10,000 correct answers in practice.'**
-  String get ach_practice_10000_desc;
-
   /// 7 day streak - title
   ///
   /// In en, this message translates to:
@@ -1189,18 +1045,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Stay active 7 days in a row.'**
   String get ach_streak7_desc;
-
-  /// 30 day streak - title
-  ///
-  /// In en, this message translates to:
-  /// **'30-day streak'**
-  String get ach_streak30_name;
-
-  /// 30 day streak - description
-  ///
-  /// In en, this message translates to:
-  /// **'Stay active 30 days in a row.'**
-  String get ach_streak30_desc;
 
   /// Paywall screen title
   ///
@@ -1345,6 +1189,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Purchased'**
   String get purchased;
+
+  /// No description provided for @confirm_reset_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Reset'**
+  String get confirm_reset_title;
+
+  /// No description provided for @confirm_reset_body.
+  ///
+  /// In en, this message translates to:
+  /// **'This will permanently delete your progress data and cannot be undone.'**
+  String get confirm_reset_body;
+
+  /// No description provided for @restore_checking.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking purchases…'**
+  String get restore_checking;
+
+  /// No description provided for @restore_no_purchases.
+  ///
+  /// In en, this message translates to:
+  /// **'No purchases found'**
+  String get restore_no_purchases;
+
+  /// No description provided for @finish_quiz.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish'**
+  String get finish_quiz;
+
+  /// No description provided for @exam_trials_remaining.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} free trial(s) remaining'**
+  String exam_trials_remaining(int count);
 }
 
 class _AppLocalizationsDelegate

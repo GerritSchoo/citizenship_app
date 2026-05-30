@@ -6,6 +6,8 @@ class AppPrefs {
   static const _keyContentLocale = 'contentLocale';
   static const _keyThemeMode = 'themeMode'; // 'system' | 'light' | 'dark'
   static const _keyDisclaimerAccepted = 'disclaimerAccepted';
+  // Tracks completed exam count independently of analytics so resets cannot bypass the trial gate.
+  static const _keyExamTrialCount = 'examTrialCount';
 
   static Future<void> saveDisclaimerAccepted(bool accepted) async {
     final p = await SharedPreferences.getInstance();
@@ -47,6 +49,16 @@ class AppPrefs {
   static Future<String?> getContentLocale() async {
     final p = await SharedPreferences.getInstance();
     return p.getString(_keyContentLocale);
+  }
+
+  static Future<int> getExamTrialCount() async {
+    final p = await SharedPreferences.getInstance();
+    return p.getInt(_keyExamTrialCount) ?? 0;
+  }
+
+  static Future<void> incrementExamTrialCount() async {
+    final p = await SharedPreferences.getInstance();
+    await p.setInt(_keyExamTrialCount, (p.getInt(_keyExamTrialCount) ?? 0) + 1);
   }
 
   static Future<void> clearAll() async {
