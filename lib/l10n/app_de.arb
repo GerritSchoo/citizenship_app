@@ -376,6 +376,8 @@
   "restore_checking": "Käufe werden geprüft…",
   "restore_no_purchases": "Kein Kauf gefunden",
   "finish_quiz": "Beenden",
+  "error_image_not_found": "Bild nicht gefunden",
+  "error_loading_data": "Daten konnten nicht geladen werden.",
   "exam_trials_remaining": "Noch {count} kostenloser Versuch(e)",
   "@exam_trials_remaining": {
     "placeholders": {

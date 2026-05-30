@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LegalTextScreen extends StatelessWidget {
   final String title;
@@ -30,9 +31,8 @@ class LegalTextScreen extends StatelessWidget {
                 ),
           ),
           onTapLink: (text, href, title) {
-            // Implement URL launching here if needed
-            // e.g. launchUrl(Uri.parse(href!));
-          },  
+            if (href != null) launchUrl(Uri.parse(href), mode: LaunchMode.externalApplication);
+          },
         ),
       ),
     );

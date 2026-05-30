@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../l10n/app_localizations.dart';
 
 class ImageViewerScreen extends StatelessWidget {
   final String imagePath;
@@ -17,7 +18,7 @@ class ImageViewerScreen extends StatelessWidget {
       imagePath,
       gaplessPlayback: true,
       errorBuilder: (context, error, stackTrace) => Center(
-        child: Text('Bild nicht gefunden', style: theme.textTheme.bodyMedium),
+        child: Text(AppLocalizations.of(context).error_image_not_found, style: theme.textTheme.bodyMedium),
       ),
       filterQuality: FilterQuality.high,
     );
@@ -35,7 +36,7 @@ class ImageViewerScreen extends StatelessWidget {
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () => Navigator.of(context).maybePop(),
-            tooltip: 'Zurück',
+            tooltip: AppLocalizations.of(context).back,
           ),
         ),
         body: SafeArea(

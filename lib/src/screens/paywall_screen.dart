@@ -80,14 +80,22 @@ class _PaywallScreenState extends State<PaywallScreen> {
                           Text(l10n.paywall_subtitle, style: theme.textTheme.titleMedium),
                           const SizedBox(height: 8),
                           if (_initializing) const LinearProgressIndicator(),
-                          if (!_isAvailable && !_initializing)
+                          if (!_isAvailable && !_initializing) ...[
                             Padding(
-                              padding: const EdgeInsets.only(bottom: 8.0),
+                              padding: const EdgeInsets.only(bottom: 4.0),
                               child: Text(
                                 l10n.paywall_unavailable,
                                 style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.error),
                               ),
                             ),
+                            TextButton(
+                              onPressed: () {
+                                setState(() => _initializing = true);
+                                _initPurchases();
+                              },
+                              child: Text(l10n.retry),
+                            ),
+                          ],
                           if (_error != null) ...[
                             const SizedBox(height: 8),
                             Text(_error!, style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.error)),

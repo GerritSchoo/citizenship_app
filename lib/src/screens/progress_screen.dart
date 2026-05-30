@@ -68,7 +68,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
         future: _future,
         builder: (ctx, snap) {
           if (!snap.hasData) {
-            if (snap.hasError) return Center(child: Text('Fehler: ${snap.error}'));
+            if (snap.hasError) return Center(child: Text(AppLocalizations.of(ctx).error_loading_data));
             return const Center(child: CircularProgressIndicator());
           }
           final data = snap.data!;

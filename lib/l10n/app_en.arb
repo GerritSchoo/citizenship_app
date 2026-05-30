@@ -376,6 +376,8 @@
   "restore_checking": "Checking purchases…",
   "restore_no_purchases": "No purchases found",
   "finish_quiz": "Finish",
+  "error_image_not_found": "Image not found",
+  "error_loading_data": "Failed to load data.",
   "exam_trials_remaining": "{count} free trial(s) remaining",
   "@exam_trials_remaining": {
     "placeholders": {

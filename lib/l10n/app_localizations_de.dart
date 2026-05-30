@@ -618,6 +618,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get finish_quiz => 'Beenden';
 
   @override
+  String get error_image_not_found => 'Bild nicht gefunden';
+
+  @override
+  String get error_loading_data => 'Daten konnten nicht geladen werden.';
+
+  @override
   String exam_trials_remaining(int count) {
     return 'Noch $count kostenloser Versuch(e)';
   }

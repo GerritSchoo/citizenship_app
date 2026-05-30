@@ -1220,6 +1220,18 @@ abstract class AppLocalizations {
   /// **'Finish'**
   String get finish_quiz;
 
+  /// No description provided for @error_image_not_found.
+  ///
+  /// In en, this message translates to:
+  /// **'Image not found'**
+  String get error_image_not_found;
+
+  /// No description provided for @error_loading_data.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load data.'**
+  String get error_loading_data;
+
   /// No description provided for @exam_trials_remaining.
   ///
   /// In en, this message translates to:

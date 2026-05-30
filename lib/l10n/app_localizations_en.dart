@@ -613,6 +613,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get finish_quiz => 'Finish';
 
   @override
+  String get error_image_not_found => 'Image not found';
+
+  @override
+  String get error_loading_data => 'Failed to load data.';
+
+  @override
   String exam_trials_remaining(int count) {
     return '$count free trial(s) remaining';
   }
