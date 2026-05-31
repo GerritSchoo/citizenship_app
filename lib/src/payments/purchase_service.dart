@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../app.dart';
+import '../analytics/analytics_service.dart';
 
 /// Wrapper around in_app_purchase for Play Store billing.
 class PurchaseService extends ChangeNotifier {
@@ -82,19 +83,21 @@ class PurchaseService extends ChangeNotifier {
     bool changed = false;
 
     for (final purchase in purchases) {
-      if (purchase.status == PurchaseStatus.purchased ||
-          purchase.status == PurchaseStatus.restored) {
-        
-        // Deliver the content
+      if (purchase.status == PurchaseStatus.purchased) {
+        if (_activeProductIds.add(purchase.productID)) {
+          changed = true;
+          unawaited(AnalyticsService.instance.logPurchaseCompleted(purchase.productID));
+        }
+      } else if (purchase.status == PurchaseStatus.restored) {
         if (_activeProductIds.add(purchase.productID)) {
           changed = true;
         }
-        
-        if (purchase.pendingCompletePurchase) {
-          await _iap.completePurchase(purchase);
-        }
       } else if (purchase.status == PurchaseStatus.error) {
         // Handle error if needed
+      }
+
+      if (purchase.pendingCompletePurchase) {
+        await _iap.completePurchase(purchase);
       }
     }
 

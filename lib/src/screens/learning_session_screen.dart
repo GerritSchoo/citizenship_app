@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../models/question.dart';
@@ -8,6 +9,7 @@ import '../widgets/answer_text_tile.dart';
 import '../utils/asset_image_cache.dart';
 import '../analytics/progress_repository.dart';
 import '../analytics/progress_tracker.dart';
+import '../analytics/analytics_service.dart';
 import '../../l10n/app_localizations.dart';
 import '../achievements/achievement_service.dart';
 import '../theme/app_theme.dart';
@@ -55,6 +57,9 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
     _controller.addListener(_controllerListener);
     // use provided list (learning session should not shuffle)
     _controller.setQuestions(widget.questions, shuffle: false);
+    if (widget.questions.isNotEmpty) {
+      unawaited(AnalyticsService.instance.logLearningStarted(widget.questions.first.topicId));
+    }
     // init analytics
     ProgressRepository.instance.init().then((_) async {
       await ProgressRepository.instance.startSession(sessionId: _sessionId, mode: SessionMode.practice, totalQuestions: widget.questions.length);

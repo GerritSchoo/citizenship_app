@@ -1,5 +1,5 @@
 String _getLastModified() {
-  return "02.02.2026";
+  return "31.05.2026";
 }
 
 String get privacyPolicyDe => """
@@ -24,9 +24,9 @@ E-Mail: studio.maximus69@gmail.com
 
 ## 3. Art und Zweck der Datenverarbeitung
 
-### 3.1 Offline-Nutzung
-Die App funktioniert vollständig offline.  
-Es findet keine Datenübertragung an externe Server, keine Internetkommunikation und keine Verbindung zu Dritten statt.
+### 3.1 Nutzung und Internetverbindung
+Die App funktioniert für den Kernbetrieb (Lernen, Quizze, Prüfungen) vollständig offline.
+Für Analysezwecke (siehe Abschnitt 5) werden jedoch anonymisierte Nutzungsdaten an Server von Google übertragen. Hierfür ist eine Internetverbindung erforderlich.
 
 ### 3.2 Abfrage des Bundeslandes
 Zur Bereitstellung länderspezifischer Lerninhalte wird innerhalb der App das Bundesland abgefragt.
@@ -54,18 +54,43 @@ Wir erhalten keine Zahlungsdaten, keine Rechnungsinformationen und keine persone
 
 Es gelten insoweit die Datenschutzbestimmungen der jeweiligen Plattformbetreiber.
 
-## 5. Keine Nutzung von Drittanbietern
-Die App verwendet keine der folgenden Dienste:
+## 5. Firebase Analytics (Google)
 
-* Analyse- oder Tracking-Tools (z. B. Google Analytics, Firebase)
-* Werbenetzwerke
-* Social-Media-Plugins
-* Crash-Reporting-Dienste
-* Externe SDKs
+Diese App verwendet **Firebase Analytics**, einen Analysedienst der Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland.
 
-Eine Profilbildung oder ein Tracking des Nutzerverhaltens findet nicht statt.
+### Welche Daten werden erfasst?
+Firebase Analytics erfasst anonymisierte Nutzungsereignisse, darunter:
 
-## 6. Berechtigungen
+* App-Start und Sitzungsdauer
+* Genutzte Funktionen (z. B. Quiz gestartet/beendet, Prüfung abgelegt, Lernmodus geöffnet)
+* Kaufvorgänge (Anzeige der Kaufseite, Kaufabschluss)
+* Eine pseudonyme App-Instanz-ID (kein Personenbezug)
+
+Es werden **keine** Namen, E-Mail-Adressen, Standortdaten oder andere direkt personenbezogene Daten erfasst.
+
+### Zweck der Verarbeitung
+Die erhobenen Daten dienen ausschließlich der Verbesserung der App (z. B. Erkennung wenig genutzter Funktionen, Optimierung des Nutzererlebnisses).
+
+### Rechtsgrundlage
+Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigte Interessen). Unser berechtigtes Interesse besteht in der Analyse und Verbesserung der App-Funktionen.
+
+### Datenübertragung in Drittländer
+Google verarbeitet Daten auf Servern in den USA. Die Übermittlung erfolgt auf Grundlage der EU-Standardvertragsklauseln (Art. 46 DSGVO).
+
+### Opt-out
+Sie können die Erfassung durch Firebase Analytics deaktivieren über:
+**Android:** Einstellungen → Google → Werbung → Werbe-ID zurücksetzen oder Personalisierung deaktivieren
+
+Weitere Informationen: [https://policies.google.com/privacy](https://policies.google.com/privacy)
+
+## 6. Keine weiteren Drittanbieter
+Abgesehen von Firebase Analytics (siehe Abschnitt 5) und den App-Store-Anbietern (Abschnitt 4) verwendet die App keine weiteren Drittanbieterdienste, insbesondere:
+
+* Keine Werbenetzwerke
+* Keine Social-Media-Plugins
+* Keine Crash-Reporting-Dienste
+
+## 7. Berechtigungen
 Die App verlangt keine besonderen Zugriffsberechtigungen, insbesondere keinen Zugriff auf:
 
 * Kontakte
@@ -75,11 +100,11 @@ Die App verlangt keine besonderen Zugriffsberechtigungen, insbesondere keinen Zu
 * Fotos oder Dateien
 * Gerätekennungen
 
-## 7. Minderjährige Nutzer
+## 8. Minderjährige Nutzer
 Die App richtet sich sowohl an Minderjährige als auch an volljährige Nutzer.
-Da keine personenbezogenen Daten erhoben oder verarbeitet werden, ist eine Nutzung auch durch Minderjährige datenschutzrechtlich unbedenklich.
+Die durch Firebase Analytics erfassten Daten sind pseudonymisiert und enthalten keinen direkten Personenbezug.
 
-## 8. Rechte der betroffenen Personen
+## 9. Rechte der betroffenen Personen
 Soweit personenbezogene Daten verarbeitet werden, stehen den Betroffenen folgende Rechte zu:
 
 * Recht auf Auskunft (Art. 15 DSGVO)
@@ -90,7 +115,7 @@ Soweit personenbezogene Daten verarbeitet werden, stehen den Betroffenen folgend
 
 Anfragen können jederzeit an die oben genannte E-Mail-Adresse gerichtet werden.
 
-## 9. Änderung dieser Datenschutzerklärung
+## 10. Änderung dieser Datenschutzerklärung
 Wir behalten uns vor, diese Datenschutzerklärung anzupassen, sofern dies aufgrund geänderter rechtlicher Anforderungen oder technischer Änderungen der App erforderlich wird.
 
 Diese Datenschutzerklärung unterliegt dem deutschen Recht.
@@ -119,9 +144,9 @@ Email: studio.maximus69@gmail.com
 
 ## 3. Type and Purpose of Data Processing
 
-### 3.1 Offline Use
-The app works completely offline.  
-There is no data transmission to external servers, no internet communication, and no connection to third parties.
+### 3.1 Use and Internet Connection
+The app works completely offline for its core features (learning, quizzes, exams).
+However, for analytics purposes (see Section 5), anonymized usage data is transmitted to Google's servers. An internet connection is required for this.
 
 ### 3.2 Query of the Federal State
 To provide state-specific learning content, the federal state is requested within the app.
@@ -150,18 +175,43 @@ We do not receive any payment data, billing information, or personal billing dat
 
 In this respect, the privacy policies of the respective platform operators apply.
 
-## 5. No Use of Third-Party Providers
-The app does not use any of the following services:
+## 5. Firebase Analytics (Google)
 
-* Analysis or tracking tools (e.g., Google Analytics, Firebase)
-* Advertising networks
-* Social media plugins
-* Crash reporting services
-* External SDKs
+This app uses **Firebase Analytics**, an analytics service provided by Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Ireland.
 
-No profiling or tracking of user behavior takes place.
+### What data is collected?
+Firebase Analytics collects anonymized usage events, including:
 
-## 6. Permissions
+* App launch and session duration
+* Features used (e.g., quiz started/completed, exam taken, learning mode opened)
+* Purchase events (paywall viewed, purchase completed)
+* A pseudonymous app instance ID (no personal reference)
+
+**No** names, email addresses, location data, or other directly personal data are collected.
+
+### Purpose of Processing
+The collected data is used exclusively to improve the app (e.g., identifying rarely used features, optimizing the user experience).
+
+### Legal Basis
+The legal basis is Art. 6 Para. 1 lit. f GDPR (legitimate interests). Our legitimate interest lies in analyzing and improving the app's features.
+
+### Data Transfer to Third Countries
+Google processes data on servers in the United States. The transfer is based on EU Standard Contractual Clauses (Art. 46 GDPR).
+
+### Opt-out
+You can disable Firebase Analytics data collection via:
+**Android:** Settings → Google → Ads → Reset Advertising ID or disable personalization
+
+For more information: [https://policies.google.com/privacy](https://policies.google.com/privacy)
+
+## 6. No Further Third-Party Providers
+Apart from Firebase Analytics (Section 5) and app store providers (Section 4), the app does not use any other third-party services, in particular:
+
+* No advertising networks
+* No social media plugins
+* No crash reporting services
+
+## 7. Permissions
 The app does not require any special access permissions, in particular no access to:
 
 * Contacts
@@ -171,11 +221,11 @@ The app does not require any special access permissions, in particular no access
 * Photos or files
 * Device identifiers
 
-## 7. Minor Users
+## 8. Minor Users
 The app is aimed at both minors and adult users.
-Since no personal data is collected or processed, use by minors is harmless under data protection law.
+The data collected by Firebase Analytics is pseudonymized and does not contain any direct personal reference.
 
-## 8. Rights of Data Subjects
+## 9. Rights of Data Subjects
 Insofar as personal data is processed, data subjects have the following rights:
 
 * Right of access (Art. 15 GDPR)
@@ -184,10 +234,9 @@ Insofar as personal data is processed, data subjects have the following rights:
 * Right to restriction of processing (Art. 18 GDPR)
 * Right to object to processing (Art. 21 GDPR)
 
-
 Inquiries can be sent to the email address mentioned above at any time.
 
-## 9. Changes to this Privacy Policy
+## 10. Changes to this Privacy Policy
 We reserve the right to adapt this privacy policy if this becomes necessary due to changed legal requirements or technical changes to the app.
 
 This Privacy Policy is subject to German law.

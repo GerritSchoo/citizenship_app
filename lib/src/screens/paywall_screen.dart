@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import '../../l10n/app_localizations.dart';
 import '../payments/purchase_service.dart';
+import '../analytics/analytics_service.dart';
 
 class PaywallScreen extends StatefulWidget {
   const PaywallScreen({super.key});
@@ -21,6 +23,7 @@ class _PaywallScreenState extends State<PaywallScreen> {
     PurchaseService.instance.isProNotifier.addListener(_onProStatusChanged);
     PurchaseService.instance.addListener(_onServiceUpdate);
     _initPurchases();
+    unawaited(AnalyticsService.instance.logPaywallShown());
   }
 
   @override
@@ -129,6 +132,7 @@ class _PaywallScreenState extends State<PaywallScreen> {
                                     isActive: isMonthlyActive,
                                     onPressed: (_isAvailable && monthlyProduct != null && !anyActive)
                                         ? () async {
+                                            unawaited(AnalyticsService.instance.logPurchaseStarted('citizenship_premium_monthly'));
                                             await instance.buy(monthlyProduct);
                                           }
                                         : null,
@@ -146,6 +150,7 @@ class _PaywallScreenState extends State<PaywallScreen> {
                                     isActive: isLifetimeActive,
                                     onPressed: (_isAvailable && lifetimeProduct != null && !anyActive)
                                         ? () async {
+                                            unawaited(AnalyticsService.instance.logPurchaseStarted('citizenship_premium_lifetime'));
                                             await instance.buy(lifetimeProduct);
                                           }
                                         : null,

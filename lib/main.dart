@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart' show kIsWeb, defaultTargetPlatform, TargetPlatform;
+import 'package:firebase_core/firebase_core.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
 import 'app.dart';
+import 'firebase_options.dart';
 import 'src/payments/purchase_service.dart';
 
 /// Entry point of the application.
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // Set edge-to-edge system UI mode
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 

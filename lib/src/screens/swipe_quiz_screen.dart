@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,6 +8,7 @@ import '../data/question_repository.dart';
 import '../models/question.dart';
 import '../core/prefs.dart';
 import '../analytics/progress_repository.dart';
+import '../analytics/analytics_service.dart';
 import '../../app.dart';
 
 class SwipeQuizScreen extends StatefulWidget {
@@ -75,6 +77,7 @@ class _SwipeQuizScreenState extends State<SwipeQuizScreen> {
       mode: SessionMode.practice,
       totalQuestions: _items.length,
     );
+    unawaited(AnalyticsService.instance.logQuizStarted('swipe'));
 
     if (!mounted) return;
     setState(() => _loading = false);
@@ -130,6 +133,7 @@ class _SwipeQuizScreenState extends State<SwipeQuizScreen> {
         correctCount: _correct,
         duration: _timer.elapsed,
       );
+      unawaited(AnalyticsService.instance.logQuizCompleted('swipe', _correct, _items.length));
     }
   }
 

@@ -9,6 +9,7 @@ import '../widgets/image_answer_grid.dart';
 import '../widgets/answer_text_tile.dart';
 import '../analytics/progress_repository.dart';
 import '../analytics/progress_tracker.dart';
+import '../analytics/analytics_service.dart';
 import '../utils/asset_image_cache.dart';
 import '../../l10n/app_localizations.dart';
 import '../achievements/achievement_service.dart';
@@ -179,6 +180,7 @@ class _QuizScreenState extends State<QuizScreen> {
       }
     }
     await ProgressRepository.instance.startSession(sessionId: _sessionId, mode: SessionMode.practice, totalQuestions: ctrl.questions.length);
+    unawaited(AnalyticsService.instance.logQuizStarted(_quizModeName()));
     _tracker = ProgressTracker(
       mode: SessionMode.practice,
       repo: ProgressRepository.instance,
@@ -222,6 +224,7 @@ class _QuizScreenState extends State<QuizScreen> {
       await ProgressRepository.instance.finishSession(sessionId: _sessionId, correctCount: correct, duration: duration);
       _sessionFinished = true;
     } catch (_) {}
+    unawaited(AnalyticsService.instance.logQuizCompleted('timer', correct, answered));
     if (!mounted) return;
     // Navigate to results screen (replace quiz)
     Navigator.of(context).pushReplacement(
@@ -245,6 +248,9 @@ class _QuizScreenState extends State<QuizScreen> {
       return;
     }
     if (!_mistakesFlow && ctrl.isLast && widget.config?.mode != QuizMode.timer) {
+      ProgressRepository.instance.sessionCorrectCount(_sessionId).then((correct) {
+        unawaited(AnalyticsService.instance.logQuizCompleted(_quizModeName(), correct, _controller!.questions.length));
+      });
       Navigator.of(context).pop();
       return;
     }
@@ -431,6 +437,10 @@ class _QuizScreenState extends State<QuizScreen> {
     try {
       wrongIds = await ProgressRepository.instance.sessionIncorrectQuestionIds(_sessionId);
     } catch (_) {}
+    try {
+      final correct = await ProgressRepository.instance.sessionCorrectCount(_sessionId);
+      unawaited(AnalyticsService.instance.logQuizCompleted('mistakes', correct, _controller?.questions.length ?? 0));
+    } catch (_) {}
     // For main Mistakes runs (not retry-only flows), remember last used 20 to exclude next time
     try {
       if (widget.fixedQuestionIds == null && _controller != null && _controller!.questions.isNotEmpty) {
@@ -501,6 +511,17 @@ class _QuizScreenState extends State<QuizScreen> {
         onPressed: () => setState(() => _showOriginalDe = !_showOriginalDe),
       ),
     ];
+  }
+
+  String _quizModeName() {
+    if (widget.fixedQuestionIds != null) return 'mistakes';
+    switch (widget.config?.mode) {
+      case QuizMode.timer: return 'timer';
+      case QuizMode.mistakes: return 'mistakes';
+      case QuizMode.topics: return 'topics';
+      case QuizMode.state: return 'state';
+      case null: return 'practice';
+    }
   }
 
   String _formatTime(int seconds) {

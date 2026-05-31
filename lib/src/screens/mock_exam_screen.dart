@@ -9,6 +9,7 @@ import '../widgets/image_answer_grid.dart';
 import '../widgets/answer_text_tile.dart';
 import '../utils/asset_image_cache.dart';
 import '../analytics/progress_repository.dart';
+import '../analytics/analytics_service.dart';
 // question model used indirectly via controller
 import 'mock_exam_result_screen.dart';
 import '../../l10n/app_localizations.dart';
@@ -63,6 +64,7 @@ class _MockExamScreenState extends State<MockExamScreen> {
     _startTimer();
     await ProgressRepository.instance.init();
     await ProgressRepository.instance.startSession(sessionId: _sessionId, mode: SessionMode.exam, totalQuestions: _controller!.questions.length);
+    unawaited(AnalyticsService.instance.logExamStarted());
     // Prefetch images for current + next two
     WidgetsBinding.instance.addPostFrameCallback((_) => _prefetchAroundCurrent());
   }
@@ -131,6 +133,7 @@ class _MockExamScreenState extends State<MockExamScreen> {
     }
     await ProgressRepository.instance.finishSession(sessionId: _sessionId, correctCount: correct, duration: DateTime.now().difference(_sessionStart));
     await AppPrefs.incrementExamTrialCount();
+    unawaited(AnalyticsService.instance.logExamCompleted(correct, total, passed: correct >= 17));
 
     // Navigate to results; remove this route (so user lands back on home later)
     if (!mounted) return;

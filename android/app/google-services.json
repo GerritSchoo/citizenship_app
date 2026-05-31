@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "629276847665",
+    "project_id": "citizenship-app-6ab4b",
+    "storage_bucket": "citizenship-app-6ab4b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:629276847665:android:38e3b1aba6bbc22999af10",
+        "android_client_info": {
+          "package_name": "com.studio.maximus69.citizenship_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAASGejn7XjMSu-F2JRUPgTSS86MDH1XMM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
