@@ -54,11 +54,12 @@ Wir erhalten keine Zahlungsdaten, keine Rechnungsinformationen und keine persone
 
 Es gelten insoweit die Datenschutzbestimmungen der jeweiligen Plattformbetreiber.
 
-## 5. Firebase Analytics (Google)
+## 5. Firebase-Dienste (Google)
 
-Diese App verwendet **Firebase Analytics**, einen Analysedienst der Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland.
+Diese App verwendet Dienste von **Firebase** (Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland).
 
-### Welche Daten werden erfasst?
+### 5.1 Firebase Analytics
+
 Firebase Analytics erfasst anonymisierte Nutzungsereignisse, darunter:
 
 * App-Start und Sitzungsdauer
@@ -66,29 +67,39 @@ Firebase Analytics erfasst anonymisierte Nutzungsereignisse, darunter:
 * Kaufvorgänge (Anzeige der Kaufseite, Kaufabschluss)
 * Eine pseudonyme App-Instanz-ID (kein Personenbezug)
 
-Es werden **keine** Namen, E-Mail-Adressen, Standortdaten oder andere direkt personenbezogene Daten erfasst.
+### 5.2 Firebase Crashlytics
 
-### Zweck der Verarbeitung
-Die erhobenen Daten dienen ausschließlich der Verbesserung der App (z. B. Erkennung wenig genutzter Funktionen, Optimierung des Nutzererlebnisses).
+Firebase Crashlytics erfasst im Falle eines App-Absturzes automatisch technische Diagnosedaten, darunter:
 
-### Rechtsgrundlage
-Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigte Interessen). Unser berechtigtes Interesse besteht in der Analyse und Verbesserung der App-Funktionen.
+* Stack-Trace des Fehlers
+* Gerätetyp und Betriebssystemversion
+* Zeitpunkt und Häufigkeit des Absturzes
+* App-Version
 
-### Datenübertragung in Drittländer
-Google verarbeitet Daten auf Servern in den USA. Die Übermittlung erfolgt auf Grundlage der EU-Standardvertragsklauseln (Art. 46 DSGVO).
+Diese Daten enthalten **keine** personenbezogenen Informationen und dienen ausschließlich der Fehlerbehebung und Stabilitätsverbesserung der App.
 
-### Opt-out
-Sie können die Erfassung durch Firebase Analytics deaktivieren über:
+### 5.3 Firebase Remote Config
+
+Firebase Remote Config wird verwendet, um App-Einstellungen (z. B. Funktionsaktivierungen) ohne App-Update anpassen zu können. Es werden dabei **keine** personenbezogenen Daten erhoben oder übertragen.
+
+### Gemeinsame Angaben zu allen Firebase-Diensten
+
+**Zweck:** Verbesserung der App-Stabilität, Analyse der Nutzung und flexible Konfiguration.
+
+**Rechtsgrundlage:** Art. 6 Abs. 1 lit. f DSGVO (berechtigte Interessen).
+
+**Datenübertragung in Drittländer:** Google verarbeitet Daten auf Servern in den USA. Die Übermittlung erfolgt auf Grundlage der EU-Standardvertragsklauseln (Art. 46 DSGVO).
+
+**Opt-out (Analytics & Crashlytics):**
 **Android:** Einstellungen → Google → Werbung → Werbe-ID zurücksetzen oder Personalisierung deaktivieren
 
 Weitere Informationen: [https://policies.google.com/privacy](https://policies.google.com/privacy)
 
 ## 6. Keine weiteren Drittanbieter
-Abgesehen von Firebase Analytics (siehe Abschnitt 5) und den App-Store-Anbietern (Abschnitt 4) verwendet die App keine weiteren Drittanbieterdienste, insbesondere:
+Abgesehen von Firebase (siehe Abschnitt 5) und den App-Store-Anbietern (Abschnitt 4) verwendet die App keine weiteren Drittanbieterdienste, insbesondere:
 
 * Keine Werbenetzwerke
 * Keine Social-Media-Plugins
-* Keine Crash-Reporting-Dienste
 
 ## 7. Berechtigungen
 Die App verlangt keine besonderen Zugriffsberechtigungen, insbesondere keinen Zugriff auf:
@@ -175,11 +186,12 @@ We do not receive any payment data, billing information, or personal billing dat
 
 In this respect, the privacy policies of the respective platform operators apply.
 
-## 5. Firebase Analytics (Google)
+## 5. Firebase Services (Google)
 
-This app uses **Firebase Analytics**, an analytics service provided by Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Ireland.
+This app uses services provided by **Firebase** (Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Ireland).
 
-### What data is collected?
+### 5.1 Firebase Analytics
+
 Firebase Analytics collects anonymized usage events, including:
 
 * App launch and session duration
@@ -187,29 +199,39 @@ Firebase Analytics collects anonymized usage events, including:
 * Purchase events (paywall viewed, purchase completed)
 * A pseudonymous app instance ID (no personal reference)
 
-**No** names, email addresses, location data, or other directly personal data are collected.
+### 5.2 Firebase Crashlytics
 
-### Purpose of Processing
-The collected data is used exclusively to improve the app (e.g., identifying rarely used features, optimizing the user experience).
+Firebase Crashlytics automatically collects technical diagnostic data in the event of an app crash, including:
 
-### Legal Basis
-The legal basis is Art. 6 Para. 1 lit. f GDPR (legitimate interests). Our legitimate interest lies in analyzing and improving the app's features.
+* Error stack trace
+* Device type and operating system version
+* Time and frequency of the crash
+* App version
 
-### Data Transfer to Third Countries
-Google processes data on servers in the United States. The transfer is based on EU Standard Contractual Clauses (Art. 46 GDPR).
+This data contains **no** personal information and is used exclusively for bug fixing and improving app stability.
 
-### Opt-out
-You can disable Firebase Analytics data collection via:
+### 5.3 Firebase Remote Config
+
+Firebase Remote Config is used to adjust app settings (e.g., feature toggles) without releasing an app update. **No** personal data is collected or transmitted in this process.
+
+### Common Information for All Firebase Services
+
+**Purpose:** Improving app stability, analyzing usage, and flexible configuration.
+
+**Legal basis:** Art. 6 Para. 1 lit. f GDPR (legitimate interests).
+
+**Data transfer to third countries:** Google processes data on servers in the United States. The transfer is based on EU Standard Contractual Clauses (Art. 46 GDPR).
+
+**Opt-out (Analytics & Crashlytics):**
 **Android:** Settings → Google → Ads → Reset Advertising ID or disable personalization
 
 For more information: [https://policies.google.com/privacy](https://policies.google.com/privacy)
 
 ## 6. No Further Third-Party Providers
-Apart from Firebase Analytics (Section 5) and app store providers (Section 4), the app does not use any other third-party services, in particular:
+Apart from Firebase (Section 5) and app store providers (Section 4), the app does not use any other third-party services, in particular:
 
 * No advertising networks
 * No social media plugins
-* No crash reporting services
 
 ## 7. Permissions
 The app does not require any special access permissions, in particular no access to:

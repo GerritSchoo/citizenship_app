@@ -2,8 +2,8 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../app.dart';
 import '../analytics/analytics_service.dart';
+import '../core/remote_config_service.dart';
 
 /// Wrapper around in_app_purchase for Play Store billing.
 class PurchaseService extends ChangeNotifier {
@@ -37,7 +37,7 @@ class PurchaseService extends ChangeNotifier {
   bool get isPro {
     // Check global testing/gating flag. 
     // If lock is disabled (false), everyone gets pro access.
-    if (!AppState.subscriptionLockEnabled) return true;
+    if (!RemoteConfigService.instance.subscriptionLockEnabled) return true;
     return _activeProductIds.isNotEmpty;
   }
 

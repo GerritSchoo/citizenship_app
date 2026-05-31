@@ -30,9 +30,6 @@ class AppState extends State<App> {
   
   String? get contentLocale => _contentLocaleCode;
   Locale? get uiLocale => _locale;
-  // Testing toggle: enable subscription lock after 3 trial exams
-  // Set to true to activate gating flows (menu + popup after trials)
-  static bool subscriptionLockEnabled = true;
   // Testing toggle: always show initial setup screen (for development)
   static bool alwaysShowInitialSetup = false;
 
