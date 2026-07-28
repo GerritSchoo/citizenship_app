@@ -35,7 +35,7 @@ class PurchaseService extends ChangeNotifier {
   final ValueNotifier<bool> isProNotifier = ValueNotifier<bool>(false);
 
   /// Dev override — set to true to treat every user as Pro during development.
-  static bool debugForcePremium = true;
+  static bool debugForcePremium = false;
 
   bool get isPro {
     if (debugForcePremium) return true;
