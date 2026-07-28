@@ -5,7 +5,9 @@ import '../widgets/exam_result_indicator.dart';
 import '../../l10n/app_localizations.dart';
 import '../achievements/achievement_service.dart';
 import '../core/prefs.dart';
+import '../core/review_service.dart';
 import '../payments/purchase_service.dart';
+import '../theme/app_theme.dart';
 import 'paywall_screen.dart';
 
 class MockExamResultScreen extends StatefulWidget {
@@ -33,6 +35,13 @@ class _MockExamResultScreenState extends State<MockExamResultScreen> {
       // Post-frame to ensure Scaffold is ready for SnackBar
       WidgetsBinding.instance.addPostFrameCallback((_) {
         AchievementService.instance.onExamSubmitted(context, correct: widget.correct, total: widget.total);
+        // Request review after a passed exam — delay so result screen is fully visible
+        final pass = widget.correct >= 17;
+        if (pass) {
+          Future.delayed(const Duration(seconds: 2), () {
+            ReviewService.instance.requestReviewIfAppropriate();
+          });
+        }
       });
     }
     // Show subscription prompt after the third completed exam if lock is enabled
@@ -43,20 +52,48 @@ class _MockExamResultScreenState extends State<MockExamResultScreen> {
         if (!mounted) return;
         if (trialCount >= 3) {
           final l10n = AppLocalizations.of(context);
-          final go = await showDialog<bool>(
+          showModalBottomSheet<void>(
             context: context,
-            builder: (c) => AlertDialog(
-              title: Text(l10n.trial_exhausted_title),
-              content: Text(l10n.trial_exhausted_body),
-              actions: [
-                TextButton(onPressed: () => Navigator.of(c).pop(false), child: Text(l10n.trial_later)),
-                FilledButton(onPressed: () => Navigator.of(c).pop(true), child: Text(l10n.trial_subscribe)),
-              ],
+            isScrollControlled: true,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(AppTheme.radiusLarge)),
+            ),
+            builder: (ctx) => SingleChildScrollView(
+              padding: EdgeInsets.fromLTRB(24, 24, 24, 32 + MediaQuery.viewInsetsOf(ctx).bottom),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.lock_outline, size: 48, color: Theme.of(ctx).colorScheme.primary),
+                  const SizedBox(height: 16),
+                  Text(
+                    l10n.trial_exhausted_title,
+                    style: Theme.of(ctx).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    l10n.trial_exhausted_body,
+                    style: Theme.of(ctx).textTheme.bodyMedium,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 24),
+                  FilledButton(
+                    onPressed: () {
+                      Navigator.pop(ctx);
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => const PaywallScreen()));
+                    },
+                    style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(48)),
+                    child: Text(l10n.unlock_premium),
+                  ),
+                  const SizedBox(height: 8),
+                  TextButton(
+                    onPressed: () => Navigator.pop(ctx),
+                    child: Text(l10n.not_now),
+                  ),
+                ],
+              ),
             ),
           );
-          if (go == true && mounted) {
-            await Navigator.push(context, MaterialPageRoute(builder: (_) => const PaywallScreen()));
-          }
         }
       });
     }

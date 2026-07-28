@@ -33,8 +33,12 @@ class PurchaseService extends ChangeNotifier {
   
   // Reactive state for UI
   final ValueNotifier<bool> isProNotifier = ValueNotifier<bool>(false);
-  
+
+  /// Dev override — set to true to treat every user as Pro during development.
+  static bool debugForcePremium = true;
+
   bool get isPro {
+    if (debugForcePremium) return true;
     // Check global testing/gating flag. 
     // If lock is disabled (false), everyone gets pro access.
     if (!RemoteConfigService.instance.subscriptionLockEnabled) return true;

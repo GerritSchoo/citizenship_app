@@ -8,6 +8,10 @@ class AppPrefs {
   static const _keyDisclaimerAccepted = 'disclaimerAccepted';
   // Tracks completed exam count independently of analytics so resets cannot bypass the trial gate.
   static const _keyExamTrialCount = 'examTrialCount';
+  // Tracks quiz session count independently of analytics so resets cannot bypass the trial gate.
+  static const _keyQuizTrialCount = 'quizTrialCount';
+  // Tracks whether an in-app review prompt has been requested (only ask once per install).
+  static const _keyReviewRequested = 'reviewRequested';
 
   static Future<void> saveDisclaimerAccepted(bool accepted) async {
     final p = await SharedPreferences.getInstance();
@@ -59,6 +63,26 @@ class AppPrefs {
   static Future<void> incrementExamTrialCount() async {
     final p = await SharedPreferences.getInstance();
     await p.setInt(_keyExamTrialCount, (p.getInt(_keyExamTrialCount) ?? 0) + 1);
+  }
+
+  static Future<int> getQuizTrialCount() async {
+    final p = await SharedPreferences.getInstance();
+    return p.getInt(_keyQuizTrialCount) ?? 0;
+  }
+
+  static Future<void> incrementQuizTrialCount() async {
+    final p = await SharedPreferences.getInstance();
+    await p.setInt(_keyQuizTrialCount, (p.getInt(_keyQuizTrialCount) ?? 0) + 1);
+  }
+
+  static Future<bool> getReviewRequested() async {
+    final p = await SharedPreferences.getInstance();
+    return p.getBool(_keyReviewRequested) ?? false;
+  }
+
+  static Future<void> setReviewRequested() async {
+    final p = await SharedPreferences.getInstance();
+    await p.setBool(_keyReviewRequested, true);
   }
 
   static Future<void> clearAll() async {

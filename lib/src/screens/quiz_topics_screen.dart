@@ -5,6 +5,8 @@ import '../models/question.dart';
 import '../models/topic.dart';
 import '../../l10n/app_localizations.dart';
 import '../core/quiz_mode.dart';
+import '../payments/purchase_service.dart';
+import 'paywall_screen.dart';
 import 'quiz_screen.dart';
 import '../core/prefs.dart';
 import '../data/states.dart';
@@ -23,11 +25,70 @@ class _QuizTopicsScreenState extends State<QuizTopicsScreen> {
   String? _error;
   String? _stateCode;
   String? _stateLabel;
+  bool _isPro = false;
 
   @override
   void initState() {
     super.initState();
+    _isPro = PurchaseService.instance.isPro;
+    PurchaseService.instance.isProNotifier.addListener(_onProChanged);
     _loadData();
+  }
+
+  @override
+  void dispose() {
+    PurchaseService.instance.isProNotifier.removeListener(_onProChanged);
+    super.dispose();
+  }
+
+  void _onProChanged() {
+    if (mounted) setState(() => _isPro = PurchaseService.instance.isPro);
+  }
+
+  void _showStatePremiumSheet() {
+    final l10n = AppLocalizations.of(context);
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(AppTheme.radiusLarge)),
+      ),
+      builder: (ctx) => SingleChildScrollView(
+        padding: EdgeInsets.fromLTRB(24, 24, 24, 32 + MediaQuery.viewInsetsOf(ctx).bottom),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.lock_outline, size: 48, color: Theme.of(ctx).colorScheme.primary),
+            const SizedBox(height: 16),
+            Text(
+              l10n.premium_state_questions_title,
+              style: Theme.of(ctx).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              l10n.premium_state_questions_body,
+              style: Theme.of(ctx).textTheme.bodyMedium,
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 24),
+            FilledButton(
+              onPressed: () {
+                Navigator.pop(ctx);
+                Navigator.push(context, MaterialPageRoute(builder: (_) => const PaywallScreen()));
+              },
+              style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(48)),
+              child: Text(l10n.unlock_premium),
+            ),
+            const SizedBox(height: 8),
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: Text(l10n.not_now),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Future<void> _loadData() async {
@@ -90,6 +151,7 @@ class _QuizTopicsScreenState extends State<QuizTopicsScreen> {
     required String title,
     String? subtitle,
     VoidCallback? onTap,
+    bool isLocked = false,
   }) {
     final theme = Theme.of(context);
     final bg = theme.brightness == Brightness.dark
@@ -143,7 +205,7 @@ class _QuizTopicsScreenState extends State<QuizTopicsScreen> {
                   ],
                 ),
               ),
-              if (onTap != null) const Icon(Icons.chevron_right),
+              if (onTap != null) Icon(isLocked ? Icons.lock_outline : Icons.chevron_right),
             ],
           ),
         ),
@@ -151,7 +213,9 @@ class _QuizTopicsScreenState extends State<QuizTopicsScreen> {
     );
   }
 
-  void _startTopics(List<String> topicIds) {
+  Future<void> _startTopics(List<String> topicIds) async {
+    if (!_isPro) await AppPrefs.incrementQuizTrialCount();
+    if (!mounted) return;
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (_) => QuizScreen(config: QuizConfig.topics(topicIds: topicIds)),
@@ -228,11 +292,15 @@ class _QuizTopicsScreenState extends State<QuizTopicsScreen> {
               title: l10n.learning_all_questions,
               subtitle: l10n.questions_count(generalQuestions.length + stateQuestions.length),
               onTap: (generalQuestions.isNotEmpty || stateQuestions.isNotEmpty)
-                  ? () => Navigator.of(context).push(
+                  ? () async {
+                      if (!_isPro) await AppPrefs.incrementQuizTrialCount();
+                      if (!context.mounted) return;
+                      Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (_) => const QuizScreen(), // combined: general + state (if selected)
                         ),
-                      )
+                      );
+                    }
                   : null,
             ),
             const SizedBox(height: 24),
@@ -297,13 +365,18 @@ class _QuizTopicsScreenState extends State<QuizTopicsScreen> {
                 iconColor: colorScheme.secondary,
                 title: _stateLabel ?? stateCode,
                 subtitle: l10n.questions_count(stateQuestions.length),
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => QuizScreen(config: QuizConfig.state()),
-                    ),
-                  );
-                },
+                onTap: _isPro
+                    ? () async {
+                        await AppPrefs.incrementQuizTrialCount();
+                        if (!context.mounted) return;
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => QuizScreen(config: QuizConfig.state()),
+                          ),
+                        );
+                      }
+                    : _showStatePremiumSheet,
+                isLocked: !_isPro,
               ),
           ],
         ),

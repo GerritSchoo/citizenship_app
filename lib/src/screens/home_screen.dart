@@ -216,8 +216,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _showContentLanguageMenu() async {
     final appState = App.of(context);
-    // Hardcoded supported content languages: DE, EN, FR, ES, TR, RU, UK, AR
-    final supported = ['de', 'en', 'fr', 'es', 'tr', 'ru', 'uk', 'ar'];
+    // Hardcoded supported content languages ordered by immigrant population in Germany
+    final supported = ['de', 'en', 'tr', 'ru', 'uk', 'ar', 'fr', 'es'];
     final choice = await showMenu<String>(
       context: context,
       position: _menuPosition(),
@@ -237,11 +237,18 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         ...supported.map((code) {
           final name = LocaleNames.of(context)?.nameOf(code) ?? code;
+          final isPremium = const {'fr', 'es', 'tr', 'ru', 'uk', 'ar'}.contains(code);
           return PopupMenuItem(
             value: code,
             child: SizedBox(
               width: _menuWidth,
-              child: Text(name, style: Theme.of(context).textTheme.bodySmall, maxLines: 1, overflow: TextOverflow.ellipsis),
+              child: Row(
+                children: [
+                  Expanded(child: Text(name, style: Theme.of(context).textTheme.bodySmall, maxLines: 1, overflow: TextOverflow.ellipsis)),
+                  if (isPremium && !PurchaseService.instance.isPro)
+                    Icon(Icons.lock_outline, size: 14, color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.45)),
+                ],
+              ),
             ),
           );
         }),
@@ -253,7 +260,56 @@ class _HomeScreenState extends State<HomeScreen> {
       _showMainMenu();
       return;
     }
-    
+
+    const premiumLangs = {'fr', 'es', 'tr', 'ru', 'uk', 'ar'};
+    if (premiumLangs.contains(choice) && !PurchaseService.instance.isPro) {
+      if (!mounted) return;
+      final l10n = AppLocalizations.of(context);
+      showModalBottomSheet<void>(
+        context: context,
+        isScrollControlled: true,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+        ),
+        builder: (ctx) => SingleChildScrollView(
+          padding: EdgeInsets.fromLTRB(24, 24, 24, 32 + MediaQuery.viewInsetsOf(ctx).bottom),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.lock_outline, size: 48, color: Theme.of(ctx).colorScheme.primary),
+              const SizedBox(height: 16),
+              Text(
+                l10n.premium_state_questions_title,
+                style: Theme.of(ctx).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 8),
+              Text(
+                l10n.paywall_benefit_translations,
+                style: Theme.of(ctx).textTheme.bodyMedium,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 24),
+              FilledButton(
+                onPressed: () {
+                  Navigator.pop(ctx);
+                  Navigator.push(context, MaterialPageRoute(builder: (_) => const PaywallScreen()));
+                },
+                style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(48)),
+                child: Text(l10n.unlock_premium),
+              ),
+              const SizedBox(height: 8),
+              TextButton(
+                onPressed: () => Navigator.pop(ctx),
+                child: Text(l10n.not_now),
+              ),
+            ],
+          ),
+        ),
+      );
+      return;
+    }
+
     if (appState != null) {
       await appState.setContentLocale(choice);
     }

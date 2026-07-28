@@ -5,6 +5,7 @@ import 'src/screens/disclaimer_screen.dart';
 import 'src/theme/app_theme.dart';
 import 'src/core/prefs.dart';
 import 'src/analytics/progress_repository.dart';
+import 'src/payments/purchase_service.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'l10n/app_localizations.dart';
 import 'package:flutter_localized_locales/flutter_localized_locales.dart';
@@ -32,6 +33,9 @@ class AppState extends State<App> {
   Locale? get uiLocale => _locale;
   // Testing toggle: always show initial setup screen (for development)
   static bool alwaysShowInitialSetup = false;
+  // Testing toggle: treat every user as Pro, bypassing all premium gates
+  static bool get debugForcePremium => PurchaseService.debugForcePremium;
+  static set debugForcePremium(bool v) => PurchaseService.debugForcePremium = v;
 
   @override
   void initState() {
@@ -114,8 +118,15 @@ class AppState extends State<App> {
       _contentLocaleCode = contentLocaleCode;
     });
     // Initialize default language for repository so first load matches saved locale
-    // Use content locale if set, otherwise fallback to UI locale
-    final targetLang = contentLocaleCode ?? localeCode ?? 'de';
+    // Use content locale if set, otherwise fallback to UI locale.
+    // If saved content locale is a premium language and user is not Pro, fall back to 'en'.
+    const premiumContentLangs = {'fr', 'es', 'tr', 'ru', 'uk', 'ar'};
+    final resolvedContentLang = (contentLocaleCode != null &&
+            premiumContentLangs.contains(contentLocaleCode) &&
+            !PurchaseService.instance.isPro)
+        ? 'en'
+        : contentLocaleCode;
+    final targetLang = resolvedContentLang ?? localeCode ?? 'de';
     QuestionRepository.setDefaultLanguage(targetLang);
   }
 

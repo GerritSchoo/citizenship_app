@@ -67,27 +67,56 @@ class MockExamRulesScreen extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () async {
                     // Gate starting the exam if subscription lock is enabled and 3 trials are used
-                    final l10n = AppLocalizations.of(context);
                     final isPro = PurchaseService.instance.isPro;
                     if (!isPro) {
                       final trialCount = await AppPrefs.getExamTrialCount();
                       if (trialCount >= 3) {
                         if (!context.mounted) return;
-                        final goSub = await showDialog<bool>(
+                        showModalBottomSheet<void>(
                           context: context,
-                          builder: (c) => AlertDialog(
-                            title: Text(l10n.trial_exhausted_title),
-                            content: Text(l10n.trial_exhausted_body),
-                            actions: [
-                              TextButton(onPressed: () => Navigator.of(c).pop(false), child: Text(l10n.trial_later)),
-                              FilledButton(onPressed: () => Navigator.of(c).pop(true), child: Text(l10n.trial_subscribe)),
-                            ],
+                          isScrollControlled: true,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(top: Radius.circular(AppTheme.radiusLarge)),
                           ),
+                          builder: (ctx) {
+                            final l10n = AppLocalizations.of(ctx);
+                            return SingleChildScrollView(
+                              padding: EdgeInsets.fromLTRB(24, 24, 24, 32 + MediaQuery.viewInsetsOf(ctx).bottom),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(Icons.lock_outline, size: 48, color: Theme.of(ctx).colorScheme.primary),
+                                  const SizedBox(height: 16),
+                                  Text(
+                                    l10n.trial_exhausted_title,
+                                    style: Theme.of(ctx).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    l10n.trial_exhausted_body,
+                                    style: Theme.of(ctx).textTheme.bodyMedium,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  const SizedBox(height: 24),
+                                  FilledButton(
+                                    onPressed: () {
+                                      Navigator.pop(ctx);
+                                      Navigator.push(context, MaterialPageRoute(builder: (_) => const PaywallScreen()));
+                                    },
+                                    style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(48)),
+                                    child: Text(l10n.unlock_premium),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(ctx),
+                                    child: Text(l10n.not_now),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
                         );
-                        if (goSub == true) {
-                          if (!context.mounted) return;
-                          await Navigator.push(context, MaterialPageRoute(builder: (_) => const PaywallScreen()));
-                        }
                         return; // do not start exam
                       }
                     }

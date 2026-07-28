@@ -2,9 +2,14 @@ import 'package:flutter/material.dart';
 import '../../l10n/app_localizations.dart';
 import '../theme/app_theme.dart';
 import '../core/quiz_mode.dart';
+import '../core/prefs.dart';
+import '../payments/purchase_service.dart';
+import 'paywall_screen.dart';
 import 'quiz_screen.dart';
 import 'quiz_topics_screen.dart';
 import 'swipe_quiz_screen.dart';
+
+const int _kQuizFreeLimit = 10;
 
 class QuizModeScreen extends StatefulWidget {
   const QuizModeScreen({super.key});
@@ -14,7 +19,110 @@ class QuizModeScreen extends StatefulWidget {
 }
 
 class _QuizModeScreenState extends State<QuizModeScreen> {
-  // No data loading needed; screen shows static mode options with localized descriptions.
+  bool _isPro = false;
+  int _quizTrialCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _isPro = PurchaseService.instance.isPro;
+    PurchaseService.instance.isProNotifier.addListener(_onProChanged);
+    _loadTrialCount();
+  }
+
+  @override
+  void dispose() {
+    PurchaseService.instance.isProNotifier.removeListener(_onProChanged);
+    super.dispose();
+  }
+
+  void _onProChanged() {
+    if (mounted) setState(() => _isPro = PurchaseService.instance.isPro);
+  }
+
+  Future<void> _loadTrialCount() async {
+    final count = await AppPrefs.getQuizTrialCount();
+    if (mounted) setState(() => _quizTrialCount = count);
+  }
+
+  // Checks the limit and increments — for modes that start a quiz immediately.
+  Future<void> _checkAndStart(VoidCallback startFn) async {
+    if (_isPro) {
+      startFn();
+      return;
+    }
+    final count = await AppPrefs.getQuizTrialCount();
+    if (count >= _kQuizFreeLimit) {
+      if (!mounted) return;
+      _showQuizLimitSheet();
+      return;
+    }
+    await AppPrefs.incrementQuizTrialCount();
+    if (mounted) setState(() => _quizTrialCount = count + 1);
+    startFn();
+  }
+
+  // Checks the limit only — for Topics, which navigates to a picker screen.
+  // The actual increment happens when a quiz starts inside QuizTopicsScreen.
+  Future<void> _checkLimitOnly(Future<void> Function() startFn) async {
+    if (_isPro) {
+      await startFn();
+      return;
+    }
+    final count = await AppPrefs.getQuizTrialCount();
+    if (count >= _kQuizFreeLimit) {
+      if (!mounted) return;
+      _showQuizLimitSheet();
+      return;
+    }
+    await startFn();
+  }
+
+  void _showQuizLimitSheet() {
+    final l10n = AppLocalizations.of(context);
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(AppTheme.radiusLarge)),
+      ),
+      builder: (ctx) => SingleChildScrollView(
+        padding: EdgeInsets.fromLTRB(24, 24, 24, 32 + MediaQuery.viewInsetsOf(ctx).bottom),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.lock_outline, size: 48, color: Theme.of(ctx).colorScheme.primary),
+            const SizedBox(height: 16),
+            Text(
+              l10n.premium_quiz_limit_title,
+              style: Theme.of(ctx).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              l10n.premium_quiz_limit_body(_kQuizFreeLimit),
+              style: Theme.of(ctx).textTheme.bodyMedium,
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 24),
+            FilledButton(
+              onPressed: () {
+                Navigator.pop(ctx);
+                Navigator.push(context, MaterialPageRoute(builder: (_) => const PaywallScreen()));
+              },
+              style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(48)),
+              child: Text(l10n.unlock_premium),
+            ),
+            const SizedBox(height: 8),
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: Text(l10n.not_now),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
   void _startMistakes() {
     Navigator.push(
@@ -34,11 +142,15 @@ class _QuizModeScreenState extends State<QuizModeScreen> {
     );
   }
 
-  void _startTopics() {
-    Navigator.push(
+  Future<void> _startTopics() async {
+    await Navigator.push(
       context,
       MaterialPageRoute(builder: (_) => const QuizTopicsScreen()),
     );
+    // Reload count so banner reflects any increments done inside QuizTopicsScreen.
+    if (!mounted) return;
+    final updated = await AppPrefs.getQuizTrialCount();
+    if (mounted) setState(() => _quizTrialCount = updated);
   }
 
   void _startSwipeTF() {
@@ -51,46 +163,84 @@ class _QuizModeScreenState extends State<QuizModeScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final colorScheme = Theme.of(context).colorScheme;
+    final sessionsUsed = _quizTrialCount;
+    final showBanner = !_isPro;
+
     return Scaffold(
       appBar: AppBar(title: Text(l10n.quiz_modes_title)),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
+            if (showBanner) ...[
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                decoration: BoxDecoration(
+                  color: sessionsUsed >= _kQuizFreeLimit
+                      ? colorScheme.errorContainer
+                      : colorScheme.primaryContainer,
+                  borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
+                ),
+                child: Row(
+                  children: [
+                    Icon(
+                      sessionsUsed >= _kQuizFreeLimit ? Icons.lock_outline : Icons.info_outline,
+                      size: 18,
+                      color: sessionsUsed >= _kQuizFreeLimit
+                          ? colorScheme.onErrorContainer
+                          : colorScheme.onPrimaryContainer,
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        l10n.quiz_sessions_remaining(sessionsUsed, _kQuizFreeLimit),
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: sessionsUsed >= _kQuizFreeLimit
+                              ? colorScheme.onErrorContainer
+                              : colorScheme.onPrimaryContainer,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 16),
+            ],
             _ModeCard(
               icon: Icons.rule_folder_outlined,
-              color: Theme.of(context).colorScheme.error,
+              color: colorScheme.error,
               title: l10n.quiz_mode_mistakes,
               subtitle: '',
               description: l10n.quiz_mode_mistakes_desc,
-              onTap: _startMistakes,
+              onTap: () => _checkAndStart(_startMistakes),
             ),
             const SizedBox(height: 12),
             _ModeCard(
               icon: Icons.category_outlined,
-              color: Theme.of(context).colorScheme.primary,
+              color: colorScheme.primary,
               title: l10n.quiz_mode_topics,
               subtitle: '',
               description: l10n.quiz_mode_topics_desc,
-              onTap: _startTopics,
+              onTap: () => _checkLimitOnly(_startTopics),
             ),
             const SizedBox(height: 12),
             _ModeCard(
               icon: Icons.timer_outlined,
-              color: Theme.of(context).colorScheme.tertiary,
+              color: colorScheme.tertiary,
               title: l10n.quiz_mode_timer,
               subtitle: '',
               description: l10n.quiz_mode_timer_desc,
-              onTap: _startTimer,
+              onTap: () => _checkAndStart(_startTimer),
             ),
             const SizedBox(height: 12),
             _ModeCard(
               icon: Icons.swap_horiz,
-              color: Theme.of(context).colorScheme.secondary,
+              color: colorScheme.secondary,
               title: l10n.quiz_mode_swipe_tf,
               subtitle: '',
               description: l10n.quiz_mode_swipe_tf_desc,
-              onTap: _startSwipeTF,
+              onTap: () => _checkAndStart(_startSwipeTF),
             ),
           ],
         ),

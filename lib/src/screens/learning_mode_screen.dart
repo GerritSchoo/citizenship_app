@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import '../data/question_repository.dart';
 import '../models/question.dart';
 import '../models/topic.dart';
+import '../payments/purchase_service.dart';
 import 'learning_session_screen.dart';
+import 'paywall_screen.dart';
 import '../../l10n/app_localizations.dart';
 import '../theme/app_theme.dart';
 
@@ -21,11 +23,24 @@ class _LearningModeScreenState extends State<LearningModeScreen> {
   final QuestionRepository _repository = QuestionRepository();
   bool _isLoading = true;
   String? _error;
+  bool _isPro = false;
 
   @override
   void initState() {
     super.initState();
+    _isPro = PurchaseService.instance.isPro;
+    PurchaseService.instance.isProNotifier.addListener(_onProChanged);
     _loadData();
+  }
+
+  @override
+  void dispose() {
+    PurchaseService.instance.isProNotifier.removeListener(_onProChanged);
+    super.dispose();
+  }
+
+  void _onProChanged() {
+    if (mounted) setState(() => _isPro = PurchaseService.instance.isPro);
   }
 
   Future<void> _loadData() async {
@@ -56,6 +71,52 @@ class _LearningModeScreenState extends State<LearningModeScreen> {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (_) => LearningSessionScreen(questions: questions, title: title, stateCode: stateCode),
+      ),
+    );
+  }
+
+  void _showStatePremiumSheet() {
+    final l10n = AppLocalizations.of(context);
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(AppTheme.radiusLarge)),
+      ),
+      builder: (ctx) => SingleChildScrollView(
+        padding: EdgeInsets.fromLTRB(24, 24, 24, 32 + MediaQuery.viewInsetsOf(ctx).bottom),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.lock_outline, size: 48, color: Theme.of(ctx).colorScheme.primary),
+            const SizedBox(height: 16),
+            Text(
+              l10n.premium_state_questions_title,
+              style: Theme.of(ctx).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              l10n.premium_state_questions_body,
+              style: Theme.of(ctx).textTheme.bodyMedium,
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 24),
+            FilledButton(
+              onPressed: () {
+                Navigator.pop(ctx);
+                Navigator.push(context, MaterialPageRoute(builder: (_) => const PaywallScreen()));
+              },
+              style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(48)),
+              child: Text(l10n.unlock_premium),
+            ),
+            const SizedBox(height: 8),
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: Text(l10n.not_now),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -98,6 +159,7 @@ class _LearningModeScreenState extends State<LearningModeScreen> {
     required String title,
     String? subtitle,
     VoidCallback? onTap,
+    bool isLocked = false,
   }) {
     final theme = Theme.of(context);
     final bg = theme.brightness == Brightness.dark
@@ -151,7 +213,7 @@ class _LearningModeScreenState extends State<LearningModeScreen> {
                   ],
                 ),
               ),
-              if (onTap != null) const Icon(Icons.chevron_right),
+              if (onTap != null) Icon(isLocked ? Icons.lock_outline : Icons.chevron_right),
             ],
           ),
         ),
@@ -228,14 +290,16 @@ class _LearningModeScreenState extends State<LearningModeScreen> {
               icon: Icons.list_alt,
               iconColor: colorScheme.primary,
               title: AppLocalizations.of(context).learning_all_questions,
-              subtitle: stateCode != null
+              subtitle: stateCode != null && _isPro
                   ? AppLocalizations.of(context).questions_count(generalQuestions.length + stateQuestions.length)
-                  : AppLocalizations.of(context).questions_count(generalQuestions.length),
+                  : stateCode != null
+                      ? '${AppLocalizations.of(context).questions_count(generalQuestions.length)} (+${stateQuestions.length} Premium)'
+                      : AppLocalizations.of(context).questions_count(generalQuestions.length),
               onTap: generalQuestions.isNotEmpty
                   ? () {
                       final combined = <Question>[];
                       combined.addAll(generalQuestions);
-                      if (stateCode != null) combined.addAll(stateQuestions);
+                      if (stateCode != null && _isPro) combined.addAll(stateQuestions);
                       _openSession(questions: combined, title: AppLocalizations.of(context).learning_all_questions, stateCode: stateCode);
                     }
                   : null,
@@ -310,11 +374,14 @@ class _LearningModeScreenState extends State<LearningModeScreen> {
                 iconColor: colorScheme.secondary,
                 title: widget.stateLabel ?? stateCode,
                 subtitle: AppLocalizations.of(context).questions_count(stateQuestions.length),
-                onTap: () => _openSession(
-                  questions: stateQuestions,
-                  title: widget.stateLabel ?? stateCode,
-                  stateCode: stateCode,
-                ),
+                onTap: _isPro
+                    ? () => _openSession(
+                          questions: stateQuestions,
+                          title: widget.stateLabel ?? stateCode,
+                          stateCode: stateCode,
+                        )
+                    : _showStatePremiumSheet,
+                isLocked: !_isPro,
               ),
           ],
         ),

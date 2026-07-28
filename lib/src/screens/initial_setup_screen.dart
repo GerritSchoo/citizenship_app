@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 import '../core/prefs.dart';
 import '../data/states.dart';
+import '../payments/purchase_service.dart';
 import 'disclaimer_screen.dart';
 import '../../app.dart';
 import 'package:flutter_localized_locales/flutter_localized_locales.dart';
@@ -35,6 +36,58 @@ class _InitialSetupScreenState extends State<InitialSetupScreen> with SingleTick
   void dispose() {
     _anim.dispose();
     super.dispose();
+  }
+
+  static const _premiumContentLangs = {'fr', 'es', 'tr', 'ru', 'uk', 'ar'};
+
+  void _showContentLangPremiumSheet() {
+    final isDe = _uiLocale == 'de';
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(AppTheme.radiusLarge)),
+      ),
+      builder: (ctx) => SingleChildScrollView(
+        padding: EdgeInsets.fromLTRB(24, 24, 24, 32 + MediaQuery.viewInsetsOf(ctx).bottom),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.lock_outline, size: 48, color: Theme.of(ctx).colorScheme.primary),
+            const SizedBox(height: 16),
+            Text(
+              isDe ? 'Premium-Funktion' : 'Premium Feature',
+              style: Theme.of(ctx).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              isDe
+                  ? 'Fragen-Übersetzungen in AR, ES, FR, RU, TR und UK sind im Premium-Abonnement enthalten. Englisch und Deutsch sind kostenlos.'
+                  : 'Question translations in AR, ES, FR, RU, TR and UK are included in Premium. English and German are free.',
+              style: Theme.of(ctx).textTheme.bodyMedium,
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              isDe
+                  ? 'Du kannst jetzt fortfahren und nach dem Start ein Upgrade durchführen.'
+                  : 'You can continue now and upgrade after launch.',
+              style: Theme.of(ctx).textTheme.bodySmall?.copyWith(
+                color: Theme.of(ctx).colorScheme.onSurface.withValues(alpha: 0.6),
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 24),
+            FilledButton(
+              onPressed: () => Navigator.pop(ctx),
+              style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(48)),
+              child: Text(isDe ? 'Verstanden' : 'Got it'),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Future<void> _confirm() async {
@@ -74,7 +127,10 @@ class _InitialSetupScreenState extends State<InitialSetupScreen> with SingleTick
     final labelState = isDe ? 'Bitte Bundesland wählen' : 'Please select a state';
     
     final labelAppLang = isDe ? 'App-Sprache' : 'App Language';
-    final labelContentLang = isDe ? 'Fragen-Sprache' : 'Question Language';
+    final labelContentLang = isDe ? 'Übersetzungssprache für Fragen' : 'Question Translation Language';
+    final labelContentLangHint = isDe
+        ? 'In welcher Sprache sollen die Fragen und Antworten angezeigt werden?'
+        : 'In which language should the questions and answers be displayed?';
     final labelSave = isDe ? 'Speichern und fortfahren' : 'Save and continue';
 
     return Scaffold(
@@ -189,18 +245,37 @@ class _InitialSetupScreenState extends State<InitialSetupScreen> with SingleTick
                                   color: theme.colorScheme.primary,
                                 ),
                               ),
+                              const SizedBox(height: 4),
+                              Text(
+                                labelContentLangHint,
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                  color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                                ),
+                              ),
                               const SizedBox(height: 8),
                               _SetupSelector(
                                 icon: Icons.translate,
                                 value: _contentLocale,
                                 labelBuilder: (context) => labelContentLang,
-                                items: ['de', 'en', 'fr', 'es', 'tr', 'ru', 'uk', 'ar']
+                                items: ['de', 'en', 'tr', 'ru', 'uk', 'ar', 'fr', 'es']
                                     .map((code) {
                                       final name = LocaleNames.of(context)?.nameOf(code) ?? code;
-                                      return _SelectorItem(value: code, label: '$name ($code)');
+                                      final isPremium = _premiumContentLangs.contains(code);
+                                      return _SelectorItem(
+                                        value: code,
+                                        label: '$name ($code)',
+                                        isPremium: isPremium,
+                                      );
                                     })
                                     .toList(),
-                                onChanged: (v) => setState(() => _contentLocale = v ?? 'de'),
+                                onChanged: (v) {
+                                  if (v == null) return;
+                                  if (_premiumContentLangs.contains(v) && !PurchaseService.instance.isPro) {
+                                    _showContentLangPremiumSheet();
+                                    return;
+                                  }
+                                  setState(() => _contentLocale = v);
+                                },
                                 filledStyle: true,
                               ),
                               const SizedBox(height: 32),
@@ -247,7 +322,8 @@ class _InitialSetupScreenState extends State<InitialSetupScreen> with SingleTick
 class _SelectorItem {
   final String value;
   final String label;
-  const _SelectorItem({required this.value, required this.label});
+  final bool isPremium;
+  const _SelectorItem({required this.value, required this.label, this.isPremium = false});
 }
 
 class _SetupSelector extends StatelessWidget {
@@ -296,6 +372,11 @@ class _SetupSelector extends StatelessWidget {
                         ? Icon(Icons.check_circle, color: theme.colorScheme.primary)
                         : const Icon(Icons.circle_outlined),
                     title: Text(item.label),
+                    trailing: item.isPremium
+                        ? Icon(Icons.lock_outline,
+                            size: 18,
+                            color: theme.colorScheme.onSurface.withValues(alpha: 0.45))
+                        : null,
                     onTap: () => Navigator.of(ctx).pop(item.value),
                   );
                 },

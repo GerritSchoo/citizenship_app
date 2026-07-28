@@ -911,7 +911,7 @@ abstract class AppLocalizations {
   /// Overflow menu entry to open subscription/paywall screen
   ///
   /// In en, this message translates to:
-  /// **'Subscribe'**
+  /// **'Premium'**
   String get menu_subscribe;
 
   /// 100 correct answers in practice
@@ -1049,14 +1049,44 @@ abstract class AppLocalizations {
   /// Paywall screen title
   ///
   /// In en, this message translates to:
-  /// **'Subscribe'**
+  /// **'Premium Membership'**
   String get paywall_title;
 
   /// Short paywall pitch
   ///
   /// In en, this message translates to:
-  /// **'Enjoy unlimited mock exams. You have used your 3 free exams.'**
+  /// **'Unlock everything you need to pass your Einbürgerungstest.'**
   String get paywall_subtitle;
+
+  /// Section heading above benefits list
+  ///
+  /// In en, this message translates to:
+  /// **'What you get'**
+  String get paywall_benefits_title;
+
+  /// Benefit: unlimited quiz sessions
+  ///
+  /// In en, this message translates to:
+  /// **'Unlimited quiz sessions'**
+  String get paywall_benefit_quiz;
+
+  /// Benefit: state questions
+  ///
+  /// In en, this message translates to:
+  /// **'State-specific questions (all 16 Bundesländer)'**
+  String get paywall_benefit_state;
+
+  /// Benefit: unlimited mock exams
+  ///
+  /// In en, this message translates to:
+  /// **'Unlimited mock exams'**
+  String get paywall_benefit_exam;
+
+  /// Benefit: question translations in premium languages
+  ///
+  /// In en, this message translates to:
+  /// **'Questions in 6 languages (AR, ES, FR, RU, TR, UK)'**
+  String get paywall_benefit_translations;
 
   /// Monthly plan label
   ///
@@ -1237,6 +1267,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count} free trial(s) remaining'**
   String exam_trials_remaining(int count);
+
+  /// Title for state questions paywall bottom sheet
+  ///
+  /// In en, this message translates to:
+  /// **'State Questions are Premium'**
+  String get premium_state_questions_title;
+
+  /// Body text for state questions paywall bottom sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock state-specific questions with a Premium subscription.'**
+  String get premium_state_questions_body;
+
+  /// Title shown when free quiz session limit is hit
+  ///
+  /// In en, this message translates to:
+  /// **'Free Quiz Limit Reached'**
+  String get premium_quiz_limit_title;
+
+  /// No description provided for @premium_quiz_limit_body.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve used all {limit} free quiz sessions. Upgrade to Premium for unlimited access.'**
+  String premium_quiz_limit_body(int limit);
+
+  /// No description provided for @quiz_sessions_remaining.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} of {limit} free sessions used'**
+  String quiz_sessions_remaining(int count, int limit);
+
+  /// Button label to navigate to paywall
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock Premium'**
+  String get unlock_premium;
+
+  /// Dismiss button on paywall bottom sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get not_now;
 }
 
 class _AppLocalizationsDelegate

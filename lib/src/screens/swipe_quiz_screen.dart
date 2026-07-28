@@ -241,6 +241,198 @@ class _SwipeItem {
   const _SwipeItem({required this.question, required this.answerIndex, required this.isState});
 }
 
+// Shared content builder used by both the static preview card and the active
+// swipe card, so their sizing math and rendered content can never drift apart
+// (avoids a visible jump when the preview becomes the active card).
+class _CardContent extends StatelessWidget {
+  final _SwipeItem item;
+  final bool showTranslation;
+  const _CardContent({required this.item, required this.showTranslation});
+
+  @override
+  Widget build(BuildContext context) {
+    final q = item.question;
+    final idx = item.answerIndex;
+    final hasAnswerImage = q.hasAnswerImages;
+    final String? answerImage = hasAnswerImage ? q.answerImages![idx] : null;
+
+    // Always use German as base text where available
+    final String baseQuestionText = q.originalDeText ?? q.text;
+    final String baseAnswerText =
+        q.originalDeAnswers != null && q.originalDeAnswers!.length == q.answers.length
+            ? q.originalDeAnswers![idx]
+            : q.answers[idx];
+    final bool showOverlay = showTranslation && Localizations.localeOf(context).languageCode != 'de';
+    final String translatedQuestionText = q.text;
+    final String translatedAnswerText = q.answers[idx];
+
+    return LayoutBuilder(
+      builder: (context, dims) {
+        final theme = Theme.of(context);
+        final textScaler = MediaQuery.textScalerOf(context);
+        final dir = Directionality.of(context);
+        final double gap = 12;
+        final maxH = dims.maxHeight;
+
+        final questionStyle = theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700);
+        final overlayStyle = theme.textTheme.bodySmall?.copyWith(
+          fontStyle: FontStyle.italic,
+          color: theme.textTheme.bodySmall?.color?.withValues(alpha: 0.7),
+        );
+
+        // Measure question text height
+        final tp = TextPainter(
+          text: TextSpan(text: baseQuestionText, style: questionStyle),
+          textAlign: TextAlign.left,
+          textDirection: dir,
+          maxLines: null,
+          textScaler: textScaler,
+        )..layout(maxWidth: dims.maxWidth);
+        final qH = tp.height;
+
+        // Measure question translation overlay height (if shown)
+        double overlayH = 0;
+        if (showOverlay) {
+          final overlayTp = TextPainter(
+            text: TextSpan(text: translatedQuestionText, style: overlayStyle),
+            textAlign: TextAlign.left,
+            textDirection: dir,
+            maxLines: null,
+            textScaler: textScaler,
+          )..layout(maxWidth: dims.maxWidth);
+          overlayH = overlayTp.height + 8;
+        }
+
+        // Reserve space inside the answer area for the translated answer line (if shown)
+        double answerOverlayH = 0;
+        if (showOverlay) {
+          final answerOverlayTp = TextPainter(
+            text: TextSpan(text: translatedAnswerText, style: overlayStyle),
+            textAlign: TextAlign.center,
+            textDirection: dir,
+            maxLines: null,
+            textScaler: textScaler,
+          )..layout(maxWidth: (dims.maxWidth - 16).clamp(0, dims.maxWidth));
+          answerOverlayH = answerOverlayTp.height + 4;
+        }
+
+        const double dividerH = 1;
+        // Gaps: after image (if any), after question (+ optional overlay), before and after divider
+        double gaps = 0;
+        if (q.hasContextImage) gaps += gap;
+        gaps += gap; // after question
+        gaps += overlayH; // space for question overlay if needed
+        gaps += gap; // before divider already counted; keep spacing symmetry
+        double imgH = q.hasContextImage ? (maxH * 0.35).clamp(160, 280) : 0;
+
+        double usedTop = imgH + qH + gaps + dividerH;
+        double answerH = maxH - usedTop;
+        if (answerH < 0) {
+          // Shrink image first to make room for full question
+          final canReduce = imgH;
+          final need = -answerH;
+          final reduceBy = need.clamp(0, canReduce);
+          imgH -= reduceBy;
+          usedTop = imgH + qH + gaps + dividerH;
+          answerH = maxH - usedTop;
+          if (answerH < 0) {
+            // If still negative, allow answer area to shrink to zero
+            answerH = 0;
+          }
+        }
+
+        // Leave room within answerH for the translated answer line, if shown
+        final double autosizeH = (answerH - answerOverlayH).clamp(0, answerH);
+
+        final content = Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (q.hasContextImage && imgH > 0) ...[
+              SizedBox(
+                height: imgH,
+                width: double.infinity,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
+                  child: Image.asset(q.image!, fit: BoxFit.contain),
+                ),
+              ),
+              SizedBox(height: gap),
+            ],
+            SizedBox(
+              height: qH,
+              child: Text(
+                baseQuestionText,
+                softWrap: true,
+                style: questionStyle,
+              ),
+            ),
+            if (showOverlay) ...[
+              const SizedBox(height: 8),
+              Text(
+                translatedQuestionText,
+                softWrap: true,
+                style: overlayStyle,
+              ),
+            ],
+            SizedBox(height: gap),
+            Divider(color: theme.dividerColor.withValues(alpha: 0.3), height: dividerH),
+            SizedBox(height: gap),
+            SizedBox(
+              height: answerH,
+              child: Center(
+                child: answerImage != null
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
+                        child: Image.asset(
+                          answerImage,
+                          fit: BoxFit.contain,
+                          width: dims.maxWidth,
+                          height: double.infinity,
+                        ),
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            ConstrainedBox(
+                              constraints: BoxConstraints(maxHeight: autosizeH),
+                              child: _AutoSizeAnswer(
+                                text: baseAnswerText,
+                                style: theme.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w800),
+                              ),
+                            ),
+                            if (showOverlay) ...[
+                              const SizedBox(height: 4),
+                              Text(
+                                translatedAnswerText,
+                                textAlign: TextAlign.center,
+                                style: overlayStyle,
+                              ),
+                            ],
+                          ],
+                        ),
+                      ),
+              ),
+            ),
+          ],
+        );
+
+        // Wrap in a scroll view so that if content still doesn't fit (e.g. very
+        // large text-scale accessibility settings), the card scrolls internally
+        // instead of overflowing.
+        return SingleChildScrollView(
+          physics: const ClampingScrollPhysics(),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: maxH),
+            child: content,
+          ),
+        );
+      },
+    );
+  }
+}
+
 class _StaticCard extends StatelessWidget {
   final _SwipeItem item;
   final double width;
@@ -250,12 +442,8 @@ class _StaticCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bg = Theme.of(context).brightness == Brightness.dark
-        ? Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.25)
+        ? Theme.of(context).colorScheme.surfaceContainerHighest
         : Colors.white;
-    final q = item.question;
-    final idx = item.answerIndex;
-    final hasAnswerImage = q.hasAnswerImages;
-    final String? answerImage = hasAnswerImage ? q.answerImages![idx] : null;
     return Material(
       color: bg,
       elevation: 2,
@@ -264,135 +452,7 @@ class _StaticCard extends StatelessWidget {
       child: Container(
         width: width,
         padding: const EdgeInsets.all(16),
-        child: LayoutBuilder(
-          builder: (context, dims) {
-            final theme = Theme.of(context);
-            final textScaler = MediaQuery.textScalerOf(context);
-            // Always use German as base text where available
-            final String baseQuestionText = q.originalDeText ?? q.text;
-            final bool showOverlay = showTranslation && Localizations.localeOf(context).languageCode != 'de';
-            final String translatedQuestionText = q.text;
-            final overlayGap = showOverlay ? 8.0 : 0.0;
-            final double gap = 12;
-            // Dynamically size the question and answer regions so the question text is always fully visible
-    return Builder(builder: (context) {
-      final maxH = dims.maxHeight;
-      final dir = Directionality.of(context);
-                  final questionStyle = theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700);
-                  final tp = TextPainter(
-                    text: TextSpan(text: baseQuestionText, style: questionStyle),
-                    textAlign: TextAlign.left,
-                    textDirection: dir,
-                    maxLines: null,
-                    textScaler: textScaler,
-                  )..layout(maxWidth: dims.maxWidth);
-                  final qH = tp.height;
-
-                  double overlayH = 0;
-                  if (showOverlay) {
-                    final overlayStyle = theme.textTheme.bodySmall?.copyWith(
-                      fontStyle: FontStyle.italic,
-                      color: theme.textTheme.bodySmall?.color?.withValues(alpha: 0.7),
-                    );
-                    final overlayTp = TextPainter(
-                      text: TextSpan(text: translatedQuestionText, style: overlayStyle),
-                      textAlign: TextAlign.left,
-                      textDirection: dir,
-                      maxLines: null,
-                      textScaler: textScaler,
-                    )..layout(maxWidth: dims.maxWidth);
-                    overlayH = overlayTp.height + overlayGap;
-                  }
-
-                  const double dividerH = 1;
-                  // Gaps: after image (if any), after question (+ optional overlay), before and after divider
-                  double gaps = 0;
-                  if (q.hasContextImage) gaps += gap;
-                  gaps += gap; // after question
-                  gaps += overlayH; // space for overlay if needed
-                  gaps += gap; // before divider already counted; keep spacing symmetry
-                  // Base context image height as before
-                  double imgH = q.hasContextImage ? (maxH * 0.28).clamp(140, 260) : 0;
-
-                  double usedTop = imgH + qH + gaps + dividerH;
-                  double answerH = maxH - usedTop;
-                  if (answerH < 0) {
-                    // Shrink image first to make room for full question
-                    final canReduce = imgH;
-                    final need = -answerH;
-                    final reduceBy = need.clamp(0, canReduce);
-                    imgH -= reduceBy;
-                    usedTop = imgH + qH + gaps + dividerH;
-                    answerH = maxH - usedTop;
-                    if (answerH < 0) {
-                      // If still negative, allow answer area to shrink to zero
-                      answerH = 0;
-                    }
-                  }
-
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (q.hasContextImage && imgH > 0) ...[
-                        SizedBox(
-                          height: imgH,
-                          width: double.infinity,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
-                            child: Image.asset(q.image!, fit: BoxFit.contain),
-                          ),
-                        ),
-                        SizedBox(height: gap),
-                      ],
-                      SizedBox(
-                        height: qH,
-                        child: Text(
-                          baseQuestionText,
-                          softWrap: true,
-                          style: questionStyle,
-                        ),
-                      ),
-                      if (showOverlay) ...[
-                        const SizedBox(height: 8),
-                        Text(
-                          translatedQuestionText,
-                          softWrap: true,
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            fontStyle: FontStyle.italic,
-                            color: theme.textTheme.bodySmall?.color?.withValues(alpha: 0.7),
-                          ),
-                        ),
-                      ],
-                      SizedBox(height: gap),
-                      Divider(color: theme.dividerColor.withValues(alpha: 0.3), height: dividerH),
-                      SizedBox(height: gap),
-                      SizedBox(
-                        height: answerH,
-                        child: Center(
-                          child: answerImage != null
-                              ? ClipRRect(
-                                  borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
-                                  child: Image.asset(
-                                    answerImage,
-                                    fit: BoxFit.contain,
-                                    width: dims.maxWidth,
-                                    height: double.infinity,
-                                  ),
-                                )
-                              : Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                                  child: _AutoSizeAnswer(
-                                    text: q.answers[idx],
-                                    style: theme.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w800),
-                                  ),
-                                ),
-                        ),
-                      ),
-                    ],
-                  );
-            });
-          },
-        ),
+        child: _CardContent(item: item, showTranslation: showTranslation),
       ),
     );
   }
@@ -474,13 +534,11 @@ class _SwipeCardState extends State<_SwipeCard> with SingleTickerProviderStateMi
     // Match the static preview card background to avoid color jumps
     final theme = Theme.of(context);
     final bg = theme.brightness == Brightness.dark
-        ? theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.25)
+        ? theme.colorScheme.surfaceContainerHighest
         : Colors.white;
 
     final q = widget.item.question;
     final idx = widget.item.answerIndex;
-    final hasAnswerImage = q.hasAnswerImages;
-    final String? answerImage = hasAnswerImage ? q.answerImages![idx] : null;
 
     return Dismissible(
       key: ValueKey('${q.id}_$idx'),
@@ -509,23 +567,13 @@ class _SwipeCardState extends State<_SwipeCard> with SingleTickerProviderStateMi
         angle: _drag * 0.08,
         child: SlideTransition(
           position: _progOffset,
-          child: _buildCardBody(context, bg, q, idx, answerImage),
+          child: _buildCardBody(bg),
         ),
       ),
     );
   }
 
-  Widget _buildCardBody(BuildContext context, Color bg, Question q, int idx, String? answerImage) {
-    // Base texts: always prefer German originals when available
-    final String baseQuestionText = q.originalDeText ?? q.text;
-    final String baseAnswerText =
-        q.originalDeAnswers != null && q.originalDeAnswers!.length == q.answers.length
-            ? q.originalDeAnswers![idx]
-            : q.answers[idx];
-    final bool showOverlay = widget.showTranslation && Localizations.localeOf(context).languageCode != 'de';
-    final String translatedQuestionText = q.text;
-    final String translatedAnswerText = q.answers[idx];
-
+  Widget _buildCardBody(Color bg) {
     return Material(
       color: bg,
       elevation: 6,
@@ -537,145 +585,7 @@ class _SwipeCardState extends State<_SwipeCard> with SingleTickerProviderStateMi
         child: Stack(
           children: [
             Positioned.fill(
-              child: LayoutBuilder(
-                builder: (context, dims) {
-                  final theme = Theme.of(context);
-                  final double gap = 12;
-                  final maxH = dims.maxHeight;
-                  final dir = Directionality.of(context);
-                  final textScaler = MediaQuery.textScalerOf(context);
-                  final questionStyle = theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700);
-
-                  // Measure question text height
-                  final tp = TextPainter(
-                    text: TextSpan(text: baseQuestionText, style: questionStyle),
-                    textAlign: TextAlign.left,
-                    textDirection: dir,
-                    maxLines: null,
-                    textScaler: textScaler,
-                  )..layout(maxWidth: dims.maxWidth);
-                  final qH = tp.height;
-
-                  // Measure overlay/question translation height (if shown)
-                  double overlayH = 0;
-                  if (showOverlay) {
-                    final overlayStyle = theme.textTheme.bodySmall?.copyWith(
-                      fontStyle: FontStyle.italic,
-                      color: theme.textTheme.bodySmall?.color?.withValues(alpha: 0.7),
-                    );
-                    final overlayTp = TextPainter(
-                      text: TextSpan(text: translatedQuestionText, style: overlayStyle),
-                      textAlign: TextAlign.left,
-                      textDirection: dir,
-                      maxLines: null,
-                      textScaler: textScaler,
-                    )..layout(maxWidth: dims.maxWidth);
-                    overlayH = overlayTp.height + 8;
-                  }
-
-                  const double dividerH = 1;
-                  double gaps = 0;
-                  if (q.hasContextImage) gaps += gap;
-                  gaps += gap; // after question
-                  gaps += overlayH; // overlay spacing if present
-                  gaps += gap; // before divider / symmetry
-
-                  // Base context image height similar to static card
-                  double imgH = q.hasContextImage ? (maxH * 0.35).clamp(160, 280) : 0;
-
-                  double usedTop = imgH + qH + gaps + dividerH;
-                  double answerH = maxH - usedTop;
-                  if (answerH < 0) {
-                    // Prefer shrinking image to keep question fully visible
-                    final canReduce = imgH;
-                    final need = -answerH;
-                    final reduceBy = need.clamp(0, canReduce);
-                    imgH -= reduceBy;
-                    usedTop = imgH + qH + gaps + dividerH;
-                    answerH = maxH - usedTop;
-                    if (answerH < 0) {
-                      answerH = 0;
-                    }
-                  }
-
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (q.hasContextImage && imgH > 0) ...[
-                        SizedBox(
-                          height: imgH,
-                          width: double.infinity,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
-                            child: Image.asset(q.image!, fit: BoxFit.contain),
-                          ),
-                        ),
-                        SizedBox(height: gap),
-                      ],
-                      SizedBox(
-                        height: qH,
-                        child: Text(
-                          baseQuestionText,
-                          softWrap: true,
-                          style: questionStyle,
-                        ),
-                      ),
-                      if (showOverlay) ...[
-                        const SizedBox(height: 8),
-                        Text(
-                          translatedQuestionText,
-                          softWrap: true,
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            fontStyle: FontStyle.italic,
-                            color: theme.textTheme.bodySmall?.color?.withValues(alpha: 0.7),
-                          ),
-                        ),
-                      ],
-                      SizedBox(height: gap),
-                      Divider(color: theme.dividerColor.withValues(alpha: 0.3), height: dividerH),
-                      SizedBox(height: gap),
-                      SizedBox(
-                        height: answerH,
-                        child: Center(
-                          child: answerImage != null
-                              ? ClipRRect(
-                                  borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
-                                  child: Image.asset(
-                                    answerImage,
-                                    fit: BoxFit.contain,
-                                    width: dims.maxWidth,
-                                    height: double.infinity,
-                                  ),
-                                )
-                              : Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      _AutoSizeAnswer(
-                                        text: baseAnswerText,
-                                        style: theme.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w800),
-                                      ),
-                                      if (showOverlay) ...[
-                                        const SizedBox(height: 4),
-                                        Text(
-                                          translatedAnswerText,
-                                          textAlign: TextAlign.center,
-                                          style: theme.textTheme.bodySmall?.copyWith(
-                                            fontStyle: FontStyle.italic,
-                                            color: theme.textTheme.bodySmall?.color?.withValues(alpha: 0.7),
-                                          ),
-                                        ),
-                                      ],
-                                    ],
-                                  ),
-                                ),
-                        ),
-                      ),
-                    ],
-                  );
-                },
-              ),
+              child: _CardContent(item: widget.item, showTranslation: widget.showTranslation),
             ),
             // Overlay decision icons must render ABOVE content (after Positioned.fill)
             if (_drag > 0)
@@ -715,7 +625,7 @@ class _Results extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final ratio = total == 0 ? 0.0 : correct / total;
     final bg = Theme.of(context).brightness == Brightness.dark
-        ? Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.4)
+        ? Theme.of(context).colorScheme.surfaceContainerHighest
         : Colors.white;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -758,7 +668,7 @@ class _CircleAction extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final neutralBg = theme.brightness == Brightness.dark
-        ? theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.25)
+        ? theme.colorScheme.surfaceContainerHighest
         : Colors.white;
     return Material(
       color: neutralBg,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../l10n/app_localizations.dart';
 import '../payments/purchase_service.dart';
 import '../analytics/analytics_service.dart';
+import '../theme/app_theme.dart';
 
 class PaywallScreen extends StatefulWidget {
   const PaywallScreen({super.key});
@@ -62,106 +63,147 @@ class _PaywallScreenState extends State<PaywallScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.paywall_title),
       ),
       body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Center(
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(maxWidth: 600),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
+        child: SingleChildScrollView(
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 600),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    // ── Header ──────────────────────────────────────────
+                    Container(
+                      padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            colorScheme.primary,
+                            colorScheme.primaryContainer.withValues(alpha: 0.85),
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
+                      ),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(l10n.paywall_subtitle, style: theme.textTheme.titleMedium),
-                          const SizedBox(height: 8),
-                          if (_initializing) const LinearProgressIndicator(),
-                          if (!_isAvailable && !_initializing) ...[
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 4.0),
-                              child: Text(
-                                l10n.paywall_unavailable,
-                                style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.error),
-                              ),
+                          Icon(Icons.workspace_premium, size: 52, color: colorScheme.onPrimary),
+                          const SizedBox(height: 12),
+                          Text(
+                            l10n.paywall_title,
+                            style: theme.textTheme.headlineSmall?.copyWith(
+                              color: colorScheme.onPrimary,
+                              fontWeight: FontWeight.bold,
                             ),
-                            TextButton(
-                              onPressed: () {
-                                setState(() => _initializing = true);
-                                _initPurchases();
-                              },
-                              child: Text(l10n.retry),
-                            ),
-                          ],
-                          if (_error != null) ...[
-                            const SizedBox(height: 8),
-                            Text(_error!, style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.error)),
-                          ],
-                          const SizedBox(height: 16),
-                          
-                          // Two cards: Monthly & Lifetime
-                          Builder(
-                            builder: (context) {
-                              final instance = PurchaseService.instance;
-                              final monthlyProduct = instance.getProductById('citizenship_premium_monthly');
-                              final lifetimeProduct = instance.getProductById('citizenship_premium_lifetime');
-                              
-                              final isMonthlyActive = instance.isProductActive('citizenship_premium_monthly');
-                              final isLifetimeActive = instance.isProductActive('citizenship_premium_lifetime');
-                              final anyActive = instance.isPro;
-
-                              // Placeholder prices for visualization
-                              final displayPriceMonthly = monthlyProduct?.price ?? '6.99 €';
-                              final displayPriceLifetime = lifetimeProduct?.price ?? '14.99 €';
-
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  // 1. Monthly Card
-                                  _PlanCard(
-                                    title: l10n.paywall_monthly,
-                                    price: displayPriceMonthly, 
-                                    description: l10n.paywall_cancel_anytime,
-                                    buttonText: isMonthlyActive ? l10n.purchased : l10n.paywall_subscribe_action,
-                                    isActive: isMonthlyActive,
-                                    onPressed: (_isAvailable && monthlyProduct != null && !anyActive)
-                                        ? () async {
-                                            unawaited(AnalyticsService.instance.logPurchaseStarted('citizenship_premium_monthly'));
-                                            await instance.buy(monthlyProduct);
-                                          }
-                                        : null,
-                                  ),
-                                  
-                                  const SizedBox(height: 12),
-                                  
-                                  // 2. Lifetime Card
-                                  _PlanCard(
-                                    title: l10n.paywall_lifetime,
-                                    price: displayPriceLifetime,
-                                    description: l10n.paywall_lifetime_description,
-                                    buttonText: isLifetimeActive ? l10n.purchased : l10n.paywall_buy_action,
-                                    isPopular: true,
-                                    isActive: isLifetimeActive,
-                                    onPressed: (_isAvailable && lifetimeProduct != null && !anyActive)
-                                        ? () async {
-                                            unawaited(AnalyticsService.instance.logPurchaseStarted('citizenship_premium_lifetime'));
-                                            await instance.buy(lifetimeProduct);
-                                          }
-                                        : null,
-                                  ),
-                                ],
-                              );
-                            },
+                            textAlign: TextAlign.center,
                           ),
-                          const SizedBox(height: 16),
-                          TextButton(
-                            onPressed: _restoring ? null : () async {
+                          const SizedBox(height: 6),
+                          Text(
+                            l10n.paywall_subtitle,
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              color: colorScheme.onPrimary.withValues(alpha: 0.9),
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+
+                    // ── Benefits list ────────────────────────────────────
+                    Text(
+                      l10n.paywall_benefits_title,
+                      style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 10),
+                    _BenefitRow(icon: Icons.quiz_outlined,       label: l10n.paywall_benefit_quiz),
+                    _BenefitRow(icon: Icons.flag_outlined,        label: l10n.paywall_benefit_state),
+                    _BenefitRow(icon: Icons.assignment_outlined,  label: l10n.paywall_benefit_exam),
+                    _BenefitRow(icon: Icons.translate_outlined,   label: l10n.paywall_benefit_translations),
+                    const SizedBox(height: 20),
+
+                    // ── Store availability / loading ─────────────────────
+                    if (_initializing) const LinearProgressIndicator(),
+                    if (!_isAvailable && !_initializing) ...[
+                      Text(
+                        l10n.paywall_unavailable,
+                        style: theme.textTheme.bodyMedium?.copyWith(color: colorScheme.error),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          setState(() => _initializing = true);
+                          _initPurchases();
+                        },
+                        child: Text(l10n.retry),
+                      ),
+                    ],
+                    if (_error != null) ...[
+                      const SizedBox(height: 8),
+                      Text(_error!, style: theme.textTheme.bodySmall?.copyWith(color: colorScheme.error)),
+                    ],
+                    if (!_initializing) const SizedBox(height: 4),
+
+                    // ── Pricing cards ────────────────────────────────────
+                    Builder(
+                      builder: (context) {
+                        final instance = PurchaseService.instance;
+                        final monthlyProduct = instance.getProductById('citizenship_premium_monthly');
+                        final lifetimeProduct = instance.getProductById('citizenship_premium_lifetime');
+                        final isMonthlyActive = instance.isProductActive('citizenship_premium_monthly');
+                        final isLifetimeActive = instance.isProductActive('citizenship_premium_lifetime');
+                        final anyActive = instance.isPro;
+                        final displayPriceMonthly = monthlyProduct?.price ?? '6.99 €';
+                        final displayPriceLifetime = lifetimeProduct?.price ?? '14.99 €';
+
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            _PlanCard(
+                              title: l10n.paywall_monthly,
+                              price: displayPriceMonthly,
+                              description: l10n.paywall_cancel_anytime,
+                              buttonText: isMonthlyActive ? l10n.purchased : l10n.paywall_subscribe_action,
+                              isActive: isMonthlyActive,
+                              onPressed: (_isAvailable && monthlyProduct != null && !anyActive)
+                                  ? () async {
+                                      unawaited(AnalyticsService.instance.logPurchaseStarted('citizenship_premium_monthly'));
+                                      await instance.buy(monthlyProduct);
+                                    }
+                                  : null,
+                            ),
+                            const SizedBox(height: 12),
+                            _PlanCard(
+                              title: l10n.paywall_lifetime,
+                              price: displayPriceLifetime,
+                              description: l10n.paywall_lifetime_description,
+                              buttonText: isLifetimeActive ? l10n.purchased : l10n.paywall_buy_action,
+                              isPopular: true,
+                              isActive: isLifetimeActive,
+                              onPressed: (_isAvailable && lifetimeProduct != null && !anyActive)
+                                  ? () async {
+                                      unawaited(AnalyticsService.instance.logPurchaseStarted('citizenship_premium_lifetime'));
+                                      await instance.buy(lifetimeProduct);
+                                    }
+                                  : null,
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+
+                    // ── Restore ──────────────────────────────────────────
+                    const SizedBox(height: 8),
+                    TextButton(
+                      onPressed: _restoring
+                          ? null
+                          : () async {
                               setState(() => _restoring = true);
                               final messenger = ScaffoldMessenger.of(context);
                               try {
@@ -176,19 +218,49 @@ class _PaywallScreenState extends State<PaywallScreen> {
                                 if (mounted) setState(() => _restoring = false);
                               }
                             },
-                            child: _restoring
-                                ? const SizedBox(height: 16, width: 16, child: CircularProgressIndicator(strokeWidth: 2))
-                                : Text(l10n.restore_purchases),
-                          ),
-                        ],
-                      ),
+                      child: _restoring
+                          ? const SizedBox(height: 16, width: 16, child: CircularProgressIndicator(strokeWidth: 2))
+                          : Text(l10n.restore_purchases),
                     ),
-                  ),
+                    const SizedBox(height: 8),
+                  ],
                 ),
               ),
             ),
-          ],
+          ),
         ),
+      ),
+    );
+  }
+}
+
+class _BenefitRow extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  const _BenefitRow({required this.icon, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5),
+      child: Row(
+        children: [
+          Container(
+            width: 32,
+            height: 32,
+            decoration: BoxDecoration(
+              color: colorScheme.primaryContainer,
+              borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
+            ),
+            child: Icon(icon, size: 18, color: colorScheme.primary),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(label, style: Theme.of(context).textTheme.bodyMedium),
+          ),
+          Icon(Icons.check_circle, size: 18, color: colorScheme.primary),
+        ],
       ),
     );
   }

@@ -197,7 +197,7 @@
   "@menu_achievements": {
     "description": "Overflow menu entry to open Achievements screen"
   },
-  "menu_subscribe": "Subscribe",
+  "menu_subscribe": "Premium",
   "@menu_subscribe": {
     "description": "Overflow menu entry to open subscription/paywall screen"
   },
@@ -289,13 +289,33 @@
   "@ach_streak7_desc": {
     "description": "7 day streak - description"
   },
-  "paywall_title": "Subscribe",
+  "paywall_title": "Premium Membership",
   "@paywall_title": {
     "description": "Paywall screen title"
   },
-  "paywall_subtitle": "Enjoy unlimited mock exams. You have used your 3 free exams.",
+  "paywall_subtitle": "Unlock everything you need to pass your Einbürgerungstest.",
   "@paywall_subtitle": {
     "description": "Short paywall pitch"
+  },
+  "paywall_benefits_title": "What you get",
+  "@paywall_benefits_title": {
+    "description": "Section heading above benefits list"
+  },
+  "paywall_benefit_quiz": "Unlimited quiz sessions",
+  "@paywall_benefit_quiz": {
+    "description": "Benefit: unlimited quiz sessions"
+  },
+  "paywall_benefit_state": "State-specific questions (all 16 Bundesländer)",
+  "@paywall_benefit_state": {
+    "description": "Benefit: state questions"
+  },
+  "paywall_benefit_exam": "Unlimited mock exams",
+  "@paywall_benefit_exam": {
+    "description": "Benefit: unlimited mock exams"
+  },
+  "paywall_benefit_translations": "Questions in 6 languages (AR, ES, FR, RU, TR, UK)",
+  "@paywall_benefit_translations": {
+    "description": "Benefit: question translations in premium languages"
   },
   "paywall_monthly": "Monthly",
   "@paywall_monthly": {
@@ -383,5 +403,38 @@
     "placeholders": {
       "count": { "type": "int" }
     }
+  },
+  "premium_state_questions_title": "State Questions are Premium",
+  "@premium_state_questions_title": {
+    "description": "Title for state questions paywall bottom sheet"
+  },
+  "premium_state_questions_body": "Unlock state-specific questions with a Premium subscription.",
+  "@premium_state_questions_body": {
+    "description": "Body text for state questions paywall bottom sheet"
+  },
+  "premium_quiz_limit_title": "Free Quiz Limit Reached",
+  "@premium_quiz_limit_title": {
+    "description": "Title shown when free quiz session limit is hit"
+  },
+  "premium_quiz_limit_body": "You've used all {limit} free quiz sessions. Upgrade to Premium for unlimited access.",
+  "@premium_quiz_limit_body": {
+    "placeholders": {
+      "limit": { "type": "int" }
+    }
+  },
+  "quiz_sessions_remaining": "{count} of {limit} free sessions used",
+  "@quiz_sessions_remaining": {
+    "placeholders": {
+      "count": { "type": "int" },
+      "limit": { "type": "int" }
+    }
+  },
+  "unlock_premium": "Unlock Premium",
+  "@unlock_premium": {
+    "description": "Button label to navigate to paywall"
+  },
+  "not_now": "Not now",
+  "@not_now": {
+    "description": "Dismiss button on paywall bottom sheet"
   }
 }

@@ -447,7 +447,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get menu_achievements => 'Achievements';
 
   @override
-  String get menu_subscribe => 'Subscribe';
+  String get menu_subscribe => 'Premium';
 
   @override
   String get ach_practice_100_name => 'On a roll';
@@ -520,11 +520,28 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ach_streak7_desc => 'Stay active 7 days in a row.';
 
   @override
-  String get paywall_title => 'Subscribe';
+  String get paywall_title => 'Premium Membership';
 
   @override
   String get paywall_subtitle =>
-      'Enjoy unlimited mock exams. You have used your 3 free exams.';
+      'Unlock everything you need to pass your Einbürgerungstest.';
+
+  @override
+  String get paywall_benefits_title => 'What you get';
+
+  @override
+  String get paywall_benefit_quiz => 'Unlimited quiz sessions';
+
+  @override
+  String get paywall_benefit_state =>
+      'State-specific questions (all 16 Bundesländer)';
+
+  @override
+  String get paywall_benefit_exam => 'Unlimited mock exams';
+
+  @override
+  String get paywall_benefit_translations =>
+      'Questions in 6 languages (AR, ES, FR, RU, TR, UK)';
 
   @override
   String get paywall_monthly => 'Monthly';
@@ -622,4 +639,30 @@ class AppLocalizationsEn extends AppLocalizations {
   String exam_trials_remaining(int count) {
     return '$count free trial(s) remaining';
   }
+
+  @override
+  String get premium_state_questions_title => 'State Questions are Premium';
+
+  @override
+  String get premium_state_questions_body =>
+      'Unlock state-specific questions with a Premium subscription.';
+
+  @override
+  String get premium_quiz_limit_title => 'Free Quiz Limit Reached';
+
+  @override
+  String premium_quiz_limit_body(int limit) {
+    return 'You\'ve used all $limit free quiz sessions. Upgrade to Premium for unlimited access.';
+  }
+
+  @override
+  String quiz_sessions_remaining(int count, int limit) {
+    return '$count of $limit free sessions used';
+  }
+
+  @override
+  String get unlock_premium => 'Unlock Premium';
+
+  @override
+  String get not_now => 'Not now';
 }

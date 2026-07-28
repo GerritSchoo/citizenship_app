@@ -451,7 +451,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get menu_achievements => 'Erfolge';
 
   @override
-  String get menu_subscribe => 'Abonnement';
+  String get menu_subscribe => 'Premium';
 
   @override
   String get ach_practice_100_name => 'Gut in Fahrt';
@@ -526,11 +526,28 @@ class AppLocalizationsDe extends AppLocalizations {
   String get ach_streak7_desc => 'Bleibe 7 Tage hintereinander aktiv.';
 
   @override
-  String get paywall_title => 'Abonnement';
+  String get paywall_title => 'Premium-Mitgliedschaft';
 
   @override
   String get paywall_subtitle =>
-      'Unbegrenzte Probeprüfungen. Du hast deine 3 kostenlosen Prüfungen genutzt.';
+      'Alles freischalten, was du für den Einbürgerungstest brauchst.';
+
+  @override
+  String get paywall_benefits_title => 'Was du bekommst';
+
+  @override
+  String get paywall_benefit_quiz => 'Unbegrenzte Quiz-Sessions';
+
+  @override
+  String get paywall_benefit_state =>
+      'Bundesland-Fragen (alle 16 Bundesländer)';
+
+  @override
+  String get paywall_benefit_exam => 'Unbegrenzte Probeprüfungen';
+
+  @override
+  String get paywall_benefit_translations =>
+      'Fragen in 6 Sprachen (AR, ES, FR, RU, TR, UK)';
 
   @override
   String get paywall_monthly => 'Monatsabo';
@@ -627,4 +644,30 @@ class AppLocalizationsDe extends AppLocalizations {
   String exam_trials_remaining(int count) {
     return 'Noch $count kostenloser Versuch(e)';
   }
+
+  @override
+  String get premium_state_questions_title => 'Bundesland-Fragen sind Premium';
+
+  @override
+  String get premium_state_questions_body =>
+      'Entsperre Bundesland-Fragen mit einem Premium-Abonnement.';
+
+  @override
+  String get premium_quiz_limit_title => 'Kostenloses Quiz-Limit erreicht';
+
+  @override
+  String premium_quiz_limit_body(int limit) {
+    return 'Du hast alle $limit kostenlosen Quiz-Sessions genutzt. Upgrade auf Premium für unbegrenzten Zugriff.';
+  }
+
+  @override
+  String quiz_sessions_remaining(int count, int limit) {
+    return '$count von $limit kostenlosen Sessions genutzt';
+  }
+
+  @override
+  String get unlock_premium => 'Premium freischalten';
+
+  @override
+  String get not_now => 'Nicht jetzt';
 }

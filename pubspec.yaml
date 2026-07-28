@@ -47,6 +47,7 @@ dependencies:
   sqflite_common_ffi_web: any
   flutter_localized_locales: ^2.0.5
   in_app_purchase: ^3.3.0
+  in_app_review: ^2.0.9
   country_flags: ^4.1.1
   flutter_markdown: ^0.7.7+1
   url_launcher: ^6.3.2
